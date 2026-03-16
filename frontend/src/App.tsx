@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Layout } from '@/components/layout/Layout'
+import { SaveNoteModal } from '@/components/notes/SaveNoteModal'
 import HomePage from '@/pages/HomePage'
 import ChaptersPage from '@/pages/ChaptersPage'
 import ChapterDetailPage from '@/pages/ChapterDetailPage'
@@ -21,6 +22,8 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
+        {/* 전역 모달 — 라우트와 무관하게 항상 마운트 */}
+        <SaveNoteModal />
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
