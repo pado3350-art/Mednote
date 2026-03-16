@@ -13,7 +13,7 @@ const SOURCE_LABELS: Record<Note['sourceType'], { label: string; variant: 'prima
 
 export default function NotesPage() {
   const [search, setSearch] = useState('')
-  const { openSaveModal } = useNotesStore()
+  const { openSaveModal, openEditModal, openCreateCardModal } = useNotesStore()
   const queryClient = useQueryClient()
 
   // 노트 목록 조회
@@ -147,8 +147,8 @@ export default function NotesPage() {
                 </CardBody>
 
                 <CardFooter>
-                  <Button variant="ghost" size="sm">편집</Button>
-                  <Button variant="ghost" size="sm">🔁 복습 카드 생성</Button>
+                  <Button variant="ghost" size="sm" onClick={() => openEditModal(note)}>편집</Button>
+                  <Button variant="ghost" size="sm" onClick={() => openCreateCardModal(note)}>🔁 복습 카드 생성</Button>
                   <Button
                     variant="ghost"
                     size="sm"
