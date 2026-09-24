@@ -21,7 +21,10 @@ from __future__ import annotations
 import argparse
 import logging
 import math
+import os
 import re
+import textwrap
+import urllib.request
 
 import numpy as np
 import matplotlib
@@ -29,6 +32,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 from matplotlib import font_manager  # noqa: E402
+from matplotlib.collections import LineCollection  # noqa: E402
 from matplotlib.colors import to_rgb  # noqa: E402
 from matplotlib.patches import Ellipse, PathPatch, Polygon, Wedge, Circle  # noqa: E402
 from matplotlib.path import Path  # noqa: E402
@@ -53,13 +57,43 @@ THEMES = {
 }
 
 
+PX = 0.75  # CSS 1px = 0.75pt. 원본의 px 치수를 그대로 옮기기 위한 환산값
+FONT_DIR = os.path.join(os.path.expanduser("~"), ".cache", "ecg_graphics", "fonts")
+PLEX_URLS = {  # 원본 페이지가 쓰는 IBM Plex Sans KR (SIL OFL)
+    "Regular": "https://fonts.gstatic.com/s/ibmplexsanskr/v11/vEFK2-VJISZe3O_rc3ZVYh4aTwNO8tI.ttf",
+    "SemiBold": "https://fonts.gstatic.com/s/ibmplexsanskr/v11/vEFN2-VJISZe3O_rc3ZVYh4aTwNOygqbf7Y.ttf",
+    "Bold": "https://fonts.gstatic.com/s/ibmplexsanskr/v11/vEFN2-VJISZe3O_rc3ZVYh4aTwNOym6af7Y.ttf",
+}
+
+
+def _ensure_plex() -> None:
+    """IBM Plex Sans KR이 없으면 캐시 폴더에 받아 등록한다. 실패하면 조용히 넘어간다."""
+    if os.environ.get("ECG_NO_FONT_DOWNLOAD"):
+        return
+    os.makedirs(FONT_DIR, exist_ok=True)
+    for w, url in PLEX_URLS.items():
+        f = os.path.join(FONT_DIR, f"IBMPlexSansKR-{w}.ttf")
+        if not os.path.exists(f):
+            try:
+                with urllib.request.urlopen(url, timeout=10) as r, open(f + ".part", "wb") as o:
+                    o.write(r.read())
+                os.replace(f + ".part", f)
+            except Exception:
+                return
+        font_manager.fontManager.addfont(f)
+
+
 def _setup_fonts() -> None:
-    wanted = ["IBM Plex Sans KR", "Malgun Gothic", "AppleGothic", "Apple SD Gothic Neo",
-              "NanumGothic", "Noto Sans CJK KR", "Noto Sans KR", "WenQuanYi Zen Hei"]
     logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)
     have = {f.name for f in font_manager.fontManager.ttflist}
+    if "IBM Plex Sans KR" not in have:
+        _ensure_plex()
+        have = {f.name for f in font_manager.fontManager.ttflist}
+    wanted = ["IBM Plex Sans KR", "Malgun Gothic", "AppleGothic", "Apple SD Gothic Neo",
+              "NanumGothic", "Noto Sans CJK KR", "Noto Sans KR", "WenQuanYi Zen Hei"]
     plt.rcParams["font.family"] = [f for f in wanted if f in have] + ["DejaVu Sans"]
     plt.rcParams["axes.unicode_minus"] = False
+    plt.rcParams["savefig.dpi"] = 192
 
 
 _setup_fonts()
@@ -339,12 +373,14 @@ CAL, H_MM, BASE_MM = 10, 30, 18  # 보정 펄스 폭, strip 높이, 기저선(�
 W_MM = CAL + DUR * 25
 
 
-def draw_strip(ax, data, theme="light", calipers=None, label="II"):
+def draw_strip(ax, data, theme="light", calipers=None, label="II", mm_px=5):
     """ax에 mm 좌표계(1 unit = 1 mm)로 ECG 용지와 파형을 그린다.
 
+    mm_px: 1 mm가 차지하는 화면 px (원본 canvas는 5). 선 두께와 글자 크기가 이 비율을 따른다.
     calipers: (t1, t2) 초 단위. 주어지면 캘리퍼와 측정 문구를 반환한다.
     """
     C = THEMES[theme]
+    u = mm_px / 5 * PX  # 원본 canvas 1px의 pt 크기
     Y = lambda v: (H_MM - BASE_MM) + np.asarray(v) * 10
     ax.set_facecolor(C["paper"])
     ax.set_xlim(0, W_MM)
@@ -352,68 +388,83 @@ def draw_strip(ax, data, theme="light", calipers=None, label="II"):
     ax.set_aspect("equal")
     ax.set_xticks([])
     ax.set_yticks([])
-    for s in ax.spines.values():
-        s.set_color(C["gmajor"])
+    for sp in ax.spines.values():
+        sp.set_color(C["gmajor"])
+        sp.set_linewidth(u)
 
-    lw_minor, lw_major = .4, .8
-    for i in range(int(W_MM) + 1):
-        ax.axvline(i, color=C["gmajor"] if i % 5 == 0 else C["gminor"],
-                   lw=lw_major if i % 5 == 0 else lw_minor, zorder=1 if i % 5 == 0 else 0)
-    for j in range(H_MM + 1):
-        ax.axhline(j, color=C["gmajor"] if j % 5 == 0 else C["gminor"],
-                   lw=lw_major if j % 5 == 0 else lw_minor, zorder=1 if j % 5 == 0 else 0)
-    ax.text(CAL + 1.2, H_MM - 3.2, label, color=C["trace"], fontsize=9, fontweight="bold", va="baseline")
+    minor = [((i, 0), (i, H_MM)) for i in range(int(W_MM) + 1) if i % 5] + \
+            [((0, j), (W_MM, j)) for j in range(H_MM + 1) if j % 5]
+    major = [((i, 0), (i, H_MM)) for i in range(0, int(W_MM) + 1, 5)] + \
+            [((0, j), (W_MM, j)) for j in range(0, H_MM + 1, 5)]
+    ax.add_collection(LineCollection(minor, colors=C["gminor"], linewidths=u, zorder=0))
+    ax.add_collection(LineCollection(major, colors=C["gmajor"], linewidths=u, zorder=1))
+    ax.text(CAL + 1.2, H_MM - 3.2, label, color=C["trace"], fontsize=12 * u, fontweight="semibold", va="baseline")
 
     # 1 mV 보정 펄스 + 파형
     x = np.arange(CAL, W_MM + 1e-9, .05)
     v = clamp(volt(data, (x - CAL) / 25), -1.15, 1.75)
     xs = np.concatenate([[0, 2, 2, 7, 7], x])
     ys = np.concatenate([Y([0, 0, 1, 1, 0]), Y(v)])
-    ax.plot(xs, ys, color=C["trace"], lw=1.1, solid_joinstyle="round", zorder=3)
+    ax.plot(xs, ys, color=C["trace"], lw=1.6 * u, solid_joinstyle="round", solid_capstyle="round", zorder=3)
 
     if calipers is None:
         return None
     a, b = sorted(CAL + np.asarray(calipers, dtype=float) * 25)
+    cl = dict(color=C["caliper"], lw=1.5 * u, zorder=4)
     for m in (a, b):
-        ax.axvline(m, color=C["caliper"], lw=1, ls=(0, (4, 3)), zorder=4)
-    ax.plot([a, b], [2, 2], color=C["caliper"], lw=1, zorder=4)
-    ax.plot([a, a, np.nan, b, b], [1.2, 2.8, np.nan, 1.2, 2.8], color=C["caliper"], lw=1, zorder=4)
+        ax.plot([m, m], [0, H_MM], ls=(0, (4 / 1.5, 3 / 1.5)), **cl)
+    ax.plot([a, b], [2, 2], **cl)
+    ax.plot([a, a, np.nan, b, b], [1.2, 2.8, np.nan, 1.2, 2.8], **cl)
     mm = b - a
     ms = round(mm * 40)
     bpm = round(60000 / ms) if ms > 0 else 0
     return f"간격 {ms} ms, 작은 칸 {mm:.1f}개. 이 간격이 R–R이라면 {bpm} bpm"
 
 
-def plot_strip(rhythm_id="nsr", seed=None, theme="light", calipers=None, scale=1.0):
-    """리듬 하나를 실제 용지 크기(scale=1이면 1:1)로 그린 Figure를 반환."""
-    grp, en, ko, _, rate = RHYTHMS[rhythm_id]
+def _strip_block(fig, W, H, y, rid, data, theme, calipers, mm_px, margin, meta=True):
+    """제목 + strip + 설명 줄을 px 위치 y부터 그리고, 다음 y를 반환."""
     C = THEMES[theme]
-    wi, hi = W_MM / 25.4 * scale, H_MM / 25.4 * scale
-    fig = plt.figure(figsize=(wi + .3, hi + .75), facecolor=C["bg"])
-    ax = fig.add_axes([.15 / (wi + .3), .3 / (hi + .75), wi / (wi + .3), hi / (hi + .75)])
-    msg = draw_strip(ax, generate(rhythm_id, seed), theme, calipers)
-    fig.text(.15 / (wi + .3), 1 - .12 / (hi + .75), f"{en}   {ko}", color=C["ink"],
-             fontsize=12, fontweight="bold", va="top")
-    fig.text(.15 / (wi + .3), .08 / (hi + .75), msg or "Lead II, 25 mm/s, 10 mm/mV, 10초  ·  " + rate,
-             color=C["accent"] if msg else C["muted"], fontsize=8)
+    _, en, ko, _, rate = RHYTHMS[rid]
+    T = lambda x, yy, s, **kw: fig.text(x / W, 1 - yy / H, s, **kw)
+    sw, sh = W_MM * mm_px, H_MM * mm_px
+    T(margin, y + 14, en, fontsize=20 * PX, fontweight="bold", color=C["ink"], va="center")
+    T(margin + sw, y + 14, ko, fontsize=15.2 * PX, color=C["muted"], va="center", ha="right")
+    y += 36
+    ax = fig.add_axes([margin / W, 1 - (y + sh) / H, sw / W, sh / H])
+    msg = draw_strip(ax, data, theme, calipers, mm_px=mm_px)
+    y += sh
+    if meta:
+        T(margin, y + 14, "Lead II, 25 mm/s, 10 mm/mV, 10초  ·  " + rate, fontsize=12.8 * PX, color=C["muted"], va="center")
+        y += 24
+    if msg:
+        T(margin, y + 12, msg, fontsize=14.7 * PX, color=C["accent"], va="center")
+        y += 26
+    return y
+
+
+def plot_strip(rhythm_id="nsr", seed=None, theme="light", calipers=None, mm_px=5):
+    """리듬 strip 하나. mm_px=5가 원본 화면 크기 (1 mm = 5 px)."""
+    C = THEMES[theme]
+    margin = 24
+    W = W_MM * mm_px + 2 * margin
+    H = 16 + 36 + H_MM * mm_px + 24 + (26 if calipers is not None else 0) + 12
+    fig = plt.figure(figsize=(W / 96, H / 96), facecolor=C["bg"])
+    _strip_block(fig, W, H, 16, rhythm_id, generate(rhythm_id, seed), theme, calipers, mm_px, margin)
     return fig
 
 
-def plot_gallery(seed=None, theme="light", ids=None):
+def plot_gallery(seed=None, theme="light", ids=None, mm_px=4):
     """리듬 도감 전체(또는 ids)를 세로로 쌓은 Figure."""
     ids = ids or list(RHYTHMS)
     C = THEMES[theme]
-    wi, hi, gap = W_MM / 25.4 * .8, H_MM / 25.4 * .8, .4
-    H = len(ids) * (hi + gap) + .2
-    fig = plt.figure(figsize=(wi + .3, H), facecolor=C["bg"])
+    margin, gap = 24, 22
+    W = W_MM * mm_px + 2 * margin
+    H = 16 + len(ids) * (36 + H_MM * mm_px + 24 + gap)
+    fig = plt.figure(figsize=(W / 96, H / 96), facecolor=C["bg"])
     R = np.random.default_rng(seed)
-    for k, rid in enumerate(ids):
-        top = H - .1 - k * (hi + gap)
-        ax = fig.add_axes([.15 / (wi + .3), (top - gap - hi) / H, wi / (wi + .3), hi / H])
-        draw_strip(ax, generate(rid, int(R.integers(1 << 31))), theme)
-        _, en, ko, _, _ = RHYTHMS[rid]
-        fig.text(.15 / (wi + .3), (top - gap + .05) / H, f"{en}   {ko}", color=C["ink"], fontsize=9,
-                 fontweight="bold", va="bottom")
+    y = 16
+    for rid in ids:
+        y = _strip_block(fig, W, H, y, rid, generate(rid, int(R.integers(1 << 31))), theme, None, mm_px, margin) + gap
     return fig
 
 
@@ -671,7 +722,7 @@ def _linear_u(X, Y, x1, y1, x2, y2):
     return ((X - x1) * dx + (Y - y1) * dy) / (dx * dx + dy * dy)
 
 
-_HX, _HY = np.meshgrid(np.arange(HEART_BOX[0], HEART_BOX[1], .75), np.arange(HEART_BOX[2], HEART_BOX[3], .75))
+_HX, _HY = np.meshgrid(np.arange(HEART_BOX[0], HEART_BOX[1], .4), np.arange(HEART_BOX[2], HEART_BOX[3], .4))
 
 
 def _overlay(ax, C, alpha, clip, z):
@@ -680,6 +731,22 @@ def _overlay(ax, C, alpha, clip, z):
     img[..., 3] = alpha
     im = ax.imshow(img, extent=HEART_BOX, origin="lower", interpolation="bilinear", zorder=z, aspect="auto")
     im.set_clip_path(clip, ax.transData)
+
+
+def _svg_arrow(ax, x0, y0, x1, y1, color, k, sw=4, z=13):
+    """SVG의 marker-end(arrH: viewBox 10, refX 6, markerWidth 3.2) 화살표를 그대로 재현.
+    k = 1 SVG 단위당 pt, sw = stroke-width(SVG 단위)."""
+    d = np.array([x1 - x0, y1 - y0], dtype=float)
+    n = np.hypot(*d)
+    if n < 1e-9:
+        return
+    d /= n
+    m = 3.2 * sw  # marker 한 변 길이
+    tip = np.array([x1, y1]) + d * m * .4
+    base = tip - d * m
+    nv = np.array([-d[1], d[0]]) * m / 2
+    ax.plot([x0, x1], [y0, y1], color=color, lw=sw * k, solid_capstyle="round", zorder=z)
+    ax.add_patch(Polygon([tip, base + nv, base - nv], closed=True, fc=color, ec="none", zorder=z))
 
 
 def draw_heart(ax, sc, t, C, k=1.0):
@@ -719,18 +786,19 @@ def draw_heart(ax, sc, t, C, k=1.0):
     for z in sc["zones"]:
         cx, cy, rx, ry = z["shape"]
         if z["kind"] == "injury":
+            plt.rcParams["hatch.linewidth"] = 2 * k * .5
             ax.add_patch(Ellipse((cx, cy), 2 * rx, 2 * ry, fc=(*to_rgb(C["bad"]), .15), ec=C["bad"],
-                                 hatch="////", lw=1.5 * k, zorder=7))
+                                 hatch="///", lw=1.5 * k, zorder=7))
         elif z["kind"] == "pre":
             t0, t1 = z["t"]
             op = (.15 + .85 * sm((t - t0) / (t1 - t0))) * (rep(sc["vent"]) if t > t0 else .15) + (.15 if t <= t0 else 0)
-            ax.add_patch(Ellipse((cx, cy), 2 * rx, 2 * ry, fc=C["depol"], ec=C["bad"], lw=1.5 * k,
-                                 ls=(0, (3, 2)), alpha=min(op, 1), zorder=7))
+            ax.add_patch(Ellipse((cx, cy), 2 * rx, 2 * ry, fc=(*to_rgb(C["depol"]), min(op, 1)), ec=C["bad"],
+                                 lw=1.5 * k, ls=(0, (2, 4 / 3)), zorder=7))
         else:
             t0, t1 = z["t"]
             r = 7 + 6 * math.sin((t - t0) / (t1 - t0) * math.pi) if t0 < t < t1 else 7
             ax.add_patch(Ellipse((cx, cy), 2 * r, 2 * r, fc=C["bad"], ec=C["ink"], lw=2 * k, zorder=7))
-        ax.text(z["lx"], z["ly"], z["lbl"], color=C["bad"], fontsize=12 * k * 1.1, fontweight="bold", zorder=12)
+        ax.text(z["lx"], z["ly"], z["lbl"], color=C["bad"], fontsize=12 * k, fontweight="semibold", zorder=12)
 
     # 전도로
     fade = 1 - sm((t - .3 - (sc["cyc"] - .8)) / .06)
@@ -754,31 +822,29 @@ def draw_heart(ax, sc, t, C, k=1.0):
             show_dot = 0 < pr < 1 and t < win[1]
         if pr:
             seg, end = _partial(pts, L, pr)
-            ax.plot(seg[:, 0], seg[:, 1], color=C["path"], lw=3.4 * k, alpha=fade, solid_capstyle="round", zorder=9)
+            ax.plot(seg[:, 0], seg[:, 1], color=C["path"], lw=3.4 * k, alpha=fade, solid_capstyle="round",
+                    solid_joinstyle="round", zorder=9)
             if show_dot:
                 ax.add_patch(Circle(end, 5, fc=C["depol"], ec=C["surface"], lw=1.5 * k, zorder=11))
 
     sa_r = 6 + 5 * math.sin(t / .035 * math.pi) if sc["sa"] and t < .035 else 6
-    ax.add_patch(Circle((84, 64), sa_r, fc=C["path"], zorder=10))
-    ax.add_patch(Circle((150, 124), 6, fc=C["path"], zorder=10))
+    ax.add_patch(Circle((84, 64), sa_r, fc=C["path"], ec="none", zorder=10))
+    ax.add_patch(Circle((150, 124), 6, fc=C["path"], ec="none", zorder=10))
     if sc["av"] and sc["av"][0] <= t < sc["av"][1]:
         ax.add_patch(Circle((150, 124), 5 + 2 * math.sin((t - sc["av"][0]) * 140), fc=C["depol"],
                             ec=C["surface"], lw=1.5 * k, zorder=11))
 
     vx, vy = vec(sc, t)
     if math.hypot(vx, vy) > .03:
-        ax.annotate("", xy=(165 + vx * 72, 182 + vy * 72), xytext=(165, 182), zorder=13,
-                    arrowprops=dict(arrowstyle="-|>", color=C["vec"], lw=4 * k, mutation_scale=14 * k,
-                                    shrinkA=0, shrinkB=0, capstyle="round"))
-    fs = 14 * k * 1.1
+        _svg_arrow(ax, 165, 182, 165 + vx * 72, 182 + vy * 72, C["vec"], k)
     for txt, x, y, strong in [("SA", 58, 54, 1), ("AV", 118, 120, 1), ("RA", 84, 100, 0), ("LA", 196, 88, 0),
                               ("RV", 92, 190, 0), ("LV", 214, 200, 0), ("His", 166, 146, 0)]:
-        ax.text(x, y, txt, fontsize=fs, color=C["ink"] if strong else C["muted"],
-                fontweight="bold" if strong else "normal", zorder=12)
+        ax.text(x, y, txt, fontsize=14 * k, color=C["ink"] if strong else C["muted"],
+                fontweight="semibold" if strong else "normal", zorder=12)
 
 
 def draw_vector_panel(ax, sc, t, sel, C, k=1.0, S=72, CC=120):
-    """Hexaxial 위의 벡터 루프, 현재 벡터, 선택 lead 투영."""
+    """Hexaxial 위의 벡터 루프, 현재 벡터, 선택 lead 투영. k = 1 SVG 단위의 pt 크기."""
     ax.set_xlim(0, 240)
     ax.set_ylim(240, 0)
     ax.set_aspect("equal")
@@ -788,13 +854,13 @@ def draw_vector_panel(ax, sc, t, sel, C, k=1.0, S=72, CC=120):
         c, s = math.cos(r), math.sin(r)
         ax.plot([CC - 92 * c, CC + 92 * c], [CC - 92 * s, CC + 92 * s], color=C["accent"] if on else C["line"],
                 lw=(1.6 if on else 1) * k, alpha=.8 if on else 1, zorder=1)
-        ax.text(CC + 106 * c, CC + 106 * s, n, ha="center", va="center", fontsize=12 * k * 1.1,
-                color=C["ink"] if on else C["muted"], fontweight="bold" if on else "normal")
+        ax.text(CC + 106 * c, CC + 106 * s, n, ha="center", va="center", fontsize=12 * k,
+                color=C["ink"] if on else C["muted"], fontweight="semibold" if on else "normal")
         if on:
-            ax.text(CC + 80 * c, CC + 80 * s - 6, "+", ha="center", va="baseline", fontsize=10 * k * 1.1, color=C["muted"])
+            ax.text(CC + 80 * c, CC + 80 * s - 6, "+", ha="center", va="baseline", fontsize=10 * k, color=C["muted"])
     tt = np.arange(0, sc["cyc"] + 1e-9, .001)
     lx, ly = vec(sc, tt)
-    ax.plot(CC + lx * S, CC + ly * S, color=C["muted"], lw=1.2 * k, alpha=.55, zorder=2)
+    ax.plot(CC + lx * S, CC + ly * S, color=C["muted"], lw=1.2 * k, alpha=.55, zorder=2, solid_joinstyle="round")
     v = vec(sc, t)
     if math.hypot(*v) > .01:
         tx, ty = CC + v[0] * S, CC + v[1] * S
@@ -803,15 +869,13 @@ def draw_vector_panel(ax, sc, t, sel, C, k=1.0, S=72, CC=120):
             pv = proj(v, LEADS[n])
             px, py = CC + pv * S * math.cos(L), CC + pv * S * math.sin(L)
             ax.plot([tx, px], [ty, py], color=C["muted"], lw=k, ls=(0, (3, 3)), zorder=3)
-            ax.add_patch(Circle((px, py), 3.5, fc=C["accent"], zorder=4))
-        ax.annotate("", xy=(tx, ty), xytext=(CC, CC), zorder=5,
-                    arrowprops=dict(arrowstyle="-|>", color=C["vec"], lw=4 * k, mutation_scale=14 * k,
-                                    shrinkA=0, shrinkB=0))
-    ax.add_patch(Circle((CC, CC), 3, fc=C["ink"], zorder=6))
+            ax.add_patch(Circle((px, py), 3.5, fc=C["accent"], ec="none", zorder=4))
+        _svg_arrow(ax, CC, CC, tx, ty, C["vec"], k, z=5)
+    ax.add_patch(Circle((CC, CC), 3, fc=C["ink"], ec="none", zorder=6))
 
 
-def draw_lead_traces(ax, sc, t, sel, C, W=700, RH=70, PAD=34):
-    """선택 lead의 한 심주기 파형. 현재 시점까지 진하게, 이후는 흐리게."""
+def draw_lead_traces(ax, sc, t, sel, C, W=744, RH=70, PAD=34):
+    """선택 lead의 한 심주기 파형 (원본 canvas와 같은 px 좌표). 현재 시점까지 진하게, 이후는 흐리게."""
     H = RH * len(sel)
     X = lambda tt: PAD + np.asarray(tt) / sc["cyc"] * (W - PAD - 6)
     ax.set_xlim(0, W)
@@ -821,25 +885,26 @@ def draw_lead_traces(ax, sc, t, sel, C, W=700, RH=70, PAD=34):
     ax.set_yticks([])
     for s in ax.spines.values():
         s.set_color(C["gmajor"])
+        s.set_linewidth(PX)
     nk = round(sc["cyc"] / .04)
     for kk in range(nk + 1):
-        ax.axvline(X(kk * .04), color=C["gmajor"] if kk % 5 == 0 else C["gminor"], lw=.8 if kk % 5 == 0 else .6, zorder=0)
+        ax.axvline(round(float(X(kk * .04))) + .5, color=C["gmajor"] if kk % 5 == 0 else C["gminor"], lw=PX, zorder=0)
     p = cur_phase(sc, t)
-    ax.axvspan(X(p["a"]), X(p["b"]), color=C["accent_soft"], alpha=.6, zorder=1)
+    ax.axvspan(X(p["a"]), X(p["b"]), color=C["accent_soft"], alpha=.6, lw=0, zorder=1)
     tt = np.arange(0, sc["cyc"] + 1e-9, .001)
     vx, vy = vec(sc, tt)
     for i, n in enumerate(sel):
         y0, scl, L = i * RH + RH * .56, 24, LEADS[n]
-        ax.axhline(y0, xmin=PAD / W, color=C["gmajor"], alpha=.5, lw=.8, zorder=1)
-        ax.text(6, y0 + 4, n, color=C["ink"], fontsize=9, fontweight="bold", va="baseline")
+        ax.plot([PAD, W], [round(y0) + .5] * 2, color=C["gmajor"], alpha=.5, lw=PX, zorder=1)
+        ax.text(6, y0 + 4, n, color=C["ink"], fontsize=12 * PX, fontweight="semibold", va="baseline")
         y = y0 - clamp(proj((vx, vy), L), -1.25, 1.4) * scl
         rest = tt >= t - .001
-        ax.plot(X(tt[rest]), y[rest], color=C["trace"], lw=1.4, alpha=.22, zorder=2)
+        ax.plot(X(tt[rest]), y[rest], color=C["trace"], lw=1.8 * PX, alpha=.22, zorder=2, solid_joinstyle="round")
         done = tt <= t + 1e-9
-        ax.plot(X(tt[done]), y[done], color=C["trace"], lw=1.4, zorder=3, solid_joinstyle="round")
+        ax.plot(X(tt[done]), y[done], color=C["trace"], lw=1.8 * PX, zorder=3, solid_joinstyle="round")
         yc = y0 - float(clamp(proj(vec(sc, t), L), -1.25, 1.4)) * scl
-        ax.add_patch(Ellipse((float(X(t)), yc), 7 * W / 700, 7, fc=C["accent"], zorder=4))
-    ax.axvline(X(t), color=C["accent"], lw=1.2, zorder=4)
+        ax.add_patch(Circle((float(X(t)), yc), 3.5, fc=C["accent"], ec="none", zorder=5))
+    ax.axvline(X(t), color=C["accent"], lw=1.5 * PX, zorder=4)
 
 
 def readout(sc, t, sel):
@@ -856,34 +921,43 @@ def readout(sc, t, sel):
     return f"t = {ms} ms, 벡터 {'+' if ang > 0 else ''}{ang}°, 크기 {mag:.2f} mV. " + ", ".join(parts)
 
 
-def _mech_layout(n_leads, theme):
+# 원본 페이지 레이아웃(px): 본문 폭 744, mech-grid 1.1fr : 1fr, gap 10
+_MW, _GAP, _TOP = 744, 10, 64
+_HW = (_MW - _GAP) * 1.1 / 2.1
+_VW = _MW - _GAP - _HW
+_HH = _HW * 256 / 212
+
+
+def _mech_layout(n_leads, theme, margin=24):
     C = THEMES[theme]
-    fig = plt.figure(figsize=(10, 6.3 + .75 * n_leads), facecolor=C["bg"])
-    gs = fig.add_gridspec(2, 2, width_ratios=[1.1, 1], height_ratios=[5, .7 * n_leads],
-                          left=.03, right=.97, top=.9, bottom=.1, hspace=.08, wspace=.04)
-    axes = fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1]), fig.add_subplot(gs[1, :])
+    trace_y = _TOP + _HH + 40
+    H = trace_y + 70 * n_leads + 48
+    W = _MW + 2 * margin
+    fig = plt.figure(figsize=(W / 96, H / 96), facecolor=C["bg"])
+    box = lambda x, y, w, h: fig.add_axes([x / W, 1 - (y + h) / H, w / W, h / H])
+    axes = (box(margin, _TOP, _HW, _HH), box(margin + _HW + _GAP, _TOP, _VW, _VW),
+            box(margin, trace_y, _MW, 70 * n_leads))
+    fig._ecg_px = (W, H, margin, trace_y, n_leads)
     return fig, axes, C
-
-
-def _pt_per_unit(fig, ax, w_units, h_units):
-    b = ax.get_position()
-    return min(b.width * fig.get_figwidth() * 72 / w_units, b.height * fig.get_figheight() * 72 / h_units) / 1.9
 
 
 def _render_mech(fig, axes, C, sc, t, sel):
     ah, av, at = axes
+    W, H, mg, trace_y, n = fig._ecg_px
     for a in axes:
         a.clear()
     for txt in list(fig.texts):
         txt.remove()
-    draw_heart(ah, sc, t, C, _pt_per_unit(fig, ah, 212, 256))
-    draw_vector_panel(av, sc, t, sel, C, _pt_per_unit(fig, av, 240, 240))
+    draw_heart(ah, sc, t, C, _HW / 212 * PX)
+    draw_vector_panel(av, sc, t, sel, C, _VW / 240 * PX)
     draw_lead_traces(at, sc, t, sel, C)
     p = cur_phase(sc, t)
-    fig.text(.03, .965, f"{sc['name']}  ·  {p['n']}", fontsize=14, fontweight="bold", color=C["ink"], va="top")
-    fig.text(.03, .925, "전도계와 순간 벡터", fontsize=9, color=C["muted"], va="top")
-    fig.text(.54, .925, "벡터 루프와 lead 투영", fontsize=9, color=C["muted"], va="top")
-    fig.text(.03, .045, readout(sc, t, sel), fontsize=9.5, color=C["muted"], va="center")
+    T = lambda x, y, s, **kw: fig.text(x / W, 1 - y / H, s, **kw)
+    T(mg, 22, f"{sc['name']}  ·  {p['n']}", fontsize=20 * PX, fontweight="bold", color=C["ink"], va="center")
+    cap = dict(fontsize=12.8 * PX, color=C["muted"], ha="center", va="top")
+    T(mg + _HW / 2, _TOP + _HH + 4, "전도계와 순간 벡터", **cap)
+    T(mg + _HW + _GAP + _VW / 2, _TOP + _VW + 4, "벡터 루프와 lead 투영", **cap)
+    T(mg, trace_y + 70 * n + 22, readout(sc, t, sel), fontsize=14 * PX, color=C["muted"], va="center")
 
 
 def plot_mechanism(scenario="normal", t=None, leads=None, theme="light"):
@@ -898,7 +972,7 @@ def plot_mechanism(scenario="normal", t=None, leads=None, theme="light"):
     return fig
 
 
-def animate_mechanism(scenario="normal", out="mech.gif", speed=.2, fps=20, leads=None, theme="light"):
+def animate_mechanism(scenario="normal", out="mech.gif", speed=.2, fps=20, leads=None, theme="light", dpi=120):
     """한 심주기를 speed 배속으로 재생하는 애니메이션을 저장 (gif 또는 mp4)."""
     from matplotlib.animation import FuncAnimation, PillowWriter
 
@@ -909,9 +983,9 @@ def animate_mechanism(scenario="normal", out="mech.gif", speed=.2, fps=20, leads
     fig, axes, C = _mech_layout(len(sel), theme)
     anim = FuncAnimation(fig, lambda i: _render_mech(fig, axes, C, sc, times[i], sel), frames=n)
     if out.lower().endswith(".gif"):
-        anim.save(out, writer=PillowWriter(fps=fps), savefig_kwargs=dict(facecolor=C["bg"]))
+        anim.save(out, writer=PillowWriter(fps=fps), dpi=dpi, savefig_kwargs=dict(facecolor=C["bg"]))
     else:  # mp4 등은 ffmpeg 필요
-        anim.save(out, fps=fps, savefig_kwargs=dict(facecolor=C["bg"]))
+        anim.save(out, fps=fps, dpi=dpi, savefig_kwargs=dict(facecolor=C["bg"]))
     plt.close(fig)
     return out
 
@@ -938,33 +1012,40 @@ def qrs_axis(lead_i, avf):
 
 
 def plot_axis(lead_i=6, avf=8, theme="light"):
+    """전기축 hexaxial (원본 SVG 220px 크기) + 결과 문구."""
     C = THEMES[theme]
-    fig = plt.figure(figsize=(6.4, 3.4), facecolor=C["bg"])
-    ax = fig.add_axes([0, 0, .5, 1])
+    W, H, sv = 640, 268, 220
+    k = sv / 240 * PX
+    fig = plt.figure(figsize=(W / 96, H / 96), facecolor=C["bg"])
+    ax = fig.add_axes([24 / W, 1 - (24 + sv) / H, sv / W, sv / H])
     ax.set_xlim(0, 240)
     ax.set_ylim(240, 0)
     ax.set_aspect("equal")
     ax.axis("off")
     # 정상 범위 (−30° ~ +90°). y가 아래로 증가하므로 각도 그대로 사용
     ax.add_patch(Wedge((120, 120), 88, -30, 90, fc=C["accent_soft"], ec="none"))
-    ax.add_patch(Circle((120, 120), 88, fc="none", ec=C["line"]))
+    ax.add_patch(Circle((120, 120), 88, fc="none", ec=C["line"], lw=k))
     pt = lambda deg, r: (120 + r * math.cos(math.radians(deg)), 120 + r * math.sin(math.radians(deg)))
     for n, d in [("I", 0), ("II", 60), ("III", 120), ("aVF", 90), ("aVL", -30), ("aVR", -150)]:
         (a, b), (c, e), (lx, ly) = pt(d, 88), pt(d + 180, 88), pt(d, 104)
-        ax.plot([c, a], [e, b], color=C["line"], ls=(0, (3, 3)), lw=1)
-        ax.text(lx, ly, f"{n} {'+' if d > 0 else ''}{d}°", fontsize=8, color=C["muted"], ha="center", va="center")
+        ax.plot([c, a], [e, b], color=C["line"], ls=(0, (3, 3)), lw=k)
+        ax.text(lx, ly, f"{n} {'+' if d > 0 else ''}{d}°", fontsize=11 * k, color=C["muted"], ha="center", va="center")
     th, cls = qrs_axis(lead_i, avf)
+    T = lambda x, y, s_, **kw: fig.text(x / W, 1 - y / H, s_, **kw)
+    x0 = 24 + sv + 28
+    T(x0, 44, f"Lead I = {lead_i:g} mm, aVF = {avf:g} mm", fontsize=13.6 * PX, color=C["muted"], va="center")
     if th is None:
-        out = "두 lead 모두 isoelectric이면\n축을 정할 수 없습니다 (indeterminate axis)."
+        T(x0, 100, "두 lead 모두 isoelectric이면\n축을 정할 수 없습니다\n(indeterminate axis).", fontsize=16.8 * PX,
+          color=C["ink"], va="top", linespacing=1.6)
     else:
         ax_, ay_ = pt(th, 80)
-        ax.plot([120, ax_], [120, ay_], color=C["accent"], lw=3, solid_capstyle="round")
-        ax.add_patch(Circle((ax_, ay_), 5, fc=C["accent"]))
-        fig.text(.53, .62, f"{'+' if th > 0 else ''}{round(th)}°", fontsize=26, fontweight="bold", color=C["accent"])
-        out = f"{cls}.\n{AXIS_HINT[cls]}"
-    ax.add_patch(Circle((120, 120), 3, fc=C["ink"]))
-    fig.text(.53, .52, out, fontsize=10, color=C["ink"], va="top", wrap=True)
-    fig.text(.53, .85, f"Lead I = {lead_i} mm, aVF = {avf} mm", fontsize=9, color=C["muted"])
+        ax.plot([120, ax_], [120, ay_], color=C["accent"], lw=3 * k, solid_capstyle="round")
+        ax.add_patch(Circle((ax_, ay_), 5, fc=C["accent"], ec="none"))
+        T(x0, 96, f"{'+' if th > 0 else ''}{round(th)}°", fontsize=25.6 * PX * 1.4, fontweight="bold",
+          color=C["accent"], va="center")
+        T(x0, 138, f"{cls}.", fontsize=16.8 * PX, fontweight="semibold", color=C["ink"], va="top")
+        T(x0, 166, textwrap.fill(AXIS_HINT[cls], 26), fontsize=15 * PX, color=C["ink"], va="top", linespacing=1.6)
+    ax.add_patch(Circle((120, 120), 3, fc=C["ink"], ec="none", zorder=5))
     return fig
 
 
@@ -993,6 +1074,7 @@ def qtc(qt_ms, hr, sex="m"):
 def main(argv=None):
     common = argparse.ArgumentParser(add_help=False)
     common.add_argument("--theme", choices=THEMES, default="light")
+    common.add_argument("--dpi", type=int, default=192, help="PNG 해상도 (192 = 원본 화면의 2배)")
     ap = argparse.ArgumentParser(description="ECG 판독 연습실 그래픽 (matplotlib)")
     sp = ap.add_subparsers(dest="cmd", required=True)
     _add = sp.add_parser
@@ -1039,7 +1121,7 @@ def main(argv=None):
         fig = plot_gallery(a.seed, a.theme)
     elif a.cmd == "mech":
         if a.gif:
-            print(animate_mechanism(a.scenario, a.gif, a.speed, a.fps, a.leads, a.theme))
+            print(animate_mechanism(a.scenario, a.gif, a.speed, a.fps, a.leads, a.theme, min(a.dpi, 144)))
             return
         fig = plot_mechanism(a.scenario, a.t, a.leads, a.theme)
     elif a.cmd == "axis":
@@ -1053,7 +1135,7 @@ def main(argv=None):
         r = heart_rate(a.value, a.mode)
         print(f"{r['bpm']} bpm, {r['cls']}. R–R ≈ {r['rr_ms']} ms")
     if fig is not None:
-        fig.savefig(a.out, dpi=150, facecolor=fig.get_facecolor())
+        fig.savefig(a.out, dpi=a.dpi, facecolor=fig.get_facecolor())
         print(a.out)
 
 

@@ -29,6 +29,7 @@ python ecg_graphics.py rate 20 --mode small
 원본과 다른 점
 - 인터랙션(탭 캘리퍼, 스크럽 바, 버튼)은 함수 인자(`calipers`, `t`, `leads`)로 대신합니다.
 - 판독 기준·임상 포인트·단계별 설명 같은 긴 본문은 옮기지 않았고, 그래픽에 필요한 이름과 구간 정보만 남겼습니다.
-- 한글 폰트는 설치된 것 중에서 자동으로 고릅니다 (맑은 고딕, AppleGothic, 나눔고딕, Noto Sans CJK KR 등).
+- 그림 크기, 선 두께, 글자 크기는 원본 페이지의 px 치수를 그대로 따릅니다 (본문 폭 744px, strip 1 mm = 5 px). PNG는 기본 `--dpi 192`(화면 2배)로 저장합니다.
+- 원본 폰트 IBM Plex Sans KR(SIL OFL)이 없으면 처음 실행할 때 `~/.cache/ecg_graphics/fonts`에 받아 씁니다. 받을 수 없으면(또는 `ECG_NO_FONT_DOWNLOAD=1`) 설치된 한글 폰트를 씁니다.
 
 교육용 합성 파형이며 실제 환자 판독을 대신하지 않습니다.
