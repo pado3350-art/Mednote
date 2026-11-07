@@ -1,6 +1,27 @@
 # T림프구에 대한 항원제시
 
-## 1. 핵심 어휘
+## 1. 요약 정리
+*PPT p.6,7,8,9,10,11,14,16,18*
+
+### 
+- 먼저 전체 그림 — 이번 강의는 세 단계다 `[PPT p.6,8,14 · 발화 ¶1–3]`
+![강의 전체 흐름 한눈에 (이 흐름으로 본문 3개 챕터가 이어진다)](outputs/tcell_v2/diagrams/diagram_01.png)
+- MHC 영역의 구성 `[PPT p.6–7 · 발화 ¶5–6,10]`
+![MHC 유전자 영역 한눈에 (생쥐는 H-2, 17번 염색체)](outputs/tcell_v2/diagrams/diagram_02.png)
+- Polymorphism과 polygeny `[PPT p.7 · 발화 ¶13–15]`
+![Polymorphism vs Polygeny](outputs/tcell_v2/diagrams/diagram_03.png)
+- 다형성의 기능적 의미와 MHC restriction `[PPT p.8 · 발화 ¶18–22]`
+![MHC restriction과 두 가지 예외](outputs/tcell_v2/diagrams/diagram_04.png)
+- Class Ib와 unconventional T cell `[PPT p.14,16 · 발화 ¶35–37,40]`
+![비전형 항원이 비전형 T세포에 인식되는 흐름](outputs/tcell_v2/diagrams/diagram_05.png)
+- 핵심 그림 모아보기 `[PPT p.6]`
+![Fig. 6.16 인간 MHC(위, HLA)와 생쥐 MHC(아래, H-2)의 유전자 구성 — MHC 유전자 영역의 구성](outputs/tcell_v2/images/material_s06_1.png)
+![Fig. 6.18 인간 MHC 유전자는 다형성이 매우 크다 (class I · II는 크고 class Ib는 작다) — 다형성(polymorphism)과 polygeny](outputs/tcell_v2/images/material_s07_1.png)
+![Fig. 6.21 MHC의 allele 변이는 주로 peptide 결합 부위에 몰려 있다 (class I α1·α2 / class II β1) — 다형성이 항원 인식에 미치는 영향](outputs/tcell_v2/images/material_s08_1.png)
+![Fig. 6.23 T세포의 항원 인식은 MHC-restricted이다 — MHC restriction](outputs/tcell_v2/images/material_s08_3.png)
+
+
+## 2. 핵심 어휘
 *PPT p.3,4,6,7,8,9,10,11,16*
 
 ### 
@@ -19,25 +40,6 @@
 - peptide가 아니라 lipid / glycolipid 항원을 제시하는 MHC class I-like 분자. `[PPT p.3,16 · 발화 ¶37]`
 - 다른 개체의 MHC에 대한 강한 T세포 반응. 한 개체 T세포의 1~10%가 반응한다. `[PPT p.3,9 · 발화 ¶25,28]`
 - peptide 처리 없이 TCR과 MHC에 직접 결합해 많은 T세포를 한꺼번에 활성화하는 물질. `[PPT p.3,10 · 발화 ¶29–30]`
-
-
-## 2. 요약 정리
-*PPT p.6,7,8,9,10,11,14,16,18*
-
-### 
-- MHC 영역의 구성 `[PPT p.6–7 · 발화 ¶5–6,10]`
-![MHC 유전자 영역 한눈에 (생쥐는 H-2, 17번 염색체)](outputs/tcell_v2/diagrams/diagram_01.png)
-- Polymorphism과 polygeny `[PPT p.7 · 발화 ¶13–15]`
-![Polymorphism vs Polygeny](outputs/tcell_v2/diagrams/diagram_02.png)
-- 다형성의 기능적 의미와 MHC restriction `[PPT p.8 · 발화 ¶18–22]`
-![MHC restriction과 두 가지 예외](outputs/tcell_v2/diagrams/diagram_03.png)
-- Class Ib와 unconventional T cell `[PPT p.14,16 · 발화 ¶35–37,40]`
-![비전형 항원이 비전형 T세포에 인식되는 흐름](outputs/tcell_v2/diagrams/diagram_04.png)
-- 핵심 그림 모아보기 `[PPT p.6]`
-![Fig. 6.16 인간 MHC(위, HLA)와 생쥐 MHC(아래, H-2)의 유전자 구성 — MHC 유전자 영역의 구성](outputs/tcell_v2/images/material_s06_1.png)
-![Fig. 6.18 인간 MHC 유전자는 다형성이 매우 크다 (class I · II는 크고 class Ib는 작다) — 다형성(polymorphism)과 polygeny](outputs/tcell_v2/images/material_s07_1.png)
-![Fig. 6.21 MHC의 allele 변이는 주로 peptide 결합 부위에 몰려 있다 (class I α1·α2 / class II β1) — 다형성이 항원 인식에 미치는 영향](outputs/tcell_v2/images/material_s08_1.png)
-![Fig. 6.23 T세포의 항원 인식은 MHC-restricted이다 — MHC restriction](outputs/tcell_v2/images/material_s08_3.png)
 
 
 ## 3. 도입: 왜 MHC는 여러 종류일까?

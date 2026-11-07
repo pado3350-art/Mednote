@@ -1,354 +1,6 @@
 {
   "topics": [
     {
-      "heading": "핵심 어휘",
-      "chapter": "",
-      "role": "front",
-      "basics_title": "핵심 어휘",
-      "basics": [],
-      "basics_refs": [],
-      "tip": "",
-      "slide_numbers": [
-        3,
-        4,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        16
-      ],
-      "sections": {
-        "body": [
-          {
-            "text": "슬라이드의 ‘핵심 어휘’ 14개를 이번 파트의 내용으로 풀어 놓았다. 뒤에서 하나씩 다시 나오니 가볍게 읽고 가도 된다.",
-            "origin": "both",
-            "slide_refs": [
-              3
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "HLA-A, B, C. 큰 α chain 1개 + β2-microglobulin이 결합한 구조 — 교수님 표현으로 ‘다리 하나짜리’.",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              6
-            ],
-            "segment_ids": [
-              6
-            ],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "MHC class I",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "HLA-DR, DP, DQ. α chain과 β chain이 짝을 이룬 구조 — ‘다리 두 개짜리’.",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              6
-            ],
-            "segment_ids": [
-              6
-            ],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "MHC class II",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "MHC가 T세포에게 보여주는 항원 조각. 결합 홈의 pocket과 peptide의 anchor residue가 상호작용해서 결합한다.",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              8
-            ],
-            "segment_ids": [
-              19,
-              20
-            ],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "펩티드 (peptide)",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "peptide가 MHC에 얹혀 T세포에 보이는 것. T세포가 인식하는 것은 peptide 하나가 아니라 peptide–MHC 복합체이다.",
-            "origin": "both",
-            "slide_refs": [
-              3
-            ],
-            "segment_ids": [
-              21,
-              22
-            ],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "항원제시 (antigen presentation)",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "슬라이드 6-15: adenovirus가 만드는 단백질이 ER 안에서 MHC class I에 결합해 세포 표면으로의 이동을 막는다. (강의에서는 따로 설명하지 않음)",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              11
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "endoplasmic reticulum",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "앞 시간(항원 처리와 제시)의 어휘. 이번 파트의 슬라이드에서는 어휘로만 나오고 설명은 없다.",
-            "origin": "both",
-            "slide_refs": [
-              3
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "endosome",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "슬라이드 6-14: superantigen이 CD4 T세포의 cytokine 대량 생산을 일으킨다.",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              10
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "CD4 molecule",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "슬라이드 6-15: adenovirus는 MHC class I의 이동을 막아 CD8 cytotoxic T cell이 바이러스 peptide를 인식하지 못하게 한다.",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              11
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "CD8 molecule",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "슬라이드 6-10: 유전자는 β2-microglobulin처럼 MHC 영역 밖에 있고(사람에서 invariant chain 5번, β2-microglobulin 15번 염색체), IFN-γ로 class II와 함께 발현이 늘어난다.",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              6
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "invariant chain",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "항원 가공에 참여하는 분자. 그 유전자가 MHC 영역 안에 있고, interferon이 transcription을 높인다.",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              6
-            ],
-            "segment_ids": [
-              7,
-              9
-            ],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "TAP",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "같은 유전자 자리의 allele이 집단 안에 여러 형태로 존재하는 것. MHC 유전자는 알려진 가장 다형성이 큰 유전자이다.",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              4
-            ],
-            "segment_ids": [
-              3,
-              13
-            ],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "MHC polymorphism",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "peptide가 아니라 lipid / glycolipid 항원을 제시하는 MHC class I-like 분자.",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              16
-            ],
-            "segment_ids": [
-              37
-            ],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "CD1 molecule",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "다른 개체의 MHC에 대한 강한 T세포 반응. 한 개체 T세포의 1~10%가 반응한다.",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              9
-            ],
-            "segment_ids": [
-              25,
-              28
-            ],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "동종이식편반응 (alloreactivity)",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          },
-          {
-            "text": "peptide 처리 없이 TCR과 MHC에 직접 결합해 많은 T세포를 한꺼번에 활성화하는 물질.",
-            "origin": "both",
-            "slide_refs": [
-              3,
-              10
-            ],
-            "segment_ids": [
-              29,
-              30
-            ],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "row2",
-            "level": 0,
-            "image": "",
-            "left_title": "초항원 (superantigen)",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "diagram": null
-          }
-        ]
-      },
-      "tables": [],
-      "images": [],
-      "review_flags": []
-    },
-    {
       "heading": "요약 정리",
       "chapter": "",
       "role": "front",
@@ -369,6 +21,102 @@
       ],
       "sections": {
         "body": [
+          {
+            "text": "먼저 전체 그림 — 이번 강의는 세 단계다",
+            "origin": "both",
+            "slide_refs": [
+              6,
+              8,
+              14
+            ],
+            "segment_ids": [
+              1,
+              2,
+              3
+            ],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "star",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "강의 전체 흐름 한눈에 (이 흐름으로 본문 3개 챕터가 이어진다)",
+            "origin": "both",
+            "slide_refs": [
+              6,
+              8,
+              14
+            ],
+            "segment_ids": [
+              1,
+              2,
+              3
+            ],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "diagram",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": {
+              "kind": "flow",
+              "title": "",
+              "root": "",
+              "groups": [
+                {
+                  "title": "① MHC는 왜 다양한가",
+                  "items": [
+                    "여러 유전자 (polygeny)",
+                    "집단 안에 여러 allele (polymorphism)",
+                    "→ 다양한 peptide를 보여줄 수 있다"
+                  ],
+                  "color": "teal"
+                },
+                {
+                  "title": "② T세포는 무엇을 보는가",
+                  "items": [
+                    "{r|peptide + 자기 MHC} (MHC restriction)",
+                    "예외: alloreactivity, superantigen"
+                  ],
+                  "color": "blue"
+                },
+                {
+                  "title": "③ peptide가 아닌 항원",
+                  "items": [
+                    "Class Ib · CD1(lipid) · MR1",
+                    "γδ T cell, MAIT, NKT"
+                  ],
+                  "color": "salmon"
+                }
+              ],
+              "arrows": [
+                {
+                  "src": 0,
+                  "dst": 1,
+                  "label": "그래서",
+                  "both": false
+                },
+                {
+                  "src": 1,
+                  "dst": 2,
+                  "label": "그런데 peptide가 아니면?",
+                  "both": false
+                }
+              ],
+              "row_labels": []
+            }
+          },
           {
             "text": "MHC 영역의 구성",
             "origin": "both",
@@ -732,6 +480,354 @@
               ],
               "row_labels": []
             }
+          }
+        ]
+      },
+      "tables": [],
+      "images": [],
+      "review_flags": []
+    },
+    {
+      "heading": "핵심 어휘",
+      "chapter": "",
+      "role": "front",
+      "basics_title": "핵심 어휘",
+      "basics": [],
+      "basics_refs": [],
+      "tip": "",
+      "slide_numbers": [
+        3,
+        4,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        16
+      ],
+      "sections": {
+        "body": [
+          {
+            "text": "슬라이드의 ‘핵심 어휘’ 14개를 이번 파트의 내용으로 풀어 놓았다. 뒤에서 하나씩 다시 나오니 가볍게 읽고 가도 된다.",
+            "origin": "both",
+            "slide_refs": [
+              3
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "HLA-A, B, C. 큰 α chain 1개 + β2-microglobulin이 결합한 구조 — 교수님 표현으로 ‘다리 하나짜리’.",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              6
+            ],
+            "segment_ids": [
+              6
+            ],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "MHC class I",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "HLA-DR, DP, DQ. α chain과 β chain이 짝을 이룬 구조 — ‘다리 두 개짜리’.",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              6
+            ],
+            "segment_ids": [
+              6
+            ],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "MHC class II",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "MHC가 T세포에게 보여주는 항원 조각. 결합 홈의 pocket과 peptide의 anchor residue가 상호작용해서 결합한다.",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              8
+            ],
+            "segment_ids": [
+              19,
+              20
+            ],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "펩티드 (peptide)",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "peptide가 MHC에 얹혀 T세포에 보이는 것. T세포가 인식하는 것은 peptide 하나가 아니라 peptide–MHC 복합체이다.",
+            "origin": "both",
+            "slide_refs": [
+              3
+            ],
+            "segment_ids": [
+              21,
+              22
+            ],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "항원제시 (antigen presentation)",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "슬라이드 6-15: adenovirus가 만드는 단백질이 ER 안에서 MHC class I에 결합해 세포 표면으로의 이동을 막는다. (강의에서는 따로 설명하지 않음)",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              11
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "endoplasmic reticulum",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "앞 시간(항원 처리와 제시)의 어휘. 이번 파트의 슬라이드에서는 어휘로만 나오고 설명은 없다.",
+            "origin": "both",
+            "slide_refs": [
+              3
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "endosome",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "슬라이드 6-14: superantigen이 CD4 T세포의 cytokine 대량 생산을 일으킨다.",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              10
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "CD4 molecule",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "슬라이드 6-15: adenovirus는 MHC class I의 이동을 막아 CD8 cytotoxic T cell이 바이러스 peptide를 인식하지 못하게 한다.",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              11
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "CD8 molecule",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "슬라이드 6-10: 유전자는 β2-microglobulin처럼 MHC 영역 밖에 있고(사람에서 invariant chain 5번, β2-microglobulin 15번 염색체), IFN-γ로 class II와 함께 발현이 늘어난다.",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              6
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "invariant chain",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "항원 가공에 참여하는 분자. 그 유전자가 MHC 영역 안에 있고, interferon이 transcription을 높인다.",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              6
+            ],
+            "segment_ids": [
+              7,
+              9
+            ],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "TAP",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "같은 유전자 자리의 allele이 집단 안에 여러 형태로 존재하는 것. MHC 유전자는 알려진 가장 다형성이 큰 유전자이다.",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              4
+            ],
+            "segment_ids": [
+              3,
+              13
+            ],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "MHC polymorphism",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "peptide가 아니라 lipid / glycolipid 항원을 제시하는 MHC class I-like 분자.",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              16
+            ],
+            "segment_ids": [
+              37
+            ],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "CD1 molecule",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "다른 개체의 MHC에 대한 강한 T세포 반응. 한 개체 T세포의 1~10%가 반응한다.",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              9
+            ],
+            "segment_ids": [
+              25,
+              28
+            ],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "동종이식편반응 (alloreactivity)",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
+          },
+          {
+            "text": "peptide 처리 없이 TCR과 MHC에 직접 결합해 많은 T세포를 한꺼번에 활성화하는 물질.",
+            "origin": "both",
+            "slide_refs": [
+              3,
+              10
+            ],
+            "segment_ids": [
+              29,
+              30
+            ],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "row2",
+            "level": 0,
+            "image": "",
+            "left_title": "초항원 (superantigen)",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "diagram": null
           }
         ]
       },

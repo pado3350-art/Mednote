@@ -18,7 +18,7 @@ format:
   include_source_references: true   # set false for a cleaner look
   numbered_headings: true
   font_korean: 맑은 고딕
-  font_size_pt: 10
+  font_size_pt: 9
   legend:
     - {tag: emphasis, word: 빨강, meaning: "교수님 강조 / 시험 언급 / 꼭 외울 부분"}
     - {tag: exam,     word: 파랑, meaning: "기출된 내용 (PAD 기출문제에 나온 부분에만 사용)"}

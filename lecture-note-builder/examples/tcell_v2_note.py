@@ -330,6 +330,12 @@ def build(S):
 
     # =========================================================== 요약 정리 (front)
     summary = T("요약 정리", "", [6, 7, 8, 9, 10, 11, 14, 16, 18], [
+        STAR("먼저 전체 그림 — 이번 강의는 세 단계다", s=[6, 8, 14], g=[1, 2, 3]),
+        DIA(Diagram(kind="flow", arrows=[Arrow(src=0, dst=1, label="그래서"), Arrow(src=1, dst=2, label="그런데 peptide가 아니면?")], groups=[
+            Group(title="① MHC는 왜 다양한가", color="teal", items=["여러 유전자 (polygeny)", "집단 안에 여러 allele (polymorphism)", "→ 다양한 peptide를 보여줄 수 있다"]),
+            Group(title="② T세포는 무엇을 보는가", color="blue", items=["{r|peptide + 자기 MHC} (MHC restriction)", "예외: alloreactivity, superantigen"]),
+            Group(title="③ peptide가 아닌 항원", color="salmon", items=["Class Ib · CD1(lipid) · MR1", "γδ T cell, MAIT, NKT"]),
+        ]), "강의 전체 흐름 한눈에 (이 흐름으로 본문 3개 챕터가 이어진다)", s=[6, 8, 14], g=[1, 2, 3]),
         STAR("MHC 영역의 구성", s=[6, 7], g=[5, 6, 10]),
         DIA(Diagram(kind="tree", root="사람 MHC (HLA) · 6번 염색체", groups=[
             Group(title="Class I", color="teal", items=["HLA-A, B, C", "α chain 1개 + β2-microglobulin", "{r|다리 하나짜리}"]),
@@ -357,7 +363,7 @@ def build(S):
             Group(title="Unconventional T cell", color="salmon", items=["γδ T cell: 다양한 ligand", "MAIT: 선천–적응면역 사이", "invariant NKT: lipid 검출"]),
         ]), "비전형 항원이 비전형 T세포에 인식되는 흐름", s=[13, 14, 16, 18], g=[35, 36, 37, 38, 39, 40]),
     ], role="front")
-    top.insert(1, summary)
+    top.insert(0, summary)
     return top
 
 
