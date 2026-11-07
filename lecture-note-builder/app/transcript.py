@@ -171,3 +171,23 @@ def read_docx_tables(path: str | Path) -> list[list[list[str]]]:
     from docx import Document
 
     return [[[c.text.strip() for c in r.cells] for r in t.rows] for t in Document(str(path)).tables]
+
+
+def parse_flow_script(text: str) -> tuple[dict[str, str], list[Segment]]:
+    """Script-only mode: the lecture is read as ONE continuous flow of paragraphs.
+
+    Time-block headers ("[00:00–02:00] 제목 | 원본 2쪽") are NOT used to section the lecture;
+    they are dropped (the AI decides the table of contents from the flow). Trailing
+    "재구성 및 검증 참고" remarks become kind="note" segments (appendix material).
+    """
+    meta: dict[str, str] = {}
+    segs: list[Segment] = []
+    if is_structured(text):
+        meta, units = parse_structured_script(text)
+        for u in units:
+            for para in u.paragraphs:
+                segs.append(Segment(id=len(segs) + 1, text=para, kind="speech" if u.start is not None else "note"))
+        return meta, segs
+    for g in parse_script(text):
+        segs.append(Segment(id=len(segs) + 1, text=g.text, kind="speech"))
+    return meta, segs

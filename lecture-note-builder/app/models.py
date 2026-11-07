@@ -44,6 +44,7 @@ class Segment(BaseModel):
     start: Optional[float] = None  # seconds
     end: Optional[float] = None
     slide_hint: Optional[int] = None  # explicit marker in the script
+    kind: Literal["speech", "note"] = "speech"  # "note" = meta remarks about the script itself
 
 
 class AlignedSlide(BaseModel):
@@ -91,6 +92,19 @@ class LectureNote(BaseModel):
     meta: dict[str, str] = Field(default_factory=dict)
     # Script-only mode: unit number -> "04:00–06:00 · 원본 4쪽" (replaces "PPT p.N").
     unit_labels: dict[int, str] = Field(default_factory=dict)
+    # How unit numbers are shown: "slide" -> PPT p.N, "para" -> 발화 ¶N (script-only mode).
+    ref_style: Literal["slide", "para"] = "slide"
+
+
+class OutlineItem(BaseModel):
+    heading: str
+    unit_numbers: list[int]  # slides, or script paragraphs (1-based) in script-only mode
+    summary: str = ""
+
+
+class Outline(BaseModel):
+    """AI-judged table of contents: how the lecture's overall flow is sectioned."""
+    items: list[OutlineItem] = Field(default_factory=list)
 
 
 # ---------- Stage 4: validation ----------
@@ -104,6 +118,7 @@ class Issue(BaseModel):
 class ValidationReport(BaseModel):
     issues: list[Issue] = Field(default_factory=list)
     slide_coverage: float = 1.0
+    unit_names: dict[int, str] = Field(default_factory=dict)  # unit number -> "발화 ¶7" etc.
 
     @property
     def errors(self) -> list[Issue]:

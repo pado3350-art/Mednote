@@ -149,44 +149,103 @@ MHC는 6번 염색체에 있습니다. 중요합니다.
 Polygenic과 polymorphic은 다릅니다. 1~10% 정도입니다.
 [04:00–06:00] 마무리  |  원본 4쪽
 CD1은 lipid를 제시합니다.
+재구성 및 검증 참고
+• 가상 발화이며 실제 강의가 아닙니다.
 """
 
+MOM = Path(__file__).resolve().parent.parent / "templates" / "mom.yaml"
 
-def test_structured_script_and_mom_export(tmp_path):
-    from app.transcript import is_structured, parse_structured_script
-    from app.pipeline import run_pipeline
-    from app.generate_notes import PrecomputedBackend
-    from app.models import Statement, Topic
+
+def test_flow_script_drops_time_blocks():
+    from app.transcript import is_structured, parse_flow_script
 
     assert is_structured(STRUCT)
-    meta, units = parse_structured_script(STRUCT)
+    meta, segs = parse_flow_script(STRUCT)
     assert meta["date"] == "2023-04-26" and meta["subject"] == "면역학"
-    assert [u.label for u in units][1] == "02:00–04:00 · 원본 2–3쪽"
-
-    s = tmp_path / "s.txt"; s.write_text(STRUCT, encoding="utf-8")
-    topics = [Topic(heading="0. 요약", slide_numbers=[1, 2, 3], sections={"body": [
-        Statement(text="MHC는 {r|6번 염색체}에 있고 **중요**. Polygenic polymorphic 1~10% CD1 lipid",
-                  slide_refs=[1, 2, 3])]})]
-    rep, paths = run_pipeline(None, tmp_path / "o", Path(__file__).resolve().parent.parent / "templates" / "mom.yaml",
-                              script=s, backend=PrecomputedBackend(topics), pdf=False)
-    assert rep.ok, rep.errors
-    d = Document(str(paths["docx"]))
-    text = "\n".join(p.text for p in d.paragraphs) + "\n".join(
-        c.text for t in d.tables for r in t.rows for c in r.cells)
-    assert "작성자 코멘트" in text and "목차" in text and "0. 요약" in text
-    assert "원본 2–3쪽" in text and "{r|" not in text and "**" not in text
+    assert [g.id for g in segs] == [1, 2, 3, 4]  # one continuous paragraph flow
+    assert [g.kind for g in segs] == ["speech"] * 3 + ["note"]
+    assert not any("00:00" in g.text or "원본" in g.text for g in segs)  # headers are not content
+    assert all(g.start is None for g in segs)
 
 
-def test_structured_validation_catches_dropped_unit(tmp_path):
+def test_normalize_outline_covers_everything_once():
+    from app.models import Outline, OutlineItem
+    from app.outline import APPENDIX, normalize_outline
+
+    raw = Outline(items=[OutlineItem(heading="A", unit_numbers=[1, 2, 99]),
+                         OutlineItem(heading="B", unit_numbers=[2, 4])])  # 99 unknown, 2 dup, 3 & 5 skipped
+    out = normalize_outline(raw, speech=[1, 2, 3, 4, 5], notes=[6])
+    flat = [n for it in out.items for n in it.unit_numbers]
+    assert sorted(flat) == [1, 2, 3, 4, 5, 6] and len(flat) == len(set(flat))
+    assert out.items[-1].heading == APPENDIX and out.items[-1].unit_numbers == [6]
+
+
+def test_heuristic_outline_splits_on_topic_shift():
+    from app.models import BodyLine, Slide
+    from app.outline import heuristic_outline
+
+    a = "항원 처리 proteasome TAP peptide loading 과정"
+    b = "이식 거부반응 allograft MLR alloreactive 림프구 증식"
+    units = [Slide(number=i + 1, body=[BodyLine(text=(a if i < 5 else b) + f" {i}")]) for i in range(10)]
+    o = heuristic_outline(units, target=2)
+    assert [it.unit_numbers for it in o.items] == [[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]]
+
+
+def _write(tmp_path, text=STRUCT):
+    s = tmp_path / "s.txt"; s.write_text(text, encoding="utf-8"); return s
+
+
+def test_script_only_auto_toc_and_outline_json(tmp_path):
     from app.pipeline import run_pipeline
-    from app.generate_notes import PrecomputedBackend
-    from app.models import Statement, Topic
 
-    s = tmp_path / "s.txt"; s.write_text(STRUCT, encoding="utf-8")
-    topics = [Topic(heading="x", slide_numbers=[1], sections={"body": [Statement(text="6번 염색체 MHC 중요", slide_refs=[1])]})]
-    rep, _ = run_pipeline(None, tmp_path / "o", Path(__file__).resolve().parent.parent / "templates" / "mom.yaml",
-                          script=s, backend=PrecomputedBackend(topics), pdf=False)
-    assert {i.slide for i in rep.errors if i.code == "SLIDE_MISSING"} == {2, 3}
+    rep, paths = run_pipeline(None, tmp_path / "o", MOM, script=_write(tmp_path), pdf=False, toc="heuristic")
+    assert rep.ok, rep.errors
+    outline = json.loads(paths["outline"].read_text(encoding="utf-8"))
+    nums = [n for it in outline["items"] for n in it["unit_numbers"]]
+    assert sorted(nums) == [1, 2, 3, 4]
+    d = Document(str(paths["docx"]))
+    text = "\n".join(p.text for p in d.paragraphs)
+    assert "발화 ¶" in text and "00:00" not in text and "원본 2쪽" not in text
+    # edit the TOC by hand and re-apply it
+    outline["items"] = [{"heading": "전부 한 섹션", "unit_numbers": [1, 2, 3], "summary": ""}]
+    edited = tmp_path / "edited.json"; edited.write_text(json.dumps(outline, ensure_ascii=False), encoding="utf-8")
+    rep2, p2 = run_pipeline(None, tmp_path / "o2", MOM, script=_write(tmp_path), pdf=False, outline_json=edited)
+    assert [it["heading"] for it in json.loads(p2["outline"].read_text(encoding="utf-8"))["items"]] == ["전부 한 섹션", "부록 & 검증 참고"]
+
+
+class _FakeOutlineClient:
+    def __init__(self):
+        self.calls = []
+        self.messages = SimpleNamespace(create=self._create)
+
+    def _create(self, **kw):
+        self.calls.append(kw)
+        if kw["tool_choice"]["name"] == "emit_outline":
+            payload = json.loads(kw["messages"][0]["content"])
+            assert [p["n"] for p in payload["paragraphs"]] == [1, 2, 3]  # note paragraph is not sent
+            inp = {"items": [{"heading": "용어와 기본 개념", "unit_numbers": [1, 2], "summary": "s"},
+                             {"heading": "CD1", "unit_numbers": [3]}]}
+        else:
+            payload = json.loads(kw["messages"][0]["content"])
+            n = payload["slides"][0]["slide"]["number"]
+            inp = {"topics": [{"heading": "모델이 바꾼 제목", "slide_numbers": [n],
+                               "sections": {"body": [{"text": "요약 문장", "slide_refs": [n]}]}}]}
+        return SimpleNamespace(content=[SimpleNamespace(type="tool_use", input=inp)])
+
+
+def test_ai_outline_then_one_topic_per_section(tmp_path):
+    from app.generate_notes import AnthropicBackend
+    from app.pipeline import run_pipeline
+
+    fake = _FakeOutlineClient()
+    rep, paths = run_pipeline(None, tmp_path / "o", MOM, script=_write(tmp_path), pdf=False,
+                              backend=AnthropicBackend(client=fake), toc="ai")
+    kinds = [c["tool_choice"]["name"] for c in fake.calls]
+    assert kinds == ["emit_outline"] + ["emit_topics"] * 3  # outline + one call per section (2 + appendix)
+    note = json.loads(paths["note"].read_text(encoding="utf-8"))
+    heads = [t["heading"] for t in note["topics"]]
+    assert heads == ["용어와 기본 개념", "CD1", "부록 & 검증 참고"]  # topics follow the AI outline, not the model's own heading
+    assert [t["slide_numbers"] for t in note["topics"][:2]] == [[1, 2], [3]]
 
 
 PAD = """2023년 4월 26일 수요일 <면역학>
@@ -212,6 +271,7 @@ PAD = """2023년 4월 26일 수요일 <면역학>
   정답 3번. 짤입니다.
   수고하셨습니다~
 """
+BODY = "MHC는 6번 염색체. Polygenic polymorphic 1~10% CD1 lipid"
 
 
 def test_exam_parse():
@@ -225,54 +285,62 @@ def test_exam_parse():
     assert "스캔" in items[3].question
 
 
-def _exam_run(tmp_path, topics, with_pad=True):
+def _exam_run(tmp_path, monkeypatch, topics=None, backend=None):
+    import app.exam as exam
     from app.generate_notes import PrecomputedBackend
     from app.pipeline import run_pipeline
 
-    s = tmp_path / "s.txt"; s.write_text(STRUCT, encoding="utf-8")
-    pad = tmp_path / "pad.txt"
-    # exam_pdf expects a PDF; monkeypatched parser below reads text instead
-    return run_pipeline(None, tmp_path / "o", Path(__file__).resolve().parent.parent / "templates" / "mom.yaml",
-                        script=s, backend=PrecomputedBackend(topics), pdf=False, exam_pdf=pad if with_pad else None)
+    monkeypatch.setattr(exam, "pdf_text", lambda p: PAD)
+    backend = backend or PrecomputedBackend(topics)
+    return run_pipeline(None, tmp_path / "o", MOM, script=_write(tmp_path), backend=backend, pdf=False,
+                        exam_pdf=tmp_path / "pad.pdf", toc="heuristic")
 
 
 def test_blue_only_for_exam(tmp_path, monkeypatch):
-    import app.exam as exam
+    from app.exam import EXAM_BASE as X
     from app.models import Statement, Topic
 
-    monkeypatch.setattr(exam, "pdf_text", lambda p: PAD)
-    base = [Statement(text="MHC는 6번 염색체. Polygenic polymorphic 1~10% CD1 lipid", slide_refs=[1, 2, 3])]
-    ok = Statement(text="{b|기출: 다형성 최대 HLA-B}", slide_refs=[2, 101])
+    base = Statement(text=BODY, slide_refs=[1, 2, 3, 4])
+    ok = Statement(text="{b|기출: 다형성 최대 HLA-B}", slide_refs=[2, X + 1])
     bad = Statement(text="{b|그냥 중요한 용어}", slide_refs=[2])
-    unmarked = Statement(text="PAD 문항 내용을 파랑 없이 서술", slide_refs=[2, 102])
-    units = [1, 2, 3, 101, 102, 103, 104]
-    rep, _ = _exam_run(tmp_path, [Topic(heading="0. t", slide_numbers=units, sections={"body": base + [ok, bad, unmarked]})])
+    unmarked = Statement(text="PAD 문항 내용을 파랑 없이 서술", slide_refs=[2, X + 2])
+    units = [1, 2, 3, 4, X + 1, X + 2, X + 3, X + 4]
+    rep, _ = _exam_run(tmp_path, monkeypatch,
+                       [Topic(heading="0. t", slide_numbers=units, sections={"body": [base, ok, bad, unmarked]})])
     codes = [(i.code, i.severity) for i in rep.issues]
-    assert ("BLUE_WITHOUT_PAD", "error") in codes
-    assert ("PAD_NOT_BLUE", "warning") in codes
+    assert ("BLUE_WITHOUT_PAD", "error") in codes and ("PAD_NOT_BLUE", "warning") in codes
     assert sum(1 for c, _ in codes if c == "BLUE_WITHOUT_PAD") == 1  # the PAD-cited blue statement is fine
 
 
 def test_exam_units_must_be_covered(tmp_path, monkeypatch):
-    import app.exam as exam
+    from app.exam import EXAM_BASE as X
     from app.models import Statement, Topic
 
-    monkeypatch.setattr(exam, "pdf_text", lambda p: PAD)
-    t = Topic(heading="0. t", slide_numbers=[1, 2, 3, 101], sections={"body": [
-        Statement(text="MHC는 6번 염색체. Polygenic polymorphic 1~10% CD1 lipid", slide_refs=[1, 2, 3])]})
-    rep, _ = _exam_run(tmp_path, [t])
-    assert {i.slide for i in rep.errors if i.code == "SLIDE_MISSING"} == {102, 103, 104}
+    t = Topic(heading="0. t", slide_numbers=[1, 2, 3, 4, X + 1],
+              sections={"body": [Statement(text=BODY, slide_refs=[1, 2, 3, 4])]})
+    rep, _ = _exam_run(tmp_path, monkeypatch, [t])
+    assert {i.slide for i in rep.errors if i.code == "SLIDE_MISSING"} == {X + 2, X + 3, X + 4}
+    assert any("PAD 2021(19학번) Q1" in m for m in [i.message for i in rep.errors])  # readable names
+
+
+def test_offline_backend_builds_blue_exam_section(tmp_path, monkeypatch):
+    from app.generate_notes import OfflineBackend
+
+    rep, paths = _exam_run(tmp_path, monkeypatch, backend=OfflineBackend())
+    assert not [i for i in rep.errors], rep.errors
+    note = json.loads(paths["note"].read_text(encoding="utf-8"))
+    assert note["topics"][0]["heading"].startswith("0. 기출")
+    assert "{b|" in note["topics"][0]["sections"]["body"][0]["text"]
+    assert all(r >= 1000 for st in note["topics"][0]["sections"]["body"] for r in st["slide_refs"])
+    assert note["unit_labels"]["1001"] == "PAD 2022(20학번) Q1"
 
 
 def test_heat_table_and_col_widths(tmp_path):
     from app.export_mom import export_mom
     from app.models import LectureNote, SlideTable, Topic
-    from app.template import load_template
 
-    tpl = load_template(Path(__file__).resolve().parent.parent / "templates" / "mom.yaml")
+    tpl = load_template(MOM)
     tb = SlideTable(rows=[["주제", "총"], ["a", "4"], ["b", "0"]], heat_cols=[1], col_widths_cm=[8, 2])
     note = LectureNote(title="t", topics=[Topic(heading="0. x", slide_numbers=[], tables=[tb])])
-    out = export_mom(note, tpl, tmp_path / "h.docx")
-    xml = Document(str(out)).element.xml
-    assert 'w:fill="7BC47F"' in xml  # zero -> green
-    assert 'w:fill="FF50' in xml or 'w:fill="FF' in xml  # max -> strong red
+    xml = Document(str(export_mom(note, tpl, tmp_path / "h.docx"))).element.xml
+    assert 'w:fill="7BC47F"' in xml and 'w:fill="FF' in xml  # zero -> green, max -> strong red

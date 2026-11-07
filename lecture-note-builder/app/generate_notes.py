@@ -10,9 +10,11 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from typing import Protocol
 
-from .models import AlignedSlide, LectureNote, Slide, Statement, Topic
+from .exam import EXAM_BASE, ExamItem
+from .models import AlignedSlide, LectureNote, Outline, SlideTable, Slide, Statement, Topic
 from .template import Template
 from .transcript import time_range
 
@@ -25,13 +27,39 @@ SYSTEM_PROMPT = """당신은 의과대학 강의록 작성 도우미입니다. �
 - 입력에 없는 의학적 주장을 추가하지 않는다. 교수 발언이 지침과 달라 보여도 조용히 고치지 말고 review_flags에 적는다.
 - 모든 statement에 slide_refs와 (있다면) segment_ids를 남긴다.
 - 모호하거나 전사 오류가 의심되면 review_flags에 적는다.
-- sections의 키는 허용된 섹션 키만 사용한다."""
+- sections의 키는 허용된 섹션 키만 사용한다.
+- 인라인 서식: {r|빨강=교수 강조·시험 언급} {g|회색=덜 중요} {p|보라=검증 필요} **굵게**.
+- 파랑 {b|...}은 입력의 pad_questions(기출문제)에 실제로 나온 내용에만 쓰고, 그 문장의 slide_refs에 해당 PAD 번호(unit)를 반드시 넣는다. 일반 용어 강조에는 굵게를 쓴다.
+- 입력 단락은 번호(unit)로 인용한다(slide_refs). 한 섹션의 모든 단락 내용을 빠짐없이 반영한다."""
 
 
 class Backend(Protocol):
     def build_topics(
-        self, slides: list[Slide], aligned: dict[int, AlignedSlide], template: Template
+        self, slides: list[Slide], aligned: dict[int, AlignedSlide], template: Template,
+        outline: Outline | None = None, exam: list[ExamItem] | None = None,
     ) -> list[Topic]: ...
+
+
+def _key(template: Template, preferred: str) -> str:
+    return preferred if preferred in template.keys else template.keys[0]
+
+
+def exam_topic(items: list[ExamItem], template: Template) -> Topic:
+    """Code-built section for PAD (기출): blue statements + list table. Always cites PAD units."""
+    key = _key(template, "core_concepts")
+    sts: list[Statement] = []
+    rows = [["연도(학번)", "문제 (요약)", "정답"]]
+    for it in items:
+        q = re.split(r"\s(?:①|1\)|1\.)\s", it.question)[0].strip()
+        sts.append(Statement(text=f"{{b|**{it.year}년 {it.cohort}** {q} → 정답 {it.answer}}}",
+                             slide_refs=[it.number], origin="both", kind="bullet"))
+        if it.commentary:
+            sts.append(Statement(text=f"{{g|{it.commentary}}}", slide_refs=[it.number], origin="both",
+                                 kind="bullet", level=1))
+        rows.append([f"{it.year}년({it.cohort})", q[:60], it.answer])
+    return Topic(heading="0. 기출(PAD) & 시험 포인트", slide_numbers=[i.number for i in items],
+                 sections={key: sts}, tables=[SlideTable(rows=rows, col_widths_cm=[3.6, 10.2, 3.6],
+                                                         caption="기출 문항 목록 (정답은 PAD 기재 기준)")])
 
 
 # ---------------------------------------------------------------- offline
@@ -41,7 +69,16 @@ def _is_emphasis(text: str) -> bool:
 
 
 class OfflineBackend:
-    def build_topics(self, slides, aligned, template):
+    def build_topics(self, slides, aligned, template, outline=None, exam=None):
+        if outline is not None:  # script-flow mode: verbatim paragraphs grouped under the outline
+            by = {s.number: s for s in slides}
+            key = _key(template, "core_concepts")
+            out: list[Topic] = []
+            for it in outline.items:
+                sts = [Statement(text=b.text, origin="lecturer", slide_refs=[n])
+                       for n in it.unit_numbers if n in by for b in by[n].body]
+                out.append(Topic(heading=it.heading, slide_numbers=list(it.unit_numbers), sections={key: sts}))
+            return out
         topics: list[Topic] = []
         for s in slides:
             a = aligned.get(s.number)
@@ -103,7 +140,9 @@ class PrecomputedBackend:
         raw = raw["topics"] if isinstance(raw, dict) else raw
         return cls([Topic.model_validate(t) for t in raw])
 
-    def build_topics(self, slides, aligned, template):
+    authors_exam = True  # the authored note already contains its own PAD section
+
+    def build_topics(self, slides, aligned, template, outline=None, exam=None):
         return self.topics
 
 
@@ -118,7 +157,13 @@ class AnthropicBackend:
         self.model = model or os.environ.get("MEDNOTE_MODEL", "claude-sonnet-5-5")
         self.chunk_size = chunk_size
 
-    def _payload(self, chunk: list[Slide], aligned, template: Template) -> str:
+    def make_outline(self, units: list[Slide], exam: list[ExamItem] | None = None) -> Outline:
+        from .outline import AnthropicOutliner
+
+        hint = [f"{e.year} {e.question[:50]}" for e in (exam or [])]
+        return AnthropicOutliner(self.client, self.model).make_outline(units, hint)
+
+    def _payload(self, chunk: list[Slide], aligned, template: Template, exam=None, heading=None) -> str:
         data = []
         for s in chunk:
             a = aligned.get(s.number)
@@ -137,12 +182,17 @@ class AnthropicBackend:
             {
                 "allowed_section_keys": {sec.key: sec.label for sec in template.sections},
                 "detail_level": template.detail_level,
+                "section_heading": heading,
                 "slides": data,
+                "pad_questions": [
+                    {"unit": e.number, "year": e.year, "question": e.question, "answer": e.answer,
+                     "commentary": e.commentary} for e in (exam or [])
+                ],
             },
             ensure_ascii=False,
         )
 
-    def build_topics(self, slides, aligned, template):
+    def build_topics(self, slides, aligned, template, outline=None, exam=None):
         schema = Topic.model_json_schema()
         tool = {
             "name": "emit_topics",
@@ -160,20 +210,36 @@ class AnthropicBackend:
         }
         topics: list[Topic] = []
         by_num = {s.number: s for s in slides}
-        for i in range(0, len(slides), self.chunk_size):
-            chunk = slides[i : i + self.chunk_size]
+        if outline is not None:  # one call per AI-outlined section
+            groups = [([by_num[n] for n in it.unit_numbers if n in by_num], it) for it in outline.items]
+        else:
+            groups = [(slides[i : i + self.chunk_size], None) for i in range(0, len(slides), self.chunk_size)]
+        for chunk, item in groups:
+            if not chunk:
+                continue
             resp = self.client.messages.create(
                 model=self.model,
                 max_tokens=8000,
                 system=SYSTEM_PROMPT,
                 tools=[tool],
                 tool_choice={"type": "tool", "name": "emit_topics"},
-                messages=[{"role": "user", "content": self._payload(chunk, aligned, template)}],
+                messages=[{"role": "user", "content": self._payload(
+                    chunk, aligned, template, exam, item.heading if item else None)}],
             )
             block = next(b for b in resp.content if getattr(b, "type", "") == "tool_use")
+            made: list[Topic] = []
             for raw in block.input["topics"]:
                 t = Topic.model_validate(raw)
                 t.sections = {k: v for k, v in t.sections.items() if k in template.keys}
+                made.append(t)
+            if item is not None:  # merge into ONE topic that follows the outline exactly
+                merged = Topic(heading=item.heading, slide_numbers=list(item.unit_numbers))
+                for t in made:
+                    for k, v in t.sections.items():
+                        merged.sections.setdefault(k, []).extend(v)
+                    merged.review_flags += t.review_flags
+                made = [merged]
+            for t in made:
                 # Images/tables are attached by code, never generated by the model.
                 nums = [n for n in t.slide_numbers if n in by_num]
                 t.tables = [tb for n in nums for tb in by_num[n].tables]
@@ -191,14 +257,19 @@ def generate_note(
     backend: Backend | None = None,
     meta: dict[str, str] | None = None,
     unit_labels: dict[int, str] | None = None,
+    outline: Outline | None = None,
+    exam_items: list[ExamItem] | None = None,
+    ref_style: str = "slide",
 ) -> LectureNote:
     backend = backend or OfflineBackend()
     amap = {a.slide_number: a for a in aligned}
-    topics = backend.build_topics(slides, amap, template)
+    topics = backend.build_topics(slides, amap, template, outline=outline, exam=exam_items)
+    if exam_items and not getattr(backend, "authors_exam", False):
+        topics = [exam_topic(exam_items, template), *topics]
 
     note = LectureNote(
         title=title, template_name=template.template_name, topics=topics,
-        meta=meta or {}, unit_labels=unit_labels or {},
+        meta=meta or {}, unit_labels=unit_labels or {}, ref_style=ref_style,
     )
     for t in topics:
         for s in t.sections.get("professor_emphasis", []):

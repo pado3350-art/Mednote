@@ -8,6 +8,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
+from .refs import format_refs
 from .markup import runs as _runs, strip as _strip
 from .models import LectureNote, Statement, ValidationReport
 from .template import Template
@@ -21,15 +22,8 @@ def _md(text: str) -> str:
     return "".join(f"**{t}**" if b else t for t, _, b in _runs(text))
 
 
-def source_tag(st: Statement, note: LectureNote | None = None) -> str:
-    if note is not None and note.unit_labels:
-        return " / ".join(note.unit_labels[r] for r in st.slide_refs if r in note.unit_labels)
-    bits = []
-    if st.slide_refs:
-        bits.append("PPT p." + ",".join(map(str, st.slide_refs)))
-    if st.time_ranges:
-        bits.append("음성 " + ",".join(st.time_ranges))
-    return " · ".join(bits)
+def source_tag(st: Statement, note: LectureNote) -> str:
+    return format_refs(st.slide_refs, note, st.time_ranges)
 
 
 def _set_font(run, name: str, size: float | None = None) -> None:
@@ -139,7 +133,7 @@ def export_docx(
         if report:
             for iss in report.issues:
                 if iss.severity != "info":
-                    where = f"[슬라이드 {iss.slide}] " if iss.slide else ""
+                    where = f"[{report.unit_names.get(iss.slide, f'슬라이드 {iss.slide}')}] " if iss.slide else ""
                     doc.add_paragraph(f"{iss.code} {where}{iss.message}", style="List Bullet")
 
     out = Path(out_path)

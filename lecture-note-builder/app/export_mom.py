@@ -19,6 +19,7 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
+from .refs import format_refs
 from .markup import runs
 from .models import LectureNote, Statement, Topic
 from .template import Template
@@ -103,15 +104,7 @@ def heading_text(i: int, t: Topic, tpl: Template) -> str:
 
 
 def source_tag(st: Statement, note: LectureNote) -> str:
-    if note.unit_labels:
-        labs = [note.unit_labels[r] for r in st.slide_refs if r in note.unit_labels]
-        return " / ".join(labs)
-    bits = []
-    if st.slide_refs:
-        bits.append("PPT p." + ",".join(map(str, st.slide_refs)))
-    if st.time_ranges:
-        bits.append("음성 " + ",".join(st.time_ranges))
-    return " · ".join(bits)
+    return format_refs(st.slide_refs, note, st.time_ranges)
 
 
 # --------------------------------------------------------------- statements

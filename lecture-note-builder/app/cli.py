@@ -29,6 +29,9 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--author")
     b.add_argument("--comment", help="작성자 코멘트 (use \\n for new lines)")
     b.add_argument("--exam-pdf", help="PAD(기출문제) PDF; 파랑 글씨는 여기 나온 내용에만 허용")
+    b.add_argument("--toc", choices=["ai", "heuristic", "unit"],
+                   help="목차 생성: ai(전체 흐름 판단, 기본: 스크립트 단독) / heuristic(오프라인) / unit(슬라이드별, PPTX 기본)")
+    b.add_argument("--outline-json", help="수정한 목차(outline.json)를 그대로 사용")
     b.add_argument("--no-pdf", action="store_true")
     a = ap.parse_args(argv)
     if not a.pptx and not a.script:
@@ -41,7 +44,7 @@ def main(argv: list[str] | None = None) -> int:
     meta = {k: v for k in ("date", "subject", "professor", "author") if (v := getattr(a, k))}
     if a.comment:
         meta["comment"] = a.comment.replace("\\n", "\n")
-    report, paths = run_pipeline(a.pptx, a.out, a.template, a.script, backend, a.title, meta, pdf=not a.no_pdf, exam_pdf=a.exam_pdf)
+    report, paths = run_pipeline(a.pptx, a.out, a.template, a.script, backend, a.title, meta, pdf=not a.no_pdf, exam_pdf=a.exam_pdf, toc=a.toc, outline_json=a.outline_json)
     for k, v in paths.items():
         print(f"{k:12s} {v}")
     print(f"coverage {report.slide_coverage:.0%}  errors {len(report.errors)}")

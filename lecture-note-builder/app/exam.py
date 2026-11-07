@@ -13,7 +13,7 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
-EXAM_BASE = 100  # PAD units are numbered 101, 102, ...
+EXAM_BASE = 1000  # PAD units are numbered 1001, 1002, ... (script paragraphs use 1..999)
 
 _HDR = re.compile(r"^\s*(\d{2})학번\s*\((\d{4})년\)\s*([^\s.(]+\s*교수님)\.?\s*(?:\((.+?)\))?\s*$")
 _ANS = re.compile(r"정답\s*[:：]?\s*(.+?)\s*$")

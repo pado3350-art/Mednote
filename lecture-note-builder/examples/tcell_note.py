@@ -2,6 +2,8 @@
 
 Written by Claude Code from the script's 21 units (20 time blocks + 검증 참고).
 Every statement carries `slide_refs` = unit numbers so the validator can trace it.
+The old time-block numbers are only used while authoring; they are remapped to script paragraph ids
+(¶) and PAD unit numbers, so the final note carries no time-block structure.
 Run:  python -m examples.tcell_note inputs/tcell_script.docx inputs/tcell_pad.pdf > outputs/tcell/note_authored.json
 Markup: {r|red} **blue** {g|gray} {p|purple} **bold**
 """
@@ -32,9 +34,11 @@ def topic(heading, units, body, tables=(), flags=()):
                  tables=list(tables), review_flags=list(flags))
 
 
-def build(schedule_rows, exam_items=()):
+def build(unit_ids, exam_items=()):
+    """unit_ids: {old block no. -> [paragraph ids]}; refs below use the old block numbers
+    (1..21) for speech and 101.. for PAD, and are remapped to real ids at the end."""
     T = []
-    EX = {it.number: it for it in exam_items}
+    EX = {100 + i: it for i, it in enumerate(sorted(exam_items, key=lambda x: x.number), start=1)}
 
     # ---------------------------------------------------------------- 0
     exam_units = sorted(EX)
@@ -90,8 +94,6 @@ def build(schedule_rows, exam_items=()):
                    col_widths_cm=[10.5, 3.0, 3.0]),
         SlideTable(rows=list_rows, caption="기출 문항 목록 (정답은 PAD 기재 기준). 본문 = 해당 내용이 있는 장",
                    col_widths_cm=[3.6, 8.2, 2.6, 2.1]),
-        SlideTable(rows=schedule_rows, caption="강의 시간대별 구성 (시간은 연습용 가상 타임스탬프)",
-                   col_widths_cm=[3.4, 10.2, 3.0]),
     ]))
 
     # ---------------------------------------------------------------- I
@@ -283,19 +285,45 @@ def build(schedule_rows, exam_items=()):
         P("{p|이 강의록은 실제 녹음이 아니라 '정리본 기반 가상 강의 스크립트'에서 만든 것입니다. 아래 사항을 확인하고 사용하세요.}", 21),
         B("전체 발화는 정리본의 주제 순서에 따라 새로 작성한 **가상 발화**이며 실제 표현·말투·강조의 재현이 아닙니다.", 21),
         B("인터페론 관련 세부 설명 중 일부는 원래 PPT에만 있고 강의에서 다루지 않았다고 표시됨 → 개념 연결 수준으로만 정리.", 21),
-        B("{p|CD1c와 invariant NKT cell의 연결}은 원자료 기재이나 일반적으로 대표 분자는 CD1d → 원자료와 대조 필요.", 21),
+        B("{p|CD1c와 invariant NKT cell의 연결}(정리본 12쪽 기재)은 원자료 기재이나 일반적으로 대표 분자는 CD1d → 원자료와 대조 필요.", 21),
         B("일부 숫자·연구 연도·용어는 독립 검증하지 않음. 최신 교과서·진료지침을 대체하지 않음.", 21),
-        B("표기된 시간 구간(가상 40분)은 편집 및 프로그램 테스트용 가상 타임스탬프.", 21),
+        B("스크립트의 시간 구간 표기(가상 40분)는 연습용 가상 타임스탬프라서 이 강의록의 구성에는 사용하지 않았고, 전체 흐름을 보고 목차를 새로 구성했습니다.", 21),
         B("{g|PAD(기출문제) 해설은 정리본 작성자의 코멘트이며 교수님 발언이 아닙니다. PAD 문항은 이전 담당 교수님 시절 것이 대부분이라 올해 출제 방향과 다를 수 있습니다.}", 101),
     ]))
-    return T
+    return _remap(T, unit_ids, EX)
+
+
+def _remap(topics, unit_ids, EX):
+    def one(r):
+        if r >= 100:
+            return [EX[r].number]
+        return unit_ids.get(r, [])
+
+    def refs(lst):
+        out = []
+        for r in lst:
+            for x in one(r):
+                if x not in out:
+                    out.append(x)
+        return sorted(out)
+
+    for t in topics:
+        t.slide_numbers = refs(t.slide_numbers)
+        for sts in t.sections.values():
+            for st in sts:
+                st.slide_refs = refs(st.slide_refs)
+    return topics
 
 
 if __name__ == "__main__":
     # usage: python -m examples.tcell_note <script.docx> <pad.pdf> > note_authored.json
     from app.exam import parse_exam_pdf
-    from app.transcript import read_docx_tables
+    from app.transcript import parse_structured_script, read_script_text
 
-    rows = read_docx_tables(sys.argv[1])[0]
+    _, units = parse_structured_script(read_script_text(sys.argv[1]))
+    ids, n = {}, 0
+    for u in units:  # same numbering as parse_flow_script: all paragraphs in order, 1-based
+        ids[u.number] = list(range(n + 1, n + 1 + len(u.paragraphs)))
+        n += len(u.paragraphs)
     items = parse_exam_pdf(sys.argv[2])
-    json.dump({"topics": [t.model_dump() for t in build(rows, items)]}, sys.stdout, ensure_ascii=False, indent=2)
+    json.dump({"topics": [t.model_dump() for t in build(ids, items)]}, sys.stdout, ensure_ascii=False, indent=2)

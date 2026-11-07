@@ -38,6 +38,13 @@ def validate(
     template: Template,
 ) -> ValidationReport:
     rep = ValidationReport()
+
+    def uname(n: int) -> str:
+        if n >= EXAM_BASE:
+            return note.unit_labels.get(n, f"PAD {n - EXAM_BASE}")
+        return f"발화 ¶{n}" if note.ref_style == "para" else f"슬라이드 {n}"
+
+    rep.unit_names = {s.number: uname(s.number) for s in slides}
     full = _norm(_note_text(note))
     by_slide = {s.number: s for s in slides}
     amap = {a.slide_number: a for a in aligned}
@@ -48,7 +55,7 @@ def validate(
     missing = sorted(set(by_slide) - covered)
     for n in missing:
         rep.issues.append(Issue(severity="error", code="SLIDE_MISSING", slide=n,
-                                message=f"슬라이드 {n}이(가) 강의록에 반영되지 않았습니다."))
+                                message=f"{uname(n)}이(가) 강의록에 반영되지 않았습니다."))
     rep.slide_coverage = 1 - len(missing) / len(by_slide) if by_slide else 1.0
 
     # 2. Numbers/units and key terms preserved
@@ -88,7 +95,7 @@ def validate(
                     continue
                 if any(r not in by_slide for r in st.slide_refs):
                     rep.issues.append(Issue(severity="error", code="BAD_REF", slide=None,
-                                            message=f"존재하지 않는 슬라이드 참조: {st.slide_refs}"))
+                                            message=f"존재하지 않는 출처 참조: {st.slide_refs}"))
                     continue
                 if st.kind == "star":  # short sub-headings carry no claim
                     continue
@@ -143,6 +150,6 @@ def report_markdown(rep: ValidationReport) -> str:
              f"- 오류 {len(rep.errors)} / 경고 {sum(i.severity=='warning' for i in rep.issues)}"
              f" / 참고 {sum(i.severity=='info' for i in rep.issues)}", ""]
     for i in sorted(rep.issues, key=lambda x: (x.slide or 0, x.severity)):
-        where = f"[슬라이드 {i.slide}] " if i.slide else ""
+        where = f"[{rep.unit_names.get(i.slide, f'슬라이드 {i.slide}')}] " if i.slide else ""
         lines.append(f"- {icon[i.severity]} `{i.code}` {where}{i.message}")
     return "\n".join(lines) + "\n"
