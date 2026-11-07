@@ -20,3 +20,6 @@ AFTER:  그래서 실제 우리 몸은 2가지 대비책을 둔다.. ① 한 사
 BEFORE: 이야기를 따라가려면 용어를 먼저 구분해 두어야 한다. **Polygenic**은 … 뜻이고, **polymorphic**은 … 뜻이다. 교수님은 “둘을 혼동하면 뒤의 설명이 어려워진다”고 경고하셨다. 여기에 하나가 더 있다. 한쪽 염색체 위에 모여서 함께 물려받는 MHC allele의 조합을 **haplotype**이라고 한다.
 AFTER:  Polygenic은 한 개체가 서로 다른 MHC 유전자를 여러 개 가진다는 뜻이고, polymorphic은 같은 유전자 자리라도 집단 안에 여러 형태의 allele이 존재한다는 뜻이다. 한쪽 염색체 위에 모여서 함께 물려받는 MHC allele의 조합은 haplotype이라고 한다.
 → rules 1, 3, 6.
+
+## Batch 2 — applied by Claude (not user-edited): rules 1-3 applied to all of tcell_v2
+Every '교수님은 ~라고 하셨다' framing and quoted professor line was turned into direct narration ('~하자', '~이다'); facts, marks and ¶ citations kept. If the user dislikes a result, their correction is the new ground truth.
