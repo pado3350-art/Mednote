@@ -5,6 +5,15 @@ description: Turn lecture material (script/transcript/slides) into an easy-to-st
 
 # Readable Note Organizer
 
+> ## ⛔ NON-NEGOTIABLE — BLUE = PAD(기출) ONLY, ALWAYS
+> **파란색 글씨는 PAD(파드, 기출문제 모음)에 실제로 기출된 내용에만 쓴다. 예외 없음.**
+> 1. If a PAD is provided, **every** point that appears in a PAD question, answer or explanation MUST be blue (`{b|...}`) **and** cite that PAD unit in `slide_refs` (>= 1000).
+>    This includes lines in the 기본정석 box (`basics` + `basics_refs`), 핵심 어휘, 요약 정리, tables and call-outs. If the lecture text never covers a PAD point, add it as a blue **Reference** line instead of dropping it.
+> 2. Blue is **never** used for anything else (no key-term highlighting, no "important" marking). Use **bold** for terms, red for lecturer emphasis, gray for low importance, purple for "needs checking".
+> 3. If no PAD is provided there is **no blue at all** in the note.
+> 4. PAD commentary (해설) was written by the handout author - it is not lecturer speech. Say so when it conflicts with the lecture, and flag with purple instead of "fixing" either side.
+> 5. Procedure: (a) list every PAD item, (b) find/create the note lines that express its answer and key explanation, (c) colour them blue and cite them, (d) run the validator: `BLUE_WITHOUT_PAD`, `PAD_NOT_BLUE` are errors and `PAD_UNUSED` is a warning - fix all of them before delivering.
+
 Goal: a student can study from the note alone. **Nothing from the source is dropped, but nothing is copied as dictation either.**
 The reference is `references/excellent_example.md` (a high-rated MOM note for the same kind of lecture); imitate its structure and tone.
 
@@ -34,7 +43,7 @@ Front pages: **핵심 어휘** (one-line definitions of the key terms, easy word
 ## 4. Colour / emphasis (inline markup)
 - `{r|...}` RED: what the lecturer stressed or said is on the exam ("꼭", "중요", "시험에", "외워").
 - `{g|...}` GRAY: low importance / only mentioned briefly / "언급 안 함" remarks.
-- `{b|...}` BLUE: **only** content that actually appeared in the PAD (기출문제). Needs a PAD citation (`slide_refs` >= 1000). Never for generic emphasis - use **bold**.
+- `{b|...}` BLUE: **only** content that appeared in the PAD (기출문제) - see the non-negotiable rule at the top.
 - `{p|...}` PURPLE: uncertain, conflicts with a reference, or needs checking. Never silently "fix" the lecturer; flag it.
 - `**bold**` key terms and the thing being defined.
 

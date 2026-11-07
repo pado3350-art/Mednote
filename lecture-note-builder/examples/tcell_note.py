@@ -37,9 +37,9 @@ def REF(text, *refs):
     return P(text, *refs, kind="reference")
 
 
-def T(heading, chapter, units, body, basics_title="", basics=(), tables=(), flags=(), role="body"):
+def T(heading, chapter, units, body, basics_title="", basics=(), tables=(), flags=(), role="body", basics_refs=()):
     return Topic(heading=heading, chapter=chapter, role=role, slide_numbers=list(units),
-                 basics_title=basics_title, basics=list(basics), sections={"body": body},
+                 basics_title=basics_title, basics=list(basics), basics_refs=list(basics_refs), sections={"body": body},
                  tables=list(tables), review_flags=list(flags))
 
 
@@ -71,23 +71,25 @@ def build(unit_ids, exam_items=()):
     ], role="front"))
 
     # ======================================================= 요약 정리
-    top.append(T("요약 정리", "", [1, 3, 4, 5, 7, 8, 9, 11, 13, 15, 18, 19, 20], [
+    top.append(T("요약 정리", "", [1, 3, 4, 5, 7, 8, 9, 11, 12, 13, 15, 18, 19, 20], [
         STAR("Human MHC의 구조", 3, 4, 5),
         B("{r|6번 염색체}에 위치 (생쥐 H-2는 17번 염색체)", 3, 4),
-        B("Class I : {r|HLA-A, B, C} — 1개씩 / Class I region에 있지만 class Ib : {r|HLA-E, F, G}", 3, 5),
-        B("Class II : {r|HLA-DR, DP, DQ} — α·β chain 한 쌍씩 (DM, DO는 classical class II가 아님)", 3, 4),
+        B("{b|Class I : HLA-A, B, C — 1개씩 / Class II : HLA-DR, DP, DQ — α·β chain 한 쌍씩 (1글자 = class I, 2글자 = class II)}", 3, 103),
+        B("Class I region에 있지만 class Ib : {r|HLA-E, F, G} / DM, DO는 classical class II가 아님", 4, 5),
         STAR("Polymorphism & polygeny", 7, 8, 9),
         B("Polymorphism : 같은 자리의 allele 종류가 엄청 많다 / Polygeny : 동시에 발현되는 유전자 수가 많다 (공동우성)", 7),
-        B("{r|Class I이 class II보다 다형성이 크다.} class I은 B>A>C, class II는 DRB>DQB>DPB (α보다 β가 크다)", 8),
+        B("{b|Class I이 class II보다 다형성이 크다. class I은 B>A>C, class II는 DRB>DQB>DPB (α보다 β가 크다)}", 8, 101, 104, 105, 109),
         B("다양성은 {r|gene conversion}으로 얻어지고, peptide 결합 부위(class I α1·α2 / class II β1)에 몰려 있다", 9),
         STAR("MHC restriction", 11, 13, 15),
         B("T세포는 {r|자기 MHC + 자기에게 맞는 peptide}가 있어야 반응한다", 11),
+        B("{b|restriction 적용 = adoptive T cell therapy / 예외 = alloresponse, transplantation, superantigen}", 12, 13, 15, 113, 116),
         B("예외 1) alloresponse : alloreactive T cell(전체의 1~10%)이 타인 MHC에 반응 — 장기이식 거부", 13),
         B("예외 2) superantigen : 박테리아·바이러스 유래, TCR과 MHC에 모두 결합해 비특이적으로 강하게 활성화", 15),
         STAR("Class Ib molecule", 18, 19, 20),
         B("Class I과 비슷하지만 {r|unconventional T cell과 NK cell}을 자극하는 역할", 18),
-        B("HLA-C(class I이면서 Ib), HLA-E/F/G : NK cell inhibition, MIC-A/B", 18),
-        B("{r|CD1} : lipid 항원 제시 → NKT cell이 인식 / FcRn : 엄마 → 태아 IgG 전달", 19),
+        B("{b|HLA-C(class I이면서 Ib, KIR로 NK 억제), HLA-E(NKG2A·C로 NK 억제, T cell에 항원 제시 안 함), MIC-A/B ↔ NKG2D}", 5, 18, 106, 107, 111, 112, 114, 115, 117),
+        B("{r|CD1} : lipid 항원 제시 / FcRn : 엄마 → 태아 IgG 전달", 19),
+        B("{b|CD1c → NKT cell(invariant NKT)을 활성화, CD1c가 제시하는 것은 lipid}", 19, 102),
         B("γδ T cell : 다양한 ligand를 인식 / MAIT : 선천면역과 적응면역 사이의 ‘transitional’ 세포", 20),
     ], role="front"))
 
@@ -130,9 +132,9 @@ def build(unit_ids, exam_items=()):
             "{g|모든 조절 경로를 외울 필요는 없고, 항원제시 분자만 따로 만들어지는 것이 아니라 가공과 제시에 필요한 여러 구성요소가 연동되어 조절된다는 큰 흐름만 잡으면 된다.}", 6),
     ], basics_title="MHC의 유전자 구성", basics=[
         "사람 MHC(HLA)는 6번 염색체에 있고, 한 영역 안에 class I / II / III 유전자가 모여 있다.",
-        "Class I = HLA-A, B, C (다리 하나짜리) / Class II = HLA-DR, DP, DQ (α·β chain 쌍, 다리 두 개짜리).",
+        "{b|Class I = HLA-A, B, C (다리 하나짜리, 1글자) / Class II = HLA-DR, DP, DQ (α·β chain 쌍, 다리 두 개짜리, 2글자).}",
         "같은 영역에 DM, DO, TAP, proteasome, TNF, MIC-A/B가 함께 있고, HLA-E, F, G는 class I region에 있지만 class Ib이다.",
-    ], flags=["인터페론 관련 세부 내용은 원자료에서 일부가 PPT에만 있고 강의에서는 다루지 않았다고 표시됨 → 개념 연결 수준으로만 정리 (부록 참고)."]))
+    ], basics_refs=[103], flags=["인터페론 관련 세부 내용은 원자료에서 일부가 PPT에만 있고 강의에서는 다루지 않았다고 표시됨 → 개념 연결 수준으로만 정리 (부록 참고)."]))
 
     # ======================================================= Ch 1 · § 2
     top.append(T("MHC의 특성", CH1, [7, 8, 9, 10], [
@@ -166,8 +168,8 @@ def build(unit_ids, exam_items=()):
     ], basics_title="MHC의 특징", basics=[
         "Polymorphism(다형성) : 같은 유전자 자리에 사람마다 가질 수 있는 allele이 매우 다양하다. Polygeny : 한 사람이 여러 MHC 유전자를 갖고 함께(codominant) 발현한다.",
         "다형성은 peptide 결합 부위에 몰려 있다 — class I은 α1·α2, class II는 β1(β chain).",
-        "Class I이 class II보다 다형성이 크고(B>A>C / DRB>DQB>DPB), 다양성은 gene conversion에서 비롯된다.",
-    ], tables=[SlideTable(rows=[
+        "{b|Class I이 class II보다 다형성이 크고(B>A>C / DRB>DQB>DPB)}, 다양성은 gene conversion에서 비롯된다.",
+    ], basics_refs=[101, 104, 105, 109], tables=[SlideTable(rows=[
         ["구분", "Polygeny", "Polymorphism"],
         ["의미", "한 개체 안의 서로 다른 MHC 유전자 여러 개", "같은 유전자 자리의 집단 내 allele 다양성"],
         ["예", "HLA-A, HLA-B, HLA-C ...", "HLA-B 하나에도 다양한 allele"],
@@ -217,10 +219,10 @@ def build(unit_ids, exam_items=()):
           "자가 반응성과 적절한 면역 반응 사이에 **균형**이 필요하며, 정리본은 많은 MHC 유전자와 T세포 교육의 부담 사이에서 균형이 형성되었다고 설명한다.", 17),
         P("{g|여기까지는 고전적 MHC와 peptide 항원 이야기였다. 이어지는 장은 이 틀로 설명하기 어려운 인식 방식(class Ib, nonclassical MHC, MHC-like molecule)이며, 분류 용어는 자료마다 조금 다르니 기능을 함께 보자.}", 17),
     ], basics_title="MHC restriction", basics=[
-        "T세포는 자신의 MHC에 국한된 반응을 한다 : TCR이 특이적인 peptide + 자기 MHC가 함께 있어야 인식한다.",
+        "T세포는 자신의 MHC에 국한된 반응을 한다 : TCR이 특이적인 peptide + 자기 MHC가 함께 있어야 인식한다. {b|adoptive T cell therapy는 restriction 적용, alloresponse·transplantation·superantigen은 예외.}",
         "예외 ① Alloresponse : 타인 MHC에 반응하는 alloreactive T cell(전체의 1~10%) 때문에 장기이식 거부반응이 생긴다.",
         "예외 ② Superantigen : peptide 처리 없이 TCR과 MHC class II에 모두 결합해 비특이적으로 강하게 활성화한다.",
-    ], tables=[SlideTable(rows=[
+    ], basics_refs=[113, 116], tables=[SlideTable(rows=[
         ["", "일반 항원 (peptide)", "Superantigen"],
         ["MHC와의 결합", "결합 홈에 peptide가 위치", "일반적인 peptide 처리·결합 방식과 다름 (MHC class II와 TCR을 연결)"],
         ["T세포 반응", "특정 TCR이 복합체를 인식 → 항원 특이적", "많은 T세포 동시 활성화 → 비특이적"],
@@ -248,9 +250,9 @@ def build(unit_ids, exam_items=()):
         ADV("Class Ib는 antigen presentation을 하기도 하지만(HLA-C 등) NK cell inhibition(경우에 따라 activation) 같은 **서로 다른 기능**을 한다. 한 가지 역할로 외우지 말 것.", 18),
     ], basics_title="Class Ib molecule", basics=[
         "MHC class I gene family에 속하지만 unconventional T cell과 NK cell을 자극할 수 있는 ligand를 class Ib molecule이라고 한다.",
-        "HLA-E / F / G가 class Ib에 속한다 (HLA-C는 class I이면서 Ib).",
+        "{b|HLA-E / F / G가 class Ib에 속한다 (HLA-E는 NK 억제, HLA-C는 class I이면서 Ib).}",
         "CD1 molecule은 peptide가 아닌 lipid를 제시한다 (§ 2).",
-    ], tables=[SlideTable(rows=[
+    ], basics_refs=[115, 117, 106, 111, 114], tables=[SlideTable(rows=[
         ["분자", "기억할 점"],
         ["HLA-C", "class I이면서 class Ib로도 분류 — NK cell 수용체와 상호작용"],
         ["HLA-E / F", "NK cell 억제 경로와 연결 (class Ib)"],
@@ -272,9 +274,9 @@ def build(unit_ids, exam_items=()):
         ADV("MHC class Ib 중에는 MHC 영역이 아닌 곳(다른 염색체)에서 만들어지는 것도 있다. CD1과 FcRn 두 가지만 기억해도 충분하다.", 19),
     ], basics_title="non-MHC encoded class Ib molecule", basics=[
         "MHC 유전자 영역 밖(다른 염색체)에서 만들어지는 MHC-like 분자들이다.",
-        "CD1 (a~e) : peptide가 아닌 lipid / glycolipid 항원을 제시한다 — 국가시험에 자주 나온다.",
+        "CD1 (a~e) : peptide가 아닌 lipid / glycolipid 항원을 제시한다 — 국가시험에 자주 나온다. {b|CD1c → NKT cell}",
         "FcRn : 엄마에게서 태아로 IgG를 전달한다 (전형적 항원제시와는 다른 기능).",
-    ]))
+    ], basics_refs=[102]))
 
     # ======================================================= Ch 2 · § 3
     top.append(T("γδ T cell, MAIT와 마무리", CH2, [20], [
@@ -302,6 +304,7 @@ def build(unit_ids, exam_items=()):
         B("{p|CD1c와 invariant NKT cell의 연결}(정리본 12쪽 기재)은 원자료 기재이나 일반적으로 대표 분자는 CD1d → 원자료와 대조 필요.", 21),
         B("일부 숫자·연구 연도·용어는 독립 검증하지 않음. 최신 교과서·진료지침을 대체하지 않음.", 21),
         B("스크립트의 시간 구간 표기(가상 40분)는 연습용 가상 타임스탬프라서 이 강의록의 구성에는 사용하지 않았고, 전체 흐름을 보고 목차를 새로 구성했습니다.", 21),
+        B("{g|PAD의 2009년(07학번) 문항은 시험지 스캔 이미지라 문항 내용을 확인할 수 없어 본문에 반영하지 못했습니다(정답 3번만 기록됨).}", 118),
         B("{g|PAD(기출문제) 해설은 정리본 작성자의 코멘트이며 교수님 발언이 아닙니다. PAD 문항 대부분은 이전 담당 교수님 시절 것이라 올해 출제 방향과 다를 수 있습니다.}", 101),
     ]))
     return _remap(top, unit_ids, EX)
@@ -323,6 +326,7 @@ def _remap(topics, unit_ids, EX):
 
     for t in topics:
         t.slide_numbers = refs(t.slide_numbers)
+        t.basics_refs = refs(t.basics_refs)
         for sts in t.sections.values():
             for st in sts:
                 st.slide_refs = refs(st.slide_refs)

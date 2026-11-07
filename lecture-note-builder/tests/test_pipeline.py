@@ -324,7 +324,7 @@ def test_blue_only_for_exam(tmp_path, monkeypatch):
     rep, _ = _exam_run(tmp_path, monkeypatch,
                        [Topic(heading="0. t", slide_numbers=units, sections={"body": [base, ok, bad, unmarked]})])
     codes = [(i.code, i.severity) for i in rep.issues]
-    assert ("BLUE_WITHOUT_PAD", "error") in codes and ("PAD_NOT_BLUE", "warning") in codes
+    assert ("BLUE_WITHOUT_PAD", "error") in codes and ("PAD_NOT_BLUE", "error") in codes
     assert sum(1 for c, _ in codes if c == "BLUE_WITHOUT_PAD") == 1  # the PAD-cited blue statement is fine
 
 
@@ -371,7 +371,7 @@ def test_no_exam_section_by_default_but_blue_still_checked(tmp_path, monkeypatch
     note = json.loads(paths["note"].read_text(encoding="utf-8"))
     assert not any(t["heading"].startswith("0. 기출") for t in note["topics"])
     assert not rep.errors and rep.slide_coverage == 1.0
-    assert {i.code for i in rep.issues if i.severity == "info"} >= {"PAD_UNUSED"}  # PAD not echoed, not an error
+    assert {i.code for i in rep.issues if i.severity == "warning"} >= {"PAD_UNUSED"}  # PAD not echoed: warning, not an error
     bad = Statement(text="{b|파랑인데 기출 아님}", slide_refs=[1])
     rep2, _ = _exam_run(tmp_path / "x" if (tmp_path / "x").mkdir() is None else tmp_path, monkeypatch,
                         [Topic(heading="t", slide_numbers=[1, 2, 3, 4], sections={"body": [
@@ -480,3 +480,66 @@ def test_example_notes_have_no_markup_leaks():
     for f in ("tcell_note.py", "limbic_note.py"):
         src = (_P(__file__).resolve().parent.parent / "examples" / f).read_text(encoding="utf-8")
         assert not _re.search(r'(?<!\*)\*(?!\*)[^*\n"]+?(?<!\*)\*(?!\*)', src), f
+
+
+def test_pad_cited_statement_must_be_blue_and_box_rule(tmp_path, monkeypatch):
+    from app.exam import EXAM_BASE as X
+    from app.models import Statement, Topic
+
+    units = [1, 2, 3, 4, X + 1, X + 2, X + 3, X + 4]
+    base = Statement(text=BODY, slide_refs=[1, 2, 3, 4])
+    red_only = Statement(text="{r|PAD 내용인데 파랑이 아님}", slide_refs=[2, X + 1])
+    gray_meta = Statement(text="{g|PAD 해설은 작성자 코멘트}", slide_refs=[X + 1])
+    t = Topic(heading="t", slide_numbers=units, basics=["{b|박스 파랑}"], sections={"body": [base, red_only, gray_meta]})
+    rep, _ = _exam_run(tmp_path, monkeypatch, [t], tpl=MOM)
+    errs = [(i.code, i.message) for i in rep.errors]
+    assert any(c == "PAD_NOT_BLUE" and "PAD 내용인데" in m for c, m in errs)      # red-only PAD statement: error
+    assert not any("작성자 코멘트" in m for _, m in errs)                          # gray meta is allowed
+    assert any(c == "BLUE_WITHOUT_PAD" and "기본정석" in m for c, m in errs)        # blue box line without basics_refs
+
+    t.basics_refs = [X + 1]
+    rep2, _ = _exam_run(tmp_path / "b" if (tmp_path / "b").mkdir() is None else tmp_path, monkeypatch, [t], tpl=MOM)
+    assert not any("기본정석" in i.message for i in rep2.errors)
+
+
+def test_skill_has_non_negotiable_blue_rule():
+    from pathlib import Path as _P
+
+    txt = (_P(__file__).resolve().parent.parent / ".claude/skills/readable-note-organizer/SKILL.md").read_text(encoding="utf-8")
+    head = txt[: txt.index("## 1.")]
+    assert "NON-NEGOTIABLE" in head and "BLUE = PAD" in head and "PAD_NOT_BLUE" in head
+
+
+def test_exam_parser_limbic_style():
+    from app.exam import EXAM_BASE, parse_exam_text
+
+    txt = """- 1 -
+ 20학번 김인범교수님
+ (작성자 코멘트 : x)
+53. 편도핵과 고위감각겉질영역 사이의 연결이 비정상일 때 문제는?
+① 중심핵 ② 바닥가쪽핵
+
+답: 5
+ 해설: basolateral 은 고위 연합 입력
+
+서술형 9. 시상과의 연결통로를 서술하시오.
+Septal nucleus
+답 :
+
+Amygdala : ventral amygdalofugal pathway
+- 2 -
+ 18학번 김인범교수님
+21. Septal area와 연결되는 신경을 모두 고르시오.
+1) fornix
+2) medial lemniscus
+    정답 : 1, 3
+    해설
+ 1. Papez 회로
+ 2. 다른 설명
+"""
+    it = parse_exam_text(txt)
+    assert [(i.cohort, i.year, i.q_no) for i in it] == [("20학번", 0, 53), ("20학번", 0, 9), ("18학번", 0, 21)]
+    assert it[0].answer == "5" and "basolateral" in it[0].commentary
+    assert it[1].question.startswith("[서술형]") and it[1].answer.startswith("Amygdala")
+    assert it[2].answer == "1, 3" and "Papez" in it[2].commentary  # numbered commentary is not a new question
+    assert it[0].label == "PAD 20학번 Q53" and it[0].number == EXAM_BASE + 1

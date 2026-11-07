@@ -77,6 +77,7 @@ class Topic(BaseModel):
     role: Literal["body", "front"] = "body"  # front = 핵심 어휘 / 요약 정리 pages (not in the TOC)
     basics_title: str = ""  # 기본정석 box title
     basics: list[str] = Field(default_factory=list)  # 기본정석 box: 2-4 core points of the §
+    basics_refs: list[int] = Field(default_factory=list)  # sources of the box; PAD units here allow BLUE inside it
     slide_numbers: list[int]
     # template section key -> statements
     sections: dict[str, list[Statement]] = Field(default_factory=dict)

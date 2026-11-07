@@ -54,11 +54,15 @@ def validate(
     covered = {n for t in note.topics for n in t.slide_numbers}
     missing = sorted(set(by_slide) - covered)
     content_total = sum(1 for n in by_slide if n < EXAM_BASE)
+    cited_pad = {r for t in note.topics for sts in t.sections.values() for st in sts for r in st.slide_refs if r >= EXAM_BASE}
+    cited_pad |= {r for t in note.topics for r in t.basics_refs if r >= EXAM_BASE}
     for n in missing:
+        if n >= EXAM_BASE and not template.format.exam_section and n in cited_pad:
+            continue  # reflected as blue statements
         if n >= EXAM_BASE and not template.format.exam_section:
             # PAD is only a colour reference when there is no standalone 기출 section
-            rep.issues.append(Issue(severity="info", code="PAD_UNUSED", slide=n,
-                                    message=f"{uname(n)} 문항 내용은 본문에 인용되지 않았습니다."))
+            rep.issues.append(Issue(severity="warning", code="PAD_UNUSED", slide=n,
+                                    message=f"{uname(n)} 문항 내용이 본문에 파랑으로 반영되지 않았습니다 (기출은 빠짐없이 표시해야 함)."))
             continue
         rep.issues.append(Issue(severity="error", code="SLIDE_MISSING", slide=n,
                                 message=f"{uname(n)}이(가) 강의록에 반영되지 않았습니다."))
@@ -115,21 +119,33 @@ def validate(
                                             slide=st.slide_refs[0],
                                             message=f"원본과 유사도가 낮은 문장(근거 확인 필요): '{_strip_markup(st.text)[:40]}…'"))
 
-    # 4b. Colour rule: BLUE = 기출 only. Blue text must cite a PAD unit; PAD-cited
-    #     content (non-heading) should be blue.
+    # 4b. Colour rule (NON-NEGOTIABLE): BLUE = content that appeared in the PAD (기출) - nothing else.
+    #     * blue text must cite a PAD unit;  * a statement citing a PAD unit must be blue
+    #       (unless it is purely gray/purple meta commentary);  * the 기본정석 box follows the same rule.
+    def _is_blue(text: str, tag: str = "normal") -> bool:
+        return tag == "exam" or any(c == "exam" for _, c, _ in _runs(text))
+
     for t in note.topics:
         for sts in t.sections.values():
             for st in sts:
                 has_pad = any(r >= EXAM_BASE for r in st.slide_refs)
-                blue = st.tag == "exam" or any(c == "exam" for _, c, _ in _runs(st.text))
+                blue = _is_blue(st.text, st.tag)
                 if blue and not has_pad:
                     rep.issues.append(Issue(severity="error", code="BLUE_WITHOUT_PAD",
                                             slide=st.slide_refs[0] if st.slide_refs else None,
-                                            message=f"파랑은 기출 내용 전용인데 PAD 출처가 없습니다: '{_strip_markup(st.text)[:40]}…'"))
-                if has_pad and st.kind != "star" and st.tag == "normal" and not any(c for _, c, _ in _runs(st.text)):
-                    rep.issues.append(Issue(severity="warning", code="PAD_NOT_BLUE",
+                                            message=f"파랑은 기출(PAD) 내용 전용인데 PAD 출처가 없습니다: '{_strip_markup(st.text)[:40]}…'"))
+                meta_only = st.tag in ("minor", "verify") or all(
+                    c in ("minor", "verify") for _, c, _ in _runs(st.text) if c)  and any(c for _, c, _ in _runs(st.text))
+                if has_pad and not blue and st.kind != "star" and not meta_only:
+                    rep.issues.append(Issue(severity="error", code="PAD_NOT_BLUE",
                                             slide=st.slide_refs[0],
-                                            message=f"기출(PAD) 출처 문장이 파랑 표시되지 않았습니다: '{_strip_markup(st.text)[:40]}…'"))
+                                            message=f"기출(PAD)에 나온 내용은 반드시 파랑이어야 합니다: '{_strip_markup(st.text)[:40]}…'"))
+        has_pad_box = any(r >= EXAM_BASE for r in t.basics_refs)
+        for line in t.basics:
+            if _is_blue(line) and not has_pad_box:
+                rep.issues.append(Issue(severity="error", code="BLUE_WITHOUT_PAD",
+                                        slide=t.slide_numbers[0] if t.slide_numbers else None,
+                                        message=f"기본정석 박스의 파랑에 PAD 출처(basics_refs)가 없습니다: '{_strip_markup(line)[:40]}…'"))
 
     # 4c. Unrendered markup (stray '*' or '{x|') would show up literally in the document
     for t in note.topics:

@@ -2,11 +2,13 @@
 
 Same rules as examples/tcell_note.py (readable-note-organizer): all content kept, reorganised for
 understanding; chapters with § sections, 기본정석 boxes, Advice / Reference call-outs, 핵심 어휘 and
-요약 정리 pages. No PAD was provided for this lecture, so there is no blue text and no exam section.
+요약 정리 pages. The PAD (기출) PDF is used ONLY for BLUE text (non-negotiable rule): everything that
+appeared in a PAD question/answer/explanation is blue and cites its PAD unit; no standalone exam section.
+PAD units are authored as local numbers 101.. (= order of the parsed items) and remapped.
 
 Authoring uses the script's 20 time blocks (+ 21 = closing remarks) only as reference numbers; they are
 remapped to paragraph ids (¶), so the final note carries no time-block structure.
-Run:  python -m examples.limbic_note inputs/limbic_script.docx > outputs/limbic/note_authored.json
+Run:  python -m examples.limbic_note inputs/limbic_script.docx inputs/limbic_pad.pdf > outputs/limbic/note_authored.json
 """
 import json
 import sys
@@ -19,7 +21,10 @@ CH2 = "Septal region & Nucleus accumbens"
 CH3 = "해부 실습 구조"
 
 
-def build(unit_ids):
+def build(unit_ids, exam_items=()):
+    # local PAD numbers: 101=20학번 Q53, 102=20 서술형9, 103=19 Q29, 104=19 Q31, 105=19 Q32, 106=18 Q21,
+    # 107=18 Q25, 108=17 Q4, 109=17 Q3, 110=14 Q2, 111=12 Q1, 112=12 Q3, 113=12 Q4
+    EX = {100 + i: it for i, it in enumerate(sorted(exam_items, key=lambda x: x.number), start=1)}
     top = []
 
     # ---------------------------------------------------------------- 핵심 어휘
@@ -41,14 +46,14 @@ def build(unit_ids):
     top.append(T("요약 정리", "", [1, 2, 3, 4, 7, 12, 14, 15, 16, 18, 19], [
         STAR("편도체복합체", 2, 3, 19),
         B("{r|uncus 안쪽}에 위치, 핵군은 **basolateral / corticomedial** 두 그룹", 2, 19),
-        B("Basolateral : 대뇌 광범위 / Corticomedial : **후각계** / Central nucleus : hypothalamus·brainstem", 3, 19),
+        B("{b|Basolateral : 대뇌 광범위, 고위 연합 입력 / Corticomedial : 후각계(olfactory bulb) / Central nucleus : brainstem (afferent = 통증, efferent = 부교감 신경핵)}", 3, 19, 101, 103, 107, 111, 112),
         B("대표 기능 {r|fear (공포)}", 3, 19),
         STAR("Afferent / Efferent", 4, 7, 19),
         B("Afferent(들어옴) : basolateral ← cortical input, dorsal thalamus, subiculum / corticomedial ← olfactory bulb·primary olfactory cortex, dorsal thalamus, hypothalamus", 4),
         B("Efferent(나감) : {r|stria terminalis} (→ septal nuclei, hypothalamus, nucleus accumbens septi), **ventral amygdalofugal pathway** (주요 경로)", 7, 19),
+        B("{b|stria terminalis = corticomedial nuclei의 efferent fiber / 편도체 ↔ 시상 연결통로 = ventral amygdalofugal pathway, afferent fibers to amygdaloid complex}", 8, 9, 105, 102),
         STAR("Septal nuclei — 네 곳과 연결", 12, 19),
-        B("Hippocampus — precommissural fornix / Habenular nuclei — stria medullaris thalami", 12),
-        B("Amygdala — stria terminalis 또는 ventral amygdalofugal pathway / VTA·hypothalamus — medial forebrain bundle", 12),
+        B("{b|Hippocampus — fornix / Habenular nuclei — stria medullaris thalami / Amygdala — stria terminalis, ventral amygdalofugal pathway / VTA·hypothalamus — medial forebrain bundle (교수님 강조, 반복 출제)}", 12, 106, 108, 109, 113),
         STAR("Nucleus accumbens", 14, 15, 16),
         B("위치 : caudate head와 putamen이 이어지는 앞쪽 / {r|addiction (중독)}, dopamine과 관련", 14, 16),
         B("들어옴 : amygdala, hippocampus, VTA / 나감 : hypothalamus, brainstem, globus pallidus", 15),
@@ -73,19 +78,23 @@ def build(unit_ids):
         P("핵군을 이 수업에서는 **두 그룹**으로 정리한다.", 2),
         B("**Basolateral nuclei**", 2),
         B("**Cortical (medial) nuclei** — central nucleus는 따로 떼지 않고 corticomedial 쪽과 함께 묶어 생각한다.", 2),
+        B("{b|기출 해설은 편도체를 basolateral · corticomedial · central의 3가지로 나누어 설명한다 (이 수업은 central을 corticomedial과 묶은 2그룹 분류).}", 2, 101, 103),
         ADV("핵군을 나누는 방식은 책이나 학자에 따라 다르다. central nucleus를 따로 떼어 **세 그룹**으로 설명하는 경우도 있지만, 이 수업에서는 {r|두 그룹}으로 가져가자. 이 분류가 뒤의 연결 경로를 이해하는 기준이 된다.", 2),
         STAR("두 그룹은 각각 무엇과 연결될까?", 3),
         B("**Basolateral nuclei** : 대뇌의 상당히 광범위한 부분과 연결 → 다양한 감각 정보와 대뇌피질 정보를 통합하는 쪽.", 3),
         B("**Cortical (medial) nuclei** : 후각계(olfactory system)와 밀접하게 연결 — 지난 시간에 배운 olfactory bulb, primary olfactory cortex와 이어진다.", 3),
         B("**Central nucleus** : hypothalamus, brainstem nuclei와 연결 → 자율신경·내장 기능과 관련된 반응.", 3),
+        B("{b|기출 : 편도체와 고위 감각 겉질(higher-order sensory area)의 연결 이상 → 일차적으로 문제가 생기는 곳 = basolateral nuclei (고위 연합 입력, 대뇌와 광범위한 연결). 같은 문제가 2회 출제됨}", 3, 101, 103),
+        B("{b|기출 : 뇌줄기·뇌하수체의 자율신경 조절핵과 관련된 limbic 구조 = central amygdala(central nucleus). 해설 : 내장 기능과 관련된 뇌줄기핵과 연결 — afferent = 통증, efferent = 부교감 신경핵 (‘central nucleus는 뇌줄기 부교감 신경핵과 연결’도 정답 선지)}", 3, 107, 110),
         STAR("편도체의 기능", 3),
         P("편도체의 기능은 fear, endocrine activity(내분비), sexual behavior, 음식물 섭취, emotion-related learning 등이 있다. 이 가운데 가장 기본이면서 꼭 기억할 것은 "
           "{r|fear(공포)}이다. 의과대학을 졸업한 뒤에도 ‘편도체 = 공포’ 연결은 기억해야 한다.", 3),
+        B("{b|기출 : amygdaloid nucleus 이상과 관련된 질환이 아닌 것 = anterograde amnesia (해마 이상으로 장기기억이 형성되지 않는 질환). docility, hyperorality, hypersexuality는 편도체 이상과 관련된 선지로 출제 (PAD 해설 : 직접 배우지는 않음)}", 3, 104),
     ], basics_title="편도체복합체", basics=[
         "편도체(amygdala)는 uncus 안쪽에 있고, 하나의 핵이 아니라 여러 핵으로 이루어진 complex이다.",
-        "이 수업에서는 핵군을 basolateral nuclei와 cortical(medial) nuclei 두 그룹으로 나누고, central nucleus는 corticomedial 쪽과 묶어 본다.",
+        "이 수업에서는 핵군을 basolateral nuclei와 cortical(medial) nuclei 두 그룹으로 나누고, central nucleus는 corticomedial 쪽과 묶어 본다. {b|기출 : 고위 감각 겉질과의 연결 = basolateral, central nucleus = 뇌줄기 부교감 신경핵과 연결.}",
         "대표 기능은 fear(공포) — endocrine activity, sexual behavior, 음식물 섭취, emotion-related learning도 담당한다.",
-    ], tables=[SlideTable(rows=[
+    ], basics_refs=[101, 103, 107, 110], tables=[SlideTable(rows=[
         ["핵군", "연결되는 곳", "의미"],
         ["Basolateral nuclei", "대뇌의 광범위한 부분", "감각·대뇌피질 정보를 통합"],
         ["Cortical (medial) nuclei", "후각계 (olfactory bulb, primary olfactory cortex)", "후각 정보와 밀접"],
@@ -108,6 +117,7 @@ def build(unit_ids):
         B("**Hypothalamus** — ventromedial nucleus, lateral hypothalamic area", 5),
         B("**Central nucleus의 연결** : 내장 기능·통증 조절과 연관된 뇌줄기 구조 — parabrachial nuclei, solitary nucleus, periaqueductal gray (지난 시간 pain control과 연결)", 5),
         ADV("‘**후각**’이라는 말을 들으면 바로 **corticomedial group**이라고 대답할 수 있어야 한다. 핵심 대비 : {r|basolateral = 광범위한 cortical input / corticomedial = olfactory input}.", 5),
+        B("{b|기출 : corticomedial nuclei는 olfactory bulb로부터 신호를 받는다 (primary olfactory cortex의 일부). basolateral은 고위 연합 입력(대뇌와 광범위한 연결)을 받는다.}", 5, 101, 111, 112),
         STAR("그림으로 확인하기", 6),
         P("글로만 보면 헷갈리니 그림으로 확인한다. 그림에서 **파란 쪽은 basolateral group으로 들어오는 경로**, **붉은 쪽은 corticomedial group**에 대응한다. "
           "색깔을 외우기보다 어디서 출발한 정보가 어느 핵군으로 도착하는지를 보자.", 6),
@@ -118,8 +128,8 @@ def build(unit_ids):
     ], basics_title="Afferent fibers to amygdaloid complex", basics=[
         "Afferent = 들어오는 경로, efferent = 나가는 경로. 방향을 뒤집지 말 것.",
         "Basolateral group : 대뇌 광범위 → cortical input(prefrontal, cingulate, parahippocampal, temporal, insular), dorsal thalamus, subiculum.",
-        "Corticomedial group : 후각계(olfactory bulb, primary olfactory cortex) + dorsal thalamus + hypothalamus. Central nucleus는 parabrachial nuclei, solitary nucleus, periaqueductal gray와 연결.",
-    ], tables=[SlideTable(rows=[
+        "{b|Corticomedial group : 후각계(olfactory bulb에서 직접 입력, primary olfactory cortex)}를 받고 dorsal thalamus + hypothalamus에서도 받는다. Central nucleus는 parabrachial nuclei, solitary nucleus, periaqueductal gray와 연결.",
+    ], basics_refs=[111, 112], tables=[SlideTable(rows=[
         ["", "Basolateral group", "Corticomedial group"],
         ["정보의 성격", "somatosensory, visual, visceral (광범위)", "후각 중심"],
         ["들어오는 곳", "cortical input, dorsal thalamus, subiculum", "olfactory bulb / primary olfactory cortex, dorsal thalamus, hypothalamus"],
@@ -152,12 +162,15 @@ def build(unit_ids):
           "두 경로가 **서로 다른 방향과 위치**로 주행한다는 점을 확인하자. 특히 stria terminalis는 미상핵과 시상 사이를 따라 길게 도는 모양이 특징이다.", 10),
         P("아래 그림은 편도체를 3차원으로 재구성한 모습과 뇌 단면이다. **Am**으로 표시된 부위가 amygdala이다. 경로의 굴곡을 그리는 것이 아니라 "
           "amygdala에서 출발해 어디로 이어지는지 추적하는 능력이 중요하다. 이 내용은 다음의 septal region과 이어진다.", 10),
+        B("{b|기출 : stria terminalis는 corticomedial nuclei의 efferent fiber이다. (limbic system과 가장 관련이 적은 선지는 central tegmental tract였다.)}", 8, 105),
+        B("{b|기출(서술형) : ‘시상과의 연결통로’를 서술 — amygdala는 ventral amygdalofugal pathway와 afferent fibers to amygdaloid complex(dorsal thalamus에서 들어오는 입력)로 연결된다. (septal nucleus, hippocampus와의 연결도 함께 묻는다.)}", 9, 102),
+        P("{p|PAD 해설(12학번)에는 ‘corticomedial nuclei가 stria terminalis를 통해 afferent된다’는 표현이 있으나, 강의 스크립트는 stria terminalis를 corticomedial nuclei에서 나가는(efferent) 경로로 설명한다 — 원자료와 대조 필요.}", 8, 111),
         ADV("**Afferent와 efferent**, 그리고 **두 efferent 경로의 출발 핵군**(stria terminalis = corticomedial, ventral amygdalofugal = basolateral + central)을 섞지 말 것.", 7, 9),
     ], basics_title="Efferent fibers from amygdaloid complex", basics=[
         "나가는 경로는 두 가지 : stria terminalis(분계섬유줄)와 ventral amygdalofugal pathway (fugal = 밖으로, 주요 efferent).",
-        "Stria terminalis : corticomedial nuclei에서 시작, caudate nucleus와 dorsal thalamus 사이로 thalamostriate vein과 함께 주행 → septal nuclei, hypothalamus, nucleus accumbens septi.",
+        "Stria terminalis : corticomedial nuclei에서 시작({b|기출 : corticomedial nuclei의 efferent fiber}), caudate nucleus와 dorsal thalamus 사이로 thalamostriate vein과 함께 주행 → septal nuclei, hypothalamus, nucleus accumbens septi.",
         "Ventral amygdalofugal pathway : basolateral nuclei와 central nucleus에서 시작, 더 넓게 연결 (substantia innominata, hypothalamus, septal nuclei, nucleus accumbens septi, dorsomedial thalamus → prefrontal cortex, 여러 cortex, central nucleus → brainstem).",
-    ], tables=[SlideTable(rows=[
+    ], basics_refs=[105], tables=[SlideTable(rows=[
         ["", "Stria terminalis", "Ventral amygdalofugal pathway"],
         ["출발", "corticomedial nuclei", "basolateral nuclei, central nucleus"],
         ["위치·특징", "caudate nucleus와 dorsal thalamus 사이, thalamostriate vein과 함께 주행", "더 주요한(major) efferent, 넓은 범위로 연결"],
@@ -173,11 +186,13 @@ def build(unit_ids):
             "주변 구조를 기준으로 대략적인 위치를 잡고 연결 관계를 익히는 것이 현실적이다. 편도체 이야기에서 septal nuclei가 여러 번 나온 것도, 편도체와 stria terminalis·ventral amygdalofugal pathway로 연결되기 때문이다.", 11),
         STAR("Septal nuclei와 연결되는 네 곳", 12),
         P("연결되는 곳 **네 군데**와, 그 연결이 어떤 섬유로 이루어지는지를 **짝지어서** 외우자.", 12),
-        B("**Hippocampus** — fornix (precommissural fibers)", 12),
-        B("**Habenular nuclei** — stria medullaris thalami (실습에서도 볼 수 있으니 위치 확인)", 12),
-        B("**Amygdala** — stria terminalis 또는 ventral amygdalofugal pathway (앞에서 배운 것)", 12),
-        B("**Ventral tegmental area(VTA)와 hypothalamus** — medial forebrain bundle", 12),
+        B("{b|**Hippocampus** — fornix (precommissural fibers)}", 12, 106, 108, 109, 113),
+        B("{b|**Habenular nuclei** — stria medullaris thalami}  (실습에서도 볼 수 있으니 위치 확인)", 12, 106, 108, 109, 113),
+        B("{b|**Amygdala** — stria terminalis 또는 ventral amygdalofugal pathway}  (앞에서 배운 것)", 12, 106, 108, 109, 113),
+        B("{b|**Ventral tegmental area(VTA)와 hypothalamus** — medial forebrain bundle}", 12, 106, 108, 109, 113),
         P("{r|이 네 쌍의 표가 septal nuclei에서 가장 중요한 부분이다.}", 12),
+        B("{b|기출 단골 (교수님이 엄청 강조, PAD 해설 : 애플 p.8) : septal area와 연결되는 신경 = fornix, medial forebrain bundle, stria terminalis, stria medullaris thalami (복수 정답 문항). 연결되지 않는 선지 = medial lemniscus, central tegmental tract, fasciculus retroflexus(retroflex fasciculus), lateral longitudinal fasciculus}", 12, 106, 109),
+        B("{b|기출 : septal area ↔ habenula nucleus를 연결하는 구조 = stria medullaris thalami (‘septal area와 연결된 Aff, Eff 외우기’) / septal nuclei ↔ hypothalamus = medial forebrain bundle}", 12, 108, 113),
         STAR("Septal region의 기능", 13),
         P("이 연결들이 왜 중요할까? septal nuclei는 여러 부위와 **reciprocal**하게 연결되어 있다. reciprocal은 한 방향으로 한 번 가는 것이 아니라 **서로 정보를 주고받는** 관계라는 뜻이다. "
           "그래서 구조를 하나만 떼어 생각하지 말고 **limbic circuit 안에서** 이해해야 한다.", 13),
@@ -186,9 +201,9 @@ def build(unit_ids):
         P("운동을 수행하는 핵이라기보다 **몸의 내부 상태와 행동이 연결되는 과정**에 관여한다고 이해하자.", 13),
     ], basics_title="Septal region", basics=[
         "Septal nuclei(사이막핵)는 육안 관찰이 어렵지만 limbic system 여러 구조와 연결된다 — anterior commissure 앞쪽, 대뇌반구 안쪽 벽, septum pellucidum 아래, 표면 구조(paraterminal gyrus, subcallosal area)보다 깊은 층.",
-        "연결 네 곳 : hippocampus(precommissural fornix), habenular nuclei(stria medullaris thalami), amygdala(stria terminalis / ventral amygdalofugal pathway), VTA·hypothalamus(medial forebrain bundle).",
+        "{b|연결 네 곳 : hippocampus(precommissural fornix), habenular nuclei(stria medullaris thalami), amygdala(stria terminalis / ventral amygdalofugal pathway), VTA·hypothalamus(medial forebrain bundle).} (교수님 강조, 반복 출제)",
         "Reciprocal 연결이며 medial forebrain bundle에는 dopamine-containing fibers가 있고, eating, drinking, sexual behavior, reproduction, aggression 등에 관여한다.",
-    ], tables=[SlideTable(rows=[
+    ], basics_refs=[106, 108, 109, 113], tables=[SlideTable(rows=[
         ["연결되는 곳", "관여하는 섬유"],
         ["Hippocampus", "fornix (precommissural fibers)"],
         ["Habenular nuclei", "stria medullaris thalami"],
@@ -246,6 +261,8 @@ def build(unit_ids):
         B("**Dentate gyrus** : 그 sulcus 주변에서 **점처럼 보이는** 형태.", 18),
         B("**Lamina terminalis** : 위치를 함께 확인.", 18),
         P("실습에서 중요한 것은 이름을 보고 실제 단면의 위치를 **찾아가는 훈련**이다. fimbria → fornix → mammillary body → hippocampal sulcus → dentate gyrus를 차례로 짚어보자.", 18),
+        B("{b|기출 : mammillothalamic tract는 부록(해부) 그림에서 확인 가능한 limbic 관련 구조 (이전 Diencephalon에서 배움), cingulum은 Papez 회로와 연관}", 18, 105),
+        REF("{b|기출 해설 중 이번 강의에서 직접 다루지 않은 해마 관련 내용 : entorhinal cortex → hippocampus의 주요 경로는 perforant path(fornix가 아님), hippocampus의 투사신경세포는 subiculum과 hippocampus proper의 pyramidal cell(dentate gyrus의 granule cell이 아님), indusium griseum은 corpus callosum 위의 얇은 겉질 구조}", 110),
         REF("오늘의 정리 : 어렵게 확장해서 외우기보다 {r|오늘 강조한 이름과 경로}부터 정확히 하자. (정리 내용은 앞쪽 ‘요약 정리’ 참고)", 19),
     ], basics_title="해부 사진 (e-neuroanatomy) 2", basics=[
         "Fimbria(alveus가 모인 것)는 fornix와 이어지는 연속된 섬유 경로이다.",
@@ -268,10 +285,13 @@ def build(unit_ids):
         B("정리본의 페이지 번호는 원본 PDF 기준이다. 표지·기출 통계 등은 교수가 실제로 말했는지 확인할 수 없어 본문에서 제외했다.", 21),
         B("진로 관련 내용은 당시 정리본의 취지만 반영했으며 현재 제도의 사실 관계를 검증하거나 보장하지 않는다.", 21),
         B("실제 40분 발화의 문자 그대로의 복원이나 정확한 음성 길이 검증 자료가 아니며, 시간 구간 표기는 구성에 사용하지 않았다.", 21),
+        B("{g|PAD(기출) 해설은 정리본 작성자의 코멘트이며 교수님 발언이 아니다. 일부 문항(예: 17학번 Q4)은 그림 선택지(A~E) 문항이라 구조 이름이 아닌 해설 내용만 반영했다.}", 108),
     ]))
-    return _remap(top, unit_ids, {})
+    return _remap(top, unit_ids, EX)
 
 
 if __name__ == "__main__":
-    json.dump({"topics": [t.model_dump() for t in build(unit_ids_from_script(sys.argv[1]))]},
+    from app.exam import parse_exam_pdf
+
+    json.dump({"topics": [t.model_dump() for t in build(unit_ids_from_script(sys.argv[1]), parse_exam_pdf(sys.argv[2]))]},
               sys.stdout, ensure_ascii=False, indent=2)
