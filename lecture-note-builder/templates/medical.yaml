@@ -1,0 +1,28 @@
+template_name: medical_lecture_v1
+language: ko
+detail_level: comprehensive
+
+# Order here = order in the rendered document.
+# `core_concepts` = slide content, `professor_emphasis` = lecturer-only emphasis.
+sections:
+  - {key: core_concepts,       label: 핵심 개념}
+  - {key: pathophysiology,     label: 병태생리}
+  - {key: clinical_features,   label: 임상 양상}
+  - {key: diagnosis,           label: 진단}
+  - {key: treatment,           label: 치료}
+  - {key: lecturer_additions,  label: 교수님 부연 설명}
+  - {key: professor_emphasis,  label: 교수님 강조}
+
+format:
+  preserve_original_images: true
+  tables_for_comparisons: true
+  include_source_references: true
+  numbered_headings: true
+  font_korean: 맑은 고딕
+  font_size_pt: 10.5
+
+quality:
+  preserve_all_key_concepts: true
+  flag_uncertain_facts: true
+  require_source_traceability: true
+  min_alignment_confidence: 0.15

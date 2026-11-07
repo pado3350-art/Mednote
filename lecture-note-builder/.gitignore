@@ -1,0 +1,6 @@
+__pycache__/
+.pytest_cache/
+outputs/*
+!outputs/.gitkeep
+inputs/*
+!inputs/.gitkeep

@@ -1,0 +1,128 @@
+"""Stage 4: check the generated note against the source slides/script."""
+from __future__ import annotations
+
+import re
+
+from .align_content import _bigrams, _cosine
+from .models import AlignedSlide, Issue, LectureNote, Slide, ValidationReport
+from .template import Template
+
+# number with optional unit, e.g. 5.5 mg/dL, 40%, 2 mm, 1.5x
+_NUM = re.compile(r"\d+(?:[.,]\d+)?\s*(?:%|mg/dL|mg/kg|mg|mcg|μg|µg|g/dL|g|kg|mL|L|mm|cm|mmHg|mEq/L|IU|U|°C|bpm|x|배|일|주|개월|년|세|시간|분)?")
+# English medical terms / acronyms: Capitalised words (len>=3) or ALLCAPS (>=2)
+_TERM = re.compile(r"\b(?:[A-Z]{2,}[A-Za-z0-9-]*|[A-Z][a-z]{3,}(?:\s+[a-z]{3,})?)\b")
+_GROUND_MIN = 0.12
+
+
+def _norm(s: str) -> str:
+    return re.sub(r"\s+", "", s).lower()
+
+
+def _note_text(note: LectureNote) -> str:
+    parts = []
+    for t in note.topics:
+        parts.append(t.heading)
+        for sts in t.sections.values():
+            parts += [s.text for s in sts]
+        for tb in t.tables:
+            parts += [" ".join(r) for r in tb.rows]
+    return "\n".join(parts)
+
+
+def validate(
+    note: LectureNote,
+    slides: list[Slide],
+    aligned: list[AlignedSlide],
+    template: Template,
+) -> ValidationReport:
+    rep = ValidationReport()
+    full = _norm(_note_text(note))
+    by_slide = {s.number: s for s in slides}
+    amap = {a.slide_number: a for a in aligned}
+    seg_text = {g.id: g.text for a in aligned for g in a.segments}
+
+    # 1. Slide coverage
+    covered = {n for t in note.topics for n in t.slide_numbers}
+    missing = sorted(set(by_slide) - covered)
+    for n in missing:
+        rep.issues.append(Issue(severity="error", code="SLIDE_MISSING", slide=n,
+                                message=f"슬라이드 {n}이(가) 강의록에 반영되지 않았습니다."))
+    rep.slide_coverage = 1 - len(missing) / len(by_slide) if by_slide else 1.0
+
+    # 2. Numbers/units and key terms preserved
+    for n, s in by_slide.items():
+        if n in missing:
+            continue
+        src = s.plain_text()
+        for m in sorted({x.group().strip() for x in _NUM.finditer(src)}):
+            if len(re.sub(r"\D", "", m)) == 0:
+                continue
+            if _norm(m) not in full:
+                rep.issues.append(Issue(severity="error", code="NUMBER_LOST", slide=n,
+                                        message=f"수치 '{m}'이(가) 강의록에서 누락/변형되었습니다."))
+        if template.quality.preserve_all_key_concepts:
+            for term in sorted({x.group() for x in _TERM.finditer(src)}):
+                if _norm(term) not in full:
+                    rep.issues.append(Issue(severity="warning", code="TERM_LOST", slide=n,
+                                            message=f"용어 '{term}'이(가) 강의록에 없습니다."))
+        # 3. Tables / images retained
+        topic = next((t for t in note.topics if n in t.slide_numbers), None)
+        if topic and template.format.tables_for_comparisons and len(s.tables) > 0:
+            if len(topic.tables) < len(s.tables):
+                rep.issues.append(Issue(severity="error", code="TABLE_LOST", slide=n,
+                                        message="슬라이드의 표가 강의록에서 누락되었습니다."))
+        if topic and template.format.preserve_original_images and len(s.images) > 0:
+            if len(topic.images) < len(s.images):
+                rep.issues.append(Issue(severity="error", code="IMAGE_LOST", slide=n,
+                                        message="슬라이드의 이미지가 강의록에서 누락되었습니다."))
+
+    # 4. Traceability / grounding of every statement
+    for t in note.topics:
+        for key, sts in t.sections.items():
+            for st in sts:
+                if template.quality.require_source_traceability and not st.slide_refs:
+                    rep.issues.append(Issue(severity="error", code="NO_SOURCE", slide=None,
+                                            message=f"출처 없는 문장: '{st.text[:40]}…'"))
+                    continue
+                if any(r not in by_slide for r in st.slide_refs):
+                    rep.issues.append(Issue(severity="error", code="BAD_REF", slide=None,
+                                            message=f"존재하지 않는 슬라이드 참조: {st.slide_refs}"))
+                    continue
+                source = " ".join(
+                    [by_slide[r].plain_text() for r in st.slide_refs]
+                    + [seg_text.get(i, "") for i in st.segment_ids]
+                )
+                if _cosine(_bigrams(st.text), _bigrams(source)) < _GROUND_MIN:
+                    rep.issues.append(Issue(severity="warning", code="UNGROUNDED",
+                                            slide=st.slide_refs[0],
+                                            message=f"원본과 유사도가 낮은 문장(근거 확인 필요): '{st.text[:40]}…'"))
+
+    # 5. Alignment confidence & script segments dropped
+    placed_ids = {i for t in note.topics for sts in t.sections.values() for s in sts for i in s.segment_ids}
+    for a in aligned:
+        for g in a.segments:
+            if g.id not in placed_ids:
+                rep.issues.append(Issue(severity="error", code="SEGMENT_LOST", slide=a.slide_number,
+                                        message=f"교수 설명(발화 {g.id})이 강의록에 반영되지 않았습니다."))
+        if a.low_confidence_segment_ids:
+            rep.issues.append(Issue(severity="warning", code="LOW_ALIGNMENT", slide=a.slide_number,
+                                    message=f"발화 {a.low_confidence_segment_ids} 정렬 신뢰도 낮음"))
+    for f in note.review_flags:
+        rep.issues.append(Issue(severity="info", code="REVIEW_FLAG", message=f))
+    for t in note.topics:
+        for f in t.review_flags:
+            rep.issues.append(Issue(severity="info", code="REVIEW_FLAG",
+                                    slide=t.slide_numbers[0] if t.slide_numbers else None, message=f))
+    return rep
+
+
+def report_markdown(rep: ValidationReport) -> str:
+    icon = {"error": "❌", "warning": "⚠️", "info": "ℹ️"}
+    lines = [f"# 검증 리포트", "",
+             f"- 슬라이드 커버리지: {rep.slide_coverage:.0%}",
+             f"- 오류 {len(rep.errors)} / 경고 {sum(i.severity=='warning' for i in rep.issues)}"
+             f" / 참고 {sum(i.severity=='info' for i in rep.issues)}", ""]
+    for i in sorted(rep.issues, key=lambda x: (x.slide or 0, x.severity)):
+        where = f"[슬라이드 {i.slide}] " if i.slide else ""
+        lines.append(f"- {icon[i.severity]} `{i.code}` {where}{i.message}")
+    return "\n".join(lines) + "\n"
