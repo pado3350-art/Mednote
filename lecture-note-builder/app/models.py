@@ -56,6 +56,31 @@ class AlignedSlide(BaseModel):
 
 
 # ---------- Stage 3: structured notes ----------
+class Group(BaseModel):
+    """One box of a diagram: tree branch / flow stage / compare column. Text supports the inline markup
+    ({r|..} red, {b|..} BLUE = PAD only, {g|..} gray, {p|..} purple, **bold**)."""
+    title: str
+    items: list[str] = Field(default_factory=list)
+    color: str = ""  # teal | blue | salmon | amber | violet | gray (default: cycle)
+
+
+class Arrow(BaseModel):
+    src: int  # group index
+    dst: int
+    label: str = ""
+    both: bool = False  # two-way arrow (reciprocal connection)
+
+
+class Diagram(BaseModel):
+    """Schematic drawn by the program (no image needed): concept tree, left-to-right flow, comparison cards."""
+    kind: Literal["tree", "flow", "compare"] = "tree"
+    title: str = ""
+    root: str = ""  # tree: text of the top box
+    groups: list[Group] = Field(default_factory=list)
+    arrows: list[Arrow] = Field(default_factory=list)  # flow: arrows between groups
+    row_labels: list[str] = Field(default_factory=list)  # compare: label per row
+
+
 class Statement(BaseModel):
     text: str
     origin: Literal["slide", "lecturer", "both"] = "slide"
@@ -67,9 +92,10 @@ class Statement(BaseModel):
     # red is `emphasis`. Blue requires a PAD (기출) source ref -> see validate_notes.
     tag: Literal["normal", "exam", "minor", "verify"] = "normal"
     # Layout role: paragraph, "-" bullet, "★" sub-heading, or an Advice / Reference call-out.
-    kind: Literal["para", "bullet", "star", "advice", "reference", "figure"] = "para"
+    kind: Literal["para", "bullet", "star", "advice", "reference", "figure", "diagram"] = "para"
     level: int = 0
-    image: str = ""  # kind == "figure": picture path (text = caption)
+    image: str = ""  # kind == "figure"/"diagram": picture path (text = caption)
+    diagram: Optional["Diagram"] = None  # kind == "diagram": spec rendered to a picture by app/diagrams.py
 
 
 class Topic(BaseModel):

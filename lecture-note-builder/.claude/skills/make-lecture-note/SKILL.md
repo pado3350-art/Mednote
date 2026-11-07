@@ -14,7 +14,7 @@ You (Claude Code) do the AI part; the program does extraction, validation, layou
 3. **Author** `outputs/<name>/note_authored.json` (Topic JSON, schema in `brief/note_schema.json`). Easiest: write a small Python script like `examples/limbic_note.py` (helpers `P B STAR ADV REF T`, then `_remap`) and dump `{"topics": [...]}`.
    - Chapters (2-4) -> § sections (2-4 each); every speech paragraph in exactly one section; closing remarks -> `부록 & 검증 참고`.
    - Per §: `basics` (+ `basics_refs`), body in explanatory order, Advice / Reference, comparison tables.
-   - Two `role: "front"` topics: 핵심 어휘, 요약 정리.
+   - Two `role: "front"` topics: 핵심 어휘, 요약 정리 - the 요약 정리 page must contain schematics (`DIA(Diagram(kind=tree|flow|compare ...))`, see skill section 5c); source-figure thumbnails are added automatically.
    - Every statement cites `slide_refs` (¶ numbers; PAD unit numbers >= 1000).
 4. **Build**: `bash outputs/<name>/brief/build_command.sh` (figures are placed automatically next to the related text).
 5. **Fix** until `validation_report.md` has 0 errors and no BLUE_/PAD_/MARKUP_LEAK findings; look at the PDF pages; correct misplaced figures in `figures.json` (`topic_heading`, `anchor`, `caption`, `skip`) and rebuild with `--figures-json`.

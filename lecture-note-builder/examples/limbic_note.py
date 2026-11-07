@@ -14,7 +14,8 @@ import json
 import sys
 
 from app.models import SlideTable
-from examples.tcell_note import ADV, B, P, REF, STAR, T, _remap, unit_ids_from_script
+from app.models import Arrow, Diagram, Group
+from examples.tcell_note import ADV, B, DIA, P, REF, STAR, T, _remap, unit_ids_from_script
 
 CH1 = "Amygdaloid nuclear complex"
 CH2 = "Septal region & Nucleus accumbens"
@@ -49,16 +50,40 @@ def build(unit_ids, exam_items=()):
         B("{b|Basolateral : 대뇌 광범위, 고위 연합 입력 / Corticomedial : 후각계(olfactory bulb) / Central nucleus : brainstem (afferent = 통증, efferent = 부교감 신경핵)}", 3, 19, 101, 103, 107, 111, 112),
         B("대표 기능 {r|fear (공포)}", 3, 19),
         STAR("Afferent / Efferent", 4, 7, 19),
+        DIA(Diagram(kind="flow", arrows=[Arrow(src=0, dst=1, label="들어옴 (afferent)"), Arrow(src=1, dst=2, label="나감 (efferent)")], groups=[
+            Group(title="Afferent", color="blue", items=[
+                "Basolateral ← cortical input, dorsal thalamus, subiculum", "Corticomedial ← olfactory bulb · primary olfactory cortex, hypothalamus",
+                "Central ← parabrachial n., solitary n., PAG"]),
+            Group(title="Amygdaloid complex (uncus 안쪽)", color="teal", items=[
+                "{b|Basolateral : 고위 연합 입력}", "Corticomedial : 후각계", "{b|Central : 뇌줄기 부교감 신경핵}", "{r|대표 기능 : fear}"]),
+            Group(title="Efferent", color="salmon", items=[
+                "{b|Stria terminalis (corticomedial)} → septal n., hypothalamus, nucleus accumbens", "**Ventral amygdalofugal** (basolateral·central, 주요) → 더 넓은 범위"]),
+        ]), "편도체의 들어오는 경로와 나가는 경로", 4, 5, 7, 8, 9, 19, 101, 103, 105, 107, 110, 111, 112),
         B("Afferent(들어옴) : basolateral ← cortical input, dorsal thalamus, subiculum / corticomedial ← olfactory bulb·primary olfactory cortex, dorsal thalamus, hypothalamus", 4),
         B("Efferent(나감) : {r|stria terminalis} (→ septal nuclei, hypothalamus, nucleus accumbens septi), **ventral amygdalofugal pathway** (주요 경로)", 7, 19),
         B("{b|stria terminalis = corticomedial nuclei의 efferent fiber / 편도체 ↔ 시상 연결통로 = ventral amygdalofugal pathway, afferent fibers to amygdaloid complex}", 8, 9, 105, 102),
         STAR("Septal nuclei — 네 곳과 연결", 12, 19),
+        DIA(Diagram(kind="tree", root="Septal nuclei (사이막핵)", groups=[
+            Group(title="Hippocampus", color="teal", items=["{b|fornix (precommissural fibers)}"]),
+            Group(title="Habenular nuclei", color="blue", items=["{b|stria medullaris thalami}"]),
+            Group(title="Amygdala", color="salmon", items=["{b|stria terminalis}", "{b|ventral amygdalofugal pathway}"]),
+            Group(title="VTA · hypothalamus", color="amber", items=["{b|medial forebrain bundle}", "dopamine-containing fibers"]),
+        ]), "Septal nuclei의 네 가지 연결 (교수님 강조, 반복 출제)", 12, 13, 106, 108, 109, 113),
         B("{b|Hippocampus — fornix / Habenular nuclei — stria medullaris thalami / Amygdala — stria terminalis, ventral amygdalofugal pathway / VTA·hypothalamus — medial forebrain bundle (교수님 강조, 반복 출제)}", 12, 106, 108, 109, 113),
         STAR("Nucleus accumbens", 14, 15, 16),
+        DIA(Diagram(kind="compare", row_labels=["핵심 연결어", "위치", "들어옴", "나감", "관련 물질"], groups=[
+            Group(title="Amygdala", color="salmon", items=["{r|fear (공포)} / aversion", "uncus 안쪽", "cortical input, thalamus, olfactory 등", "stria terminalis, ventral amygdalofugal", "—"]),
+            Group(title="Nucleus accumbens", color="teal", items=["{r|addiction (중독)} / joy, pleasure", "caudate head와 putamen이 이어지는 앞쪽", "amygdala, hippocampus, VTA", "hypothalamus, brainstem, globus pallidus", "dopamine"]),
+        ]), "Amygdala vs Nucleus accumbens", 3, 14, 15, 16),
         B("위치 : caudate head와 putamen이 이어지는 앞쪽 / {r|addiction (중독)}, dopamine과 관련", 14, 16),
         B("들어옴 : amygdala, hippocampus, VTA / 나감 : hypothalamus, brainstem, globus pallidus", 15),
         B("{r|Amygdala — fear, Nucleus accumbens — addiction}", 16, 19),
         STAR("해부 실습에서 찾을 구조", 17, 18, 19),
+        DIA(Diagram(kind="tree", root="해부 실습 사진에서 찾을 구조", groups=[
+            Group(title="사진 1", color="teal", items=["stria terminalis (vein과 함께 주행)", "uncus (안쪽에 amygdala)", "parahippocampal gyrus (기준점)"]),
+            Group(title="사진 2 (gyrus를 젖힌 뒤)", color="blue", items=["fimbria → fornix", "mammillary body (postcommissural fornix)", "hippocampal sulcus / dentate gyrus", "lamina terminalis"]),
+            Group(title="Papez 회로", color="amber", items=["{b|mammillothalamic tract, cingulum}", "부록(해부) 그림에서 확인"]),
+        ]), "해부 실습에서 확인할 구조 정리", 17, 18, 19, 105),
         B("stria terminalis, uncus, parahippocampal gyrus, fimbria, fornix, mammillary body, hippocampal sulcus, dentate gyrus, lamina terminalis", 17, 18, 19),
     ], role="front"))
 

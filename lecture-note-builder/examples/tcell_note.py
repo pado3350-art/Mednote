@@ -14,7 +14,7 @@ Markup: {r|red} {g|gray} {p|purple} {b|BLUE = 기출(PAD)에 나온 내용만} *
 import json
 import sys
 
-from app.models import SlideTable, Statement, Topic
+from app.models import Arrow, Diagram, Group, SlideTable, Statement, Topic
 
 
 def P(text, *refs, **kw):
@@ -23,6 +23,11 @@ def P(text, *refs, **kw):
 
 def B(text, *refs, **kw):
     return P(text, *refs, kind="bullet", **kw)
+
+
+def DIA(spec, caption, *refs):
+    """A schematic drawn by the program (app/diagrams.py). Blue text inside needs PAD refs."""
+    return Statement(text=caption, kind="diagram", diagram=spec, slide_refs=list(refs), origin="both")
 
 
 def STAR(text, *refs):
@@ -73,19 +78,44 @@ def build(unit_ids, exam_items=()):
     # ======================================================= 요약 정리
     top.append(T("요약 정리", "", [1, 3, 4, 5, 7, 8, 9, 11, 12, 13, 15, 18, 19, 20], [
         STAR("Human MHC의 구조", 3, 4, 5),
+        DIA(Diagram(kind="tree", root="사람 MHC (HLA) · 6번 염색체", groups=[
+            Group(title="Class I", color="teal", items=["HLA-A, B, C — 1개씩", "α chain 1개 + β2m, {r|다리 하나짜리}", "{b|1글자 = class I}"]),
+            Group(title="Class II", color="blue", items=["HLA-DR, DP, DQ", "α·β chain 한 쌍, {r|다리 두 개짜리}", "{b|2글자 = class II (예: HLA-DR)}"]),
+            Group(title="Class Ib", color="salmon", items=["HLA-E, F, G", "class I region에 위치", "NK cell 억제 경로"]),
+            Group(title="Class III region", color="amber", items=["MIC-A, MIC-B", "DM·DO·TAP은 class II region"]),
+        ]), "MHC 유전자 구성 한눈에", 3, 4, 5, 103),
         B("{r|6번 염색체}에 위치 (생쥐 H-2는 17번 염색체)", 3, 4),
         B("{b|Class I : HLA-A, B, C — 1개씩 / Class II : HLA-DR, DP, DQ — α·β chain 한 쌍씩 (1글자 = class I, 2글자 = class II)}", 3, 103),
         B("Class I region에 있지만 class Ib : {r|HLA-E, F, G} / DM, DO는 classical class II가 아님", 4, 5),
         STAR("Polymorphism & polygeny", 7, 8, 9),
+        DIA(Diagram(kind="compare", row_labels=["의미", "수준", "예", "순서·원리"], groups=[
+            Group(title="Polymorphism (다형성)", color="blue", items=[
+                "같은 유전자 자리의 allele이 집단 안에 여러 형태", "집단 수준", "HLA-B 하나에도 다양한 allele",
+                "{b|class I: B>A>C / class II: DRB>DQB>DPB} · 원인 = gene conversion"]),
+            Group(title="Polygeny", color="salmon", items=[
+                "한 개체 안에 서로 다른 MHC 유전자 여러 개", "개체 수준", "HLA-A, HLA-B, HLA-C ...",
+                "codominant 발현 → 한 사람의 MHC 조합이 다양"]),
+        ]), "Polymorphism vs Polygeny", 7, 8, 9, 101, 104, 105, 109),
         B("Polymorphism : 같은 자리의 allele 종류가 엄청 많다 / Polygeny : 동시에 발현되는 유전자 수가 많다 (공동우성)", 7),
         B("{b|Class I이 class II보다 다형성이 크다. class I은 B>A>C, class II는 DRB>DQB>DPB (α보다 β가 크다)}", 8, 101, 104, 105, 109),
         B("다양성은 {r|gene conversion}으로 얻어지고, peptide 결합 부위(class I α1·α2 / class II β1)에 몰려 있다", 9),
         STAR("MHC restriction", 11, 13, 15),
+        DIA(Diagram(kind="tree", root="MHC restriction", groups=[
+            Group(title="원칙", color="teal", items=["TCR이 특이적인 peptide + {r|자기 MHC} 둘 다 있어야 인식", "peptide가 같아도 MHC가 다르면 X",
+                                                      "{b|적용 예: adoptive T cell therapy}"]),
+            Group(title="예외 1 · Alloresponse", color="salmon", items=["타인의 MHC에 강한 반응", "alloreactive T cell = 전체의 {r|1~10%}", "장기이식 거부, MLR로 관찰"]),
+            Group(title="예외 2 · Superantigen", color="violet", items=["peptide 처리 없이 TCR + MHC class II에 결합", "비특이적 대규모 T세포 활성화", "enterotoxin(식중독), TSST-1(TSS)"]),
+        ]), "MHC restriction과 두 가지 예외", 11, 12, 13, 14, 15, 16, 113, 116),
         B("T세포는 {r|자기 MHC + 자기에게 맞는 peptide}가 있어야 반응한다", 11),
         B("{b|restriction 적용 = adoptive T cell therapy / 예외 = alloresponse, transplantation, superantigen}", 12, 13, 15, 113, 116),
         B("예외 1) alloresponse : alloreactive T cell(전체의 1~10%)이 타인 MHC에 반응 — 장기이식 거부", 13),
         B("예외 2) superantigen : 박테리아·바이러스 유래, TCR과 MHC에 모두 결합해 비특이적으로 강하게 활성화", 15),
         STAR("Class Ib molecule", 18, 19, 20),
+        DIA(Diagram(kind="tree", root="Class Ib — unconventional T cell과 NK cell을 자극", groups=[
+            Group(title="MHC 영역 안", color="teal", items=["HLA-E/F/G : NK cell 억제", "{b|HLA-E : NKG2A·C 결합 / HLA-C : KIR 결합}", "{b|MIC-A/B ↔ NKG2D (NK 활성화)}"]),
+            Group(title="MHC 영역 밖", color="blue", items=["CD1 (a~e) : lipid·glycolipid 제시", "{b|CD1c → NKT cell}", "FcRn : 엄마 → 태아 IgG"]),
+            Group(title="Unconventional T cell", color="amber", items=["γδ T cell : 다양한 ligand", "MAIT : 선천–적응면역 사이 (transitional)", "invariant NKT cell"]),
+        ]), "Class Ib와 unconventional T cell", 5, 18, 19, 20, 102, 106, 107, 111, 112, 114, 115, 117),
         B("Class I과 비슷하지만 {r|unconventional T cell과 NK cell}을 자극하는 역할", 18),
         B("{b|HLA-C(class I이면서 Ib, KIR로 NK 억제), HLA-E(NKG2A·C로 NK 억제, T cell에 항원 제시 안 함), MIC-A/B ↔ NKG2D}", 5, 18, 106, 107, 111, 112, 114, 115, 117),
         B("{r|CD1} : lipid 항원 제시 / FcRn : 엄마 → 태아 IgG 전달", 19),

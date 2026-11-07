@@ -4,6 +4,7 @@ from __future__ import annotations
 import re
 
 from .align_content import _bigrams, _cosine
+from .diagrams import diagram_has_exam, diagram_texts
 from .exam import EXAM_BASE
 from .markup import runs as _runs, strip as _strip_markup
 from .models import AlignedSlide, Issue, LectureNote, Slide, ValidationReport
@@ -102,7 +103,7 @@ def validate(
     for t in note.topics:
         for key, sts in t.sections.items():
             for st in sts:
-                if st.kind == "figure":
+                if st.kind in ("figure", "diagram"):
                     continue
                 if template.quality.require_source_traceability and not st.slide_refs:
                     rep.issues.append(Issue(severity="error", code="NO_SOURCE", slide=None,
@@ -132,7 +133,12 @@ def validate(
     for t in note.topics:
         for sts in t.sections.values():
             for st in sts:
-                if st.kind == "figure":
+                if st.kind == "diagram" and st.diagram is not None:
+                    if diagram_has_exam(st.diagram) and not any(r >= EXAM_BASE for r in st.slide_refs):
+                        rep.issues.append(Issue(severity="error", code="BLUE_WITHOUT_PAD",
+                                                slide=st.slide_refs[0] if st.slide_refs else None,
+                                                message=f"도식의 파랑에 PAD 출처가 없습니다: '{st.text[:30]}…'"))
+                if st.kind in ("figure", "diagram"):
                     continue
                 has_pad = any(r >= EXAM_BASE for r in st.slide_refs)
                 blue = _is_blue(st.text, st.tag)
@@ -155,11 +161,20 @@ def validate(
 
     # 4c. Unrendered markup (stray '*' or '{x|') would show up literally in the document
     for t in note.topics:
-        for text in [x.text for sts in t.sections.values() for x in sts if x.kind != "figure"] + list(t.basics):
+        dia_texts = [tx for sts in t.sections.values() for x in sts if x.kind == "diagram" and x.diagram
+                     for tx in diagram_texts(x.diagram)]
+        for text in [x.text for sts in t.sections.values() for x in sts if x.kind not in ("figure", "diagram")] + list(t.basics) + dia_texts:
             left = _strip_markup(text)
             if "*" in left or re.search(r"[{}]|\b[rbgp]\|", left):
                 rep.issues.append(Issue(severity="warning", code="MARKUP_LEAK",
                                         slide=None, message=f"렌더링되지 않는 서식 기호가 남아 있습니다: '{left[:40]}…'"))
+
+    # 4d. The 요약 정리 page must carry a visual (schematic or figure)
+    for t in note.topics:
+        if t.role == "front" and "요약" in t.heading:
+            if not any(x.kind in ("diagram", "figure") for sts in t.sections.values() for x in sts):
+                rep.issues.append(Issue(severity="warning", code="SUMMARY_NO_VISUAL", slide=None,
+                                        message="요약 정리에 도식이나 그림이 없습니다 (핵심 요약은 시각 자료를 포함해야 함)."))
 
     # 5. Alignment confidence & script segments dropped
     placed_ids = {i for t in note.topics for sts in t.sections.values() for s in sts for i in s.segment_ids}

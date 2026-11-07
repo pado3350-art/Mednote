@@ -39,3 +39,6 @@
 ## API 없이 / 그림
 - API 키 없이 쓴다: ① 오프라인 규칙 기반 `build` ② Claude Code가 직접 작성하는 `/make-lecture-note` (`prepare` → 노트 JSON → `build`). 스킬 `make-lecture-note` 참고.
 - 그림·사진 자료(`--figures` PDF/PPTX/폴더, 슬라이드 입력)는 최대한 활용한다: 본문이 그림이 보여주는 것을 가리키게 쓰고, `figures.json`으로 캡션·위치를 다듬는다. 글자뿐인 슬라이드는 제외, 그림을 만들어 내지 않는다.
+
+## 핵심 요약 = 시각 자료 필수
+요약 정리 쪽에는 반드시 도식(`kind: diagram`: tree/flow/compare)과 핵심 그림 썸네일을 넣는다(검증 `SUMMARY_NO_VISUAL`). 도식 안 파랑도 PAD 출처가 있어야 한다. 규칙: 스킬 `readable-note-organizer` 5c.

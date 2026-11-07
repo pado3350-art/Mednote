@@ -40,6 +40,7 @@ def main(argv: list[str] | None = None) -> int:
                    help="그림·사진 자료: PDF(강의록/슬라이드) · PPTX · 이미지 폴더. 본문 관련 문장 옆에 자동 배치")
     b.add_argument("--figures-json", help="수정한 figures.json(배치 결과)을 다시 적용")
     b.add_argument("--max-figures-per-topic", type=int, default=6)
+    b.add_argument("--summary-figures", type=int, default=4, help="요약 정리 쪽에 넣을 핵심 그림 썸네일 수 (0 = 끔)")
     b.add_argument("--keep-text-images", action="store_true", help="글자뿐인 슬라이드 이미지도 그림으로 사용")
     b.add_argument("--no-auto-blue", action="store_true", help="오프라인 모드에서 PAD 자동 대조(파랑 표시)를 끈다")
     b.add_argument("--no-pdf", action="store_true")
@@ -69,7 +70,8 @@ def main(argv: list[str] | None = None) -> int:
     report, paths = run_pipeline(a.pptx, a.out, a.template, a.script, backend, a.title, meta, pdf=not a.no_pdf, exam_pdf=a.exam_pdf, toc=a.toc, outline_json=a.outline_json,
                                  figures=a.figures, figures_json=a.figures_json,
                                  max_figures_per_topic=a.max_figures_per_topic,
-                                 keep_text_images=a.keep_text_images)
+                                 keep_text_images=a.keep_text_images,
+                                 summary_figures=a.summary_figures)
     for k, v in paths.items():
         print(f"{k:12s} {v}")
     print(f"coverage {report.slide_coverage:.0%}  errors {len(report.errors)}")

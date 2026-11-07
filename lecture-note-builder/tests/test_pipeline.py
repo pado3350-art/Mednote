@@ -729,3 +729,112 @@ def test_prepare_writes_work_packet(tmp_path, monkeypatch):
     assert "unit 1001" in (brief / "exam_items.md").read_text(encoding="utf-8")
     assert "--note-json" in (brief / "build_command.sh").read_text(encoding="utf-8")
     assert "PAD 기출 ONLY" in (brief / "TASK.md").read_text(encoding="utf-8") or "파랑 = PAD" in (brief / "TASK.md").read_text(encoding="utf-8")
+
+
+# ----------------------------------------------------------------------------- diagrams / summary visuals
+def _specs():
+    from app.models import Arrow, Diagram, Group
+
+    tree = Diagram(kind="tree", title="T", root="루트", groups=[Group(title=f"g{i}", items=["항목 {r|빨강}", "{b|파랑}"]) for i in range(5)])
+    flow = Diagram(kind="flow", groups=[Group(title="A", items=["a"]), Group(title="B", items=["b"]), Group(title="C", items=["c"])],
+                   arrows=[Arrow(src=0, dst=1, label="입력"), Arrow(src=0, dst=2, label="건너뜀", both=True)])
+    comp = Diagram(kind="compare", row_labels=["r1", "r2"], groups=[Group(title="X", items=["1", "2"]), Group(title="Y", items=["3", "4"])])
+    return tree, flow, comp
+
+
+def test_diagrams_render_with_note_colours(tmp_path):
+    from PIL import Image
+
+    from app.diagrams import diagram_has_exam, render_diagram
+
+    for i, spec in enumerate(_specs()):
+        p = render_diagram(spec, tmp_path / f"d{i}.png")
+        with Image.open(p) as im:
+            assert im.width == 1700 and im.height > 150
+            px = list(im.convert("RGB").getdata())
+        if i == 0:  # BLUE text and red text are really drawn (same colours as the body text)
+            assert any(abs(r - 31) < 25 and abs(g - 78) < 25 and abs(b - 200) < 25 for r, g, b in px[::7])
+            assert any(r > 170 and g < 40 and b < 40 for r, g, b in px[::7])
+    assert diagram_has_exam(_specs()[0]) and not diagram_has_exam(_specs()[2])
+
+
+def test_diagram_blue_requires_pad_and_summary_needs_visual(tmp_path, monkeypatch):
+    from app.exam import EXAM_BASE as X
+    from app.generate_notes import PrecomputedBackend
+    from app.models import Statement, Topic
+
+    tree, _, comp = _specs()
+    body = Topic(heading="b", slide_numbers=[1, 2, 3, 4], sections={"body": [Statement(text=BODY, slide_refs=[1, 2, 3, 4])]})
+    bad = Topic(heading="요약 정리", role="front", slide_numbers=[1], sections={"body": [
+        Statement(text="도식", kind="diagram", diagram=tree, slide_refs=[1])]})  # blue node, no PAD ref
+    rep, _ = _exam_run(tmp_path, monkeypatch, [bad, body], tpl=MOM)
+    assert any(i.code == "BLUE_WITHOUT_PAD" and "도식" in i.message for i in rep.errors)
+    ok = Topic(heading="요약 정리", role="front", slide_numbers=[1], sections={"body": [
+        Statement(text="도식", kind="diagram", diagram=tree, slide_refs=[1, X + 1])]})
+    rep2, _ = _exam_run(tmp_path / "ok" if (tmp_path / "ok").mkdir() is None else tmp_path, monkeypatch, [ok, body], tpl=MOM)
+    assert not any(i.code in ("BLUE_WITHOUT_PAD", "SUMMARY_NO_VISUAL") and "도식" in i.message or i.code == "SUMMARY_NO_VISUAL"
+                   for i in rep2.issues)
+    plain = Topic(heading="요약 정리", role="front", slide_numbers=[1], sections={"body": [Statement(text="글만", slide_refs=[1])]})
+    rep3, _ = _exam_run(tmp_path / "p" if (tmp_path / "p").mkdir() is None else tmp_path, monkeypatch, [plain, body], tpl=MOM)
+    assert "SUMMARY_NO_VISUAL" in {i.code for i in rep3.issues}
+
+
+def test_pipeline_renders_diagrams_into_docx(tmp_path):
+    from app.generate_notes import PrecomputedBackend
+    from app.models import Statement, Topic
+    from app.pipeline import run_pipeline
+
+    tree, flow, comp = _specs()
+    tree.groups = tree.groups[:2]
+    for g in tree.groups:
+        g.items = ["항목 {r|빨강}"]  # no blue -> no PAD needed
+    t = Topic(heading="요약 정리", role="front", slide_numbers=[1, 2, 3, 4], sections={"body": [
+        Statement(text=BODY, slide_refs=[1, 2, 3, 4]),
+        Statement(text="개념 지도", kind="diagram", diagram=tree, slide_refs=[1]),
+        Statement(text="흐름", kind="diagram", diagram=comp, slide_refs=[1])]})
+    rep, paths = run_pipeline(None, tmp_path / "o", MOM, script=_write(tmp_path), backend=PrecomputedBackend([t]), pdf=False)
+    assert not rep.errors, rep.errors
+    assert sorted(p.name for p in (tmp_path / "o" / "diagrams").iterdir()) == ["diagram_01.png", "diagram_02.png"]
+    d = Document(str(paths["docx"]))
+    caps = [p.text for p in d.paragraphs if p.text.startswith("도식 ")]
+    assert caps == ["도식 1. 개념 지도", "도식 2. 흐름"] and len(d.inline_shapes) == 2
+
+
+def test_summary_page_gets_best_figure_thumbnails(tmp_path):
+    from PIL import Image
+
+    from app.figures import add_summary_figures
+    from app.models import Figure, LectureNote, Statement, Topic
+
+    for n, col in (("a", (200, 40, 40)), ("b", (40, 40, 200))):
+        Image.new("RGB", (300, 200), col).save(tmp_path / f"{n}.png")
+    summary = Topic(heading="요약 정리", role="front", slide_numbers=[1], sections={"body": [Statement(text="x", slide_refs=[1])]})
+    t1 = Topic(heading="A절", slide_numbers=[1]); t2 = Topic(heading="B절", slide_numbers=[2])
+    note = LectureNote(title="t", topics=[summary, t1, t2])
+    figs = [Figure(id=1, path=str(tmp_path / "a.png"), topic=1, score=0.5, caption="A 그림"),
+            Figure(id=2, path=str(tmp_path / "b.png"), topic=1, score=0.9, caption="A 더 좋은 그림"),
+            Figure(id=3, path=str(tmp_path / "b.png"), topic=2, score=0.4, caption="B 그림"),
+            Figure(id=4, path=str(tmp_path / "a.png"), topic=2, score=0.99, caption="글자뿐", text_like=True)]
+    add_summary_figures(note, figs, load_template(MOM), limit=4)
+    sts = summary.sections["body"]
+    thumbs = [s for s in sts if s.kind == "figure"]
+    assert sts[1].text == "핵심 그림 모아보기" and [s.level for s in thumbs] == [1, 1]  # best per section, text-only skipped
+    assert thumbs[0].text.startswith("A 더 좋은 그림") and thumbs[1].text.startswith("B 그림")
+    add_summary_figures(note, figs, load_template(MOM), limit=0)  # disabled: nothing more added
+    assert len([s for s in summary.sections["body"] if s.kind == "figure"]) == 2
+
+
+def test_offline_summary_has_auto_concept_map(tmp_path):
+    from app.generate_notes import OfflineBackend
+    from app.pipeline import run_pipeline
+
+    script = tmp_path / "s.txt"
+    script.write_text("\n\n".join(f"MHC polymorphism{i} allele{i} haplotype{i} 설명입니다. 중요합니다.\n"
+                                    f"Superantigen{i} TCR{i} enterotoxin{i} 을 봅니다." for i in range(8)), encoding="utf-8")
+    rep, paths = run_pipeline(None, tmp_path / "o", MOM, script=script, backend=OfflineBackend(), pdf=False, toc="heuristic")
+    note = json.loads(paths["note"].read_text(encoding="utf-8"))
+    summ = next(t for t in note["topics"] if t["heading"] == "요약 정리")
+    dia = [s for s in summ["sections"]["body"] if s["kind"] == "diagram"]
+    assert len(dia) == 1 and dia[0]["diagram"]["kind"] == "tree" and dia[0]["diagram"]["groups"]
+    assert "SUMMARY_NO_VISUAL" not in {i.code for i in rep.issues}
+    assert (tmp_path / "o" / "diagrams" / "diagram_01.png").exists()

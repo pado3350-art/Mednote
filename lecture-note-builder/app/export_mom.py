@@ -127,29 +127,36 @@ def source_tag(st: Statement, note: LectureNote) -> str:
 
 # --------------------------------------------------------------- statements
 def _figure(doc, st: Statement, tpl: Template) -> None:
-    """Centered picture (<= 14 x 9 cm, aspect kept) + small gray caption 'Figure n. ...'."""
+    """Centered picture + small gray caption. figure: <= 14 x 9 cm 'Figure n.'; diagram: full width '도식 n.';
+    level 1 (summary page thumbnails): <= 9 x 5.5 cm '핵심 그림'."""
     from PIL import Image
 
     F = tpl.format.font_korean
     path = Path(st.image)
     if not path.exists():
         return
-    doc._fig_n = getattr(doc, "_fig_n", 0) + 1
     with Image.open(path) as im:
         w, h = im.size
-    width_cm = min(14.0, 9.0 * w / max(h, 1))
+    if st.kind == "diagram":
+        doc._dia_n = getattr(doc, "_dia_n", 0) + 1
+        label, width_cm = f"도식 {doc._dia_n}.", min(16.8, 11.0 * w / max(h, 1))
+    elif st.level >= 1:
+        label, width_cm = "핵심 그림.", min(9.0, 5.5 * w / max(h, 1))
+    else:
+        doc._fig_n = getattr(doc, "_fig_n", 0) + 1
+        label, width_cm = f"그림 {doc._fig_n}.", min(14.0, 9.0 * w / max(h, 1))
     p = doc.add_paragraph()
     _fmt(p, before=6, after=2, line=1.0, align=WD_ALIGN_PARAGRAPH.CENTER)
     p.paragraph_format.keep_with_next = True
     p.add_run().add_picture(str(path), width=Cm(width_cm))
     c = doc.add_paragraph()
     _fmt(c, after=8, line=1.1, align=WD_ALIGN_PARAGRAPH.CENTER)
-    r = c.add_run(f"그림 {doc._fig_n}. {_strip(st.text)}")
+    r = c.add_run(f"{label} {_strip(st.text)}")
     _font(r, F, 8.5, color=COLOR["minor"])
 
 
 def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
-    if st.kind == "figure":
+    if st.kind in ("figure", "diagram"):
         _figure(doc, st, tpl)
         return
     F = tpl.format.font_korean
@@ -166,6 +173,7 @@ def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
         size = base
     elif st.kind == "star":
         _fmt(p, before=10, after=6, line=1.25, left=0.9 + ind)
+        p.paragraph_format.keep_with_next = True  # never leave a sub-heading alone at the bottom of a page
         r = p.add_run("★ "); _font(r, F, base + 0.5, bold=True)
         size, base_bold = base + 0.5, True
     elif st.kind == "bullet":

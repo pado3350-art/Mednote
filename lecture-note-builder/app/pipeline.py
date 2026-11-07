@@ -11,6 +11,7 @@ from .generate_notes import Backend, generate_note
 from .models import AlignedSlide, ValidationReport
 from .template import load_template
 from .pdf_render import heading_pages, render_pdf
+from .diagrams import render_diagram
 from .exam import EXAM_BASE
 from .figures import (apply_overrides, collect_figures, extract_pdf_slides, place_figures, save_figures,
                       slide_figures)
@@ -51,6 +52,7 @@ def run_pipeline(
     figures_json: str | Path | None = None,  # hand-edited placement log to re-apply
     max_figures_per_topic: int = 6,
     keep_text_images: bool = False,
+    summary_figures: int = 4,
 ) -> tuple[ValidationReport, dict[str, Path]]:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -120,6 +122,15 @@ def run_pipeline(
     if outline is None and ref_style == "para":
         outline = _outline_from_topics(note.topics)
 
+    # ---- schematics: render every kind="diagram" statement to a picture
+    n_dia = 0
+    for t in note.topics:
+        for sts in t.sections.values():
+            for st in sts:
+                if st.kind == "diagram" and st.diagram is not None:
+                    n_dia += 1
+                    st.image = str(render_diagram(st.diagram, out / "diagrams" / f"diagram_{n_dia:02d}.png"))
+
     # ---- pictures: slide images (bound to their slide) + extra sources (matched by text)
     all_figs = slide_figures(slides)
     if all_figs:
@@ -132,7 +143,8 @@ def run_pipeline(
     if all_figs:
         if figures_json:
             apply_overrides(all_figs, figures_json)
-        place_figures(note, all_figs, tpl, max_per_topic=max_figures_per_topic, keep_text_images=keep_text_images)
+        place_figures(note, all_figs, tpl, max_per_topic=max_figures_per_topic, keep_text_images=keep_text_images,
+                      summary_figures=summary_figures)
     report = validate(note, slides, aligned, tpl)
 
     def dump(name: str, objs) -> Path:

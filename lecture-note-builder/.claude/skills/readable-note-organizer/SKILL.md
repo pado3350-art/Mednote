@@ -58,6 +58,15 @@ Front pages: **핵심 어휘** (one-line definitions of the key terms, easy word
 - Pictures of pure bullet-point text (`text_like`) are skipped by default: the text is already in the note.
 - Never draw or invent images; never put a figure in a section it does not belong to just to fill space.
 
+## 5c. The 요약 정리 page MUST be visual (schematics + key figures)
+A summary made only of bullets is not enough. For every chapter/§ on the **요약 정리** page put a **schematic** (`kind: "diagram"`, drawn by the program, `Diagram` spec) above its bullets, and let the program add the best source figures as thumbnails ("핵심 그림 모아보기").
+- `tree`  = concept map: `root` + `groups` (2-5 cards: title + short items). Use for "what are the parts / classes" (MHC class I/II/Ib, septal 4 connections).
+- `flow`  = left-to-right path: `groups` (stages) + `arrows` (src, dst, label, both). Use for pathways and sequences (afferent -> amygdala -> efferent; T cell recognition).
+- `compare` = comparison cards: `groups` = columns, `row_labels`, items aligned by row. Use for A vs B (polymorphism vs polygeny, amygdala vs nucleus accumbens).
+- Items are 1 short phrase each (<= ~30 chars when possible), same markup/colour rules as text: **bold** terms, `{r|}` stress, `{b|}` = PAD only. A diagram with blue items must cite the PAD unit(s) in `slide_refs`.
+- Content comes only from the source - a diagram re-draws what the text says, it never adds facts.
+- The validator warns `SUMMARY_NO_VISUAL` if the 요약 정리 page has neither a diagram nor a figure. Offline mode auto-draws a concept map; do better by hand.
+
 ## 6. Do NOT
 - Do not invent medical facts, mechanisms or numbers that are not in the source (clarifying glue words are fine; new claims are not).
 - Do not put exam questions (기출 / 필수예제) into the note unless the template asks for an exam section.

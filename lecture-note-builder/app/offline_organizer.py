@@ -158,6 +158,38 @@ def organize_section(units: list[Slide], heading: str, chapter: str, allowed: se
                  sections={"body": statements})
 
 
+def _concept_map(body: list[Topic], key: str) -> list[Statement]:
+    """Automatic schematic for 요약 정리: root + one card per chapter (or per section) with its key terms."""
+    from .models import Diagram, Group
+
+    if not body:
+        return []
+
+    def terms(t: Topic, k: int = 3) -> list[str]:
+        out: list[str] = []
+        for st in t.sections.get(key, []):
+            for m in re.finditer(r"\*\*([^*]+)\*\*", st.text):
+                if m.group(1) not in out:
+                    out.append(m.group(1))
+        return out[:k]
+
+    palette = ["teal", "blue", "salmon", "amber", "violet", "green"]
+    if any(t.chapter for t in body):
+        chapters: dict[str, list[Topic]] = {}
+        for t in body:
+            chapters.setdefault(t.chapter or t.heading, []).append(t)
+        groups = [Group(title=c, items=[f"§ {i}. {t.heading}" for i, t in enumerate(ts, 1)], color=palette[j % 6])
+                  for j, (c, ts) in enumerate(chapters.items())]
+    else:
+        groups = []
+        for j, t in enumerate(body[:6]):
+            items = terms(t) or [re.sub(r"[{}*]|\b[rbgp]\|", "", t.basics[0])[:30]] if (terms(t) or t.basics) else []
+            groups.append(Group(title=t.heading[:28], items=items, color=palette[j % 6]))
+    spec = Diagram(kind="tree", title="핵심 개념 지도", root="이 강의의 구성", groups=groups)
+    return [Statement(text="핵심 개념 지도 — 섹션별 핵심 용어", kind="diagram", diagram=spec, origin="both",
+                      slide_refs=list(body[0].slide_numbers[:1]))]
+
+
 def make_front_pages(topics: list[Topic], key: str) -> list[Topic]:
     """핵심 어휘 (distinctive terms with the sentence that defines them) + 요약 정리 (basics per section)."""
     body = [t for t in topics if t.role == "body"]
@@ -194,7 +226,7 @@ def make_front_pages(topics: list[Topic], key: str) -> list[Topic]:
         fronts.append(Topic(heading="핵심 어휘", role="front", slide_numbers=sorted({r for g in glossary for r in g.slide_refs if r < 1000}),
                             sections={key: [Statement(text="강의 전체에 나오는 핵심 용어를 먼저 훑어보자. 뒤에서 하나씩 다시 나온다.",
                                                       kind="para", slide_refs=glossary[0].slide_refs[:1], origin="both"), *glossary]}))
-    summary = []
+    summary = _concept_map(body, key)
     for t in body:
         if not t.basics:
             continue

@@ -44,7 +44,7 @@ def _style_doc(doc: Document, tpl: Template) -> None:
 
 
 def _statement(doc: Document, st: Statement, tpl: Template, lecturer: bool, note: LectureNote) -> None:
-    if st.kind == "figure":
+    if st.kind in ("figure", "diagram"):
         from .export_mom import _figure
 
         _figure(doc, st, tpl)
@@ -158,7 +158,7 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
                 continue
             L.append(f"### {sec.label}")
             for st in sts:
-                if st.kind == "figure":
+                if st.kind in ("figure", "diagram"):
                     L.append(f"![{_md(st.text)}]({st.image})")
                     continue
                 pre = "▶ **교수님:** " if st.origin == "lecturer" else ""

@@ -68,3 +68,8 @@ AI 백엔드: 목차(outline, chapter 포함) → 섹션별 노트(기본정석 
 ## API 없이
 `OfflineBackend`(기본)는 `offline_organizer`(군말 제거, 한다체, 강조/저중요 단서, 용어 굵게, 기본정석, 핵심 어휘·요약 정리)와 `pad_match`(PAD 자동 파랑)로
 초안을 만든다. `prepare`는 Claude Code가 직접 쓰기 위한 작업 패킷(brief/)을 만든다.
+
+## 도식 (`app/diagrams.py`)
+`Statement(kind="diagram", diagram=Diagram)` → 파이프라인이 PIL로 PNG 렌더(tree: 루트+카드, flow: 단계 카드+화살표(라벨·양방향·건너뛰기), compare: 열 카드+행 라벨)
+→ 본문 그림과 같은 경로로 DOCX/PDF에 `도식 n.` 캡션과 함께 삽입. 박스 글은 본문 마크업을 그대로 지원하므로 색 규칙이 동일하다.
+요약 정리 쪽에는 `add_summary_figures`가 섹션별 최고 점수 그림을 `핵심 그림` 썸네일로 추가한다.

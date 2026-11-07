@@ -263,7 +263,7 @@ def _body_key(t: Topic, tpl: Template) -> str | None:
 
 def place_figures(note: LectureNote, figures: list[Figure], tpl: Template, max_per_topic: int = 6,
                   min_score: float = 0.10, soft_order_penalty: float = 0.12,
-                  keep_text_images: bool = False) -> list[Figure]:
+                  keep_text_images: bool = False, summary_figures: int = 4) -> list[Figure]:
     """Decide topic + anchor for every figure, insert Statement(kind='figure') and return the log."""
     body_idx = [i for i, t in enumerate(note.topics) if t.role == "body"]
     if not body_idx or not figures:
@@ -397,7 +397,37 @@ def place_figures(note: LectureNote, figures: list[Figure], tpl: Template, max_p
                 kind="figure", image=f.path, origin="both",
                 slide_refs=list(anchor.slide_refs) if anchor else list(t.slide_numbers[:1])))
     note.figures = figures
+    add_summary_figures(note, figures, tpl, summary_figures)
     return figures
+
+
+def add_summary_figures(note: LectureNote, figures: list[Figure], tpl: Template, limit: int = 4) -> None:
+    """핵심 요약 page: the best figure of the sections (one per section, highest match first) as small
+    thumbnails under '핵심 그림 모아보기', in section order."""
+    if limit <= 0:
+        return
+    summ = next((t for t in note.topics if t.role == "front" and "요약" in t.heading), None)
+    if summ is None:
+        return
+    best: dict[int, Figure] = {}
+    for f in figures:
+        if f.skip or f.topic is None or (f.text_like and f.unit is None):
+            continue
+        if f.topic not in best or f.score > best[f.topic].score:
+            best[f.topic] = f
+    chosen = sorted(best.values(), key=lambda f: -f.score)[:limit]
+    if not chosen:
+        return
+    key = _body_key(summ, tpl) or tpl.keys[0]
+    sts = summ.sections.setdefault(key, [])
+    refs = sts[0].slide_refs[:1] if sts else (note.topics[chosen[0].topic].slide_numbers[:1])
+    sts.append(Statement(text="핵심 그림 모아보기", kind="star", origin="both", slide_refs=list(refs)))
+    for f in sorted(chosen, key=lambda f: f.topic):
+        t = note.topics[f.topic]
+        src = next((s for s in t.sections.get(_body_key(t, tpl) or "", []) if s.kind == "figure" and s.image == f.path), None)
+        cap = _strip(src.text).split("  (출처")[0] if src else (f.caption or t.heading)
+        sts.append(Statement(text=f"{cap} — {t.heading}", kind="figure", level=1, image=f.path, origin="both",
+                             slide_refs=list(src.slide_refs) if src else list(refs)))
 
 
 def save_figures(figures: list[Figure], path: str | Path) -> Path:

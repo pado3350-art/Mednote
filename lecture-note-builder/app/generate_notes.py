@@ -214,7 +214,7 @@ class AnthropicBackend:
         resp = self.client.messages.create(
             model=self.model, max_tokens=6000,
             system=SYSTEM_PROMPT + "\n\n## 스타일 가이드\n" + load_style_guide() + "\n\n" +
-            "지금 작업: 완성된 섹션들을 읽고 앞쪽 두 페이지를 만든다. topics는 정확히 2개: heading='핵심 어휘'(핵심 용어 한 줄 정의, 교수가 언급한 것만, 전부 slide_refs 포함)와 heading='요약 정리'(섹션별 치트시트). role='front'.",
+            "지금 작업: 완성된 섹션들을 읽고 앞쪽 두 페이지를 만든다. topics는 정확히 2개: heading='핵심 어휘'(핵심 용어 한 줄 정의, 교수가 언급한 것만, 전부 slide_refs 포함)와 heading='요약 정리'(섹션별 치트시트 + 도식 2~4개: kind='diagram'의 diagram에 tree(개념 지도)/flow(경로·순서, arrows)/compare(비교 카드, row_labels)). 도식 안의 파랑{b|}은 PAD 내용만이며 그 statement의 slide_refs에 PAD 번호가 있어야 한다. role='front'.",
             tools=[tool], tool_choice={"type": "tool", "name": "emit_front"},
             messages=[{"role": "user", "content": json.dumps({"sections": digest}, ensure_ascii=False)}],
         )
