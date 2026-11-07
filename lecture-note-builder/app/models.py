@@ -16,6 +16,8 @@ class BodyLine(BaseModel):
 class SlideTable(BaseModel):
     rows: list[list[str]]
     caption: str = ""
+    heat_cols: list[int] = Field(default_factory=list)  # shade numeric columns (white->red)
+    col_widths_cm: list[float] = Field(default_factory=list)  # optional column widths
 
 
 class Slide(BaseModel):
@@ -60,8 +62,9 @@ class Statement(BaseModel):
     segment_ids: list[int] = Field(default_factory=list)
     time_ranges: list[str] = Field(default_factory=list)  # e.g. "23:10-24:02"
     emphasis: bool = False
-    # Visual role (MOM colour legend): key=blue, minor=gray, verify=purple.
-    tag: Literal["normal", "key", "minor", "verify"] = "normal"
+    # Visual role (MOM colour legend): exam=BLUE (기출 only!), minor=gray, verify=purple;
+    # red is `emphasis`. Blue requires a PAD (기출) source ref -> see validate_notes.
+    tag: Literal["normal", "exam", "minor", "verify"] = "normal"
     # Layout role: paragraph, "-" bullet, or "★" sub-heading.
     kind: Literal["para", "bullet", "star"] = "para"
     level: int = 0

@@ -1,12 +1,12 @@
 """Tiny inline markup used inside Statement.text so one paragraph can mix colours,
-like the MOM notes do:  {r|red} {b|blue} {g|gray} {p|purple}  and **bold**."""
+like the MOM notes do:  {r|red=강조} {b|BLUE=기출 only} {g|gray=덜 중요} {p|purple=검증필요}  and **bold**."""
 from __future__ import annotations
 
 import re
 
 _COLOR = re.compile(r"\{([rbgp])\|(.*?)\}", re.S)
 _BOLD = re.compile(r"\*\*(.+?)\*\*", re.S)
-COLORS = {"r": "emphasis", "b": "key", "g": "minor", "p": "verify"}
+COLORS = {"r": "emphasis", "b": "exam", "g": "minor", "p": "verify"}
 
 
 def runs(text: str) -> list[tuple[str, str | None, bool]]:

@@ -187,3 +187,92 @@ def test_structured_validation_catches_dropped_unit(tmp_path):
     rep, _ = run_pipeline(None, tmp_path / "o", Path(__file__).resolve().parent.parent / "templates" / "mom.yaml",
                           script=s, backend=PrecomputedBackend(topics), pdf=False)
     assert {i.slide for i in rep.errors if i.code == "SLIDE_MISSING"} == {2, 3}
+
+
+PAD = """2023년 4월 26일 수요일 <면역학>
+                        기출문제
+  20학번 (2022년) 김태규 교수님.
+  다른 교수님이다.
+
+  1. 다음 중 다형성이 가장 높은 유전자좌는?
+   ① HLA-A ② HLA-B ③ HLA-C
+                                  정답 : 2번
+  Class I의 polymorphism은 B>A>C 순이다.
+
+  19학번 (2021년) 김태규 교수님. (감염과 면역)
+  1. CD1c가 활성화 시키는 것은?
+  1) NK cell 2) NKT cell
+                                  정답 : 2번
+  CD1c는 lipid를 제시한다.
+  2. MHC class 2에 해당하는 것은?
+  1) HLA-A 2) HLA-DR
+                                  정답 : 2번
+  2글자는 class II.
+  07학번 (2009년) 김태규 교수님. (감염과 면역)
+  정답 3번. 짤입니다.
+  수고하셨습니다~
+"""
+
+
+def test_exam_parse():
+    from app.exam import EXAM_BASE, parse_exam_text
+
+    items = parse_exam_text(PAD)
+    assert [i.number for i in items] == [EXAM_BASE + k for k in range(1, 5)]
+    assert items[0].year == 2022 and items[0].answer == "2번" and "B>A>C" in items[0].commentary
+    assert "HLA-C" in items[0].question  # choices stay with the question
+    assert items[1].course == "감염과 면역" and items[2].q_no == 2  # choice lines "1)" are not questions
+    assert "스캔" in items[3].question
+
+
+def _exam_run(tmp_path, topics, with_pad=True):
+    from app.generate_notes import PrecomputedBackend
+    from app.pipeline import run_pipeline
+
+    s = tmp_path / "s.txt"; s.write_text(STRUCT, encoding="utf-8")
+    pad = tmp_path / "pad.txt"
+    # exam_pdf expects a PDF; monkeypatched parser below reads text instead
+    return run_pipeline(None, tmp_path / "o", Path(__file__).resolve().parent.parent / "templates" / "mom.yaml",
+                        script=s, backend=PrecomputedBackend(topics), pdf=False, exam_pdf=pad if with_pad else None)
+
+
+def test_blue_only_for_exam(tmp_path, monkeypatch):
+    import app.exam as exam
+    from app.models import Statement, Topic
+
+    monkeypatch.setattr(exam, "pdf_text", lambda p: PAD)
+    base = [Statement(text="MHC는 6번 염색체. Polygenic polymorphic 1~10% CD1 lipid", slide_refs=[1, 2, 3])]
+    ok = Statement(text="{b|기출: 다형성 최대 HLA-B}", slide_refs=[2, 101])
+    bad = Statement(text="{b|그냥 중요한 용어}", slide_refs=[2])
+    unmarked = Statement(text="PAD 문항 내용을 파랑 없이 서술", slide_refs=[2, 102])
+    units = [1, 2, 3, 101, 102, 103, 104]
+    rep, _ = _exam_run(tmp_path, [Topic(heading="0. t", slide_numbers=units, sections={"body": base + [ok, bad, unmarked]})])
+    codes = [(i.code, i.severity) for i in rep.issues]
+    assert ("BLUE_WITHOUT_PAD", "error") in codes
+    assert ("PAD_NOT_BLUE", "warning") in codes
+    assert sum(1 for c, _ in codes if c == "BLUE_WITHOUT_PAD") == 1  # the PAD-cited blue statement is fine
+
+
+def test_exam_units_must_be_covered(tmp_path, monkeypatch):
+    import app.exam as exam
+    from app.models import Statement, Topic
+
+    monkeypatch.setattr(exam, "pdf_text", lambda p: PAD)
+    t = Topic(heading="0. t", slide_numbers=[1, 2, 3, 101], sections={"body": [
+        Statement(text="MHC는 6번 염색체. Polygenic polymorphic 1~10% CD1 lipid", slide_refs=[1, 2, 3])]})
+    rep, _ = _exam_run(tmp_path, [t])
+    assert {i.slide for i in rep.errors if i.code == "SLIDE_MISSING"} == {102, 103, 104}
+
+
+def test_heat_table_and_col_widths(tmp_path):
+    from app.export_mom import export_mom
+    from app.models import LectureNote, SlideTable, Topic
+    from app.template import load_template
+
+    tpl = load_template(Path(__file__).resolve().parent.parent / "templates" / "mom.yaml")
+    tb = SlideTable(rows=[["주제", "총"], ["a", "4"], ["b", "0"]], heat_cols=[1], col_widths_cm=[8, 2])
+    note = LectureNote(title="t", topics=[Topic(heading="0. x", slide_numbers=[], tables=[tb])])
+    out = export_mom(note, tpl, tmp_path / "h.docx")
+    xml = Document(str(out)).element.xml
+    assert 'w:fill="7BC47F"' in xml  # zero -> green
+    assert 'w:fill="FF50' in xml or 'w:fill="FF' in xml  # max -> strong red

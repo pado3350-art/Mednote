@@ -4,14 +4,15 @@ from __future__ import annotations
 import re
 
 from .align_content import _bigrams, _cosine
-from .markup import strip as _strip_markup
+from .exam import EXAM_BASE
+from .markup import runs as _runs, strip as _strip_markup
 from .models import AlignedSlide, Issue, LectureNote, Slide, ValidationReport
 from .template import Template
 
 # number with optional unit, e.g. 5.5 mg/dL, 40%, 2 mm, 1.5x
-_NUM = re.compile(r"\d+(?:[.,]\d+)?\s*(?:%|mg/dL|mg/kg|mg|mcg|μg|µg|g/dL|g|kg|mL|L|mm|cm|mmHg|mEq/L|IU|U|°C|bpm|x|배|일|주|개월|년|세|시간|분)?")
+_NUM = re.compile(r"(?<![A-Za-z0-9])\d+(?:[.,]\d+)?\s*(?:%|mg/dL|mg/kg|mg|mcg|μg|µg|g/dL|g|kg|mL|L|mm|cm|mmHg|mEq/L|IU|U|°C|bpm|x|배|일|주|개월|년|세|시간|분)?")
 # English medical terms / acronyms: Capitalised words (len>=3) or ALLCAPS (>=2)
-_TERM = re.compile(r"\b(?:[A-Z]{2,}[A-Za-z0-9-]*|[A-Z][a-z]{3,}(?:\s+[a-z]{3,})?)\b")
+_TERM = re.compile(r"\b(?:[A-Z]{2,}(?:[A-Za-z0-9]|-(?=[A-Za-z0-9]))*|[A-Z][a-z]{3,}(?:\s+[a-z]{3,})?)\b")
 _GROUND_MIN = 0.12
 
 
@@ -61,7 +62,7 @@ def validate(
             if _norm(m) not in full:
                 rep.issues.append(Issue(severity="error", code="NUMBER_LOST", slide=n,
                                         message=f"수치 '{m}'이(가) 강의록에서 누락/변형되었습니다."))
-        if template.quality.preserve_all_key_concepts:
+        if template.quality.preserve_all_key_concepts and n < EXAM_BASE:  # PAD distractors need not be echoed
             for term in sorted({x.group() for x in _TERM.finditer(src)}):
                 if _norm(term) not in full:
                     rep.issues.append(Issue(severity="warning", code="TERM_LOST", slide=n,
@@ -99,6 +100,22 @@ def validate(
                     rep.issues.append(Issue(severity="warning", code="UNGROUNDED",
                                             slide=st.slide_refs[0],
                                             message=f"원본과 유사도가 낮은 문장(근거 확인 필요): '{_strip_markup(st.text)[:40]}…'"))
+
+    # 4b. Colour rule: BLUE = 기출 only. Blue text must cite a PAD unit; PAD-cited
+    #     content (non-heading) should be blue.
+    for t in note.topics:
+        for sts in t.sections.values():
+            for st in sts:
+                has_pad = any(r >= EXAM_BASE for r in st.slide_refs)
+                blue = st.tag == "exam" or any(c == "exam" for _, c, _ in _runs(st.text))
+                if blue and not has_pad:
+                    rep.issues.append(Issue(severity="error", code="BLUE_WITHOUT_PAD",
+                                            slide=st.slide_refs[0] if st.slide_refs else None,
+                                            message=f"파랑은 기출 내용 전용인데 PAD 출처가 없습니다: '{_strip_markup(st.text)[:40]}…'"))
+                if has_pad and st.kind != "star" and st.tag == "normal" and not any(c for _, c, _ in _runs(st.text)):
+                    rep.issues.append(Issue(severity="warning", code="PAD_NOT_BLUE",
+                                            slide=st.slide_refs[0],
+                                            message=f"기출(PAD) 출처 문장이 파랑 표시되지 않았습니다: '{_strip_markup(st.text)[:40]}…'"))
 
     # 5. Alignment confidence & script segments dropped
     placed_ids = {i for t in note.topics for sts in t.sections.values() for s in sts for i in s.segment_ids}

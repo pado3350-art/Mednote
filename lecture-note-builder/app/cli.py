@@ -28,6 +28,7 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--professor")
     b.add_argument("--author")
     b.add_argument("--comment", help="작성자 코멘트 (use \\n for new lines)")
+    b.add_argument("--exam-pdf", help="PAD(기출문제) PDF; 파랑 글씨는 여기 나온 내용에만 허용")
     b.add_argument("--no-pdf", action="store_true")
     a = ap.parse_args(argv)
     if not a.pptx and not a.script:
@@ -40,7 +41,7 @@ def main(argv: list[str] | None = None) -> int:
     meta = {k: v for k in ("date", "subject", "professor", "author") if (v := getattr(a, k))}
     if a.comment:
         meta["comment"] = a.comment.replace("\\n", "\n")
-    report, paths = run_pipeline(a.pptx, a.out, a.template, a.script, backend, a.title, meta, pdf=not a.no_pdf)
+    report, paths = run_pipeline(a.pptx, a.out, a.template, a.script, backend, a.title, meta, pdf=not a.no_pdf, exam_pdf=a.exam_pdf)
     for k, v in paths.items():
         print(f"{k:12s} {v}")
     print(f"coverage {report.slide_coverage:.0%}  errors {len(report.errors)}")

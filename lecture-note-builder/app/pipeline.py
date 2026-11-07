@@ -34,6 +34,7 @@ def run_pipeline(
     title: str | None = None,
     meta: dict[str, str] | None = None,
     pdf: bool = True,
+    exam_pdf: str | Path | None = None,
 ) -> tuple[ValidationReport, dict[str, Path]]:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -60,6 +61,17 @@ def run_pipeline(
         meta = {**{k: v for k, v in file_meta.items() if k in ("date", "subject")}, **meta}
         title = title or file_meta.get("title")
     title = title or stem
+
+    if exam_pdf:  # PAD (기출문제) units: citable sources, blue-text justification
+        from .exam import parse_exam_pdf
+        from .models import BodyLine, Slide
+
+        for it in parse_exam_pdf(exam_pdf):
+            body = [BodyLine(text=it.question), BodyLine(text=f"정답: {it.answer}")]
+            if it.commentary:
+                body.append(BodyLine(text=it.commentary))
+            slides.append(Slide(number=it.number, title=it.title, body=body))
+            unit_labels[it.number] = it.label
 
     note = generate_note(title, slides, aligned, tpl, backend, meta=meta, unit_labels=unit_labels)
     report = validate(note, slides, aligned, tpl)

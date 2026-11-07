@@ -35,3 +35,9 @@ TXT/DOCX ─ transcript ─▶ segments    ├─ align_content ─▶ alignment
 - 유사도 정렬은 어휘 기반이며 의미 임베딩이 아님; 마커/타임스탬프가 있으면 더 정확.
 - 용어/수치 검증은 정규식 휴리스틱 → 오탐 가능(경고는 사람이 판단).
 - Anthropic 백엔드는 가짜 클라이언트로만 테스트됨(실 API 미검증).
+
+## PAD(기출문제) 입력과 색상 규칙
+`--exam-pdf`로 기출 PDF를 넣으면 `app/exam.py`가 문항을 파싱해 *기출 유닛*(번호 101~)으로 추가한다.
+유닛은 강의 구간과 동일하게 커버리지·출처 추적 대상이다(모든 문항이 어떤 Topic에 반영되어야 함).
+파랑 글씨는 기출 내용 전용이며, 검증기가 `BLUE_WITHOUT_PAD`(error) / `PAD_NOT_BLUE`(warning)로 확인한다.
+섹션 0에는 MOM의 '땡시 기출' 표처럼 기출 빈도(heat 색칠)·문항 목록 표를 둔다.

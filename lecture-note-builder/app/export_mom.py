@@ -25,7 +25,7 @@ from .template import Template
 
 COLOR = {
     "emphasis": RGBColor(0xC0, 0x00, 0x00),
-    "key": RGBColor(0x2F, 0x5F, 0xB3),
+    "exam": RGBColor(0x1F, 0x4E, 0xC8),
     "minor": RGBColor(0x8C, 0x8C, 0x8C),
     "verify": RGBColor(0x70, 0x30, 0xA0),
 }
@@ -151,16 +151,45 @@ def _table(doc, tb, tpl: Template):
     t = doc.add_table(rows=len(tb.rows), cols=ncol)
     t.style = "Table Grid"
     t.alignment = WD_TABLE_ALIGNMENT.LEFT
+    if tb.col_widths_cm and len(tb.col_widths_cm) == ncol:
+        t.autofit = False
+        for ci, w in enumerate(tb.col_widths_cm):
+            t.columns[ci].width = Cm(w)
+            for row in t.rows:
+                row.cells[ci].width = Cm(w)
+    trPr = t.rows[0]._tr.get_or_add_trPr()  # repeat header row on page breaks
+    hdr = OxmlElement("w:tblHeader"); hdr.set(qn("w:val"), "true"); trPr.append(hdr)
+    for row in t.rows:  # never split a row across pages
+        cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); row._tr.get_or_add_trPr().append(cs)
+    def heat(ci, ri):
+        try:
+            v = float(tb.rows[ri][ci])
+        except (ValueError, IndexError):
+            return None
+        mx = max((float(r[ci]) for r in tb.rows[1:] if len(r) > ci and r[ci].replace(".", "", 1).isdigit()), default=0) or 1
+        k = min(max(v / mx, 0.0), 1.0)
+        # white -> red like the reference heat table (0 -> light green for "none")
+        if v == 0:
+            return "7BC47F"
+        r, g, b = 255, int(255 - 175 * k), int(255 - 190 * k)
+        return f"{r:02X}{g:02X}{b:02X}"
+
     for ri, row in enumerate(tb.rows):
         for ci in range(ncol):
             c = t.cell(ri, ci)
             c.text = ""
             p = c.paragraphs[0]
             _fmt(p, after=1, line=1.15)
+            if ri < 2:
+                p.paragraph_format.keep_with_next = True
             for text, col, bold in runs(row[ci] if ci < len(row) else ""):
                 r = p.add_run(text)
                 _font(r, F, tpl.format.font_size_pt - 1, bold=True if (bold or ri == 0 or ci == 0) else None,
                       color=COLOR[col] if col else BLACK)
+            if ri > 0 and ci in tb.heat_cols and (fill := heat(ci, ri)):
+                sh = OxmlElement("w:shd"); sh.set(qn("w:val"), "clear"); sh.set(qn("w:fill"), fill)
+                c._tc.get_or_add_tcPr().append(sh)
+                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
             if ri == 0:
                 sh = OxmlElement("w:shd"); sh.set(qn("w:val"), "clear"); sh.set(qn("w:fill"), "EDEDED")
                 c._tc.get_or_add_tcPr().append(sh)
@@ -225,7 +254,7 @@ def export_mom(
         used.add("emphasis")
     for text in [x for t in note.topics for sts in t.sections.values() for s in sts for x in [s.text]]:
         for m in re.finditer(r"\{([rbgp])\|", text):
-            used.add({"r": "emphasis", "b": "key", "g": "minor", "p": "verify"}[m.group(1)])
+            used.add({"r": "emphasis", "b": "exam", "g": "minor", "p": "verify"}[m.group(1)])
     cb = doc.add_table(rows=1, cols=1)
     cb.alignment = WD_TABLE_ALIGNMENT.CENTER
     cc = cb.cell(0, 0); _box(cc, sz=6)

@@ -20,7 +20,7 @@ format:
   font_size_pt: 10
   legend:
     - {tag: emphasis, word: 빨강, meaning: "교수님 강조 / 시험 언급 / 꼭 외울 부분"}
-    - {tag: key,      word: 파랑, meaning: "핵심 용어·정의"}
+    - {tag: exam,     word: 파랑, meaning: "기출된 내용 (PAD 기출문제에 나온 부분에만 사용)"}
     - {tag: minor,    word: 회색, meaning: "중요도 낮은 부분 (이해용 부연)"}
     - {tag: verify,   word: 보라, meaning: "원자료와 대조 필요 / 불확실"}
 
