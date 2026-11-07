@@ -51,6 +51,13 @@ Front pages: **핵심 어휘** (one-line definitions of the key terms, easy word
 - Every statement keeps `slide_refs` (script paragraph numbers or slide numbers). A merged bullet cites all paragraphs it used.
 - Add a `review_flags` entry for transcription doubts or conflicts with standard references.
 
+## 5b. Figures and photos (use them - they raise understanding)
+- Use **every** informative picture the user provides (slides, handout PDF, anatomy photos, tables as images). The program extracts them and places each next to the sub-section it explains; you only make sure the text *refers to what the picture shows* ("그림에서 파란 경로는 basolateral ...").
+- Look at the images (Read tool) before writing: describe what to notice (labels, arrows, colours) in the explanation or an **Advice** line.
+- Give each figure a specific Korean caption through `figures.json` (`caption`) - not just the file name; fix wrong placement with `topic_heading` / `anchor`; `skip` only decorations or text-only slides.
+- Pictures of pure bullet-point text (`text_like`) are skipped by default: the text is already in the note.
+- Never draw or invent images; never put a figure in a section it does not belong to just to fill space.
+
 ## 6. Do NOT
 - Do not invent medical facts, mechanisms or numbers that are not in the source (clarifying glue words are fine; new claims are not).
 - Do not put exam questions (기출 / 필수예제) into the note unless the template asks for an exam section.

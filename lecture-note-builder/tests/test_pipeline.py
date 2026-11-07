@@ -345,9 +345,9 @@ def test_offline_backend_builds_blue_exam_section(tmp_path, monkeypatch):
     rep, paths = _exam_run(tmp_path, monkeypatch, backend=OfflineBackend())
     assert not [i for i in rep.errors], rep.errors
     note = json.loads(paths["note"].read_text(encoding="utf-8"))
-    assert note["topics"][0]["heading"].startswith("0. 기출")
-    assert "{b|" in note["topics"][0]["sections"]["body"][0]["text"]
-    assert all(r >= 1000 for st in note["topics"][0]["sections"]["body"] for r in st["slide_refs"])
+    exam = next(t for t in note["topics"] if t["heading"].startswith("0. 기출"))  # front pages may come first
+    assert "{b|" in exam["sections"]["body"][0]["text"]
+    assert all(r >= 1000 for st in exam["sections"]["body"] for r in st["slide_refs"])
     assert note["unit_labels"]["1001"] == "PAD 2022(20학번) Q1"
 
 
@@ -543,3 +543,189 @@ Amygdala : ventral amygdalofugal pathway
     assert it[1].question.startswith("[서술형]") and it[1].answer.startswith("Amygdala")
     assert it[2].answer == "1, 3" and "Papez" in it[2].commentary  # numbered commentary is not a new question
     assert it[0].label == "PAD 20학번 Q53" and it[0].number == EXAM_BASE + 1
+
+
+# ----------------------------------------------------------------------------- figures / offline / prepare
+def _make_pdf(path, pages):
+    """pages: list of (text, [(color, rect)]) -> a PDF with coloured 'pictures' (real embedded images)."""
+    import pymupdf
+    from PIL import Image
+    import io
+
+    doc = pymupdf.open()
+    for text, pics in pages:
+        page = doc.new_page(width=540, height=780)
+        page.insert_text((40, 60), text, fontsize=11)
+        for color, rect in pics:
+            im = Image.new("RGB", (300, 220), color)
+            for x in range(0, 300, 20):  # structure so it is not a flat colour
+                for y in range(0, 220, 20):
+                    if (x // 20 + y // 20) % 2:
+                        im.putpixel((x, y), (255, 255, 255))
+            buf = io.BytesIO(); im.save(buf, "PNG")
+            page.insert_image(pymupdf.Rect(*rect), stream=buf.getvalue())
+    doc.save(str(path))
+
+
+def test_pdf_figures_extracted_with_decoration_filter(tmp_path):
+    pytest = __import__("pytest"); pytest.importorskip("pymupdf")
+    from app.figures import extract_pdf_figures
+
+    pdf = tmp_path / "h.pdf"
+    logo = ((200, 30, 30), (10, 10, 40, 30))  # tiny logo on every page -> decoration
+    _make_pdf(pdf, [("MHC class I structure", [((30, 90, 200), (60, 200, 360, 420)), logo]),
+                    ("Superantigen binds TCR", [((200, 90, 30), (60, 200, 360, 420)), logo]),
+                    ("Anchor residues", [((30, 160, 90), (60, 200, 360, 420)), logo])])
+    figs = extract_pdf_figures(pdf, tmp_path / "f")
+    assert len(figs) == 3 and [f.page for f in figs] == [1, 2, 3]  # logos dropped (tiny / repeated)
+    assert "Superantigen" in figs[1].context and all(Path(f.path).exists() for f in figs)
+
+
+def test_text_like_image_detection(tmp_path):
+    from PIL import Image, ImageDraw
+
+    from app.figures import looks_like_text_image
+
+    t = Image.new("RGB", (400, 300), "white"); d = ImageDraw.Draw(t)
+    for y in range(20, 280, 18):
+        d.text((20, y), "bullet point text line here", fill="black")
+    t.save(tmp_path / "t.png")
+    c = Image.new("RGB", (400, 300), (240, 235, 220)); ImageDraw.Draw(c).ellipse((60, 40, 340, 260), fill=(210, 150, 140))
+    c.save(tmp_path / "c.png")
+    assert looks_like_text_image(tmp_path / "t.png") and not looks_like_text_image(tmp_path / "c.png")
+
+
+def _note_for_figures():
+    from app.models import LectureNote, Statement, Topic
+
+    st = lambda t, k="para": Statement(text=t, kind=k, slide_refs=[1])
+    t1 = Topic(heading="MHC 구조", slide_numbers=[1], sections={"body": [
+        st("★ HLA 구조", "star"), st("MHC class I 유전자는 6번 염색체에 있다 HLA-A HLA-B HLA-C"),
+        st("★ 기타", "star"), st("기타 설명 문장")]})
+    t2 = Topic(heading="Superantigen", slide_numbers=[2], sections={"body": [
+        st("★ 초항원", "star"), st("Superantigen은 TCR과 MHC class II에 동시에 결합한다 enterotoxin TSST-1")]})
+    return LectureNote(title="t", topics=[t1, t2])
+
+
+def test_figures_placed_by_text_and_order_and_overrides(tmp_path):
+    pytest = __import__("pytest"); pytest.importorskip("pymupdf")
+    from app.figures import apply_overrides, extract_pdf_figures, place_figures
+
+    pdf = tmp_path / "h.pdf"
+    _make_pdf(pdf, [("MHC class I HLA-A HLA-B HLA-C chromosome structure", [((30, 90, 200), (60, 200, 360, 420))]),
+                    ("Superantigen TCR MHC class II enterotoxin TSST-1", [((200, 90, 30), (60, 200, 360, 420))])])
+    tpl = load_template(MOM)
+    note = _note_for_figures()
+    figs = extract_pdf_figures(pdf, tmp_path / "f")
+    place_figures(note, figs, tpl)
+    assert [f.topic for f in figs] == [0, 1]
+    kinds = [s.kind for s in note.topics[0].sections["body"]]
+    assert kinds.index("figure") == 2  # after the matching ★ block's first paragraph, not after the other block
+    assert [s.kind for s in note.topics[1].sections["body"]].count("figure") == 1
+    # manual override: move figure 1 to the Superantigen section and rename it
+    note2 = _note_for_figures()
+    figs2 = extract_pdf_figures(pdf, tmp_path / "f2")
+    ov = tmp_path / "o.json"
+    ov.write_text(json.dumps([{"id": 1, "topic_heading": "Superantigen", "anchor": "초항원", "caption": "수정된 캡션"},
+                              {"id": 2, "skip": True}], ensure_ascii=False), encoding="utf-8")
+    apply_overrides(figs2, ov)
+    place_figures(note2, figs2, tpl)
+    assert [s.kind for s in note2.topics[0].sections["body"]].count("figure") == 0
+    fig = [s for s in note2.topics[1].sections["body"] if s.kind == "figure"]
+    assert len(fig) == 1 and fig[0].text.startswith("수정된 캡션")
+
+
+def test_figure_rendered_in_docx_with_caption(tmp_path):
+    from PIL import Image
+
+    from app.export_mom import export_mom
+    from app.models import LectureNote, Statement, Topic
+
+    Image.new("RGB", (300, 200), (40, 90, 200)).save(tmp_path / "x.png")
+    note = LectureNote(title="t", ref_style="para", topics=[Topic(heading="a", slide_numbers=[1], sections={"body": [
+        Statement(text="본문", slide_refs=[1]),
+        Statement(text="MHC 구조 도식", kind="figure", image=str(tmp_path / "x.png"), slide_refs=[1])]})])
+    d = Document(str(export_mom(note, load_template(MOM), tmp_path / "f.docx")))
+    assert len(d.inline_shapes) == 1 and any(p.text.startswith("그림 1. MHC 구조 도식") for p in d.paragraphs)
+
+
+def test_slide_pdf_input_places_images_with_their_slide(tmp_path):
+    pytest = __import__("pytest"); pytest.importorskip("pymupdf")
+    from app.pipeline import run_pipeline
+
+    pdf = tmp_path / "slides.pdf"
+    _make_pdf(pdf, [("Slide one title\nMHC structure", [((30, 90, 200), (60, 200, 360, 420))]),
+                    ("Slide two title\nSuperantigen", [])])
+    tpl = tmp_path / "plain.yaml"
+    tpl.write_text(MOM.read_text(encoding="utf-8").replace("layout: mom", "layout: plain"), encoding="utf-8")
+    rep, paths = run_pipeline(pdf, tmp_path / "o", tpl, pdf=False)
+    assert not [i for i in rep.errors if i.code == "IMAGE_LOST"], rep.errors
+    note = json.loads(paths["note"].read_text(encoding="utf-8"))
+    figs = [s for t in note["topics"] for sts in t["sections"].values() for s in sts if s["kind"] == "figure"]
+    assert len(figs) == 1 and note["topics"][0]["images"] == []
+
+
+def test_study_voice_conversion():
+    from app.offline_organizer import clean_sentences, to_study_voice
+
+    assert [to_study_voice(x) for x in ("합니다.", "봅니다.", "됩니다.", "입니다.", "있습니다.", "보세요.", "배웠죠.", "할 겁니다.")] == \
+        ["한다.", "본다.", "된다.", "이다.", "있다.", "보자.", "배웠다.", "할 것이다."]
+    out = clean_sentences("자, 이제 그림을 보겠습니다. MHC는 6번 염색체에 있습니다. 꼭 기억하세요.")
+    assert out == ["MHC는 6번 염색체에 있다.", "꼭 기억하자."]  # pure speech noise dropped, content (6번) kept
+
+
+def test_pad_matcher_blue_only_on_real_overlap():
+    from app.exam import parse_exam_text
+    from app.pad_match import PadMatcher
+
+    m = PadMatcher(parse_exam_text(PAD))
+    assert m.match("Class I의 polymorphism은 HLA-B > HLA-A > HLA-C 순서이다 B>A>C")  # shares informative terms
+    assert m.match("오늘은 날씨가 좋다") == []
+    assert m.match("lipid 항원은 CD1c가 제시한다 NKT cell") == [1002]
+
+
+def test_offline_backend_organizes_flow_and_colours_pad(tmp_path, monkeypatch):
+    import app.exam as exam
+    from app.generate_notes import OfflineBackend
+    from app.pipeline import run_pipeline
+
+    monkeypatch.setattr(exam, "pdf_text", lambda p: PAD)
+    script = tmp_path / "s.txt"
+    script.write_text("""자, 오늘은 MHC를 봅니다. Class I의 polymorphism은 HLA-B, HLA-A, HLA-C 순서입니다. 꼭 기억하세요.
+
+CD1c는 lipid 항원을 제시하고 NKT cell을 활성화합니다. 이제 다음으로 넘어가겠습니다.
+
+그림을 보면 구조가 보입니다. FcRn은 IgG를 전달합니다.
+
+재구성 및 검증 참고
+가상 40분 강의입니다.
+""", encoding="utf-8")
+    # make it look like a structured doc is not needed: plain paragraphs are fine
+    rep, paths = run_pipeline(None, tmp_path / "o", MOM, script=script, backend=OfflineBackend(), pdf=False,
+                              exam_pdf=tmp_path / "pad.pdf", toc="heuristic")
+    assert not rep.errors, rep.errors
+    note = json.loads(paths["note"].read_text(encoding="utf-8"))
+    text = json.dumps(note, ensure_ascii=False)
+    assert "습니다" not in text.replace("재구성", "")  # spoken endings converted
+    assert "{b|" in text and "{r|" in text
+    assert any(t["role"] == "front" for t in note["topics"])  # 핵심 어휘 / 요약 정리 built offline
+    assert all(t["basics"] for t in note["topics"] if t["role"] == "body")
+    # blue only where a PAD unit is cited (validator would have errored otherwise)
+    off = run_pipeline(None, tmp_path / "o2", MOM, script=script, backend=OfflineBackend(auto_blue=False), pdf=False,
+                       exam_pdf=tmp_path / "pad.pdf", toc="heuristic")[1]
+    assert "{b|" not in off["note"].read_text(encoding="utf-8")
+
+
+def test_prepare_writes_work_packet(tmp_path, monkeypatch):
+    import app.exam as exam
+    from app.prepare import prepare_brief
+
+    monkeypatch.setattr(exam, "pdf_text", lambda p: PAD)
+    brief = prepare_brief(_write(tmp_path, STRUCT2), tmp_path / "w", MOM, exam_pdf=tmp_path / "pad.pdf")
+    names = {p.name for p in brief.iterdir()}
+    assert {"TASK.md", "paragraphs.md", "exam_items.md", "outline_proposal.json", "note_skeleton.json",
+            "note_schema.json", "build_command.sh"} <= names
+    assert "¶1" in (brief / "paragraphs.md").read_text(encoding="utf-8")
+    assert "unit 1001" in (brief / "exam_items.md").read_text(encoding="utf-8")
+    assert "--note-json" in (brief / "build_command.sh").read_text(encoding="utf-8")
+    assert "PAD 기출 ONLY" in (brief / "TASK.md").read_text(encoding="utf-8") or "파랑 = PAD" in (brief / "TASK.md").read_text(encoding="utf-8")

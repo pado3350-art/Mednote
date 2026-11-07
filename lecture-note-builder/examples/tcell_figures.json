@@ -1,0 +1,12 @@
+[
+  {"id": 9,  "topic_heading": "MHC의 특성",     "anchor": "Peptide binding motif", "caption": "MHC에 결합하는 peptide의 anchor residue (2·5·8번 위치)"},
+  {"id": 10, "topic_heading": "MHC restriction", "anchor": "MHC restriction의 원칙", "caption": "MHC restriction — 자기 MHC + 맞는 peptide일 때만 인식"},
+  {"id": 11, "topic_heading": "MHC restriction", "anchor": "예외 1. Alloresponse",  "caption": "Alloresponse — alloreactive TCR과 타인 MHC의 결합"},
+  {"id": 12, "topic_heading": "MHC restriction", "anchor": "예외 2. Superantigen",  "caption": "Superantigen — peptide 처리 없이 TCR과 MHC class II에 모두 결합"},
+  {"id": 3,  "caption": "인간(위)과 생쥐(아래) MHC 유전자 구조"},
+  {"id": 5,  "caption": "Polymorphism과 polygeny"},
+  {"id": 7,  "caption": "Gene conversion으로 MHC 유전자가 다양해지는 과정"},
+  {"id": 8,  "caption": "MHC class I/II의 polymorphism이 몰린 부위 (peptide 결합 부위)"},
+  {"id": 15, "caption": "Class Ib molecule 표 (MHC encoded)"},
+  {"id": 16, "caption": "non-MHC encoded class Ib molecule 표"}
+]

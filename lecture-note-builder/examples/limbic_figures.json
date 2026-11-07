@@ -1,0 +1,14 @@
+[
+  {"id": 2,  "anchor": "편도체의 위치와 구성", "caption": "편도체 핵군(cortical·central·basolateral)과 uncus 안쪽 amygdala의 위치"},
+  {"id": 4,  "caption": "편도체 afferent 경로 (파랑 = basolateral, 붉음 = corticomedial)"},
+  {"id": 6,  "anchor": "그림과 단면", "caption": "편도체 efferent 경로: stria terminalis와 ventral amygdalofugal pathway"},
+  {"id": 7,  "caption": "편도체의 3차원 재구성(Am)과 뇌 단면"},
+  {"id": 8,  "anchor": "Septal nuclei와 연결되는 네 곳", "caption": "Septal nuclei의 reciprocal 연결"},
+  {"id": 9,  "anchor": "Septal nuclei와 연결되는 네 곳", "caption": "Septal nuclei의 위치와 afferent·efferent 경로"},
+  {"id": 10, "caption": "Nucleus accumbens의 위치 (caudate head와 putamen 사이, 단면)"},
+  {"id": 11, "anchor": "들어오는 경로와 나가는 경로", "caption": "Nucleus accumbens의 위치와 afferent·efferent 경로"},
+  {"id": 12, "caption": "비교표: amygdala(fear)와 nucleus accumbens(addiction)"},
+  {"id": 13, "caption": "해부 사진: stria terminalis, uncus, parahippocampal gyrus"},
+  {"id": 14, "caption": "해부 사진: fimbria, fornix, mammillary body, hippocampal sulcus, dentate gyrus"},
+  {"id": 15, "caption": "졸업 후 진로: 기초의학 연구실에 대한 오해와 진실 (슬라이드 사진)"}
+]

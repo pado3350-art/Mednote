@@ -44,6 +44,11 @@ def _style_doc(doc: Document, tpl: Template) -> None:
 
 
 def _statement(doc: Document, st: Statement, tpl: Template, lecturer: bool, note: LectureNote) -> None:
+    if st.kind == "figure":
+        from .export_mom import _figure
+
+        _figure(doc, st, tpl)
+        return
     p = doc.add_paragraph(style="List Bullet")
     if lecturer:
         r0 = p.add_run("▶ 교수님: ")
@@ -153,6 +158,9 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
                 continue
             L.append(f"### {sec.label}")
             for st in sts:
+                if st.kind == "figure":
+                    L.append(f"![{_md(st.text)}]({st.image})")
+                    continue
                 pre = "▶ **교수님:** " if st.origin == "lecturer" else ""
                 body = f"**{_md(st.text)}**" if st.emphasis else _md(st.text)
                 tag = source_tag(st, note)

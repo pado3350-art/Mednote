@@ -35,3 +35,7 @@
 내용은 빠짐없이 넣되 받아쓰기가 아니라 이해하기 쉽게 재구성한다: § 섹션마다 기본정석 박스(2~4줄) → 설명 순서로 재배열한 본문 → Advice(헷갈리는 점) / Reference(강의에서 안 다룬 PPT 내용) → 비교표.
 앞쪽에 핵심 어휘·요약 정리 페이지. 우수 예시와 규칙은 `.claude/skills/readable-note-organizer/`. AI 백엔드는 이 SKILL.md를 시스템 프롬프트에 자동으로 붙인다.
 기출문제(PAD)·필수예제 섹션은 만들지 않는다(`exam_section: false`, PAD는 파랑 글씨 근거로만 사용).
+
+## API 없이 / 그림
+- API 키 없이 쓴다: ① 오프라인 규칙 기반 `build` ② Claude Code가 직접 작성하는 `/make-lecture-note` (`prepare` → 노트 JSON → `build`). 스킬 `make-lecture-note` 참고.
+- 그림·사진 자료(`--figures` PDF/PPTX/폴더, 슬라이드 입력)는 최대한 활용한다: 본문이 그림이 보여주는 것을 가리키게 쓰고, `figures.json`으로 캡션·위치를 다듬는다. 글자뿐인 슬라이드는 제외, 그림을 만들어 내지 않는다.

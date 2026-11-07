@@ -2,7 +2,10 @@ python-pptx>=1.0
 python-docx>=1.1
 pydantic>=2.5
 PyYAML>=6.0
-# Optional: AI note generation (--backend anthropic)
+# Figures from PDF handouts / slide PDFs (pictures + captions + placement)
+pymupdf>=1.24
+# Optional: AI note generation via API (--backend anthropic). NOT needed: see "API 없이 사용" in README
+
 anthropic>=0.40
 # Dev
 pytest>=8.0

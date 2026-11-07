@@ -58,3 +58,13 @@ PPTX 모드는 기본이 슬라이드별(`--toc unit`)이고 `--toc ai|heuristic
 `Topic.basics`는 기본정석 박스, `Statement.kind=advice|reference`는 콜아웃. 핵심 어휘·요약 정리는 `Topic.role=front`(차례 제외).
 기출 섹션은 만들지 않는다(`exam_section: false`); PAD 문항은 파랑 글씨 근거로만 쓰며 본문에서 인용되지 않은 문항은 `PAD_UNUSED`(info).
 AI 백엔드: 목차(outline, chapter 포함) → 섹션별 노트(기본정석 포함) → 핵심 어휘·요약 정리 순으로 호출하고, 시스템 프롬프트에 `readable-note-organizer` 스킬을 붙인다.
+
+## 그림 파이프라인 (`app/figures.py`)
+추출(PyMuPDF: 이미지 영역 병합 → 클립 렌더, 캡션·주변 글 수집, 장식/중복/글자 이미지 필터) → 배치(섹션: bigram 코사인 + 페이지 순서 DP,
+같은 섹션 안에서는 페이지 순서 유지 / 위치: 가장 관련 있는 ★ 블록 시작) → `Statement(kind="figure")` 삽입 → `figures.json`(수정·재적용).
+슬라이드 그림은 `Figure.unit`으로 해당 슬라이드를 인용한 섹션에 바로 붙는다. 한계: 어휘 유사도 기반이라 한 페이지에 여러 주제가 섞이면 틀릴 수 있어
+`figures.json` 수정 경로를 둔다.
+
+## API 없이
+`OfflineBackend`(기본)는 `offline_organizer`(군말 제거, 한다체, 강조/저중요 단서, 용어 굵게, 기본정석, 핵심 어휘·요약 정리)와 `pad_match`(PAD 자동 파랑)로
+초안을 만든다. `prepare`는 Claude Code가 직접 쓰기 위한 작업 패킷(brief/)을 만든다.

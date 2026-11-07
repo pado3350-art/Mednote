@@ -91,8 +91,10 @@ def validate(
             if len(topic.tables) < len(s.tables):
                 rep.issues.append(Issue(severity="error", code="TABLE_LOST", slide=n,
                                         message="슬라이드의 표가 강의록에서 누락되었습니다."))
-        if topic and template.format.preserve_original_images and len(s.images) > 0:
-            if len(topic.images) < len(s.images):
+        if template.format.preserve_original_images and s.images:
+            placed = {img for t in note.topics for img in t.images} | {
+                st.image for t in note.topics for sts in t.sections.values() for st in sts if st.kind == "figure"}
+            if any(img not in placed for img in s.images):
                 rep.issues.append(Issue(severity="error", code="IMAGE_LOST", slide=n,
                                         message="슬라이드의 이미지가 강의록에서 누락되었습니다."))
 
@@ -100,6 +102,8 @@ def validate(
     for t in note.topics:
         for key, sts in t.sections.items():
             for st in sts:
+                if st.kind == "figure":
+                    continue
                 if template.quality.require_source_traceability and not st.slide_refs:
                     rep.issues.append(Issue(severity="error", code="NO_SOURCE", slide=None,
                                             message=f"출처 없는 문장: '{st.text[:40]}…'"))
@@ -128,6 +132,8 @@ def validate(
     for t in note.topics:
         for sts in t.sections.values():
             for st in sts:
+                if st.kind == "figure":
+                    continue
                 has_pad = any(r >= EXAM_BASE for r in st.slide_refs)
                 blue = _is_blue(st.text, st.tag)
                 if blue and not has_pad:
@@ -149,7 +155,7 @@ def validate(
 
     # 4c. Unrendered markup (stray '*' or '{x|') would show up literally in the document
     for t in note.topics:
-        for text in [x.text for sts in t.sections.values() for x in sts] + list(t.basics):
+        for text in [x.text for sts in t.sections.values() for x in sts if x.kind != "figure"] + list(t.basics):
             left = _strip_markup(text)
             if "*" in left or re.search(r"[{}]|\b[rbgp]\|", left):
                 rep.issues.append(Issue(severity="warning", code="MARKUP_LEAK",

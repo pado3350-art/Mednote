@@ -12,6 +12,8 @@ from .models import AlignedSlide, ValidationReport
 from .template import load_template
 from .pdf_render import heading_pages, render_pdf
 from .exam import EXAM_BASE
+from .figures import (apply_overrides, collect_figures, extract_pdf_slides, place_figures, save_figures,
+                      slide_figures)
 from .models import Outline, OutlineItem
 from .outline import heuristic_outline, load_outline, normalize_outline, save_outline
 from .transcript import parse_flow_script, parse_script, read_script_text
@@ -45,6 +47,10 @@ def run_pipeline(
     exam_pdf: str | Path | None = None,
     toc: str | None = None,  # "ai" | "heuristic" | "unit" | None(auto)
     outline_json: str | Path | None = None,
+    figures: list[str | Path] | None = None,  # extra picture sources: PDF / PPTX / image folder
+    figures_json: str | Path | None = None,  # hand-edited placement log to re-apply
+    max_figures_per_topic: int = 6,
+    keep_text_images: bool = False,
 ) -> tuple[ValidationReport, dict[str, Path]]:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -56,7 +62,10 @@ def run_pipeline(
     notes_units: list[int] = []
     ref_style = "slide"
     if pptx:
-        slides = extract_pptx(pptx, out / "images")
+        if Path(pptx).suffix.lower() == ".pdf":  # slides given as PDF: one unit per page
+            slides, _ = extract_pdf_slides(pptx, out / "images")
+        else:
+            slides = extract_pptx(pptx, out / "images")
         segments = parse_script(read_script_text(script)) if script else []
         aligned = align(segments, slides, tpl.quality.min_alignment_confidence)
         toc = toc or "unit"
@@ -110,6 +119,20 @@ def run_pipeline(
                          outline=outline, exam_items=exam_items, ref_style=ref_style)
     if outline is None and ref_style == "para":
         outline = _outline_from_topics(note.topics)
+
+    # ---- pictures: slide images (bound to their slide) + extra sources (matched by text)
+    all_figs = slide_figures(slides)
+    if all_figs:
+        for t in note.topics:
+            t.images = []  # they are placed inline next to the related statements instead
+    if figures:
+        all_figs += collect_figures(figures, out / "figures")
+    for i, f in enumerate(all_figs, start=1):
+        f.id = i
+    if all_figs:
+        if figures_json:
+            apply_overrides(all_figs, figures_json)
+        place_figures(note, all_figs, tpl, max_per_topic=max_figures_per_topic, keep_text_images=keep_text_images)
     report = validate(note, slides, aligned, tpl)
 
     def dump(name: str, objs) -> Path:
@@ -138,6 +161,7 @@ def run_pipeline(
         "alignment": dump("alignment.json", aligned),
         "note": dump("note.json", note),
         **({"outline": save_outline(outline, out / "outline.json")} if outline else {}),
+        **({"figures": save_figures(all_figs, out / "figures.json")} if all_figs else {}),
         "report_json": dump("validation.json", report),
         "docx": docx_path,
         "markdown": export_markdown(note, tpl, out / f"{stem}_강의록.md"),

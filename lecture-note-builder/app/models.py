@@ -67,8 +67,9 @@ class Statement(BaseModel):
     # red is `emphasis`. Blue requires a PAD (기출) source ref -> see validate_notes.
     tag: Literal["normal", "exam", "minor", "verify"] = "normal"
     # Layout role: paragraph, "-" bullet, "★" sub-heading, or an Advice / Reference call-out.
-    kind: Literal["para", "bullet", "star", "advice", "reference"] = "para"
+    kind: Literal["para", "bullet", "star", "advice", "reference", "figure"] = "para"
     level: int = 0
+    image: str = ""  # kind == "figure": picture path (text = caption)
 
 
 class Topic(BaseModel):
@@ -86,6 +87,27 @@ class Topic(BaseModel):
     review_flags: list[str] = Field(default_factory=list)
 
 
+class Figure(BaseModel):
+    """A picture taken from lecture material (slides, handout PDF, photo folder) + where it was placed."""
+    id: int
+    path: str
+    source: str = ""  # file name
+    page: int = 0
+    caption: str = ""
+    context: str = ""  # surrounding text on the source page (used to match it to a section)
+    near: str = ""  # text right next to the picture (used to pick the anchor statement)
+    width: int = 0
+    height: int = 0
+    unit: Optional[int] = None  # slide/page number: figure belongs to that unit (direct placement)
+    topic: Optional[int] = None  # placement result: index into note.topics
+    after: Optional[int] = None  # inserted after this statement index of the topic (-1 = start)
+    score: float = 0.0
+    skip: bool = False
+    topic_heading: str = ""  # manual: section whose heading contains this text
+    anchor: str = ""  # manual: place after the "★" block whose sub-heading contains this text
+    text_like: bool = False  # mostly black text on white (a slide of bullet points): skipped unless asked
+
+
 class LectureNote(BaseModel):
     title: str
     template_name: str = ""
@@ -99,6 +121,7 @@ class LectureNote(BaseModel):
     unit_labels: dict[int, str] = Field(default_factory=dict)
     # How unit numbers are shown: "slide" -> PPT p.N, "para" -> 발화 ¶N (script-only mode).
     ref_style: Literal["slide", "para"] = "slide"
+    figures: list[Figure] = Field(default_factory=list)  # placement log (figures.json)
 
 
 class OutlineItem(BaseModel):

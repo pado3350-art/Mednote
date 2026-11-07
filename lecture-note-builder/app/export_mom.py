@@ -25,7 +25,7 @@ from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
 from .refs import format_refs
-from .markup import runs
+from .markup import runs, strip as _strip
 from .models import LectureNote, Statement, Topic
 from .template import Template
 
@@ -126,7 +126,32 @@ def source_tag(st: Statement, note: LectureNote) -> str:
 
 
 # --------------------------------------------------------------- statements
+def _figure(doc, st: Statement, tpl: Template) -> None:
+    """Centered picture (<= 14 x 9 cm, aspect kept) + small gray caption 'Figure n. ...'."""
+    from PIL import Image
+
+    F = tpl.format.font_korean
+    path = Path(st.image)
+    if not path.exists():
+        return
+    doc._fig_n = getattr(doc, "_fig_n", 0) + 1
+    with Image.open(path) as im:
+        w, h = im.size
+    width_cm = min(14.0, 9.0 * w / max(h, 1))
+    p = doc.add_paragraph()
+    _fmt(p, before=6, after=2, line=1.0, align=WD_ALIGN_PARAGRAPH.CENTER)
+    p.paragraph_format.keep_with_next = True
+    p.add_run().add_picture(str(path), width=Cm(width_cm))
+    c = doc.add_paragraph()
+    _fmt(c, after=8, line=1.1, align=WD_ALIGN_PARAGRAPH.CENTER)
+    r = c.add_run(f"그림 {doc._fig_n}. {_strip(st.text)}")
+    _font(r, F, 8.5, color=COLOR["minor"])
+
+
 def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
+    if st.kind == "figure":
+        _figure(doc, st, tpl)
+        return
     F = tpl.format.font_korean
     base = tpl.format.font_size_pt
     p = doc.add_paragraph()

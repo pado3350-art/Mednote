@@ -82,10 +82,35 @@ def _is_emphasis(text: str) -> bool:
 
 
 class OfflineBackend:
+    """No API needed. With an outline (script-only mode) the text is *organised* by rules
+    (app/offline_organizer.py); `organize=False` keeps the verbatim paragraphs."""
+
+    def __init__(self, organize: bool = True, auto_blue: bool = True):
+        self.organize = organize
+        self.auto_blue = auto_blue  # match sentences against the PAD and colour them blue (approximate!)
+
+    def make_front(self, topics, template):
+        from .offline_organizer import make_front_pages
+
+        return make_front_pages(topics, _key(template, "core_concepts")) if self.organize else []
+
     def build_topics(self, slides, aligned, template, outline=None, exam=None):
-        if outline is not None:  # script-flow mode: verbatim paragraphs grouped under the outline
+        if outline is not None:  # script-flow mode: paragraphs grouped under the outline
             by = {s.number: s for s in slides}
             key = _key(template, "core_concepts")
+            if self.organize:
+                from .offline_organizer import organize_section, term_allowlist
+                from .pad_match import PadMatcher
+
+                sections = [[by[n] for n in it.unit_numbers if n in by] for it in outline.items]
+                allowed = term_allowlist(sections)
+                matcher = PadMatcher(exam) if (exam and self.auto_blue) else None
+                topics = [organize_section(units, it.heading, it.chapter, allowed[i], matcher)
+                          for i, (units, it) in enumerate(zip(sections, outline.items))]
+                for t in topics:  # the organizer writes into "body"; map to the template's main section
+                    if key != "body":
+                        t.sections = {key: t.sections.pop("body")}
+                return topics
             out: list[Topic] = []
             for it in outline.items:
                 sts = [Statement(text=b.text, origin="lecturer", slide_refs=[n])

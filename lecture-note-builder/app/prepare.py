@@ -1,0 +1,90 @@
+"""`prepare`: build a work packet so Claude Code (a normal Claude Code session - no API key, no extra cost
+beyond the user's own plan) can author the note itself with the `make-lecture-note` skill.
+
+Writes  <out>/brief/ :  TASK.md  paragraphs.md  exam_items.md  figures.md  outline_proposal.json
+                        note_skeleton.json  note_schema.json  build_command.sh
+"""
+from __future__ import annotations
+
+import json
+import shlex
+from pathlib import Path
+
+from .exam import EXAM_BASE, parse_exam_pdf
+from .figures import collect_figures, save_figures
+from .models import Topic
+from .outline import heuristic_outline, normalize_outline
+from .pipeline import _units_from_segments
+from .transcript import parse_flow_script, read_script_text
+
+
+def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path, exam_pdf: str | Path | None = None,
+                  figures: list[str | Path] | None = None, extra_args: str = "") -> Path:
+    out = Path(out_dir)
+    brief = out / "brief"
+    brief.mkdir(parents=True, exist_ok=True)
+    meta, segs = parse_flow_script(read_script_text(script))
+    units = _units_from_segments(segs)
+    notes = [g.id for g in segs if g.kind == "note"]
+    speech = [g.id for g in segs if g.kind == "speech"]
+
+    # paragraphs
+    L = [f"# 강의 발화 단락 ({len(segs)}개)", "", "번호 ¶n 은 note의 `slide_refs`에 그대로 쓴다. `[검증참고]`는 부록 재료.", ""]
+    for g in segs:
+        L.append(f"**¶{g.id}**{' [검증참고]' if g.kind == 'note' else ''} {g.text}\n")
+    (brief / "paragraphs.md").write_text("\n".join(L), encoding="utf-8")
+
+    # PAD
+    items = parse_exam_pdf(exam_pdf) if exam_pdf else []
+    E = [f"# 기출(PAD) {len(items)}문항", "",
+         "⛔ 파랑(`{b|...}`)은 여기 나온 내용에만. 해당 내용은 빠짐없이 파랑 + `slide_refs`에 아래 unit 번호를 넣는다.", ""]
+    for it in items:
+        E.append(f"## unit {it.number} — {it.label} ({it.professor})\n- 문제: {it.question}\n- 정답: {it.answer}\n- 해설: {it.commentary or '(없음)'}\n")
+    (brief / "exam_items.md").write_text("\n".join(E) if items else "# 기출(PAD) 없음\n\n파랑 글씨를 쓰지 않는다.\n", encoding="utf-8")
+
+    # figures
+    figs = collect_figures(figures, out / "figures") if figures else []
+    F = [f"# 그림·사진 자료 {len(figs)}개", "",
+         "이미지 파일은 Read 도구로 직접 볼 수 있다. 배치는 `build`가 자동으로 하고 `figures.json`으로 고친다 "
+         "(`topic_heading`, `anchor`(★ 소제목 일부), `caption`, `skip`). `text_like`=글자뿐인 슬라이드(기본 제외).", ""]
+    for f in figs:
+        F.append(f"- id {f.id} · {f.source} p.{f.page} · {f.width}x{f.height}{' · TEXT-ONLY' if f.text_like else ''}\n  - 파일: {f.path}\n  - 근처 글: {f.near[:140] or '(없음)'}")
+    (brief / "figures.md").write_text("\n".join(F), encoding="utf-8")
+    if figs:
+        save_figures(figs, brief / "figures_extracted.json")
+
+    # outline proposal + skeleton
+    ol = normalize_outline(heuristic_outline([u for u in units if u.number in set(speech)]), speech, notes)
+    (brief / "outline_proposal.json").write_text(json.dumps(ol.model_dump(), ensure_ascii=False, indent=2), encoding="utf-8")
+    skel = {"topics": [Topic(heading=i.heading, chapter=i.chapter, slide_numbers=i.unit_numbers,
+                             sections={"body": []}).model_dump() for i in ol.items]}
+    (brief / "note_skeleton.json").write_text(json.dumps(skel, ensure_ascii=False, indent=2), encoding="utf-8")
+    (brief / "note_schema.json").write_text(json.dumps(Topic.model_json_schema(), ensure_ascii=False, indent=2), encoding="utf-8")
+
+    # build command
+    args = ["python", "-m", "app.cli", "build", "--script", str(script), "--template", str(template),
+            "--note-json", str(out / "note_authored.json"), "--out", str(out)]
+    if exam_pdf:
+        args += ["--exam-pdf", str(exam_pdf)]
+    if figures:
+        args += ["--figures", *map(str, figures)]
+    cmd = " ".join(shlex.quote(a) for a in args) + (" " + extra_args if extra_args else "")
+    (brief / "build_command.sh").write_text(cmd + "\n", encoding="utf-8")
+
+    (brief / "TASK.md").write_text(f"""# 작업: 강의록 작성 (API 없이, Claude Code가 직접)
+
+입력: 발화 단락 {len(segs)}개(검증참고 {len(notes)}개), 기출 {len(items)}문항, 그림 {len(figs)}개. 메타: {json.dumps(meta, ensure_ascii=False)}
+
+## 순서
+1. `.claude/skills/readable-note-organizer/SKILL.md`를 읽는다. **맨 위 ⛔ 파랑 = PAD 기출 ONLY 규칙은 무조건 지킨다.**
+2. `brief/paragraphs.md`(모든 발화), `brief/exam_items.md`(기출), `brief/figures.md`(그림; 이미지는 Read로 직접 본다)를 읽는다.
+3. 목차를 판단한다: 챕터 2~4개 × § 소절 2~4개. `outline_proposal.json`은 기계적 초안일 뿐이다. 모든 발화 단락(검증참고 제외)이 정확히 한 소절에 들어가야 하고, 검증참고는 마지막 `부록 & 검증 참고`.
+4. `{out}/note_authored.json`을 작성한다 (스키마: `brief/note_schema.json`, 예: `examples/limbic_note.py` 의 헬퍼 P·B·STAR·ADV·REF·T 로 Python 스크립트를 쓰는 방식 권장).
+   - 소절마다 기본정석 박스(`basics`, `basics_refs`), 설명 순서로 재구성한 본문, Advice/Reference, 비교표.
+   - 앞쪽에 `role: "front"` 두 장: 핵심 어휘, 요약 정리.
+   - 모든 문장에 `slide_refs`(¶번호, PAD는 unit 번호).
+5. 빌드: `bash {brief / 'build_command.sh'}`  (그림은 자동 배치됨)
+6. `{out}/validation_report.md`를 읽고 **오류 0, 경고 최소**가 될 때까지 고친다 (BLUE_WITHOUT_PAD, PAD_NOT_BLUE, SLIDE_MISSING, NUMBER_LOST, MARKUP_LEAK ...).
+7. PDF 페이지를 이미지로 열어 그림 위치를 확인하고, 어긋난 그림은 `{out}/figures.json`을 고쳐 `--figures-json`으로 재적용한다.
+""", encoding="utf-8")
+    return brief
