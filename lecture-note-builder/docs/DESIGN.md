@@ -51,3 +51,10 @@ TXT/DOCX ─ transcript ─▶ segments    ├─ align_content ─▶ alignment
 - `outline.json`이 저장되며, 직접 고쳐서 `--outline-json`으로 다시 적용 가능. `normalize_outline`이 모든 단락이 정확히 한 번, 순서대로 포함되도록 보정.
 PPTX 모드는 기본이 슬라이드별(`--toc unit`)이고 `--toc ai|heuristic`으로 슬라이드를 묶는 목차도 만들 수 있다.
 출처 표기는 `발화 ¶5–7` / `PAD 2022(20학번) Q1` 형식.
+
+## MOM 레이아웃 v2 (우수 예시 반영)
+표지(헤더 박스·제목 배너·교수님·작성자 코멘트) → 차례(챕터, § 소절, 점선+쪽수) → 핵심 어휘 / 요약 정리 → 본문.
+`Topic.chapter`로 챕터를 묶고(`§ n.`은 렌더러가 번호 부여), 토픽마다 새 Word 섹션이라 **쪽마다 챕터 배너 + § 제목 헤더가 반복**되며 쪽번호는 좌상단.
+`Topic.basics`는 기본정석 박스, `Statement.kind=advice|reference`는 콜아웃. 핵심 어휘·요약 정리는 `Topic.role=front`(차례 제외).
+기출 섹션은 만들지 않는다(`exam_section: false`); PAD 문항은 파랑 글씨 근거로만 쓰며 본문에서 인용되지 않은 문항은 `PAD_UNUSED`(info).
+AI 백엔드: 목차(outline, chapter 포함) → 섹션별 노트(기본정석 포함) → 핵심 어휘·요약 정리 순으로 호출하고, 시스템 프롬프트에 `readable-note-organizer` 스킬을 붙인다.

@@ -33,7 +33,7 @@ def normalize_outline(outline: Outline, speech: list[int], notes: list[int]) -> 
         nums = [n for n in sorted(set(it.unit_numbers)) if n in valid and n not in seen]
         if nums:
             seen.update(nums)
-            items.append(OutlineItem(heading=it.heading, unit_numbers=nums, summary=it.summary))
+            items.append(OutlineItem(heading=it.heading, unit_numbers=nums, summary=it.summary, chapter=it.chapter))
     for n in speech:  # anything the model skipped joins the nearest earlier section
         if n not in seen:
             if not items:
@@ -98,9 +98,10 @@ def heuristic_outline(units: list[Slide], target: int | None = None) -> Outline:
 
 OUTLINE_SYSTEM = """당신은 의과대학 강의록 편집자입니다. 번호가 붙은 강의 발화 단락 전체를 읽고, 강의의 전체적인 흐름을 판단해
 학습용 강의록의 목차(섹션)를 만드세요.
-- 시간 구간이나 기존 소제목에 얽매이지 말고 '주제 흐름'으로 나눈다 (대개 5~10개 섹션).
+- 시간 구간이나 기존 소제목에 얽매이지 말고 '주제 흐름'으로 나눈다.
+- 2~4개의 챕터(chapter 제목, 번호 없이)로 묶고, 각 챕터 아래에 2~4개의 소절(heading)을 둔다. 소절마다 chapter 필드에 소속 챕터 제목을 같게 적는다.
 - 각 섹션은 연속된 단락 번호 목록을 가지며, 모든 단락이 정확히 한 섹션에 속해야 한다.
-- 제목은 간결한 한국어(필요한 영어 의학 용어 병기). 'I.' 같은 번호는 붙이지 않는다.
+- 제목은 간결한 한국어(필요한 영어 의학 용어 병기). 'I.' '§' 같은 번호는 붙이지 않는다.
 - summary에는 그 섹션의 핵심 내용을 한 문장으로 적는다."""
 
 

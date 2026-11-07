@@ -11,7 +11,8 @@ sections:
 format:
   layout: mom
   page_break_per_topic: true
-  roman_headings: true
+  roman_headings: false
+  exam_section: false              # 기출문제는 별도 PAD 문서; 파랑 글씨로만 본문에 표시
   preserve_original_images: true
   tables_for_comparisons: true
   include_source_references: true   # set false for a cleaner look

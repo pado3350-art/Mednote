@@ -223,12 +223,18 @@ class _FakeOutlineClient:
         if kw["tool_choice"]["name"] == "emit_outline":
             payload = json.loads(kw["messages"][0]["content"])
             assert [p["n"] for p in payload["paragraphs"]] == [1, 2, 3]  # note paragraph is not sent
-            inp = {"items": [{"heading": "용어와 기본 개념", "unit_numbers": [1, 2], "summary": "s"},
-                             {"heading": "CD1", "unit_numbers": [3]}]}
+            inp = {"items": [{"heading": "용어와 기본 개념", "unit_numbers": [1, 2], "summary": "s", "chapter": "MHC"},
+                             {"heading": "CD1", "unit_numbers": [3], "chapter": "Unconventional T cell"}]}
+        elif kw["tool_choice"]["name"] == "emit_front":
+            assert "기본정석" in kw["system"]  # the readable-note-organizer skill is part of the prompt
+            inp = {"topics": [{"heading": "핵심 어휘", "slide_numbers": [], "sections": {"body": [
+                       {"text": "**MHC** : 정의", "slide_refs": [1]}]}},
+                              {"heading": "요약 정리", "slide_numbers": [], "sections": {"body": [
+                       {"text": "요약", "slide_refs": [2]}]}}]}
         else:
             payload = json.loads(kw["messages"][0]["content"])
             n = payload["slides"][0]["slide"]["number"]
-            inp = {"topics": [{"heading": "모델이 바꾼 제목", "slide_numbers": [n],
+            inp = {"topics": [{"heading": "모델이 바꾼 제목", "slide_numbers": [n], "basics_title": "기본", "basics": ["a", "b"],
                                "sections": {"body": [{"text": "요약 문장", "slide_refs": [n]}]}}]}
         return SimpleNamespace(content=[SimpleNamespace(type="tool_use", input=inp)])
 
@@ -241,11 +247,15 @@ def test_ai_outline_then_one_topic_per_section(tmp_path):
     rep, paths = run_pipeline(None, tmp_path / "o", MOM, script=_write(tmp_path), pdf=False,
                               backend=AnthropicBackend(client=fake), toc="ai")
     kinds = [c["tool_choice"]["name"] for c in fake.calls]
-    assert kinds == ["emit_outline"] + ["emit_topics"] * 3  # outline + one call per section (2 + appendix)
+    assert kinds == ["emit_outline"] + ["emit_topics"] * 3 + ["emit_front"]  # outline + per section (2 + appendix) + front pages
     note = json.loads(paths["note"].read_text(encoding="utf-8"))
-    heads = [t["heading"] for t in note["topics"]]
-    assert heads == ["용어와 기본 개념", "CD1", "부록 & 검증 참고"]  # topics follow the AI outline, not the model's own heading
-    assert [t["slide_numbers"] for t in note["topics"][:2]] == [[1, 2], [3]]
+    topics = note["topics"]
+    assert [t["heading"] for t in topics] == ["핵심 어휘", "요약 정리", "용어와 기본 개념", "CD1", "부록 & 검증 참고"]
+    assert [t["role"] for t in topics[:2]] == ["front", "front"]
+    body = topics[2:]  # follow the AI outline, not the model's own heading
+    assert [t["slide_numbers"] for t in body[:2]] == [[1, 2], [3]]
+    assert [t["chapter"] for t in body] == ["MHC", "Unconventional T cell", ""]
+    assert body[0]["basics"] == ["a", "b"]
 
 
 PAD = """2023년 4월 26일 수요일 <면역학>
@@ -285,15 +295,21 @@ def test_exam_parse():
     assert "스캔" in items[3].question
 
 
-def _exam_run(tmp_path, monkeypatch, topics=None, backend=None):
+def _exam_tpl(tmp_path):
+    p = tmp_path / "exam.yaml"
+    p.write_text(MOM.read_text(encoding="utf-8").replace("exam_section: false", "exam_section: true"), encoding="utf-8")
+    return p
+
+
+def _exam_run(tmp_path, monkeypatch, topics=None, backend=None, tpl=None):
     import app.exam as exam
     from app.generate_notes import PrecomputedBackend
     from app.pipeline import run_pipeline
 
     monkeypatch.setattr(exam, "pdf_text", lambda p: PAD)
     backend = backend or PrecomputedBackend(topics)
-    return run_pipeline(None, tmp_path / "o", MOM, script=_write(tmp_path), backend=backend, pdf=False,
-                        exam_pdf=tmp_path / "pad.pdf", toc="heuristic")
+    return run_pipeline(None, tmp_path / "o", tpl or _exam_tpl(tmp_path), script=_write(tmp_path), backend=backend,
+                        pdf=False, exam_pdf=tmp_path / "pad.pdf", toc="heuristic")
 
 
 def test_blue_only_for_exam(tmp_path, monkeypatch):
@@ -344,3 +360,66 @@ def test_heat_table_and_col_widths(tmp_path):
     note = LectureNote(title="t", topics=[Topic(heading="0. x", slide_numbers=[], tables=[tb])])
     xml = Document(str(export_mom(note, tpl, tmp_path / "h.docx"))).element.xml
     assert 'w:fill="7BC47F"' in xml and 'w:fill="FF' in xml  # zero -> green, max -> strong red
+
+
+def test_no_exam_section_by_default_but_blue_still_checked(tmp_path, monkeypatch):
+    from app.generate_notes import OfflineBackend
+    from app.exam import EXAM_BASE as X
+    from app.models import Statement, Topic
+
+    rep, paths = _exam_run(tmp_path, monkeypatch, backend=OfflineBackend(), tpl=MOM)  # mom.yaml: exam_section false
+    note = json.loads(paths["note"].read_text(encoding="utf-8"))
+    assert not any(t["heading"].startswith("0. 기출") for t in note["topics"])
+    assert not rep.errors and rep.slide_coverage == 1.0
+    assert {i.code for i in rep.issues if i.severity == "info"} >= {"PAD_UNUSED"}  # PAD not echoed, not an error
+    bad = Statement(text="{b|파랑인데 기출 아님}", slide_refs=[1])
+    rep2, _ = _exam_run(tmp_path / "x" if (tmp_path / "x").mkdir() is None else tmp_path, monkeypatch,
+                        [Topic(heading="t", slide_numbers=[1, 2, 3, 4], sections={"body": [
+                            Statement(text=BODY, slide_refs=[1, 2, 3, 4]), bad]})], tpl=MOM)
+    assert "BLUE_WITHOUT_PAD" in {i.code for i in rep2.errors}
+
+
+def test_numbering_chapters_and_front():
+    from app.export_mom import numbering
+    from app.models import LectureNote, Topic
+
+    note = LectureNote(title="t", topics=[
+        Topic(heading="핵심 어휘", role="front", slide_numbers=[]),
+        Topic(heading="a", chapter="C1", slide_numbers=[1]), Topic(heading="b", chapter="C1", slide_numbers=[2]),
+        Topic(heading="c", chapter="C2", slide_numbers=[3]), Topic(heading="부록", slide_numbers=[4])])
+    n = numbering(note)
+    assert n[0]["toc"] is None and n[0]["banner"] == "핵심 어휘"
+    assert [x["section"] for x in n[1:4]] == ["§ 1. a", "§ 2. b", "§ 1. c"]
+    assert [x["banner"] for x in n[1:4]] == ["1. C1", "1. C1", "2. C2"]
+    assert n[4]["section"] == "부록" and n[4]["chapter"] == ""
+
+
+def test_mom_layout_banner_toc_basics_callouts(tmp_path):
+    from app.export_mom import export_mom
+    from app.models import LectureNote, Statement, Topic
+
+    tpl = load_template(MOM)
+    st = lambda t, k="para": Statement(text=t, slide_refs=[1], kind=k)
+    note = LectureNote(title="강의 제목", ref_style="para", meta={"date": "2023-04-26", "subject": "면역학", "professor": "홍길동"},
+                       topics=[Topic(heading="요약 정리", role="front", slide_numbers=[1], sections={"body": [st("x")]}),
+                               Topic(heading="유전자 구성", chapter="MHC and its function", slide_numbers=[1],
+                                     basics_title="구조", basics=["핵심1", "핵심2"],
+                                     sections={"body": [st("본문"), st("주의", "advice"), st("참고", "reference")]})])
+    out = export_mom(note, tpl, tmp_path / "m.docx", page_map={1: 5})
+    d = Document(str(out))
+    body = "\n".join(p.text for p in d.paragraphs) + "\n".join(c.text for t in d.tables for r in t.rows for c in r.cells)
+    assert "1. MHC and its function" in body and "§ 1. 유전자 구성" in body and "기본정석" in body and "핵심1" in body
+    assert "Advice" in body and "Reference" in body and "차 례" in body
+    assert len(d.sections) == 3  # cover + 2 topics, each topic with its own banner header
+    hdr = "\n".join(p.text for p in d.sections[2].header.paragraphs)
+    assert "1. MHC and its function" in hdr and "§ 1. 유전자 구성" in hdr
+    assert "요약 정리" in "\n".join(p.text for p in d.sections[1].header.paragraphs)
+    toc = [p.text for p in d.paragraphs if p.text.startswith("§ 1. 유전자 구성")]
+    assert toc and toc[0].endswith("5p")  # page number from page_map
+
+
+def test_style_guide_skill_is_loadable():
+    from app.generate_notes import load_style_guide
+
+    g = load_style_guide()
+    assert "기본정석" in g and "dictation" in g and "{b|" in g

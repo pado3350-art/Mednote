@@ -27,6 +27,9 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--subject")
     b.add_argument("--professor")
     b.add_argument("--author")
+    b.add_argument("--period", help="예: 4교시")
+    b.add_argument("--edition", help="표지 우측 라벨 (예: 기본편)")
+    b.add_argument("--series", help="표지 큰 제목 (예: 시리즈명)")
     b.add_argument("--comment", help="작성자 코멘트 (use \\n for new lines)")
     b.add_argument("--exam-pdf", help="PAD(기출문제) PDF; 파랑 글씨는 여기 나온 내용에만 허용")
     b.add_argument("--toc", choices=["ai", "heuristic", "unit"],
@@ -41,7 +44,7 @@ def main(argv: list[str] | None = None) -> int:
         backend = PrecomputedBackend.from_json(a.note_json)
     else:
         backend = OfflineBackend() if a.backend == "offline" else AnthropicBackend(model=a.model)
-    meta = {k: v for k in ("date", "subject", "professor", "author") if (v := getattr(a, k))}
+    meta = {k: v for k in ("date", "subject", "professor", "author", "period", "edition", "series") if (v := getattr(a, k))}
     if a.comment:
         meta["comment"] = a.comment.replace("\\n", "\n")
     report, paths = run_pipeline(a.pptx, a.out, a.template, a.script, backend, a.title, meta, pdf=not a.no_pdf, exam_pdf=a.exam_pdf, toc=a.toc, outline_json=a.outline_json)

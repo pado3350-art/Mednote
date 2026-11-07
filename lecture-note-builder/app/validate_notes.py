@@ -53,10 +53,17 @@ def validate(
     # 1. Slide coverage
     covered = {n for t in note.topics for n in t.slide_numbers}
     missing = sorted(set(by_slide) - covered)
+    content_total = sum(1 for n in by_slide if n < EXAM_BASE)
     for n in missing:
+        if n >= EXAM_BASE and not template.format.exam_section:
+            # PAD is only a colour reference when there is no standalone 기출 section
+            rep.issues.append(Issue(severity="info", code="PAD_UNUSED", slide=n,
+                                    message=f"{uname(n)} 문항 내용은 본문에 인용되지 않았습니다."))
+            continue
         rep.issues.append(Issue(severity="error", code="SLIDE_MISSING", slide=n,
                                 message=f"{uname(n)}이(가) 강의록에 반영되지 않았습니다."))
-    rep.slide_coverage = 1 - len(missing) / len(by_slide) if by_slide else 1.0
+    miss_content = sum(1 for n in missing if n < EXAM_BASE)
+    rep.slide_coverage = 1 - miss_content / content_total if content_total else 1.0
 
     # 2. Numbers/units and key terms preserved
     for n, s in by_slide.items():

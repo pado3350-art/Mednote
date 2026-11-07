@@ -28,8 +28,9 @@ def _units_from_segments(segments):
 def _outline_from_topics(topics) -> Outline:
     from .exam import EXAM_BASE
 
-    return Outline(items=[OutlineItem(heading=t.heading, unit_numbers=[n for n in t.slide_numbers if n < EXAM_BASE])
-                          for t in topics if any(n < EXAM_BASE for n in t.slide_numbers)])
+    return Outline(items=[OutlineItem(heading=t.heading, chapter=t.chapter,
+                                      unit_numbers=[n for n in t.slide_numbers if n < EXAM_BASE])
+                          for t in topics if t.role == "body" and any(n < EXAM_BASE for n in t.slide_numbers)])
 
 
 def run_pipeline(
@@ -124,9 +125,9 @@ def run_pipeline(
         # two passes: render, read where each heading landed, refill the TOC numbers
         first = render_pdf(docx_path, out)
         if first:
-            from .export_mom import heading_text
+            from .export_mom import numbering
 
-            pm = heading_pages(first, [heading_text(i, t, tpl) for i, t in enumerate(note.topics)])
+            pm = heading_pages(first, [n["section"] for n in numbering(note)])
             export_docx(note, tpl, docx_path, report, page_map=pm)
             pdf_path = render_pdf(docx_path, out)
     elif pdf:

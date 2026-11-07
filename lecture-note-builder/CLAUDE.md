@@ -24,9 +24,14 @@
 
 ## 색상 규칙 (MOM 양식)
 - **파랑 = 기출된 내용에만** (PAD=기출문제 모음에 실제로 나온 내용). 용어 강조 등 다른 용도로 쓰지 않는다. 강조는 굵게(**), 교수 강조/시험 언급은 빨강, 덜 중요한 부분은 회색, 검증 필요는 보라.
-- 파랑 글씨 문장은 반드시 PAD 문항(`slide_refs`에 101 이상 번호)을 인용해야 한다. 검증기가 `BLUE_WITHOUT_PAD`(오류), `PAD_NOT_BLUE`(경고)로 강제한다.
+- 파랑 글씨 문장은 반드시 PAD 문항(`slide_refs`에 1000 이상 번호 = PAD 유닛)을 인용해야 한다. 검증기가 `BLUE_WITHOUT_PAD`(오류), `PAD_NOT_BLUE`(경고)로 강제한다.
 - PAD 해설은 정리본 작성자의 코멘트이지 교수 발언이 아니다. `--exam-pdf`로 입력한다(pdftotext 필요).
 
 ## 목차(TOC)
 스크립트 단독 입력은 시간 구간 헤더로 쪼개지 않고 전체 흐름으로 읽는다. 목차는 AI(`--backend anthropic`, 기본 `--toc ai`)가 판단하며
 `outline.json`으로 저장/수정/재적용(`--outline-json`)한다. 오프라인에서는 휴리스틱 목차를 쓴다.
+
+## 정리 스타일 (readable-note-organizer 스킬)
+내용은 빠짐없이 넣되 받아쓰기가 아니라 이해하기 쉽게 재구성한다: § 섹션마다 기본정석 박스(2~4줄) → 설명 순서로 재배열한 본문 → Advice(헷갈리는 점) / Reference(강의에서 안 다룬 PPT 내용) → 비교표.
+앞쪽에 핵심 어휘·요약 정리 페이지. 우수 예시와 규칙은 `.claude/skills/readable-note-organizer/`. AI 백엔드는 이 SKILL.md를 시스템 프롬프트에 자동으로 붙인다.
+기출문제(PAD)·필수예제 섹션은 만들지 않는다(`exam_section: false`, PAD는 파랑 글씨 근거로만 사용).

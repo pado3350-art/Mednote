@@ -20,6 +20,18 @@ from .transcript import time_range
 
 EMPHASIS_CUES = ("중요", "시험", "꼭 ", "반드시", "강조", "기억", "출제", "must", "important")
 
+def load_style_guide() -> str:
+    """Rules of the `readable-note-organizer` skill (single source of truth for the writing style)."""
+    from pathlib import Path
+
+    p = Path(__file__).resolve().parent.parent / ".claude" / "skills" / "readable-note-organizer" / "SKILL.md"
+    try:
+        text = p.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+    return re.sub(r"^---.*?---\s*", "", text, count=1, flags=re.S)
+
+
 SYSTEM_PROMPT = """당신은 의과대학 강의록 작성 도우미입니다. 규칙:
 - 슬라이드의 모든 개념을 빠짐없이 반영하고, 분량을 줄이려고 내용을 생략하지 않는다.
 - 수치·단위·약물명·cutoff는 원문 그대로 보존한다. 확립된 영어 의학 용어는 영어로 병기한다.
@@ -30,7 +42,8 @@ SYSTEM_PROMPT = """당신은 의과대학 강의록 작성 도우미입니다. �
 - sections의 키는 허용된 섹션 키만 사용한다.
 - 인라인 서식: {r|빨강=교수 강조·시험 언급} {g|회색=덜 중요} {p|보라=검증 필요} **굵게**.
 - 파랑 {b|...}은 입력의 pad_questions(기출문제)에 실제로 나온 내용에만 쓰고, 그 문장의 slide_refs에 해당 PAD 번호(unit)를 반드시 넣는다. 일반 용어 강조에는 굵게를 쓴다.
-- 입력 단락은 번호(unit)로 인용한다(slide_refs). 한 섹션의 모든 단락 내용을 빠짐없이 반영한다."""
+- 입력 단락은 번호(unit)로 인용한다(slide_refs). 한 섹션의 모든 단락 내용을 빠짐없이 반영한다.
+- 받아쓰기가 아니라 '이해하기 쉽게 정리'한다 (아래 스타일 가이드). 각 섹션에 basics_title과 basics(기본정석 2~4줄)를 채운다."""
 
 
 class Backend(Protocol):
@@ -77,7 +90,7 @@ class OfflineBackend:
             for it in outline.items:
                 sts = [Statement(text=b.text, origin="lecturer", slide_refs=[n])
                        for n in it.unit_numbers if n in by for b in by[n].body]
-                out.append(Topic(heading=it.heading, slide_numbers=list(it.unit_numbers), sections={key: sts}))
+                out.append(Topic(heading=it.heading, chapter=it.chapter, slide_numbers=list(it.unit_numbers), sections={key: sts}))
             return out
         topics: list[Topic] = []
         for s in slides:
@@ -163,6 +176,33 @@ class AnthropicBackend:
         hint = [f"{e.year} {e.question[:50]}" for e in (exam or [])]
         return AnthropicOutliner(self.client, self.model).make_outline(units, hint)
 
+    def make_front(self, topics: list[Topic], template: Template) -> list[Topic]:
+        """핵심 어휘 + 요약 정리 pages, written from the finished sections."""
+        key = _key(template, "core_concepts")
+        digest = [{"chapter": t.chapter, "heading": t.heading, "basics": t.basics,
+                   "text": [re.sub(r"[{}]|\w\|", "", st.text) for sts in t.sections.values() for st in sts]}
+                  for t in topics]
+        schema = Topic.model_json_schema()
+        tool = {"name": "emit_front", "description": "Return the two front pages.", "input_schema": {
+            "type": "object", "properties": {"topics": {"type": "array", "items": {k: v for k, v in schema.items() if k != "$defs"}}},
+            "required": ["topics"], "$defs": schema.get("$defs", {})}}
+        resp = self.client.messages.create(
+            model=self.model, max_tokens=6000,
+            system=SYSTEM_PROMPT + "\n\n## 스타일 가이드\n" + load_style_guide() + "\n\n" +
+            "지금 작업: 완성된 섹션들을 읽고 앞쪽 두 페이지를 만든다. topics는 정확히 2개: heading='핵심 어휘'(핵심 용어 한 줄 정의, 교수가 언급한 것만, 전부 slide_refs 포함)와 heading='요약 정리'(섹션별 치트시트). role='front'.",
+            tools=[tool], tool_choice={"type": "tool", "name": "emit_front"},
+            messages=[{"role": "user", "content": json.dumps({"sections": digest}, ensure_ascii=False)}],
+        )
+        block = next(b for b in resp.content if getattr(b, "type", "") == "tool_use")
+        out = []
+        for raw in block.input["topics"]:
+            t = Topic.model_validate(raw)
+            t.role = "front"
+            t.chapter = ""
+            t.sections = {key: [st for v in t.sections.values() for st in v]} if t.sections else {}
+            out.append(t)
+        return out
+
     def _payload(self, chunk: list[Slide], aligned, template: Template, exam=None, heading=None) -> str:
         data = []
         for s in chunk:
@@ -220,7 +260,7 @@ class AnthropicBackend:
             resp = self.client.messages.create(
                 model=self.model,
                 max_tokens=8000,
-                system=SYSTEM_PROMPT,
+                system=SYSTEM_PROMPT + "\n\n## 스타일 가이드\n" + load_style_guide(),
                 tools=[tool],
                 tool_choice={"type": "tool", "name": "emit_topics"},
                 messages=[{"role": "user", "content": self._payload(
@@ -233,11 +273,13 @@ class AnthropicBackend:
                 t.sections = {k: v for k, v in t.sections.items() if k in template.keys}
                 made.append(t)
             if item is not None:  # merge into ONE topic that follows the outline exactly
-                merged = Topic(heading=item.heading, slide_numbers=list(item.unit_numbers))
+                merged = Topic(heading=item.heading, chapter=item.chapter, slide_numbers=list(item.unit_numbers))
                 for t in made:
                     for k, v in t.sections.items():
                         merged.sections.setdefault(k, []).extend(v)
                     merged.review_flags += t.review_flags
+                    merged.basics = merged.basics or t.basics
+                    merged.basics_title = merged.basics_title or t.basics_title
                 made = [merged]
             for t in made:
                 # Images/tables are attached by code, never generated by the model.
@@ -264,8 +306,11 @@ def generate_note(
     backend = backend or OfflineBackend()
     amap = {a.slide_number: a for a in aligned}
     topics = backend.build_topics(slides, amap, template, outline=outline, exam=exam_items)
-    if exam_items and not getattr(backend, "authors_exam", False):
+    if exam_items and template.format.exam_section and not getattr(backend, "authors_exam", False):
         topics = [exam_topic(exam_items, template), *topics]
+    make_front = getattr(backend, "make_front", None)
+    if make_front and outline is not None:  # 핵심 어휘 / 요약 정리 pages written from the finished sections
+        topics = [*make_front(topics, template), *topics]
 
     note = LectureNote(
         title=title, template_name=template.template_name, topics=topics,

@@ -66,13 +66,17 @@ class Statement(BaseModel):
     # Visual role (MOM colour legend): exam=BLUE (기출 only!), minor=gray, verify=purple;
     # red is `emphasis`. Blue requires a PAD (기출) source ref -> see validate_notes.
     tag: Literal["normal", "exam", "minor", "verify"] = "normal"
-    # Layout role: paragraph, "-" bullet, or "★" sub-heading.
-    kind: Literal["para", "bullet", "star"] = "para"
+    # Layout role: paragraph, "-" bullet, "★" sub-heading, or an Advice / Reference call-out.
+    kind: Literal["para", "bullet", "star", "advice", "reference"] = "para"
     level: int = 0
 
 
 class Topic(BaseModel):
     heading: str
+    chapter: str = ""  # chapter title (no number); topics sharing it are grouped as "§ 1, § 2 ..."
+    role: Literal["body", "front"] = "body"  # front = 핵심 어휘 / 요약 정리 pages (not in the TOC)
+    basics_title: str = ""  # 기본정석 box title
+    basics: list[str] = Field(default_factory=list)  # 기본정석 box: 2-4 core points of the §
     slide_numbers: list[int]
     # template section key -> statements
     sections: dict[str, list[Statement]] = Field(default_factory=dict)
@@ -99,6 +103,7 @@ class LectureNote(BaseModel):
 class OutlineItem(BaseModel):
     heading: str
     unit_numbers: list[int]  # slides, or script paragraphs (1-based) in script-only mode
+    chapter: str = ""  # optional chapter this section belongs to
     summary: str = ""
 
 

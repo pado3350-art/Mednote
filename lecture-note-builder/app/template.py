@@ -27,6 +27,7 @@ class FormatOptions(BaseModel):
     font_size_pt: float = 10.5
     layout: str = "plain"  # "plain" | "mom"
     page_break_per_topic: bool = False
+    exam_section: bool = True  # build a standalone 기출(PAD) section (mom.yaml: false)
     roman_headings: bool = False
     legend: list[LegendItem] = Field(default_factory=list)
 

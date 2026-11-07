@@ -25,6 +25,9 @@ description: Create detailed Korean medical lecture notes from extracted slides 
 ## Validation
 Run `python -m pytest` and the validator; resolve every `error` issue (SLIDE_MISSING, NUMBER_LOST, TABLE_LOST, IMAGE_LOST, SEGMENT_LOST, NO_SOURCE).
 
+## Style
+Write with the `readable-note-organizer` skill (all content kept, reorganised for understanding, 기본정석 box per §, Advice/Reference call-outs).
+
 ## Colour rules (MOM template)
 - BLUE (`{b|...}`) only for content that appeared in PAD (기출문제). Every blue statement must cite a PAD unit (slide_refs >= 101). Never use blue for generic key terms; use **bold**.
 - RED `{r|...}` lecturer emphasis / "시험에 나온다" mentions; GRAY `{g|...}` low importance; PURPLE `{p|...}` needs verification.
