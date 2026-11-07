@@ -131,6 +131,14 @@ def validate(
                                             slide=st.slide_refs[0],
                                             message=f"기출(PAD) 출처 문장이 파랑 표시되지 않았습니다: '{_strip_markup(st.text)[:40]}…'"))
 
+    # 4c. Unrendered markup (stray '*' or '{x|') would show up literally in the document
+    for t in note.topics:
+        for text in [x.text for sts in t.sections.values() for x in sts] + list(t.basics):
+            left = _strip_markup(text)
+            if "*" in left or re.search(r"[{}]|\b[rbgp]\|", left):
+                rep.issues.append(Issue(severity="warning", code="MARKUP_LEAK",
+                                        slide=None, message=f"렌더링되지 않는 서식 기호가 남아 있습니다: '{left[:40]}…'"))
+
     # 5. Alignment confidence & script segments dropped
     placed_ids = {i for t in note.topics for sts in t.sections.values() for s in sts for i in s.segment_ids}
     for a in aligned:

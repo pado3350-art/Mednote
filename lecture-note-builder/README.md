@@ -20,4 +20,13 @@ python -m app.cli build --script inputs/lecture.docx --exam-pdf inputs/pad.pdf \
 python -m app.cli build ... --outline-json outputs/lecture/outline.json      # 목차를 고친 뒤 재생성
 ```
 
+## 예시
+| 예시 | 입력 | 노트 작성 코드 | 결과 |
+|---|---|---|---|
+| T림프구에 대한 항원제시 (면역학) | 스크립트 DOCX + 기출 PAD PDF | `examples/tcell_note.py` | `outputs/tcell/` (파랑 = 기출) |
+| Limbic system (신경과학1) | 스크립트 DOCX | `examples/limbic_note.py` | `outputs/limbic/` (PAD 없음) |
+
+두 스크립트는 구간 헤더 표기가 달라도(`[00:00–02:00] 제목 | 원본 2쪽` / `00:00–02:00 | 제목` + `자료 기준: 3쪽`) 같은 파서가 읽고,
+시간 구간 구조는 버린 뒤 전체 흐름으로 목차를 새로 만든다.
+
 설계: [docs/DESIGN.md](docs/DESIGN.md)

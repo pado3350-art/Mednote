@@ -423,3 +423,60 @@ def test_style_guide_skill_is_loadable():
 
     g = load_style_guide()
     assert "기본정석" in g and "dictation" in g and "{b|" in g
+
+
+STRUCT2 = """Limbic 테스트 — 40분 강의 스크립트 역구성
+자료: 「2022.11.02 신경과학1 Limbic system」 13쪽 강의 정리본 | 추정 시간: 40분
+주의: 가상 스크립트입니다.
+강의 진행표
+00:00–02:00 | 도입: 오늘 강의의 범위
+자료 기준: 3쪽
+오늘은 세 가지 구조를 봅니다. 편도체는 공포와 관련됩니다.
+02:00–04:00 | 편도체의 위치
+자료 기준: 3쪽
+편도체는 uncus 안쪽에 있습니다.
+04:00–06:00 | 정리
+자료 기준: 3–12쪽
+정리하면 편도체는 fear입니다.
+자료 충실도 및 제한
+원본에 반복적으로 나타나는 지점을 중심으로 재구성했습니다.
+"""
+
+
+def test_second_header_format_without_brackets():
+    from app.transcript import is_structured, parse_flow_script, parse_structured_script
+
+    assert is_structured(STRUCT2)
+    meta, segs = parse_flow_script(STRUCT2)
+    assert meta["date"] == "2022-11-02" and meta["subject"] == "신경과학1" and meta["title"] == "Limbic system"
+    assert [g.kind for g in segs] == ["speech", "speech", "speech", "note"]
+    assert not any("자료 기준" in g.text or "00:00" in g.text for g in segs)
+    _, units = parse_structured_script(STRUCT2)
+    assert [u.pages for u in units[:3]] == ["3", "3", "3–12"]
+
+
+def test_long_speech_line_with_time_range_is_not_a_header():
+    from app.transcript import is_structured
+
+    speech = "\n".join(f"[0{i}:00–0{i}:30] " + "아주 긴 발화 문장입니다 " * 12 for i in range(1, 5))
+    assert not is_structured(speech)
+
+
+def test_markup_leak_warning(tmp_path):
+    from app.generate_notes import PrecomputedBackend
+    from app.models import Statement, Topic
+    from app.pipeline import run_pipeline
+
+    t = Topic(heading="x", slide_numbers=[1, 2, 3, 4], sections={"body": [
+        Statement(text=BODY + " *이탤릭 시도* 와 {x|잘못된}", slide_refs=[1, 2, 3, 4])]})
+    rep, _ = run_pipeline(None, tmp_path / "o", MOM, script=_write(tmp_path), backend=PrecomputedBackend([t]), pdf=False)
+    assert "MARKUP_LEAK" in {i.code for i in rep.issues}
+
+
+def test_example_notes_have_no_markup_leaks():
+    import re as _re
+    from pathlib import Path as _P
+
+    for f in ("tcell_note.py", "limbic_note.py"):
+        src = (_P(__file__).resolve().parent.parent / "examples" / f).read_text(encoding="utf-8")
+        assert not _re.search(r'(?<!\*)\*(?!\*)[^*\n"]+?(?<!\*)\*(?!\*)', src), f

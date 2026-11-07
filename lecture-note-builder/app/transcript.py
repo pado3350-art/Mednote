@@ -105,10 +105,15 @@ def time_range(seg: Segment) -> str | None:
 # --------------------------------------------------------------------------
 from dataclasses import dataclass, field  # noqa: E402
 
+# Block header: "[00:00–02:00] 제목  |  원본 2쪽"  or  "00:00–02:00 | 제목" (brackets / source page optional).
+# The title must be short (<= 70 chars) so that long speech lines starting with a time range are not mistaken for headers.
 _UNIT_HDR = re.compile(
-    r"^\s*\[(\d{1,2}:\d{2})\s*[–\-~]\s*(\d{1,2}:\d{2})\]\s*(.+?)\s*(?:\|\s*원본\s*([\d–\-, ]+)\s*쪽)?\s*$"
+    r"^\s*\[?(\d{1,2}:\d{2})\s*[–\-~]\s*(\d{1,2}:\d{2})\]?\s*\|?\s*(.{1,70}?)\s*(?:\|\s*원본\s*([\d–\-, ]+)\s*쪽)?\s*$"
 )
-_TRAILER_HDR = re.compile(r"^\s*(재구성\s*및\s*검증\s*참고|검증\s*참고)\s*$")
+_PAGES_LINE = re.compile(r"^\s*(?:자료\s*기준|원본)\s*[:：]?\s*([\d–\-, ]+)\s*쪽\s*$")
+_TRAILER_HDR = re.compile(r"^\s*(재구성\s*및\s*검증\s*참고|검증\s*참고|자료\s*충실도\s*및\s*제한)\s*$")
+_LECTURE_REF = re.compile(
+    r"「\s*(\d{4}[.\-/]\d{1,2}[.\-/]\d{1,2})\s+(?:(\S+?)\s+[—–-]\s+|(\S+)\s+)(.+?)\s*」")
 _DATE = re.compile(r"(\d{4})[.\-/](\d{1,2})[.\-/](\d{1,2})")
 
 
@@ -145,6 +150,8 @@ def parse_structured_script(text: str) -> tuple[dict[str, str], list[Unit]]:
             cur = Unit(len(units) + 1, h.group(3).strip(), parse_ts(h.group(1)), parse_ts(h.group(2)),
                        (h.group(4) or "").strip())
             units.append(cur)
+        elif cur is not None and cur.start is not None and not cur.paragraphs and _PAGES_LINE.match(line):
+            cur.pages = _PAGES_LINE.match(line).group(1).strip()
         elif _TRAILER_HDR.match(line):
             cur = Unit(len(units) + 1, "재구성 및 검증 참고", None, None, "")
             units.append(cur)
@@ -153,8 +160,15 @@ def parse_structured_script(text: str) -> tuple[dict[str, str], list[Unit]]:
         else:
             cur.paragraphs.append(line.lstrip("•").strip() if cur.start is None else line)
     if preamble:
-        meta["title"] = preamble[0]
+        meta["title"] = re.split(r"\s+[—–-]\s+", preamble[0])[0].strip()
     for ln in preamble:
+        ref = _LECTURE_REF.search(ln)
+        if ref and "date" not in meta:
+            d = re.match(r"(\d{4})[.\-/](\d{1,2})[.\-/](\d{1,2})", ref.group(1))
+            meta["date"] = f"{int(d.group(1)):04d}-{int(d.group(2)):02d}-{int(d.group(3)):02d}"
+            meta["subject"] = ref.group(2) or ref.group(3)
+            meta["title"] = ref.group(4).strip()
+            continue
         m = _DATE.search(ln)
         if m and "date" not in meta:
             meta["date"] = f"{int(m.group(1)):04d}-{int(m.group(2)):02d}-{int(m.group(3)):02d}"

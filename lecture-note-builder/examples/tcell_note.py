@@ -138,8 +138,8 @@ def build(unit_ids, exam_items=()):
     top.append(T("MHC의 특성", CH1, [7, 8, 9, 10], [
         STAR("Polymorphism & Polygeny", 7),
         P("두 단어는 **어느 수준의 다양성이냐**가 다르다.", 7),
-        B("**Polymorphism(다형성)** : *같은 유전자 자리*의 allele이 집단 전체에서 여러 형태로 존재한다. 예) HLA-B 하나에도 다양한 allele이 있다.", 7),
-        B("**Polygeny** : *한 개인 안에* 서로 다른 MHC 유전자(HLA-A, HLA-B ...)가 여러 개 있다.", 7),
+        B("**Polymorphism(다형성)** : 같은 유전자 자리의 allele이 집단 전체에서 여러 형태로 존재한다. 예) HLA-B 하나에도 다양한 allele이 있다.", 7),
+        B("**Polygeny** : 한 개인 안에 서로 다른 MHC 유전자(HLA-A, HLA-B ...)가 여러 개 있다.", 7),
         P("두 층위의 다양성이 **함께 작동**한다. 또 발현은 **codominant**여서 어머니·아버지에게서 받은 allele이 모두 발현되므로, 한 개체에서 실제 만들어지는 MHC 분자 종류가 늘어나고 "
           "한 사람의 MHC 조합이 다른 사람과 같기 어렵다.", 7),
         ADV("‘한 개체의 유전자 수가 많다’(polygeny)와 ‘집단 전체의 allele 종류가 많다’(polymorphism)를 바꿔 쓰지 말 것.", 7),
@@ -329,15 +329,21 @@ def _remap(topics, unit_ids, EX):
     return topics
 
 
+def unit_ids_from_script(path):
+    """Old block no. -> paragraph ids, numbered exactly like parse_flow_script (all paragraphs, 1-based)."""
+    from app.transcript import parse_structured_script, read_script_text
+
+    _, units = parse_structured_script(read_script_text(path))
+    ids, n = {}, 0
+    for u in units:
+        ids[u.number] = list(range(n + 1, n + 1 + len(u.paragraphs)))
+        n += len(u.paragraphs)
+    return ids
+
+
 if __name__ == "__main__":
     # usage: python -m examples.tcell_note <script.docx> <pad.pdf> > note_authored.json
     from app.exam import parse_exam_pdf
-    from app.transcript import parse_structured_script, read_script_text
-
-    _, units = parse_structured_script(read_script_text(sys.argv[1]))
-    ids, n = {}, 0
-    for u in units:  # same numbering as parse_flow_script: all paragraphs in order, 1-based
-        ids[u.number] = list(range(n + 1, n + 1 + len(u.paragraphs)))
-        n += len(u.paragraphs)
+    ids = unit_ids_from_script(sys.argv[1])
     items = parse_exam_pdf(sys.argv[2])
     json.dump({"topics": [t.model_dump() for t in build(ids, items)]}, sys.stdout, ensure_ascii=False, indent=2)

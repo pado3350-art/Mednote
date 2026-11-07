@@ -1,0 +1,103 @@
+{
+  "items": [
+    {
+      "heading": "편도체복합체의 위치와 핵군",
+      "unit_numbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "chapter": "Amygdaloid nuclear complex",
+      "summary": ""
+    },
+    {
+      "heading": "Afferent fibers (들어오는 경로)",
+      "unit_numbers": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "chapter": "Amygdaloid nuclear complex",
+      "summary": ""
+    },
+    {
+      "heading": "Efferent fibers (나가는 경로)",
+      "unit_numbers": [
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "chapter": "Amygdaloid nuclear complex",
+      "summary": ""
+    },
+    {
+      "heading": "Septal region",
+      "unit_numbers": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ],
+      "chapter": "Septal region & Nucleus accumbens",
+      "summary": ""
+    },
+    {
+      "heading": "Nucleus accumbens",
+      "unit_numbers": [
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "chapter": "Septal region & Nucleus accumbens",
+      "summary": ""
+    },
+    {
+      "heading": "Uncus, stria terminalis, parahippocampal gyrus",
+      "unit_numbers": [
+        33,
+        34
+      ],
+      "chapter": "해부 실습 구조",
+      "summary": ""
+    },
+    {
+      "heading": "Fimbria, fornix, dentate gyrus",
+      "unit_numbers": [
+        35,
+        36
+      ],
+      "chapter": "해부 실습 구조",
+      "summary": ""
+    },
+    {
+      "heading": "부록 & 검증 참고",
+      "unit_numbers": [
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "chapter": "",
+      "summary": ""
+    }
+  ]
+}
