@@ -15,6 +15,7 @@ class BodyLine(BaseModel):
 
 class SlideTable(BaseModel):
     rows: list[list[str]]
+    caption: str = ""
 
 
 class Slide(BaseModel):
@@ -59,6 +60,11 @@ class Statement(BaseModel):
     segment_ids: list[int] = Field(default_factory=list)
     time_ranges: list[str] = Field(default_factory=list)  # e.g. "23:10-24:02"
     emphasis: bool = False
+    # Visual role (MOM colour legend): key=blue, minor=gray, verify=purple.
+    tag: Literal["normal", "key", "minor", "verify"] = "normal"
+    # Layout role: paragraph, "-" bullet, or "★" sub-heading.
+    kind: Literal["para", "bullet", "star"] = "para"
+    level: int = 0
 
 
 class Topic(BaseModel):
@@ -77,6 +83,11 @@ class LectureNote(BaseModel):
     topics: list[Topic] = Field(default_factory=list)
     exam_points: list[Statement] = Field(default_factory=list)
     review_flags: list[str] = Field(default_factory=list)
+    # Cover-page info for the MOM layout: date ("2023-04-26"), subject,
+    # professor, author, comment (free text).
+    meta: dict[str, str] = Field(default_factory=dict)
+    # Script-only mode: unit number -> "04:00–06:00 · 원본 4쪽" (replaces "PPT p.N").
+    unit_labels: dict[int, str] = Field(default_factory=dict)
 
 
 # ---------- Stage 4: validation ----------

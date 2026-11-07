@@ -12,6 +12,12 @@ class SectionDef(BaseModel):
     label: str
 
 
+class LegendItem(BaseModel):
+    tag: str  # emphasis | key | minor | verify
+    word: str  # coloured label, e.g. "빨강"
+    meaning: str
+
+
 class FormatOptions(BaseModel):
     preserve_original_images: bool = True
     tables_for_comparisons: bool = True
@@ -19,6 +25,10 @@ class FormatOptions(BaseModel):
     numbered_headings: bool = True
     font_korean: str = "맑은 고딕"
     font_size_pt: float = 10.5
+    layout: str = "plain"  # "plain" | "mom"
+    page_break_per_topic: bool = False
+    roman_headings: bool = False
+    legend: list[LegendItem] = Field(default_factory=list)
 
 
 class QualityOptions(BaseModel):

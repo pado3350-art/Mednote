@@ -4,6 +4,7 @@ from __future__ import annotations
 import re
 
 from .align_content import _bigrams, _cosine
+from .markup import strip as _strip_markup
 from .models import AlignedSlide, Issue, LectureNote, Slide, ValidationReport
 from .template import Template
 
@@ -23,7 +24,7 @@ def _note_text(note: LectureNote) -> str:
     for t in note.topics:
         parts.append(t.heading)
         for sts in t.sections.values():
-            parts += [s.text for s in sts]
+            parts += [_strip_markup(s.text) for s in sts]
         for tb in t.tables:
             parts += [" ".join(r) for r in tb.rows]
     return "\n".join(parts)
@@ -88,14 +89,16 @@ def validate(
                     rep.issues.append(Issue(severity="error", code="BAD_REF", slide=None,
                                             message=f"존재하지 않는 슬라이드 참조: {st.slide_refs}"))
                     continue
+                if st.kind == "star":  # short sub-headings carry no claim
+                    continue
                 source = " ".join(
                     [by_slide[r].plain_text() for r in st.slide_refs]
                     + [seg_text.get(i, "") for i in st.segment_ids]
                 )
-                if _cosine(_bigrams(st.text), _bigrams(source)) < _GROUND_MIN:
+                if _cosine(_bigrams(_strip_markup(st.text)), _bigrams(source)) < _GROUND_MIN:
                     rep.issues.append(Issue(severity="warning", code="UNGROUNDED",
                                             slide=st.slide_refs[0],
-                                            message=f"원본과 유사도가 낮은 문장(근거 확인 필요): '{st.text[:40]}…'"))
+                                            message=f"원본과 유사도가 낮은 문장(근거 확인 필요): '{_strip_markup(st.text)[:40]}…'"))
 
     # 5. Alignment confidence & script segments dropped
     placed_ids = {i for t in note.topics for sts in t.sections.values() for s in sts for i in s.segment_ids}

@@ -8,6 +8,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
+from .markup import runs as _runs, strip as _strip
 from .models import LectureNote, Statement, ValidationReport
 from .template import Template
 
@@ -16,7 +17,13 @@ BLUE = RGBColor(0x1D, 0x4E, 0xD8)
 RED = RGBColor(0xB9, 0x1C, 0x1C)
 
 
-def source_tag(st: Statement) -> str:
+def _md(text: str) -> str:
+    return "".join(f"**{t}**" if b else t for t, _, b in _runs(text))
+
+
+def source_tag(st: Statement, note: LectureNote | None = None) -> str:
+    if note is not None and note.unit_labels:
+        return " / ".join(note.unit_labels[r] for r in st.slide_refs if r in note.unit_labels)
     bits = []
     if st.slide_refs:
         bits.append("PPT p." + ",".join(map(str, st.slide_refs)))
@@ -42,19 +49,19 @@ def _style_doc(doc: Document, tpl: Template) -> None:
     sec.left_margin = sec.right_margin = Cm(2.2)
 
 
-def _statement(doc: Document, st: Statement, tpl: Template, lecturer: bool) -> None:
+def _statement(doc: Document, st: Statement, tpl: Template, lecturer: bool, note: LectureNote) -> None:
     p = doc.add_paragraph(style="List Bullet")
     if lecturer:
         r0 = p.add_run("▶ 교수님: ")
         r0.bold = True
         r0.font.color.rgb = BLUE
-    r = p.add_run(st.text.strip())
+    r = p.add_run(_strip(st.text.strip()))
     if st.emphasis:
         r.bold = True
     if lecturer:
         r.italic = True
     if tpl.format.include_source_references:
-        tag = source_tag(st)
+        tag = source_tag(st, note)
         if tag:
             rt = p.add_run(f"  [{tag}]")
             rt.font.size = Pt(8)
@@ -66,7 +73,12 @@ def export_docx(
     tpl: Template,
     out_path: str | Path,
     report: ValidationReport | None = None,
+    page_map: dict[int, int] | None = None,
 ) -> Path:
+    if tpl.format.layout == "mom":
+        from .export_mom import export_mom
+
+        return export_mom(note, tpl, out_path, page_map)
     doc = Document()
     _style_doc(doc, tpl)
     doc.add_heading(note.title, level=0)
@@ -86,7 +98,7 @@ def export_docx(
                 continue
             doc.add_heading(sec.label, level=3)
             for st in sts:
-                _statement(doc, st, tpl, lecturer=st.origin == "lecturer")
+                _statement(doc, st, tpl, lecturer=st.origin == "lecturer", note=note)
 
         for tb in t.tables:
             if not tb.rows:
@@ -117,7 +129,7 @@ def export_docx(
     if note.exam_points:
         doc.add_heading("시험 포인트 (교수님 강조 모음)", level=1)
         for st in note.exam_points:
-            _statement(doc, st, tpl, lecturer=True)
+            _statement(doc, st, tpl, lecturer=True, note=note)
 
     if note.review_flags or (report and report.issues):
         doc.add_page_break()
@@ -148,8 +160,8 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
             L.append(f"### {sec.label}")
             for st in sts:
                 pre = "▶ **교수님:** " if st.origin == "lecturer" else ""
-                body = f"**{st.text}**" if st.emphasis else st.text
-                tag = source_tag(st)
+                body = f"**{_md(st.text)}**" if st.emphasis else _md(st.text)
+                tag = source_tag(st, note)
                 L.append(f"- {pre}{body}" + (f" `[{tag}]`" if tag and tpl.format.include_source_references else ""))
             L.append("")
         for tb in t.tables:
@@ -164,7 +176,7 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
             L.append(f"![{Path(img).name}]({img})")
         L.append("")
     if note.exam_points:
-        L += ["## 시험 포인트", *[f"- {s.text} `[{source_tag(s)}]`" for s in note.exam_points], ""]
+        L += ["## 시험 포인트", *[f"- {s.text} `[{source_tag(s, note)}]`" for s in note.exam_points], ""]
     out = Path(out_path)
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(L), encoding="utf-8")

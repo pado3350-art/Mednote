@@ -135,7 +135,55 @@ def test_anthropic_backend_with_fake_client(sample_pptx, marked_script, tmp_path
 
 def test_cli_end_to_end(sample_pptx, marked_script, tmp_path):
     out = tmp_path / "out"
-    rc = main(["build", str(sample_pptx), "--script", str(marked_script), "--out", str(out)])
+    rc = main(["build", str(sample_pptx), "--script", str(marked_script), "--out", str(out), "--no-pdf"])
     assert rc == 0
     for f in ("lec_강의록.docx", "lec_강의록.md", "validation_report.md", "note.json", "slides.json"):
         assert (out / f).exists(), f
+
+
+STRUCT = """T림프구 테스트
+기준 자료: 「2023.04.26 면역학 — 테스트」
+[00:00–02:00] 도입  |  원본 2쪽
+MHC는 6번 염색체에 있습니다. 중요합니다.
+[02:00–04:00] 용어  |  원본 2–3쪽
+Polygenic과 polymorphic은 다릅니다. 1~10% 정도입니다.
+[04:00–06:00] 마무리  |  원본 4쪽
+CD1은 lipid를 제시합니다.
+"""
+
+
+def test_structured_script_and_mom_export(tmp_path):
+    from app.transcript import is_structured, parse_structured_script
+    from app.pipeline import run_pipeline
+    from app.generate_notes import PrecomputedBackend
+    from app.models import Statement, Topic
+
+    assert is_structured(STRUCT)
+    meta, units = parse_structured_script(STRUCT)
+    assert meta["date"] == "2023-04-26" and meta["subject"] == "면역학"
+    assert [u.label for u in units][1] == "02:00–04:00 · 원본 2–3쪽"
+
+    s = tmp_path / "s.txt"; s.write_text(STRUCT, encoding="utf-8")
+    topics = [Topic(heading="0. 요약", slide_numbers=[1, 2, 3], sections={"body": [
+        Statement(text="MHC는 {r|6번 염색체}에 있고 **중요**. Polygenic polymorphic 1~10% CD1 lipid",
+                  slide_refs=[1, 2, 3])]})]
+    rep, paths = run_pipeline(None, tmp_path / "o", Path(__file__).resolve().parent.parent / "templates" / "mom.yaml",
+                              script=s, backend=PrecomputedBackend(topics), pdf=False)
+    assert rep.ok, rep.errors
+    d = Document(str(paths["docx"]))
+    text = "\n".join(p.text for p in d.paragraphs) + "\n".join(
+        c.text for t in d.tables for r in t.rows for c in r.cells)
+    assert "작성자 코멘트" in text and "목차" in text and "0. 요약" in text
+    assert "원본 2–3쪽" in text and "{r|" not in text and "**" not in text
+
+
+def test_structured_validation_catches_dropped_unit(tmp_path):
+    from app.pipeline import run_pipeline
+    from app.generate_notes import PrecomputedBackend
+    from app.models import Statement, Topic
+
+    s = tmp_path / "s.txt"; s.write_text(STRUCT, encoding="utf-8")
+    topics = [Topic(heading="x", slide_numbers=[1], sections={"body": [Statement(text="6번 염색체 MHC 중요", slide_refs=[1])]})]
+    rep, _ = run_pipeline(None, tmp_path / "o", Path(__file__).resolve().parent.parent / "templates" / "mom.yaml",
+                          script=s, backend=PrecomputedBackend(topics), pdf=False)
+    assert {i.slide for i in rep.errors if i.code == "SLIDE_MISSING"} == {2, 3}

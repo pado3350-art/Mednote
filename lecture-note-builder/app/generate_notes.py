@@ -86,6 +86,27 @@ class OfflineBackend:
         return topics
 
 
+# ------------------------------------------------------------ precomputed
+class PrecomputedBackend:
+    """Use topics authored elsewhere (e.g. by Claude Code in a session, or a
+    hand-edited note.json). Lets the renderer/validator run without an API."""
+
+    def __init__(self, topics: list[Topic]):
+        self.topics = topics
+
+    @classmethod
+    def from_json(cls, path) -> "PrecomputedBackend":
+        import json
+        from pathlib import Path
+
+        raw = json.loads(Path(path).read_text(encoding="utf-8"))
+        raw = raw["topics"] if isinstance(raw, dict) else raw
+        return cls([Topic.model_validate(t) for t in raw])
+
+    def build_topics(self, slides, aligned, template):
+        return self.topics
+
+
 # -------------------------------------------------------------- anthropic
 class AnthropicBackend:
     def __init__(self, client=None, model: str | None = None, chunk_size: int = 3):
@@ -168,12 +189,17 @@ def generate_note(
     aligned: list[AlignedSlide],
     template: Template,
     backend: Backend | None = None,
+    meta: dict[str, str] | None = None,
+    unit_labels: dict[int, str] | None = None,
 ) -> LectureNote:
     backend = backend or OfflineBackend()
     amap = {a.slide_number: a for a in aligned}
     topics = backend.build_topics(slides, amap, template)
 
-    note = LectureNote(title=title, template_name=template.template_name, topics=topics)
+    note = LectureNote(
+        title=title, template_name=template.template_name, topics=topics,
+        meta=meta or {}, unit_labels=unit_labels or {},
+    )
     for t in topics:
         for s in t.sections.get("professor_emphasis", []):
             note.exam_points.append(s)

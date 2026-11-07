@@ -1,0 +1,31 @@
+# "MOM" lecture-note style (modelled on the reference MOM.pdf):
+# boxed cover, 작성자 코멘트 + colour legend, dotted TOC, roman-numbered topics,
+# colour-coded inline emphasis, source tags in tiny gray at paragraph ends.
+template_name: mom_v1
+language: ko
+detail_level: comprehensive
+
+sections:
+  - {key: body, label: ""}          # free-flow body (no sub-heading)
+
+format:
+  layout: mom
+  page_break_per_topic: true
+  roman_headings: true
+  preserve_original_images: true
+  tables_for_comparisons: true
+  include_source_references: true   # set false for a cleaner look
+  numbered_headings: true
+  font_korean: 맑은 고딕
+  font_size_pt: 10
+  legend:
+    - {tag: emphasis, word: 빨강, meaning: "교수님 강조 / 시험 언급 / 꼭 외울 부분"}
+    - {tag: key,      word: 파랑, meaning: "핵심 용어·정의"}
+    - {tag: minor,    word: 회색, meaning: "중요도 낮은 부분 (이해용 부연)"}
+    - {tag: verify,   word: 보라, meaning: "원자료와 대조 필요 / 불확실"}
+
+quality:
+  preserve_all_key_concepts: true
+  flag_uncertain_facts: true
+  require_source_traceability: true
+  min_alignment_confidence: 0.15
