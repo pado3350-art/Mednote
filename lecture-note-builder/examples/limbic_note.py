@@ -15,11 +15,20 @@ import sys
 
 from app.models import SlideTable
 from app.models import Arrow, Diagram, Group
-from examples.tcell_note import ADV, B, DIA, P, REF, STAR, T, _remap, unit_ids_from_script
+from examples.tcell_note import ADV, B, DIA, P, REF, ROW, STAR, T, _remap, unit_ids_from_script
 
 CH1 = "Amygdaloid nuclear complex"
 CH2 = "Septal region & Nucleus accumbens"
 CH3 = "해부 실습 구조"
+
+
+TIPS = {
+    "편도체복합체의 위치와 핵군": "편도체 = fear, 그리고 핵군은 basolateral / corticomedial 두 그룹. 기출은 ‘고위 연합 입력 = basolateral’, ‘central = 뇌줄기 부교감 신경핵’이 반복됩니다.",
+    "Afferent fibers (들어오는 경로)": "‘후각’이 나오면 바로 corticomedial. basolateral과 corticomedial의 입력을 대비해서 외우세요.",
+    "Efferent fibers (나가는 경로)": "stria terminalis의 표적 세 곳(septal nuclei, hypothalamus, nucleus accumbens septi)을 외우라고 하셨습니다.",
+    "Septal region": "교수님이 엄청 강조하셨고 파드에도 반복 출제 — 네 가지 연결을 섬유와 짝지어 가장 먼저 외우세요.",
+    "Nucleus accumbens": "Amygdala — fear, Nucleus accumbens — addiction. 이 둘은 반드시 가져가세요.",
+}
 
 
 def build(unit_ids, exam_items=()):
@@ -312,6 +321,8 @@ def build(unit_ids, exam_items=()):
         B("실제 40분 발화의 문자 그대로의 복원이나 정확한 음성 길이 검증 자료가 아니며, 시간 구간 표기는 구성에 사용하지 않았다.", 21),
         B("{g|PAD(기출) 해설은 정리본 작성자의 코멘트이며 교수님 발언이 아니다. 일부 문항(예: 17학번 Q4)은 그림 선택지(A~E) 문항이라 구조 이름이 아닌 해설 내용만 반영했다.}", 108),
     ]))
+    for t in top:
+        t.tip = t.tip or TIPS.get(t.heading, "")
     return _remap(top, unit_ids, EX)
 
 

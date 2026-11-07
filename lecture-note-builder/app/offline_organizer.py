@@ -95,7 +95,7 @@ def _bold_terms(sentences: list[str], seen: set[str], allowed: set[str]) -> list
 
 
 def _score(s: str) -> float:
-    plain = re.sub(r"[{}*]|\b[rbgp]\|", "", s)
+    plain = re.sub(r"[{}*]|\b[rbgpcyu]\|", "", s)
     sc = 2.0 * _emph(plain) + 1.0 * bool(_EN.search(plain)) + 0.7 * bool(re.search(r"\d", plain)) + 1.2 * bool(DEF_PAT.search(plain))
     sc -= 0.9 * _low(plain)
     sc -= max(0, len(plain) - 110) / 140.0
@@ -145,6 +145,12 @@ def organize_section(units: list[Slide], heading: str, chapter: str, allowed: se
             statements.append(Statement(text=title, kind="star", slide_refs=refs, origin="both"))
             statements.append(Statement(text=" ".join(marked), kind="para", slide_refs=refs + sorted(pad_refs),
                                         origin="lecturer"))
+    emph = [(sc, o, s) for sc, o, s, _ in cand if _emph(re.sub(r"[{}*]|\b[rbgpcyu]\|", "", s))]
+    tip = ""
+    if emph:  # the most salient emphasised sentence becomes the section's study tip
+        _, _, best = sorted(emph, key=lambda e: (-e[0], e[1]))[0]
+        plain = re.sub(r"[{}*]|\b[rbgpcyu]\|", "", best)
+        tip = "교수님 강조 — " + (plain if len(plain) <= 110 else plain[:107].rstrip() + "…")
     top = sorted(cand, key=lambda c: (-c[0], c[1]))[:3]
     top = sorted(top, key=lambda c: c[1])
     basics, brefs = [], []
@@ -154,7 +160,7 @@ def organize_section(units: list[Slide], heading: str, chapter: str, allowed: se
         basics.append(("{b|" + plain + "}") if pads else plain)
         brefs += pads
     return Topic(heading=heading, chapter=chapter, slide_numbers=[u.number for u in units],
-                 basics_title=heading, basics=basics, basics_refs=sorted(set(brefs)),
+                 basics_title=heading, basics=basics, basics_refs=sorted(set(brefs)), tip=tip,
                  sections={"body": statements})
 
 
@@ -183,7 +189,7 @@ def _concept_map(body: list[Topic], key: str) -> list[Statement]:
     else:
         groups = []
         for j, t in enumerate(body[:6]):
-            items = terms(t) or [re.sub(r"[{}*]|\b[rbgp]\|", "", t.basics[0])[:30]] if (terms(t) or t.basics) else []
+            items = terms(t) or [re.sub(r"[{}*]|\b[rbgpcyu]\|", "", t.basics[0])[:30]] if (terms(t) or t.basics) else []
             groups.append(Group(title=t.heading[:28], items=items, color=palette[j % 6]))
     spec = Diagram(kind="tree", title="핵심 개념 지도", root="이 강의의 구성", groups=groups)
     return [Statement(text="핵심 개념 지도 — 섹션별 핵심 용어", kind="diagram", diagram=spec, origin="both",
@@ -196,7 +202,7 @@ def make_front_pages(topics: list[Topic], key: str) -> list[Topic]:
     # --- terms
     docs = []
     for t in body:
-        sents = [(st, re.sub(r"\{[rbgp]\||\}|\*\*", "", st.text)) for st in t.sections.get(key, []) if st.kind == "para"]
+        sents = [(st, re.sub(r"\{[rbgpcyu]\||\}|\*\*", "", st.text)) for st in t.sections.get(key, []) if st.kind == "para"]
         docs.append(sents)
     tf_sec: list[Counter] = [Counter(m.group(1) for _, txt in d for m in _EN.finditer(txt)) for d in docs]
     df = Counter(k.lower() for c in tf_sec for k in c)

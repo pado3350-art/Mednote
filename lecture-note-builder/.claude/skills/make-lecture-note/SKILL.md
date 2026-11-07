@@ -15,6 +15,7 @@ You (Claude Code) do the AI part; the program does extraction, validation, layou
    - Chapters (2-4) -> § sections (2-4 each); every speech paragraph in exactly one section; closing remarks -> `부록 & 검증 참고`.
    - Per §: `basics` (+ `basics_refs`), body in explanatory order, Advice / Reference, comparison tables.
    - Two `role: "front"` topics: 핵심 어휘, 요약 정리 - the 요약 정리 page must contain schematics (`DIA(Diagram(kind=tree|flow|compare ...))`, see skill section 5c); source-figure thumbnails are added automatically.
+   - Cover: write `meta.json` (`comment`, `tips` = study strategy in yellow, `objectives` = 학습목표) and build with `--meta-json`; per § add `tip`; slide content as `row2` rows (English | Korean explanation); lecture quizzes as `quiz`. Voice: skill section 3.
    - Every statement cites `slide_refs` (¶ numbers; PAD unit numbers >= 1000).
 4. **Build**: `bash outputs/<name>/brief/build_command.sh` (figures are placed automatically next to the related text).
 5. **Fix** until `validation_report.md` has 0 errors and no BLUE_/PAD_/MARKUP_LEAK findings; look at the PDF pages; correct misplaced figures in `figures.json` (`topic_heading`, `anchor`, `caption`, `skip`) and rebuild with `--figures-json`.

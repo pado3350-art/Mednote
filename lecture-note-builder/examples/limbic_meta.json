@@ -1,0 +1,15 @@
+{
+  "comment": "이 강의록은 실제 녹음이 아니라 「2022.11.02 신경과학1 Limbic system」 정리본에서 역구성한 가상 40분 스크립트와 같은 정리본의 기출문제 모음(PAD)을 바탕으로 작성했습니다. 내용은 빠짐없이 넣되 받아쓰기 대신 이해하기 쉽게 다시 정리했고, 목차는 스크립트 전체 흐름을 보고 구성했습니다.\n[기본정석] 박스는 각 파트의 핵심 요약, [공부 팁]은 우선순위 조언, [Advice]는 헷갈리기 쉬운 부분입니다. 파랑 글씨는 PAD에 실제로 기출된 내용에만 사용했습니다.",
+  "tips": [
+    "septal nuclei의 네 가지 연결(fornix, stria medullaris thalami, stria terminalis·ventral amygdalofugal, medial forebrain bundle)은 교수님이 엄청 강조하셨고 파드에도 반복 출제되었습니다 — 가장 먼저 외우세요.",
+    "편도체는 ‘basolateral = 고위 연합 입력, corticomedial = 후각, central = 뇌줄기 부교감’ 한 줄 + fear. 나머지는 [요약 정리]의 도식으로 연결해서 보세요.",
+    "해부 실습 사진(stria terminalis, uncus, fimbria, fornix, dentate gyrus)은 이름→위치 찾기 연습이 중요합니다."
+  ],
+  "objectives": [
+    "편도체복합체의 위치, 핵군, 대표 기능(fear)을 설명할 수 있다.",
+    "편도체의 afferent / efferent 경로를 구분하여 설명할 수 있다.",
+    "septal nuclei의 네 가지 연결과 관여하는 섬유를 짝지어 설명할 수 있다.",
+    "nucleus accumbens의 위치, 기능, 경로를 설명할 수 있다.",
+    "해부 실습 사진에서 주요 구조를 찾을 수 있다."
+  ]
+}

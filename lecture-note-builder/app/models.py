@@ -90,11 +90,17 @@ class Statement(BaseModel):
     emphasis: bool = False
     # Visual role (MOM colour legend): exam=BLUE (기출 only!), minor=gray, verify=purple;
     # red is `emphasis`. Blue requires a PAD (기출) source ref -> see validate_notes.
-    tag: Literal["normal", "exam", "minor", "verify"] = "normal"
+    tag: Literal["normal", "exam", "exam_other", "minor", "verify"] = "normal"
     # Layout role: paragraph, "-" bullet, "★" sub-heading, or an Advice / Reference call-out.
-    kind: Literal["para", "bullet", "star", "advice", "reference", "figure", "diagram"] = "para"
+    kind: Literal["para", "bullet", "star", "advice", "reference", "figure", "diagram", "row2", "quiz"] = "para"
     level: int = 0
     image: str = ""  # kind == "figure"/"diagram": picture path (text = caption)
+    # kind == "row2": one row of the two-column "slide table" (left = slide / English original, right = explanation in `text`)
+    left_title: str = ""
+    left: list[str] = Field(default_factory=list)  # lines, "- " prefix = bullet; same markup as text
+    # kind == "quiz": `text` = case / stem, options, `answer` = correct answer (+ short reason)
+    options: list[str] = Field(default_factory=list)
+    answer: str = ""
     diagram: Optional["Diagram"] = None  # kind == "diagram": spec rendered to a picture by app/diagrams.py
 
 
@@ -105,6 +111,7 @@ class Topic(BaseModel):
     basics_title: str = ""  # 기본정석 box title
     basics: list[str] = Field(default_factory=list)  # 기본정석 box: 2-4 core points of the §
     basics_refs: list[int] = Field(default_factory=list)  # sources of the box; PAD units here allow BLUE inside it
+    tip: str = ""  # study-priority hint shown as a yellow-highlighted line under the 기본정석 box
     slide_numbers: list[int]
     # template section key -> statements
     sections: dict[str, list[Statement]] = Field(default_factory=dict)
@@ -147,6 +154,7 @@ class LectureNote(BaseModel):
     unit_labels: dict[int, str] = Field(default_factory=dict)
     # How unit numbers are shown: "slide" -> PPT p.N, "para" -> 발화 ¶N (script-only mode).
     ref_style: Literal["slide", "para"] = "slide"
+    pad_professors: dict[int, str] = Field(default_factory=dict)  # PAD unit -> professor (two-blue rule)
     figures: list[Figure] = Field(default_factory=list)  # placement log (figures.json)
 
 

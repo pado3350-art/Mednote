@@ -95,6 +95,8 @@ class OfflineBackend:
         return make_front_pages(topics, _key(template, "core_concepts")) if self.organize else []
 
     def build_topics(self, slides, aligned, template, outline=None, exam=None):
+        if template.format.slide_table and any(s.title for s in slides if s.number < EXAM_BASE):
+            return self._slide_table_topics(slides, aligned, template, outline)  # slide | explanation rows
         if outline is not None:  # script-flow mode: paragraphs grouped under the outline
             by = {s.number: s for s in slides}
             key = _key(template, "core_concepts")
@@ -117,6 +119,8 @@ class OfflineBackend:
                        for n in it.unit_numbers if n in by for b in by[n].body]
                 out.append(Topic(heading=it.heading, chapter=it.chapter, slide_numbers=list(it.unit_numbers), sections={key: sts}))
             return out
+        if template.format.slide_table and any(s.title for s in slides if s.number < EXAM_BASE):
+            return self._slide_table_topics(slides, aligned, template, outline)  # slide | explanation rows
         topics: list[Topic] = []
         for s in slides:
             a = aligned.get(s.number)
@@ -159,6 +163,43 @@ class OfflineBackend:
                 t.sections["professor_emphasis"] = emph
             topics.append(t)
         return topics
+
+
+def _slide_table_topics(self, slides, aligned, template, outline=None):
+    """One two-column row per slide (left = slide text, right = lecturer explanation). With an outline several
+    slides share a page (one topic per section), as in the clinical example notes."""
+    from .offline_organizer import clean_sentences
+
+    key = _key(template, "core_concepts")
+    by = {s.number: s for s in slides}
+    if outline is not None:
+        groups = [(it.heading, it.chapter, [by[n] for n in it.unit_numbers if n in by]) for it in outline.items]
+    else:
+        groups = [(s.title or f"슬라이드 {s.number}", "", [s]) for s in slides if s.number < EXAM_BASE]
+    topics: list[Topic] = []
+    for heading, chapter, group in groups:
+        rows: list[Statement] = []
+        for s in group:
+            a = aligned.get(s.number)
+            left = ["- " + "  " * b.level + b.text for b in s.body]
+            for tb in s.tables:
+                left += ["- " + " | ".join(r) for r in tb.rows]
+            paras = []
+            for g in (a.segments if a else []):
+                sents = clean_sentences(g.text)
+                if sents:
+                    txt = " ".join(sents)
+                    paras.append("- " + ("{r|" + txt + "}" if any(c in txt for c in EMPHASIS_CUES) else txt))
+            right = "\n".join(paras) if paras else "{g|교수님 설명 없음 — 슬라이드만 제시됨}"
+            rows.append(Statement(text=right, kind="row2", left_title=s.title or f"슬라이드 {s.number}", left=left or [""],
+                                  origin="both", slide_refs=[s.number],
+                                  segment_ids=[g.id for g in (a.segments if a else [])]))
+        topics.append(Topic(heading=heading, chapter=chapter, slide_numbers=[s.number for s in group],
+                            sections={key: rows}))
+    return topics
+
+
+OfflineBackend._slide_table_topics = _slide_table_topics
 
 
 # ------------------------------------------------------------ precomputed

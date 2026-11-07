@@ -19,7 +19,7 @@ from pathlib import Path
 from docx import Document
 from docx.enum.section import WD_SECTION
 from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK, WD_TAB_ALIGNMENT, WD_TAB_LEADER
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK, WD_COLOR_INDEX, WD_TAB_ALIGNMENT, WD_TAB_LEADER
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
@@ -32,6 +32,7 @@ from .template import Template
 COLOR = {
     "emphasis": RGBColor(0xC0, 0x00, 0x00),
     "exam": RGBColor(0x1F, 0x4E, 0xC8),
+    "exam_other": RGBColor(0x00, 0x96, 0xCD),  # 2nd blue: PAD of another professor (templates with `exam_other`)
     "minor": RGBColor(0x8C, 0x8C, 0x8C),
     "verify": RGBColor(0x70, 0x30, 0xA0),
 }
@@ -59,6 +60,18 @@ def _font(run, name: str, size: float | None = None, bold=None, color=None, ital
         run.font.color.rgb = color
 
 
+def _run_style(run, col, F, size, bold=None, base_color=None):
+    """Apply a markup colour tag: colours, 'highlight' (yellow marker) and 'underline'."""
+    if col in ("highlight", "underline"):
+        _font(run, F, size, bold=bold, color=base_color or BLACK)
+        if col == "highlight":
+            run.font.highlight_color = WD_COLOR_INDEX.YELLOW
+        else:
+            run.underline = True
+    else:
+        _font(run, F, size, bold=bold, color=COLOR[col] if col else (base_color or BLACK))
+
+
 def _fmt(p, before=0, after=6, line=1.3, left=None, first=None, align=None):
     pf = p.paragraph_format
     pf.space_before, pf.space_after, pf.line_spacing = Pt(before), Pt(after), line
@@ -70,12 +83,12 @@ def _fmt(p, before=0, after=6, line=1.3, left=None, first=None, align=None):
         p.alignment = align
 
 
-def _box(cell, sz=12, color="000000"):
+def _box(cell, sz=12, color="000000", val="single"):
     tcPr = cell._tc.get_or_add_tcPr()
     b = OxmlElement("w:tcBorders")
     for side in ("top", "left", "bottom", "right"):
         e = OxmlElement(f"w:{side}")
-        e.set(qn("w:val"), "single")
+        e.set(qn("w:val"), val)
         e.set(qn("w:sz"), str(sz))
         e.set(qn("w:color"), color)
         b.append(e)
@@ -102,9 +115,10 @@ def _bookmark(p, name: str, bid: int):
     p._p.append(e)
 
 
-def numbering(note: LectureNote) -> list[dict]:
-    """Per topic: chapter no/title and § no -> display strings (shared by TOC, banners, page lookup)."""
-    out, ch_no, sec_no, last_ch = [], 0, 0, None
+def numbering(note: LectureNote, roman: bool = False) -> list[dict]:
+    """Per topic: chapter no/title and § no -> display strings (shared by TOC, banners, page lookup).
+    roman=True: flat (chapter-less) topics get "I. / II. ..." starting at meta['numbering_start'] (default 1)."""
+    out, ch_no, sec_no, last_ch, flat = [], 0, 0, None, int(note.meta.get("numbering_start", "1") or 1) - 1
     for t in note.topics:
         if t.role == "front":
             out.append({"front": True, "section": t.heading, "chapter": "", "banner": t.heading, "toc": None})
@@ -116,8 +130,11 @@ def numbering(note: LectureNote) -> list[dict]:
                         "banner": f"{ch_no}. {t.chapter}", "toc": f"§ {sec_no}. {t.heading}", "no": sec_no})
         else:
             last_ch = None
-            out.append({"front": False, "chapter": "", "section": t.heading, "banner": t.heading,
-                        "toc": t.heading, "no": 0})
+            label = t.heading
+            if roman and not _PREFIXED.match(t.heading) and t.heading != "부록 & 검증 참고":
+                label = f"{ROMAN[flat % len(ROMAN)]}. {t.heading}"
+                flat += 1
+            out.append({"front": False, "chapter": "", "section": label, "banner": label, "toc": label, "no": 0})
     return out
 
 
@@ -172,9 +189,13 @@ def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
         _font(r, F, base + 1, bold=True, italic=True, color=COLOR["emphasis"])
         size = base
     elif st.kind == "star":
-        _fmt(p, before=10, after=6, line=1.25, left=0.9 + ind)
         p.paragraph_format.keep_with_next = True  # never leave a sub-heading alone at the bottom of a page
-        r = p.add_run("★ "); _font(r, F, base + 0.5, bold=True)
+        if tpl.format.star_style == "band":  # light-blue band like the clinical notes' sub-heading rows
+            _fmt(p, before=10, after=5, line=1.2, left=0.1 + ind)
+            _shade_par(p, "DCE9F7")
+        else:
+            _fmt(p, before=10, after=6, line=1.25, left=0.9 + ind)
+            r = p.add_run("★ "); _font(r, F, base + 0.5, bold=True)
         size, base_bold = base + 0.5, True
     elif st.kind == "bullet":
         _fmt(p, after=3, line=1.25, left=1.5 + ind, first=-0.45)
@@ -185,8 +206,7 @@ def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
         size = base
     for text, col, bold in runs(st.text):
         r = p.add_run(text)
-        c = COLOR[col] if col else base_color
-        _font(r, F, size, bold=True if (bold or base_bold) else None, color=c)
+        _run_style(r, col, F, size, bold=True if (bold or base_bold) else None, base_color=base_color)
     if tpl.format.include_source_references and st.kind == "para":
         tag = source_tag(st, note)
         if tag:
@@ -234,8 +254,7 @@ def _table(doc, tb, tpl: Template):
                 p.paragraph_format.keep_with_next = True
             for text, col, bold in runs(row[ci] if ci < len(row) else ""):
                 r = p.add_run(text)
-                _font(r, F, tpl.format.font_size_pt - 1, bold=True if (bold or ri == 0 or ci == 0) else None,
-                      color=COLOR[col] if col else BLACK)
+                _run_style(r, col, F, tpl.format.font_size_pt - 1, bold=True if (bold or ri == 0 or ci == 0) else None)
             if ri > 0 and ci in tb.heat_cols and (fill := heat(ci, ri)):
                 sh = OxmlElement("w:shd"); sh.set(qn("w:val"), "clear"); sh.set(qn("w:fill"), fill)
                 c._tc.get_or_add_tcPr().append(sh)
@@ -316,19 +335,148 @@ def _basics_box(doc, t: Topic, n: int, F: str, base: float):
         r = q.add_run(f"{i})  "); _font(r, F, base + 0.5)
         for text, col, bold in runs(line):
             r = q.add_run(text)
-            _font(r, F, base + 0.5, bold=True if bold else None, color=COLOR[col] if col else BLACK)
+            _run_style(r, col, F, base + 0.5, bold=True if bold else None)
     _fmt(c.add_paragraph(), after=0, line=0.6)
     _fmt(doc.add_paragraph(), after=4)
 
 
+def _lines_into(cell_or_doc, text_lines: list[str], F: str, size: float, tpl: Template, first_par=None, bullet="●", tight=False):
+    """Write markup lines into a cell (or document). A leading '- ' makes a hanging bullet."""
+    first = True
+    for line in text_lines:
+        p = first_par if (first and first_par is not None) else cell_or_doc.add_paragraph()
+        first = False
+        bul = line.startswith("- ")
+        body = line[2:] if bul else line
+        _fmt(p, after=2 if tight else 3, line=1.25, left=0.55 if bul else 0.0, first=-0.55 if bul else None)
+        if bul:
+            r = p.add_run(f"{bullet}  "); _font(r, F, size - 1)
+        for text, col, bold in runs(body):
+            r = p.add_run(text)
+            _run_style(r, col, F, size, bold=True if bold else None)
+
+
+def _row2_table(doc, rows: list[Statement], tpl: Template) -> None:
+    """Two-column 'slide table': left = slide / English original (+ picture), right = explanation (Korean)."""
+    from PIL import Image
+
+    F = tpl.format.font_korean
+    base = tpl.format.font_size_pt
+    t = doc.add_table(rows=len(rows), cols=2)
+    t.style = "Table Grid"
+    t.alignment = WD_TABLE_ALIGNMENT.CENTER
+    t.autofit = False
+    glossary = all(not r.left and not r.image for r in rows)  # term | explanation rows -> narrow left column
+    widths = (5.0, 12.4) if glossary else (8.2, 9.2)
+    for ci, w in enumerate(widths):
+        t.columns[ci].width = Cm(w)
+    for ri, st in enumerate(rows):
+        lc, rc = t.cell(ri, 0), t.cell(ri, 1)
+        lc.width, rc.width = Cm(widths[0]), Cm(widths[1])
+        cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); t.rows[ri]._tr.get_or_add_trPr().append(cs)
+        lp = lc.paragraphs[0]
+        if st.left_title:
+            _fmt(lp, after=3, line=1.2)
+            r = lp.add_run(st.left_title); _font(r, F, base, bold=True)
+            _lines_into(lc, st.left, F, base - 0.5, tpl, tight=True)
+        else:
+            _lines_into(lc, st.left or [""], F, base - 0.5, tpl, first_par=lp, tight=True)
+        if st.image and Path(st.image).exists():
+            with Image.open(st.image) as im:
+                w, h = im.size
+            ip = lc.add_paragraph(); _fmt(ip, before=4, after=2, line=1.0, align=WD_ALIGN_PARAGRAPH.CENTER)
+            ip.add_run().add_picture(st.image, width=Cm(min(7.4, 5.2 * w / max(h, 1))))
+        _lines_into(rc, [ln for ln in st.text.split("\n")], F, base, tpl, first_par=rc.paragraphs[0])
+    _fmt(doc.add_paragraph(), after=4, line=0.8)
+
+
+def _quiz_box(doc, st: Statement, tpl: Template) -> None:
+    """QUIZ n box (case / stem in bold + options) followed by the answer line."""
+    F = tpl.format.font_korean
+    base = tpl.format.font_size_pt
+    doc._quiz_n = getattr(doc, "_quiz_n", 0) + 1
+    box = doc.add_table(rows=1, cols=1)
+    box.alignment = WD_TABLE_ALIGNMENT.CENTER
+    c = box.cell(0, 0)
+    _box(c, sz=8)
+    p = c.paragraphs[0]; _fmt(p, before=3, after=4, line=1.3)
+    r = p.add_run(f"QUIZ {doc._quiz_n}.  "); _font(r, F, base, bold=True)
+    for text, col, bold in runs(st.text):
+        r = p.add_run(text); _run_style(r, col, F, base, bold=True)
+    for i, o in enumerate(st.options, start=1):
+        q = c.add_paragraph(); _fmt(q, after=1, line=1.2, left=1.0, first=-0.6)
+        label = "" if re.match(r"^\s*(\d+[.)]|[①-⑤])", o) else f"{i}. "
+        for text, col, bold in runs(label + o):
+            r = q.add_run(text); _run_style(r, col, F, base - 0.5, bold=True)
+    _fmt(c.add_paragraph(), after=0, line=0.5)
+    if st.answer:
+        a = doc.add_paragraph(); _fmt(a, before=4, after=6, line=1.3, left=0.2)
+        r = a.add_run("→ 정답: "); _font(r, F, base, bold=True, color=COLOR["emphasis"])
+        for text, col, bold in runs(st.answer):
+            r = a.add_run(text); _run_style(r, col, F, base, bold=True)
+
+
+def _tip_line(doc, t: Topic, F: str, base: float) -> None:
+    p = doc.add_paragraph(); _fmt(p, before=2, after=8, line=1.3, left=0.2)
+    r = p.add_run("공부 팁  "); _font(r, F, base - 0.5, bold=True, color=COLOR["emphasis"])
+    for text, col, bold in runs(t.tip):
+        r = p.add_run(text); _run_style(r, col or "highlight", F, base - 0.5, bold=True if bold else None)
+
+
 # ------------------------------------------------------------------- export
+def _used_tags(note: LectureNote) -> set[str]:
+    used = {s.tag for t in note.topics for sts in t.sections.values() for s in sts}
+    from .markup import COLORS
+
+    def scan(text: str) -> None:
+        for m in re.finditer(r"\{([rbgpcyu])\|", text):
+            used.add(COLORS[m.group(1)])
+
+    for t in note.topics:
+        for sts in t.sections.values():
+            for s in sts:
+                if s.emphasis:
+                    used.add("emphasis")
+                for x in (s.text, *s.left, *s.options, s.answer):
+                    scan(x)
+        for line in (*t.basics, t.tip):
+            scan(line)
+    return used
+
+
+def _legend_lines(container, note: LectureNote, tpl: Template, F: str, stacked: bool) -> None:
+    used = _used_tags(note)
+    legend = [i for i in tpl.format.legend if i.tag in used]
+    if not legend:
+        return
+    if stacked:  # one line per colour, like the clinical notes' comment box
+        for item in legend:
+            p = container.add_paragraph(); _fmt(p, after=2, line=1.2, left=1.6)
+            r = p.add_run(item.word); _run_style(r, item.tag if item.tag != "emphasis" else "emphasis", F, 8.5, bold=True)
+            r = p.add_run(f" : {item.meaning}"); _font(r, F, 8.5)
+    else:
+        p = container.add_paragraph(); _fmt(p, before=2, after=4, left=0.2)
+        for k, item in enumerate(legend):
+            r = p.add_run(("    " if k else "") + item.word); _run_style(r, item.tag, F, 8.5, bold=True)
+            r = p.add_run(f" : {item.meaning}"); _font(r, F, 8.5)
+
+
+def _tips(container, note: LectureNote, F: str, size: float = 9) -> None:
+    """meta['tips'] (newline separated): the author's study strategy, yellow-highlighted."""
+    for line in (note.meta.get("tips") or "").split("\n"):
+        if line.strip():
+            p = container.add_paragraph(); _fmt(p, before=1, after=3, line=1.3, left=0.2)
+            for text, col, bold in runs(line):
+                r = p.add_run(text); _run_style(r, col or "highlight", F, size, bold=True if bold else None)
+
+
 def export_mom(
     note: LectureNote, tpl: Template, out_path: str | Path, page_map: dict[int, int] | None = None
 ) -> Path:
     F = tpl.format.font_korean
     base = tpl.format.font_size_pt
     page_map = page_map or {}
-    nums = numbering(note)
+    nums = numbering(note, tpl.format.roman_headings)
     doc = Document()
     for name in ("Normal", "Table Grid"):
         st = doc.styles[name]
@@ -342,13 +490,17 @@ def export_mom(
     sec.header_distance = Cm(0.9)
     text_width = 21.0 - 3.6
     meta = note.meta
+    box_cover = tpl.format.cover_style == "box"
+    n_cover_lines = len([x for x in (meta.get("tips") or "").split("\n") if x.strip()]) + \
+        len([x for x in (meta.get("objectives") or "").split("\n") if x.strip()])
+    dense = n_cover_lines >= 6 or len(meta.get("comment", "")) > 520  # keep the cover on ONE page
 
-    # ---------------- cover: header box
+    # ---------------- cover: title box (double line in the "box" cover)
     _page_header(sec.header, None, None, None, F, tpl)
     box = doc.add_table(rows=1, cols=1)
     box.alignment = WD_TABLE_ALIGNMENT.CENTER
     cell = box.cell(0, 0)
-    _box(cell, sz=24)
+    _box(cell, sz=18 if box_cover else 24, val="double" if box_cover else "single")
     date_line = ""
     if meta.get("date"):
         d = dt.date.fromisoformat(meta["date"])
@@ -361,54 +513,56 @@ def export_mom(
         date_line += f" {meta['professor']} 교수님"
     p = cell.paragraphs[0]; _fmt(p, before=6, after=2)
     r = p.add_run(date_line); _font(r, F, 9.5)
-    p = cell.add_paragraph(); _fmt(p, before=2, after=4, align=WD_ALIGN_PARAGRAPH.CENTER)
-    r = p.add_run(note.title); _font(r, F, 20, bold=True)
+    p = cell.add_paragraph(); _fmt(p, before=4 if box_cover else 2, after=6 if box_cover else 4, align=WD_ALIGN_PARAGRAPH.CENTER)
+    r = p.add_run(note.title); _font(r, F, 22 if box_cover else 20, bold=True)
     p = cell.add_paragraph(); _fmt(p, after=6, align=WD_ALIGN_PARAGRAPH.RIGHT)
     r = p.add_run(meta.get("author", "")); _font(r, F, 9.5)
 
-    # ---------------- cover: title banner + professor
-    if meta.get("edition"):
-        p = doc.add_paragraph(); _fmt(p, before=14, after=2, align=WD_ALIGN_PARAGRAPH.RIGHT)
-        r = p.add_run(meta["edition"]); _font(r, F, 14, bold=True, color=RGBColor(0xFF, 0x4B, 0x2B))
-    if meta.get("series"):
-        _banner(doc, "", F, fill=SALMON, size=6, before=2, after=0).paragraph_format.left_indent = Cm(0)
-        p = doc.add_paragraph(); _fmt(p, before=8, after=8, align=WD_ALIGN_PARAGRAPH.CENTER)
-        r = p.add_run(meta["series"]); _font(r, F, 40, bold=True)
-    tb = _banner(doc, note.title, F, fill=SALMON, size=24, before=10, after=0)
-    tb.paragraph_format.left_indent = Cm(0); tb.paragraph_format.right_indent = Cm(0)
-    tb.paragraph_format.space_before = Pt(10)
-    if meta.get("professor"):
-        p = doc.add_paragraph(); _fmt(p, before=10, after=8, align=WD_ALIGN_PARAGRAPH.CENTER)
-        r = p.add_run(meta["professor"]); _font(r, F, 24, bold=True)
-        r = p.add_run(" 교수님"); _font(r, F, 14, bold=True)
+    if not box_cover:  # big colour banner cover
+        if meta.get("edition"):
+            p = doc.add_paragraph(); _fmt(p, before=14, after=2, align=WD_ALIGN_PARAGRAPH.RIGHT)
+            r = p.add_run(meta["edition"]); _font(r, F, 14, bold=True, color=RGBColor(0xFF, 0x4B, 0x2B))
+        if meta.get("series"):
+            _banner(doc, "", F, fill=SALMON, size=6, before=2, after=0).paragraph_format.left_indent = Cm(0)
+            p = doc.add_paragraph(); _fmt(p, before=8, after=8, align=WD_ALIGN_PARAGRAPH.CENTER)
+            r = p.add_run(meta["series"]); _font(r, F, 40, bold=True)
+        tb = _banner(doc, note.title, F, fill=SALMON, size=19 if dense else 24, before=6 if dense else 10, after=0)
+        tb.paragraph_format.left_indent = Cm(0); tb.paragraph_format.right_indent = Cm(0)
+        tb.paragraph_format.space_before = Pt(6 if dense else 10)
+        if meta.get("professor"):
+            p = doc.add_paragraph(); _fmt(p, before=4 if dense else 10, after=3 if dense else 8, align=WD_ALIGN_PARAGRAPH.CENTER)
+            r = p.add_run(meta["professor"]); _font(r, F, 17 if dense else 24, bold=True)
+            r = p.add_run(" 교수님"); _font(r, F, 12 if dense else 14, bold=True)
+    else:
+        _fmt(doc.add_paragraph(), after=4, line=0.8)
 
-    # ---------------- cover: comment + legend
-    used = {s.tag for t in note.topics for sts in t.sections.values() for s in sts}
-    for t in note.topics:
-        for sts in t.sections.values():
-            for s in sts:
-                if s.emphasis:
-                    used.add("emphasis")
-                for m in re.finditer(r"\{([rbgp])\|", s.text):
-                    used.add({"r": "emphasis", "b": "exam", "g": "minor", "p": "verify"}[m.group(1)])
-        for line in t.basics:
-            for m in re.finditer(r"\{([rbgp])\|", line):
-                used.add({"r": "emphasis", "b": "exam", "g": "minor", "p": "verify"}[m.group(1)])
-    p = doc.add_paragraph(); _fmt(p, before=8, after=4)
-    r = p.add_run("작성자 코멘트"); _font(r, F, 13, bold=True)
+    # ---------------- cover: author comment (+ colour legend + study strategy)
+    if box_cover:
+        cb = doc.add_table(rows=1, cols=1)
+        cb.alignment = WD_TABLE_ALIGNMENT.CENTER
+        cc = cb.cell(0, 0); _box(cc, sz=6)
+        p = cc.paragraphs[0]; _fmt(p, before=4, after=6)
+        r = p.add_run("작성자 코멘트"); _font(r, F, 11, bold=True, underline=True)
+        container = cc
+    else:
+        p = doc.add_paragraph(); _fmt(p, before=8, after=4)
+        r = p.add_run("작성자 코멘트"); _font(r, F, 13, bold=True)
+        container = doc
     if meta.get("comment"):
         for para in meta["comment"].split("\n"):
-            p = doc.add_paragraph(); _fmt(p, after=3, line=1.3, left=0.2)
-            r = p.add_run(para); _font(r, F, 9)
-    legend = [i for i in tpl.format.legend if i.tag in used]
-    if legend:
-        p = doc.add_paragraph(); _fmt(p, before=2, after=4, left=0.2)
-        for k, item in enumerate(legend):
-            r = p.add_run(("    " if k else "") + item.word); _font(r, F, 8.5, bold=True, color=COLOR[item.tag])
-            r = p.add_run(f" : {item.meaning}"); _font(r, F, 8.5)
+            p = container.add_paragraph(); _fmt(p, after=2 if dense else 3, line=1.2 if dense else 1.3, left=0.2)
+            r = p.add_run(para); _font(r, F, 8.5 if dense else 9)
+    _tips(container, note, F, 8.5 if dense else 9)
+    _legend_lines(container, note, tpl, F, stacked=box_cover)
+    if box_cover:
+        _fmt(cc.add_paragraph(), after=2, line=0.6)
 
     # ---------------- TOC (차례)
-    _banner(doc, "차 례", F, fill=TEAL_DARK, size=20, before=10, after=6)
+    if box_cover:
+        p = doc.add_paragraph(); _fmt(p, before=10, after=6)
+        r = p.add_run("목차"); _font(r, F, 11, bold=True, underline=True)
+    else:
+        _banner(doc, "차 례", F, fill=TEAL_DARK, size=20, before=10, after=6)
     last_ch = None
     for i, t in enumerate(note.topics):
         n = nums[i]
@@ -421,36 +575,73 @@ def export_mom(
         elif not n["chapter"]:
             last_ch = None
         p = doc.add_paragraph()
-        _fmt(p, after=3, line=1.1, left=0.9 if n["chapter"] else 0.2)
+        _fmt(p, after=4 if box_cover else 3, line=1.1, left=0.9 if n["chapter"] else (0.9 if box_cover else 0.2))
         p.paragraph_format.tab_stops.add_tab_stop(Cm(text_width), WD_TAB_ALIGNMENT.RIGHT, WD_TAB_LEADER.DOTS)
-        r = p.add_run(n["toc"]); _font(r, F, 10.5)
+        r = p.add_run(n["toc"]); _font(r, F, 10.5, bold=box_cover or None)
         r = p.add_run("\t"); _font(r, F, 10.5)
         _field(p, f"PAGEREF _Toc{i} \\h", str(page_map.get(i, "")), F, 10.5, bold=True)
         r = p.add_run("p"); _font(r, F, 10.5, bold=True)
 
+    # ---------------- learning objectives (학습목표)
+    objectives = [x for x in (meta.get("objectives") or "").split("\n") if x.strip()]
+    if objectives:
+        p = doc.add_paragraph(); _fmt(p, before=8 if dense else 16, after=3)
+        r = p.add_run("학습목표"); _font(r, F, 12 if dense else 14, bold=True)
+        for k, o in enumerate(objectives, start=1):
+            p = doc.add_paragraph(); _fmt(p, after=1 if dense else 2, line=1.15 if dense else 1.25, left=0.2)
+            for text, col, bold in runs(f"{k}. {o}"):
+                r = p.add_run(text); _run_style(r, col, F, 9 if dense else 10, bold=True if bold else None)
+
     # ---------------- topics: one Word section (= new page + own header) per topic
-    sec_no_in_chapter = 0
+    hs = tpl.format.heading_style
     for i, t in enumerate(note.topics):
         n = nums[i]
         s_ = doc.add_section(WD_SECTION.NEW_PAGE)
         s_.left_margin = s_.right_margin = Cm(1.8)
         s_.top_margin, s_.bottom_margin = Cm(1.6), Cm(1.6)
         s_.header_distance = Cm(0.9)
-        _page_header(s_.header, None, n["banner"], None if n["front"] else n["section"], F, tpl)
-        p = doc.add_paragraph()
-        _fmt(p, after=2, line=1.0)
-        _bookmark(p, f"_Toc{i}", i + 1)
+        if hs == "banner":
+            _page_header(s_.header, None, n["banner"], None if n["front"] else n["section"], F, tpl)
+            p = doc.add_paragraph()
+            _fmt(p, after=2, line=1.0)
+            _bookmark(p, f"_Toc{i}", i + 1)
+        else:  # plain / yellow-marker heading in the body, header = page number only
+            _page_header(s_.header, None, None, None, F, tpl)
+            if n["chapter"]:
+                cp = doc.add_paragraph(); _fmt(cp, before=4, after=0, line=1.0)
+                r = cp.add_run(n["chapter"]); _font(r, F, 9, color=COLOR["minor"])
+            p = doc.add_paragraph()
+            _fmt(p, before=6, after=10, line=1.15, left=0.0)
+            r = p.add_run(n["section"]); _font(r, F, 17, bold=True)
+            if hs == "marker":
+                r.font.highlight_color = WD_COLOR_INDEX.YELLOW
+            _bookmark(p, f"_Toc{i}", i + 1)
         if t.basics:
             _basics_box(doc, t, (n.get("no") or 1), F, base)
-        for s in tpl.sections:
-            sts = t.sections.get(s.key)
+        if t.tip:
+            _tip_line(doc, t, F, base)
+        for sc in tpl.sections:
+            sts = t.sections.get(sc.key)
             if not sts:
                 continue
-            if s.label:
+            if sc.label:
                 hp2 = doc.add_paragraph(); _fmt(hp2, before=6, after=4)
-                r = hp2.add_run(s.label); _font(r, F, 11, bold=True)
-            for st in sts:
-                _statement(doc, st, note, tpl)
+                r = hp2.add_run(sc.label); _font(r, F, 11, bold=True)
+            k = 0
+            while k < len(sts):
+                st = sts[k]
+                if st.kind == "row2":  # consecutive rows form one table
+                    j = k
+                    while j < len(sts) and sts[j].kind == "row2":
+                        j += 1
+                    _row2_table(doc, sts[k:j], tpl)
+                    k = j
+                    continue
+                if st.kind == "quiz":
+                    _quiz_box(doc, st, tpl)
+                else:
+                    _statement(doc, st, note, tpl)
+                k += 1
         for tb_ in t.tables:
             if tb_.rows:
                 _table(doc, tb_, tpl)

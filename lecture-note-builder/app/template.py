@@ -27,6 +27,10 @@ class FormatOptions(BaseModel):
     font_size_pt: float = 10.5
     layout: str = "plain"  # "plain" | "mom"
     page_break_per_topic: bool = False
+    cover_style: str = "banner"  # "banner" (big colour title banner) | "box" (double-line title box, bordered comment box)
+    heading_style: str = "banner"  # per-page header: "banner" (teal chapter banner) | "plain" (bold heading) | "marker" (yellow highlight)
+    slide_table: bool = False  # slide input: one two-column row per slide (slide text | lecturer explanation)
+    star_style: str = "star"  # sub-headings: "star" (★ title) | "band" (light-blue band)
     exam_section: bool = True  # build a standalone 기출(PAD) section (mom.yaml: false)
     roman_headings: bool = False
     legend: list[LegendItem] = Field(default_factory=list)

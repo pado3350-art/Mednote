@@ -31,19 +31,50 @@ The reference is `references/excellent_example.md` (a high-rated MOM note for th
 
 Front pages: **핵심 어휘** (one-line definitions of the key terms, easy words first) and **요약 정리** (cheat-sheet per section: bullets with the key words highlighted).
 
-## 3. Writing style (Korean, 설명체)
-- Plain study voice: "~하다 / ~이다 / ~해보자 / ~알아두자". Explain with intuition first ("감염원 입장에서 보면 ..."), then the term.
-- Korean sentence + established English medical terms inline (한글(English) on first mention).
-- Define a term where it first appears, in one clause. Prefer *cause -> result* chains and arrows over long sentences.
-- Numbers get meaning: say what the number is for ("6번 염색체", "alloreactive T cell은 전체의 1~10%").
-- One idea per bullet; max ~2 lines per bullet.
-- Use the lecturer's mnemonics verbatim (e.g. "다리 하나짜리 / 두 개짜리") and mark them as the lecturer's expression.
-- Examples and analogies from the lecture stay, with a one-line "왜 이 예시인지".
+## 3. Writing style and voice (말투) — Korean, a fellow student talking to juniors
+The author is a classmate, not a textbook. Pick the ending by **what the sentence does** (details and quotes: `references/excellent_examples_clinical.md`):
+
+| The sentence ... | ending | example |
+|---|---|---|
+| states a fact / definition / translates a slide | ~한다 / ~이다 / ~할 수 있다 | "TIMI 점수가 높을수록 … 발생 확률이 높아진다." |
+| reports what the lecturer said or stressed | ~하셨다 / ~라고 합니다 / ~라고 하심 | "~해야 한다고 합니다." / "특히 stria terminalis를 강조하셨습니다." |
+| advises the reader how to study | ~하시면 됩니다 / ~해두시면 좋습니다 / ~하자 | "이걸 다 외울 필요는 없을 것 같습니다. 다음 쪽이 훨씬 중요합니다." |
+| is the author's own opinion / unsure | in parentheses, honest | "(…정확하게는 classical class 2가 아니라고 받아들이는 것이 맞을 것 같습니다.)" |
+| encourages | short and light | "화이팅입니다", "푸실 수 있을 거라고 생각합니다!" |
+
+Rules of voice:
+- Never present the author's guess as the lecturer's words; never present the lecturer's words as fact without attribution when it matters ("교수님은 ~라고 하셨는데").
+- Always tell the reader the **priority**: "제일 중요!", "가볍게 읽어보아도 좋다", "이건 다 외울 필요는 없을 것 같습니다", "→ 결국 시험 정답은 이걸 기반으로 고릅니다."
+- Order of explanation: intuition first ("감염원 입장에서 보면 …"), then the term, then the number (with its meaning: "5.1%로 약 3배 높다").
+- Korean sentence + established English terms inline (한글(English) on first mention). One idea per bullet, <= ~2 lines.
+- Student slang is allowed where the examples use it: 파드(PAD), 탈(기출 문제), 짤(재탕 문제), 작야/재작야(작년/재작년), 애플(PPT·교재). Use sparingly, never in definitions.
+- Keep the lecturer's mnemonics verbatim and mark them as the lecturer's ("교수님 표현으로 ‘다리 하나짜리’"); add your own memory frames in the examples' style (ABCDE with **bold initials**, arrows for sequences).
+- Light humour at most once per page; warnings are plain and red ("금기!").
+
+## 3b. Cover, study strategy and learning objectives (표지)
+The cover is read first and decides how the student studies:
+- `meta.comment` : (1) how this note was made, (2) what kind of lecture it was (professor, year, how much was read from slides), (3) cautions ("반드시 PPT를 함께 보시기 바랍니다").
+- `meta.tips` (yellow highlight, 2-4 lines): **study strategy** - what to memorise first, what to skim, where the PAD concentrates ("2쪽의 진단 기억하고, 치료는 파란색 위주로 …"). Derive it from the PAD and the lecturer's emphasis, never from guesses.
+- `meta.objectives` (학습목표, 3-6 lines, "… 설명할 수 있다."). `Topic.tip` repeats the priority hint at the top of each §.
+- Two professors' PADs: dark blue `{b|}` = PAD of the lecturer in charge, sky blue `{c|}` = PAD of another professor (templates with the `exam_other` legend; the validator enforces which is which).
+
+## 3c. Design vocabulary (use the right component)
+| need | component |
+|---|---|
+| slide content in English + explanation in Korean | `kind: row2` rows (left = original/term, right = ● explanation; consecutive rows = one table; `image` shows the slide capture on the left). Use it for glossaries and for "History / ECG / Markers"-type tables. |
+| a case + options the lecture asked | `kind: quiz` (stem in `text`, `options`, `answer` with the reason) - boxed, answer below. Only for quizzes that are in the source. |
+| 2+ things compared | `compare` diagram or `SlideTable` |
+| a path / sequence | `flow` diagram; a classification | `tree` diagram |
+| a sub-heading | `kind: star` (template draws ★ or a light-blue band) |
+| what to do first | `Topic.tip` (yellow) and the 기본정석 box |
+| lecturer's pointer to the exam | red + "→ 결국 시험 정답은 이걸 기반으로 고릅니다." |
+| contraindication / warning | red bold + "금기!" |
 
 ## 4. Colour / emphasis (inline markup)
 - `{r|...}` RED: what the lecturer stressed or said is on the exam ("꼭", "중요", "시험에", "외워").
 - `{g|...}` GRAY: low importance / only mentioned briefly / "언급 안 함" remarks.
-- `{b|...}` BLUE: **only** content that appeared in the PAD (기출문제) - see the non-negotiable rule at the top.
+- `{b|...}` BLUE: **only** content that appeared in the PAD (기출문제) - see the non-negotiable rule at the top. `{c|...}` sky blue = PAD of another professor (only when the template declares it).
+- `{y|...}` YELLOW highlight = study tip / must-look (cover strategy, `tip`); `{u|...}` underline = the key phrase of a sentence.
 - `{p|...}` PURPLE: uncertain, conflicts with a reference, or needs checking. Never silently "fix" the lecturer; flag it.
 - `**bold**` key terms and the thing being defined.
 

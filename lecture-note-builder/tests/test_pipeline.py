@@ -705,8 +705,9 @@ CD1c는 lipid 항원을 제시하고 NKT cell을 활성화합니다. 이제 다�
                               exam_pdf=tmp_path / "pad.pdf", toc="heuristic")
     assert not rep.errors, rep.errors
     note = json.loads(paths["note"].read_text(encoding="utf-8"))
-    text = json.dumps(note, ensure_ascii=False)
+    text = json.dumps(note["topics"], ensure_ascii=False)
     assert "습니다" not in text.replace("재구성", "")  # spoken endings converted
+    assert note["meta"]["objectives"] and "파랑" in note["meta"]["tips"]  # offline cover: 학습목표 + 공부 전략 filled
     assert "{b|" in text and "{r|" in text
     assert any(t["role"] == "front" for t in note["topics"])  # 핵심 어휘 / 요약 정리 built offline
     assert all(t["basics"] for t in note["topics"] if t["role"] == "body")
@@ -838,3 +839,129 @@ def test_offline_summary_has_auto_concept_map(tmp_path):
     assert len(dia) == 1 and dia[0]["diagram"]["kind"] == "tree" and dia[0]["diagram"]["groups"]
     assert "SUMMARY_NO_VISUAL" not in {i.code for i in rep.issues}
     assert (tmp_path / "o" / "diagrams" / "diagram_01.png").exists()
+
+
+# ----------------------------------------------------------------------------- design strengthening (clinical example notes)
+CLIN = Path(__file__).resolve().parent.parent / "templates" / "mom_clinical.yaml"
+
+
+def test_markup_highlight_underline_and_second_blue():
+    from app.markup import LEAK, PAD_TAGS, runs, strip, tags_used
+
+    t = "a {y|팁} b {u|밑줄} c {c|하늘} d {b|파랑} **굵게**"
+    assert strip(t) == "a 팁 b 밑줄 c 하늘 d 파랑 굵게"
+    assert tags_used(t) == {"highlight", "underline", "exam_other", "exam"}
+    assert set(PAD_TAGS) == {"exam", "exam_other"} and not LEAK.search(strip(t)) and LEAK.search("남은 {y|")
+
+
+def _meta_note(**kw):
+    from app.models import LectureNote, Statement, Topic
+
+    st = lambda t, **k: Statement(text=t, slide_refs=[1], **k)
+    body = [st("★ 소제목", kind="star"), st("{y|형광펜} 과 {u|밑줄} 과 {c|하늘색}"),
+            st("- 고령\n설명 문장", kind="row2", left_title="Risk", left=["- Advanced age", "{r|TIMI}"]),
+            st("두번째 행", kind="row2", left=["Row 2"]),
+            st("사례: 67세 남성 흉통", kind="quiz", options=["Stable angina", "2. NSTEMI"], answer="2번 NSTEMI")]
+    t = Topic(heading="Risk Stratification", slide_numbers=[1], basics_title="요약", basics=["핵심 한 줄"],
+              tip="이건 다 외울 필요 없습니다.", sections={"body": body})
+    return LectureNote(title="비ST분절 상승 ACS", ref_style="para", topics=[t],
+                       meta={"date": "2025-10-30", "professor": "허성호", "comment": "코멘트\n둘째 줄",
+                             "tips": "{y|가장 먼저 2쪽 진단}\n치료는 파랑 위주", "objectives": "진단을 설명할 수 있다.\n치료를 설명할 수 있다.",
+                             "numbering_start": "4"}, **kw)
+
+
+def test_clinical_layout_row2_quiz_tip_cover_and_roman_numbering(tmp_path):
+    from app.export_mom import export_mom, numbering
+
+    note = _meta_note()
+    assert numbering(note, roman=True)[0]["section"] == "IV. Risk Stratification"  # continues from the previous period
+    d = Document(str(export_mom(note, load_template(CLIN), tmp_path / "c.docx")))
+    xml = d.element.xml
+    assert 'w:val="double"' in xml  # double-line title box
+    cells = [c.text for t in d.tables for r in t.rows for c in r.cells]
+    text = "\n".join(p.text for p in d.paragraphs) + "\n".join(cells)
+    assert "작성자 코멘트" in text and "가장 먼저 2쪽 진단" in text and "학습목표" in text and "1. 진단을 설명할 수 있다." in text
+    assert "공부 팁" in text and "이건 다 외울 필요 없습니다." in text
+    assert "IV. Risk Stratification" in text  # plain heading in the body (header = page number only)
+    row_tables = [t for t in d.tables if len(t.columns) == 2]
+    assert len(row_tables) == 1 and len(row_tables[0].rows) == 2  # consecutive row2 -> ONE table with 2 rows
+    assert "Risk" in row_tables[0].cell(0, 0).text and "설명 문장" in row_tables[0].cell(0, 1).text
+    assert "QUIZ 1." in text and "→ 정답: 2번 NSTEMI" in text and "1. Stable angina" in text and "2. NSTEMI" in text
+    assert 'w:fill="DCE9F7"' in xml  # light-blue sub-heading band
+    assert 'w:highlight w:val="yellow"' in xml and "<w:u " in xml
+
+
+def test_two_blues_follow_the_professor(tmp_path, monkeypatch):
+    from app.exam import EXAM_BASE as X
+    from app.models import Statement, Topic
+
+    cl = tmp_path / "clin.yaml"
+    cl.write_text(CLIN.read_text(encoding="utf-8"), encoding="utf-8")
+    pad_prof = PAD.replace("김태규", "허성호")  # PAD 2021 + 2022 + 2009 by the lecturer in charge
+    import app.exam as exam
+
+    monkeypatch.setattr(exam, "pdf_text", lambda p: pad_prof)
+    from app.generate_notes import PrecomputedBackend
+    from app.pipeline import run_pipeline
+
+    def run(topics, sub="r"):
+        s = _write(tmp_path)
+        return run_pipeline(None, tmp_path / sub, cl, script=s, backend=PrecomputedBackend(topics), pdf=False,
+                            exam_pdf=tmp_path / "pad.pdf", toc="heuristic", meta={"professor": "허성호"})[0]
+
+    base = Statement(text=BODY, slide_refs=[1, 2, 3, 4])
+    units = [1, 2, 3, 4]
+    good = [base, Statement(text="{b|담당 교수님 파드}", slide_refs=[2, X + 1])]
+    assert not [i for i in run([Topic(heading="t", slide_numbers=units, sections={"body": good})], "ok").errors]
+    # PAD of the lecturer in charge cited from a sky-blue span -> error ; other-professor PAD in dark blue -> error
+    bad = [base, Statement(text="{c|하늘색인데 담당 교수님 파드}", slide_refs=[2, X + 1])]
+    rep = run([Topic(heading="t", slide_numbers=units, sections={"body": bad})], "bad")
+    assert "BLUE_WRONG_PROFESSOR" in {i.code for i in rep.errors}
+    other = PAD.replace("20학번 (2022년) 김태규 교수님", "20학번 (2022년) 이문용 교수님")
+    monkeypatch.setattr(exam, "pdf_text", lambda p: other)
+    bad2 = [base, Statement(text="{b|다른 교수님 파드인데 진한 파랑}", slide_refs=[2, X + 1])]
+    rep2 = run([Topic(heading="t", slide_numbers=units, sections={"body": bad2})], "bad2")
+    assert "BLUE_WRONG_PROFESSOR" in {i.code for i in rep2.errors}
+    ok2 = [base, Statement(text="{c|다른 교수님 파드}", slide_refs=[2, X + 1])]
+    assert "BLUE_WRONG_PROFESSOR" not in {i.code for i in run([Topic(heading="t", slide_numbers=units, sections={"body": ok2})], "ok2").errors}
+
+
+def test_pad_colour_rule_covers_row2_and_quiz_fields(tmp_path, monkeypatch):
+    from app.exam import EXAM_BASE as X
+    from app.models import Statement, Topic
+
+    base = Statement(text=BODY, slide_refs=[1, 2, 3, 4])
+    row = Statement(text="설명", kind="row2", left=["{b|왼쪽 파랑}"], slide_refs=[2])  # blue, no PAD
+    quiz = Statement(text="사례", kind="quiz", options=["{b|선지 파랑}"], answer="1", slide_refs=[2, X + 1])  # blue + PAD: ok
+    units = [1, 2, 3, 4, X + 1, X + 2, X + 3, X + 4]
+    rep, _ = _exam_run(tmp_path, monkeypatch, [Topic(heading="t", slide_numbers=units, sections={"body": [base, row, quiz]})], tpl=MOM)
+    errs = [i for i in rep.errors if i.code == "BLUE_WITHOUT_PAD"]
+    assert len(errs) == 1 and "왼쪽 파랑" in errs[0].message or len(errs) == 1
+
+
+def test_cli_meta_json_and_cover_stays_on_one_page(tmp_path):
+    from app.cli import main
+
+    s = _write(tmp_path)
+    mj = tmp_path / "m.json"
+    mj.write_text(json.dumps({"tips": ["팁 하나", "팁 둘"], "objectives": ["목표 하나", "목표 둘"], "comment": "간단"}, ensure_ascii=False), encoding="utf-8")
+    rc = main(["build", "--script", str(s), "--template", str(MOM), "--toc", "heuristic", "--out", str(tmp_path / "o"),
+               "--no-pdf", "--meta-json", str(mj)])
+    assert rc == 0
+    d = Document(str(tmp_path / "o" / "s_강의록.docx"))
+    text = "\n".join(p.text for p in d.paragraphs)
+    assert "팁 둘" in text and "1. 목표 하나" in text
+
+
+def test_offline_slide_table_mode_groups_slides_into_two_column_rows(sample_pptx, marked_script, tmp_path):
+    from app.pipeline import run_pipeline
+
+    rep, paths = run_pipeline(sample_pptx, tmp_path / "o", CLIN, script=marked_script, pdf=False, toc="heuristic")
+    assert not [i for i in rep.errors if i.code in ("SLIDE_MISSING", "SEGMENT_LOST")], rep.errors
+    note = json.loads(paths["note"].read_text(encoding="utf-8"))
+    rows = [s for t in note["topics"] for sts in t["sections"].values() for s in sts if s["kind"] == "row2"]
+    assert len(rows) == 3 and rows[0]["left_title"].startswith("Ulcerative")
+    assert "직장에서 시작합니다" in rows[0]["text"] or "직장에서 시작한다" in rows[0]["text"]  # lecturer explanation on the right
+    d = Document(str(paths["docx"]))
+    two_col = [t for t in d.tables if len(t.columns) == 2]
+    assert two_col and sum(len(t.rows) for t in two_col) >= 3

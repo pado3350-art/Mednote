@@ -13,6 +13,7 @@ from .template import load_template
 from .pdf_render import heading_pages, render_pdf
 from .diagrams import render_diagram
 from .exam import EXAM_BASE
+from .generate_notes import OfflineBackend
 from .figures import (apply_overrides, collect_figures, extract_pdf_slides, place_figures, save_figures,
                       slide_figures)
 from .models import Outline, OutlineItem
@@ -34,6 +35,23 @@ def _outline_from_topics(topics) -> Outline:
     return Outline(items=[OutlineItem(heading=t.heading, chapter=t.chapter,
                                       unit_numbers=[n for n in t.slide_numbers if n < EXAM_BASE])
                           for t in topics if t.role == "body" and any(n < EXAM_BASE for n in t.slide_numbers)])
+
+
+def _auto_cover(note) -> None:
+    """Offline mode: fill 학습목표 / 공부 전략 on the cover when the user gave none (rule-based, no AI)."""
+    body = [t for t in note.topics if t.role == "body" and t.heading != "부록 & 검증 참고"]
+    if body and not note.meta.get("objectives"):
+        note.meta["objectives"] = "\n".join(f"'{t.heading}'을(를) 설명할 수 있다." for t in body[:6])
+    if not note.meta.get("tips"):
+        tips = []
+        n_blue = sum(1 for t in note.topics for sts in t.sections.values() for s in sts
+                     if "{b|" in s.text or "{c|" in s.text)
+        if n_blue:
+            tips.append("기출(PAD)에 나온 내용은 파랑으로 표시했습니다. 파랑 글씨부터 먼저 외우세요.")
+        if any(t.tip for t in body):
+            tips.append("교수님 강조 내용은 각 파트의 [공부 팁] 줄에 모아 두었습니다.")
+        tips.append("시간이 없다면 [요약 정리]의 도식만 보고, 막히는 곳만 본문으로 돌아오세요.")
+        note.meta["tips"] = "\n".join(tips)
 
 
 def run_pipeline(
@@ -119,6 +137,9 @@ def run_pipeline(
 
     note = generate_note(title, slides, aligned, tpl, backend, meta=meta, unit_labels=unit_labels,
                          outline=outline, exam_items=exam_items, ref_style=ref_style)
+    note.pad_professors = {it.number: it.professor for it in exam_items}
+    if isinstance(backend, OfflineBackend) or backend is None:
+        _auto_cover(note)
     if outline is None and ref_style == "para":
         outline = _outline_from_topics(note.topics)
 
@@ -162,7 +183,7 @@ def run_pipeline(
         if first:
             from .export_mom import numbering
 
-            pm = heading_pages(first, [n["section"] for n in numbering(note)])
+            pm = heading_pages(first, [n["section"] for n in numbering(note, tpl.format.roman_headings)])
             export_docx(note, tpl, docx_path, report, page_map=pm)
             pdf_path = render_pdf(docx_path, out)
     elif pdf:

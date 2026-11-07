@@ -1,0 +1,39 @@
+# Clinical-lecture MOM variant (modelled on the cardiology / psychiatry example notes):
+#   double-line title box, bordered 작성자 코멘트 box (legend + yellow study strategy), roman-numbered headings in the body,
+#   light-blue sub-heading bands, two-column "slide tables" (row2), QUIZ boxes, TWO blues:
+#   dark blue = PAD of the lecturer in charge, sky blue = PAD of another professor (validator enforces both).
+template_name: mom_clinical_v1
+language: ko
+detail_level: comprehensive
+
+sections:
+  - {key: body, label: ""}
+
+format:
+  layout: mom
+  cover_style: box
+  heading_style: plain
+  star_style: band
+  slide_table: true
+  page_break_per_topic: true
+  roman_headings: true
+  exam_section: false
+  preserve_original_images: true
+  tables_for_comparisons: true
+  include_source_references: false   # clean pages like the examples (set true for paragraph tags)
+  numbered_headings: true
+  font_korean: 맑은 고딕
+  font_size_pt: 10
+  legend:
+    - {tag: exam,       word: 파랑,   meaning: "담당 교수님 파드 출제 내용"}
+    - {tag: exam_other, word: 하늘색, meaning: "다른 교수님 파드 출제 내용"}
+    - {tag: emphasis,   word: 빨강,   meaning: "교수님 강조 내용 및 본인이 중요하다고 생각한 부분"}
+    - {tag: minor,      word: 회색,   meaning: "중요도 낮은 부분"}
+    - {tag: verify,     word: 보라,   meaning: "원자료와 대조 필요 / 불확실"}
+    - {tag: highlight,  word: 노랑,   meaning: "공부 전략 · 꼭 봐야 할 부분"}
+
+quality:
+  preserve_all_key_concepts: true
+  flag_uncertain_facts: true
+  require_source_traceability: true
+  min_alignment_confidence: 0.15

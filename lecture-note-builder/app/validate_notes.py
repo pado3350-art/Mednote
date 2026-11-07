@@ -6,7 +6,7 @@ import re
 from .align_content import _bigrams, _cosine
 from .diagrams import diagram_has_exam, diagram_texts
 from .exam import EXAM_BASE
-from .markup import runs as _runs, strip as _strip_markup
+from .markup import LEAK, PAD_TAGS, runs as _runs, strip as _strip_markup
 from .models import AlignedSlide, Issue, LectureNote, Slide, ValidationReport
 from .template import Template
 
@@ -128,7 +128,17 @@ def validate(
     #     * blue text must cite a PAD unit;  * a statement citing a PAD unit must be blue
     #       (unless it is purely gray/purple meta commentary);  * the 기본정석 box follows the same rule.
     def _is_blue(text: str, tag: str = "normal") -> bool:
-        return tag == "exam" or any(c == "exam" for _, c, _ in _runs(text))
+        return tag in PAD_TAGS or any(c in PAD_TAGS for _, c, _ in _runs(text))
+
+    def _all_text(st) -> str:  # row2 / quiz keep text in several fields
+        return " ".join([st.text, *st.left, *st.options, st.answer])
+
+    two_blues = any(i.tag == "exam_other" for i in template.format.legend)  # template declares the 2nd blue
+    cur_prof = (note.meta.get("professor") or "").replace("교수님", "").strip()
+
+    def _same_prof(p: str) -> bool:
+        p = p.replace("교수님", "").strip()
+        return bool(cur_prof) and bool(p) and (cur_prof in p or p in cur_prof)
 
     for t in note.topics:
         for sts in t.sections.values():
@@ -141,7 +151,16 @@ def validate(
                 if st.kind in ("figure", "diagram"):
                     continue
                 has_pad = any(r >= EXAM_BASE for r in st.slide_refs)
-                blue = _is_blue(st.text, st.tag)
+                blue = _is_blue(_all_text(st), st.tag)
+                if two_blues and cur_prof and has_pad:
+                    profs = [note.pad_professors.get(r, "") for r in st.slide_refs if r >= EXAM_BASE]
+                    tags = {c for _, c, _ in _runs(_all_text(st)) if c}
+                    if "exam" in tags and profs and not any(_same_prof(p) for p in profs):
+                        rep.issues.append(Issue(severity="error", code="BLUE_WRONG_PROFESSOR", slide=st.slide_refs[0],
+                                                message=f"진한 파랑은 담당 교수님({cur_prof}) 파드 전용인데 다른 교수님 파드만 인용했습니다: '{_strip_markup(st.text)[:36]}…'"))
+                    if "exam_other" in tags and profs and all(_same_prof(p) for p in profs):
+                        rep.issues.append(Issue(severity="error", code="BLUE_WRONG_PROFESSOR", slide=st.slide_refs[0],
+                                                message=f"하늘색은 다른 교수님 파드 전용인데 담당 교수님 파드를 인용했습니다: '{_strip_markup(st.text)[:36]}…'"))
                 if blue and not has_pad:
                     rep.issues.append(Issue(severity="error", code="BLUE_WITHOUT_PAD",
                                             slide=st.slide_refs[0] if st.slide_refs else None,
@@ -163,9 +182,9 @@ def validate(
     for t in note.topics:
         dia_texts = [tx for sts in t.sections.values() for x in sts if x.kind == "diagram" and x.diagram
                      for tx in diagram_texts(x.diagram)]
-        for text in [x.text for sts in t.sections.values() for x in sts if x.kind not in ("figure", "diagram")] + list(t.basics) + dia_texts:
+        for text in [_all_text(x) for sts in t.sections.values() for x in sts if x.kind not in ("figure", "diagram")] + list(t.basics) + [t.tip] + dia_texts:
             left = _strip_markup(text)
-            if "*" in left or re.search(r"[{}]|\b[rbgp]\|", left):
+            if "*" in left or LEAK.search(left):
                 rep.issues.append(Issue(severity="warning", code="MARKUP_LEAK",
                                         slide=None, message=f"렌더링되지 않는 서식 기호가 남아 있습니다: '{left[:40]}…'"))
 

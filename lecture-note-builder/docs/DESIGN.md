@@ -73,3 +73,10 @@ AI 백엔드: 목차(outline, chapter 포함) → 섹션별 노트(기본정석 
 `Statement(kind="diagram", diagram=Diagram)` → 파이프라인이 PIL로 PNG 렌더(tree: 루트+카드, flow: 단계 카드+화살표(라벨·양방향·건너뛰기), compare: 열 카드+행 라벨)
 → 본문 그림과 같은 경로로 DOCX/PDF에 `도식 n.` 캡션과 함께 삽입. 박스 글은 본문 마크업을 그대로 지원하므로 색 규칙이 동일하다.
 요약 정리 쪽에는 `add_summary_figures`가 섹션별 최고 점수 그림을 `핵심 그림` 썸네일로 추가한다.
+
+## 임상 강의 예시 반영 (디자인·구성)
+- 새 문장 종류: `row2`(2단 슬라이드 표 행, 연속 행은 한 표), `quiz`(박스 + 정답 줄). 새 마크업: `{y|}` 형광펜, `{u|}` 밑줄, `{c|}` 하늘색(다른 교수님 파드).
+- 템플릿 옵션: `cover_style: banner|box`, `heading_style: banner|plain|marker`, `star_style: star|band`, `slide_table`, 범례 `exam_other`.
+- 두 파랑 규칙: 범례에 `exam_other`가 있으면 `{b|}`는 담당 교수님 파드, `{c|}`는 다른 교수님 파드를 인용해야 한다(`BLUE_WRONG_PROFESSOR`). 담당 교수님은 `meta.professor`, PAD 교수님은 파싱한 헤더에서 온다.
+- 표지가 길면(`dense`) 한 쪽에 맞게 자동으로 촘촘해진다. 핵심 어휘는 용어|설명 2단 표(좁은 왼쪽 칸).
+- 오프라인: 섹션 `tip`은 가장 두드러진 교수님 강조 문장, 표지 학습목표·공부 전략은 규칙으로 자동 생성.

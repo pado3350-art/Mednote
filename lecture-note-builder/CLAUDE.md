@@ -42,3 +42,7 @@
 
 ## 핵심 요약 = 시각 자료 필수
 요약 정리 쪽에는 반드시 도식(`kind: diagram`: tree/flow/compare)과 핵심 그림 썸네일을 넣는다(검증 `SUMMARY_NO_VISUAL`). 도식 안 파랑도 PAD 출처가 있어야 한다. 규칙: 스킬 `readable-note-organizer` 5c.
+
+## 디자인·말투 (임상 강의 우수 예시 반영)
+표지: 코멘트 + 공부 전략(`meta.tips`) + 학습목표(`meta.objectives`); 섹션: 기본정석 → 공부 팁(`tip`) → 본문(슬라이드 원문은 `row2` 2단 표, 퀴즈는 `quiz`). 템플릿 `mom_clinical.yaml`은 파랑 두 가지(담당 교수님 파드/하늘색 다른 교수님 파드).
+말투는 문장 기능별: 사실 ~한다 / 교수님 말 ~라고 합니다·하셨다 / 독자 안내 ~하시면 됩니다·~하자 / 작성자 의견은 괄호. 규칙과 예문: `.claude/skills/readable-note-organizer/` (3절, references/excellent_examples_clinical.md).

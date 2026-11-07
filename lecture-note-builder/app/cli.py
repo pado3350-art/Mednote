@@ -43,6 +43,7 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--summary-figures", type=int, default=4, help="요약 정리 쪽에 넣을 핵심 그림 썸네일 수 (0 = 끔)")
     b.add_argument("--keep-text-images", action="store_true", help="글자뿐인 슬라이드 이미지도 그림으로 사용")
     b.add_argument("--no-auto-blue", action="store_true", help="오프라인 모드에서 PAD 자동 대조(파랑 표시)를 끈다")
+    b.add_argument("--meta-json", help="표지 정보 JSON: comment, tips(공부 전략), objectives(학습목표) … (목록은 줄바꿈 문자열 또는 배열)")
     b.add_argument("--no-pdf", action="store_true")
     pr = sub.add_parser("prepare", help="API 없이: Claude Code가 직접 노트를 쓰기 위한 작업 패킷(brief/) 생성")
     pr.add_argument("--script", required=True)
@@ -65,6 +66,11 @@ def main(argv: list[str] | None = None) -> int:
     else:
         backend = OfflineBackend(auto_blue=not a.no_auto_blue) if a.backend == "offline" else AnthropicBackend(model=a.model)
     meta = {k: v for k in ("date", "subject", "professor", "author", "period", "edition", "series") if (v := getattr(a, k))}
+    if a.meta_json:
+        import json as _json
+
+        for k, v in _json.loads(Path(a.meta_json).read_text(encoding="utf-8")).items():
+            meta.setdefault(k, "\n".join(v) if isinstance(v, list) else str(v))
     if a.comment:
         meta["comment"] = a.comment.replace("\\n", "\n")
     report, paths = run_pipeline(a.pptx, a.out, a.template, a.script, backend, a.title, meta, pdf=not a.no_pdf, exam_pdf=a.exam_pdf, toc=a.toc, outline_json=a.outline_json,

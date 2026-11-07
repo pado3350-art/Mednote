@@ -24,6 +24,7 @@ format:
     - {tag: exam,     word: 파랑, meaning: "기출된 내용 (PAD 기출문제에 나온 부분에만 사용)"}
     - {tag: minor,    word: 회색, meaning: "중요도 낮은 부분 (이해용 부연)"}
     - {tag: verify,   word: 보라, meaning: "원자료와 대조 필요 / 불확실"}
+    - {tag: highlight, word: 노랑, meaning: "공부 전략 · 꼭 봐야 할 부분"}
 
 quality:
   preserve_all_key_concepts: true

@@ -16,7 +16,8 @@ from .models import Diagram
 W = 1700  # canvas width in px (placed at ~16.5 cm -> ~260 dpi)
 M = 40  # outer margin
 INK = (30, 30, 30)
-TEXT_COLORS = {None: INK, "emphasis": (192, 0, 0), "exam": (31, 78, 200), "minor": (130, 130, 130), "verify": (112, 48, 160)}
+TEXT_COLORS = {None: INK, "emphasis": (192, 0, 0), "exam": (31, 78, 200), "exam_other": (0, 150, 205), "minor": (130, 130, 130),
+               "verify": (112, 48, 160), "highlight": INK, "underline": INK}
 PALETTE = {"teal": (31, 138, 122), "blue": (47, 95, 179), "salmon": (230, 80, 90), "amber": (200, 130, 20),
            "violet": (112, 48, 160), "gray": (100, 100, 100), "green": (60, 140, 80)}
 CYCLE = ["teal", "blue", "salmon", "amber", "violet", "green"]
@@ -321,4 +322,4 @@ def diagram_texts(spec: Diagram) -> list[str]:
 
 
 def diagram_has_exam(spec: Diagram) -> bool:
-    return any(c == "exam" for t in diagram_texts(spec) for _, c, _ in runs(t))
+    return any(c in ("exam", "exam_other") for t in diagram_texts(spec) for _, c, _ in runs(t))

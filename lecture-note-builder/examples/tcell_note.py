@@ -16,6 +16,14 @@ import sys
 
 from app.models import Arrow, Diagram, Group, SlideTable, Statement, Topic
 
+TIPS = {  # heading -> study-priority hint (yellow line under the 기본정석 box)
+    "MHC의 유전자 구성": "이름을 외우기 전에 ‘1글자 = class I, 2글자 = class II’부터 정리하세요. 문제는 ‘분자’인지 ‘region에 있는 유전자’인지 묻는 문구에 주의!",
+    "MHC의 특성": "allele 개수는 외울 필요 없고, 순서(class I B>A>C / class II DRB>DQB>DPB)와 ‘β chain에 몰려 있다’만 확실히 — 기출 단골입니다.",
+    "MHC restriction": "원칙 + 예외 두 가지를 한 세트로 묶어서 외우면 편합니다. 기출은 ‘restriction이 적용되는 것’ 하나만 고르는 형태였습니다.",
+    "Class Ib molecule": "HLA 위주로 보라고 하셨습니다. HLA-E(NK 억제)·HLA-C(KIR)는 기출, MIC-A/B는 이름만.",
+    "non-MHC encoded class Ib molecule": "CD1 = lipid, 이 한 줄이 국시 빈출 포인트입니다. FcRn은 따로 외우지 마세요.",
+}
+
 
 def P(text, *refs, **kw):
     return Statement(text=text, slide_refs=list(refs), origin="both", **kw)
@@ -30,6 +38,25 @@ def DIA(spec, caption, *refs):
     return Statement(text=caption, kind="diagram", diagram=spec, slide_refs=list(refs), origin="both")
 
 
+def ROW(left_title, left_lines, right, *refs):
+    """Two-column slide-table row: left = English original / term, right = explanation (Korean)."""
+    return Statement(text=right, kind="row2", left_title=left_title, left=list(left_lines), slide_refs=list(refs), origin="both")
+
+
+def _glossary_rows(sts):
+    """핵심 어휘: '**term** : explanation' bullets -> two-column rows (term | explanation)."""
+    import re
+
+    out = []
+    for st in sts:
+        m = re.match(r"^\x2a\x2a(.+?)\x2a\x2a : (.+)$", st.text, re.S)  # \x2a = "*" (kept out of the leak scan)
+        if st.kind == "bullet" and m:
+            out.append(ROW(m.group(1), [], m.group(2), *st.slide_refs))
+        else:
+            out.append(st)
+    return out
+
+
 def STAR(text, *refs):
     return P(text, *refs, kind="star")
 
@@ -42,8 +69,10 @@ def REF(text, *refs):
     return P(text, *refs, kind="reference")
 
 
-def T(heading, chapter, units, body, basics_title="", basics=(), tables=(), flags=(), role="body", basics_refs=()):
-    return Topic(heading=heading, chapter=chapter, role=role, slide_numbers=list(units),
+def T(heading, chapter, units, body, basics_title="", basics=(), tables=(), flags=(), role="body", basics_refs=(), tip=""):
+    if heading == "핵심 어휘":
+        body = _glossary_rows(body)
+    return Topic(tip=tip, heading=heading, chapter=chapter, role=role, slide_numbers=list(units),
                  basics_title=basics_title, basics=list(basics), basics_refs=list(basics_refs), sections={"body": body},
                  tables=list(tables), review_flags=list(flags))
 
@@ -337,6 +366,8 @@ def build(unit_ids, exam_items=()):
         B("{g|PAD의 2009년(07학번) 문항은 시험지 스캔 이미지라 문항 내용을 확인할 수 없어 본문에 반영하지 못했습니다(정답 3번만 기록됨).}", 118),
         B("{g|PAD(기출문제) 해설은 정리본 작성자의 코멘트이며 교수님 발언이 아닙니다. PAD 문항 대부분은 이전 담당 교수님 시절 것이라 올해 출제 방향과 다를 수 있습니다.}", 101),
     ]))
+    for t in top:
+        t.tip = t.tip or TIPS.get(t.heading, "")
     return _remap(top, unit_ids, EX)
 
 

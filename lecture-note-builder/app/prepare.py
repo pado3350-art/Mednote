@@ -83,6 +83,8 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
    - 소절마다 기본정석 박스(`basics`, `basics_refs`), 설명 순서로 재구성한 본문, Advice/Reference, 비교표.
    - 앞쪽에 `role: "front"` 두 장: 핵심 어휘, 요약 정리.
    - 모든 문장에 `slide_refs`(¶번호, PAD는 unit 번호).
+   - **표지 정보** `{out}/meta.json`도 쓴다: `comment`(노트 소개·강의 성격·주의), `tips`(공부 전략 2~4줄, 노란 형광펜: 무엇을 먼저/가볍게, 기출 집중 구간), `objectives`(학습목표 3~6줄). 빌드 때 `--meta-json {out}/meta.json`을 붙인다.
+   - 소절마다 `tip`(공부 우선순위 한 줄), 슬라이드 원문은 `row2`(영문 | 한글 설명) 표, 강의 중 퀴즈는 `quiz`. 말투는 스킬의 3절(문장 기능별 어미)을 따른다.
 5. 빌드: `bash {brief / 'build_command.sh'}`  (그림은 자동 배치됨)
 6. `{out}/validation_report.md`를 읽고 **오류 0, 경고 최소**가 될 때까지 고친다 (BLUE_WITHOUT_PAD, PAD_NOT_BLUE, SLIDE_MISSING, NUMBER_LOST, MARKUP_LEAK ...).
 7. PDF 페이지를 이미지로 열어 그림 위치를 확인하고, 어긋난 그림은 `{out}/figures.json`을 고쳐 `--figures-json`으로 재적용한다.
