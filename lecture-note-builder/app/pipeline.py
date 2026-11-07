@@ -18,7 +18,9 @@ from .figures import (apply_overrides, collect_figures, extract_pdf_slides, plac
                       slide_figures)
 from .models import Outline, OutlineItem
 from .outline import heuristic_outline, load_outline, normalize_outline, save_outline
-from .transcript import parse_flow_script, parse_script, read_script_text
+from .material import extract_docx_material
+from .models import AlignedSlide
+from .transcript import is_structured, parse_flow_script, parse_script, read_script_text
 from .validate_notes import report_markdown, validate
 
 
@@ -71,23 +73,39 @@ def run_pipeline(
     max_figures_per_topic: int = 6,
     keep_text_images: bool = False,
     summary_figures: int = 4,
+    name: str | None = None,
 ) -> tuple[ValidationReport, dict[str, Path]]:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
     tpl = load_template(template_path)
-    stem = Path(pptx or script).stem
+    stem = name or Path(pptx or script).stem  # base name of the output files
 
     unit_labels: dict[int, str] = {}
     meta = dict(meta or {})
     notes_units: list[int] = []
     ref_style = "slide"
     if pptx:
-        if Path(pptx).suffix.lower() == ".pdf":  # slides given as PDF: one unit per page
+        suffix = Path(pptx).suffix.lower()
+        if suffix == ".pdf":  # slides given as PDF: one unit per page
             slides, _ = extract_pdf_slides(pptx, out / "images")
+        elif suffix == ".docx":  # lecture material as a Word file (slide text + pictures)
+            slides = extract_docx_material(pptx, out / "images")
         else:
             slides = extract_pptx(pptx, out / "images")
-        segments = parse_script(read_script_text(script)) if script else []
-        aligned = align(segments, slides, tpl.quality.min_alignment_confidence)
+        aligned = []
+        if script:
+            text = read_script_text(script)
+            if is_structured(text):  # block-headed script: read as one flow, drop the time blocks
+                file_meta, segs = parse_flow_script(text)
+                meta = {**{k: v for k, v in file_meta.items() if k in ("date", "subject")}, **meta}
+                title = title or file_meta.get("title")
+                speech = [g for g in segs if g.kind == "speech"]
+                aligned = align(speech, slides, tpl.quality.min_alignment_confidence)
+                notes_segs = [g for g in segs if g.kind == "note"]
+                if notes_segs:  # remarks about the script itself: kept (appendix), cited by segment id only
+                    aligned.append(AlignedSlide(slide_number=0, segments=notes_segs, method="none"))
+            else:
+                aligned = align(parse_script(text), slides, tpl.quality.min_alignment_confidence)
         toc = toc or "unit"
     else:
         if not script:
@@ -138,6 +156,8 @@ def run_pipeline(
     note = generate_note(title, slides, aligned, tpl, backend, meta=meta, unit_labels=unit_labels,
                          outline=outline, exam_items=exam_items, ref_style=ref_style)
     note.pad_professors = {it.number: it.professor for it in exam_items}
+    if getattr(backend, "authors_exam", False):  # hand-authored note: the author placed every paragraph, so the
+        note.meta["alignment_reviewed"] = "1"  # automatic low-confidence alignment warnings do not apply
     if isinstance(backend, OfflineBackend) or backend is None:
         _auto_cover(note)
     if outline is None and ref_style == "para":

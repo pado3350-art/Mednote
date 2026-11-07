@@ -27,6 +27,7 @@ class Slide(BaseModel):
     tables: list[SlideTable] = Field(default_factory=list)
     images: list[str] = Field(default_factory=list)  # file paths
     speaker_notes: str = ""
+    fig_captions: list[str] = Field(default_factory=list)  # "Fig. 6.x ..." lines of the slide (material DOCX)
 
     def plain_text(self, include_notes: bool = True) -> str:
         parts = [self.title] + [b.text for b in self.body]

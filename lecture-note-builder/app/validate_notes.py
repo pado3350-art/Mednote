@@ -25,8 +25,10 @@ def _note_text(note: LectureNote) -> str:
     parts = []
     for t in note.topics:
         parts.append(t.heading)
+        parts += [_strip_markup(t.tip)] + [_strip_markup(b) for b in t.basics]
         for sts in t.sections.values():
-            parts += [_strip_markup(s.text) for s in sts]
+            for s in sts:  # row2 keeps the slide original in `left`, quiz keeps options / answer
+                parts += [_strip_markup(x) for x in (s.text, s.left_title, *s.left, *s.options, s.answer) if x]
         for tb in t.tables:
             parts += [" ".join(r) for r in tb.rows]
     return "\n".join(parts)
@@ -43,6 +45,8 @@ def validate(
     def uname(n: int) -> str:
         if n >= EXAM_BASE:
             return note.unit_labels.get(n, f"PAD {n - EXAM_BASE}")
+        if n == 0:
+            return "검증 참고 문단"
         return f"발화 ¶{n}" if note.ref_style == "para" else f"슬라이드 {n}"
 
     rep.unit_names = {s.number: uname(s.number) for s in slides}
@@ -105,7 +109,7 @@ def validate(
             for st in sts:
                 if st.kind in ("figure", "diagram"):
                     continue
-                if template.quality.require_source_traceability and not st.slide_refs:
+                if st.kind != "star" and template.quality.require_source_traceability and not st.slide_refs and not st.segment_ids:
                     rep.issues.append(Issue(severity="error", code="NO_SOURCE", slide=None,
                                             message=f"출처 없는 문장: '{st.text[:40]}…'"))
                     continue
@@ -121,7 +125,7 @@ def validate(
                 )
                 if _cosine(_bigrams(_strip_markup(st.text)), _bigrams(source)) < _GROUND_MIN:
                     rep.issues.append(Issue(severity="warning", code="UNGROUNDED",
-                                            slide=st.slide_refs[0],
+                                            slide=st.slide_refs[0] if st.slide_refs else None,
                                             message=f"원본과 유사도가 낮은 문장(근거 확인 필요): '{_strip_markup(st.text)[:40]}…'"))
 
     # 4b. Colour rule (NON-NEGOTIABLE): BLUE = content that appeared in the PAD (기출) - nothing else.
@@ -202,7 +206,7 @@ def validate(
             if g.id not in placed_ids:
                 rep.issues.append(Issue(severity="error", code="SEGMENT_LOST", slide=a.slide_number,
                                         message=f"교수 설명(발화 {g.id})이 강의록에 반영되지 않았습니다."))
-        if a.low_confidence_segment_ids:
+        if a.low_confidence_segment_ids and not note.meta.get("alignment_reviewed"):
             rep.issues.append(Issue(severity="warning", code="LOW_ALIGNMENT", slide=a.slide_number,
                                     message=f"발화 {a.low_confidence_segment_ids} 정렬 신뢰도 낮음"))
     for f in note.review_flags:

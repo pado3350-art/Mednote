@@ -139,7 +139,7 @@ def numbering(note: LectureNote, roman: bool = False) -> list[dict]:
 
 
 def source_tag(st: Statement, note: LectureNote) -> str:
-    return format_refs(st.slide_refs, note, st.time_ranges)
+    return format_refs(st.slide_refs, note, st.time_ranges, st.segment_ids)
 
 
 # --------------------------------------------------------------- statements

@@ -54,11 +54,21 @@ API 키는 **필수가 아니다.** 세 가지 방법이 있다.
 `row2`(왼쪽 슬라이드 원문·용어 ↔ 오른쪽 설명 2단 표) / `quiz`(사례·선지·정답 박스) / 마크업 `{y|형광펜}` `{u|밑줄}` `{c|하늘색}`. 슬라이드(PPTX/PDF)를 입력하고 `mom_clinical`을 쓰면
 슬라이드 원문 ↔ 교수님 설명 2단 표가 자동 구성된다. `--meta-json 파일`로 표지 정보를 준다 (오프라인 모드는 비어 있으면 학습목표·공부 전략을 규칙으로 채움).
 
+## 강의자료 DOCX + 스크립트 DOCX
+슬라이드를 Word로 옮긴 강의자료(`6-10 제목` / `Chapter 6` 형태의 제목 줄, 그림 포함)도 입력으로 받는다(`app/material.py`): 슬라이드 단위로 쪼개고 그림은 해당 슬라이드·`Fig.` 캡션과 묶는다.
+스크립트의 문단(¶)이 슬라이드에 정렬되어 `PPT p.3 · 발화 ¶5–7`처럼 인용된다. 결과 파일 이름은 `--name`으로 정한다.
+```bash
+python -m app.cli build inputs/material.docx --script inputs/script.docx --template templates/mom.yaml \
+  --note-json outputs/x/note_authored.json --figures-json examples/tcell_v2_figures.json --name tcell_v2 --out outputs/tcell_v2
+```
+PAD를 주지 않으면 파랑 글씨는 0이다.
+
 ## 예시
 | 예시 | 입력 | 노트 작성 코드 | 결과 |
 |---|---|---|---|
 | T림프구에 대한 항원제시 (면역학) | 스크립트 DOCX + 기출 PAD PDF + 그림(우수 예시 PDF) | `examples/tcell_note.py` + `examples/tcell_figures.json` | `outputs/tcell/` (파랑 = 기출, 그림 15개) |
 | Limbic system (신경과학1) | 스크립트 DOCX + 기출 PAD PDF + 그림(해부 사진·도식 PDF) | `examples/limbic_note.py` + `examples/limbic_figures.json` | `outputs/limbic/` (파랑 = 기출, 그림 12개) |
+| T림프구 항원제시 v2 (강의자료 DOCX + 스크립트, PAD 없음) | 강의자료 DOCX + 스크립트 DOCX | `examples/tcell_v2_note.py` (`examples/authoring.py` 헬퍼) | `outputs/tcell_v2/` |
 
 두 스크립트는 구간 헤더 표기가 달라도(`[00:00–02:00] 제목 | 원본 2쪽` / `00:00–02:00 | 제목` + `자료 기준: 3쪽`) 같은 파서가 읽고,
 시간 구간 구조는 버린 뒤 전체 흐름으로 목차를 새로 만든다.

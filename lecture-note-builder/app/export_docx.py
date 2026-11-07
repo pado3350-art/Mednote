@@ -23,7 +23,7 @@ def _md(text: str) -> str:
 
 
 def source_tag(st: Statement, note: LectureNote) -> str:
-    return format_refs(st.slide_refs, note, st.time_ranges)
+    return format_refs(st.slide_refs, note, st.time_ranges, st.segment_ids)
 
 
 def _set_font(run, name: str, size: float | None = None) -> None:

@@ -170,9 +170,10 @@ def slide_figures(slides, start_id: int = 1) -> list[Figure]:
     """Pictures that came with PPTX/PDF slides -> Figure objects bound to their slide (unit)."""
     figs: list[Figure] = []
     for s in slides:
-        for p in s.images:
+        for k, p in enumerate(s.images):
+            cap = s.fig_captions[k] if k < len(s.fig_captions) else s.title  # "Fig. 6.x ..." line when the slide has one
             figs.append(Figure(id=start_id + len(figs), path=p, source=f"slide {s.number}", page=s.number,
-                               caption=s.title, context=s.plain_text()[:3000], unit=s.number))
+                               caption=cap, context=s.plain_text()[:3000], unit=s.number))
     return figs
 
 

@@ -1,0 +1,17 @@
+[
+  {"id": 1,  "anchor": "6번 염색체 위의 MHC",   "caption": "Fig. 6.16 인간 MHC(위, HLA)와 생쥐 MHC(아래, H-2)의 유전자 구성"},
+  {"id": 2,  "anchor": "확대한 지도",           "caption": "Fig. 6.17 인간 MHC의 상세 지도 — class II · III · I가 길게 연결된 하나의 영역"},
+  {"id": 3,  "anchor": "다형성은 어디에 몰려",   "caption": "Fig. 6.18 인간 MHC 유전자는 다형성이 매우 크다 (class I · II는 크고 class Ib는 작다)"},
+  {"id": 4,  "anchor": "두 가지 다양성",         "caption": "Fig. 6.19 Polymorphism과 polygeny가 함께 한 개인의 MHC 다양성을 만든다"},
+  {"id": 5,  "anchor": "gene conversion",       "caption": "Fig. 6.20 Gene conversion이 한 MHC의 서열을 다른 MHC로 복사해 새 allele을 만든다"},
+  {"id": 6,  "anchor": "기능적 의미",            "caption": "Fig. 6.21 MHC의 allele 변이는 주로 peptide 결합 부위에 몰려 있다 (class I α1·α2 / class II β1)"},
+  {"id": 7,  "anchor": "anchor residue",        "caption": "Fig. 6.22 한 MHC class I의 allele variant마다 결합하는 peptide가 다르다 (anchor residue 2·5·8번)"},
+  {"id": 8,  "topic_heading": "MHC restriction", "anchor": "T세포가 항원을 인식하려면", "caption": "Fig. 6.23 T세포의 항원 인식은 MHC-restricted이다"},
+  {"id": 9,  "caption": "Fig. 6.24 V 영역의 CDR1·CDR2 잔기가 TCR에 MHC에 대한 고유한 친화성을 준다"},
+  {"id": 10, "anchor": "정상 항원제시",          "caption": "Fig. 6.25 Superantigen은 TCR과 MHC에 직접 결합한다"},
+  {"id": 11, "anchor": "class Ib는 어떤 분자인가", "caption": "Fig. 6.26 (1/2) 생쥐·사람 MHC class Ib 단백질과 기능 — MHC 영역에 부호화된 것"},
+  {"id": 12, "anchor": "class Ib는 어떤 분자인가", "caption": "Fig. 6.26 (2/2) MHC 영역 밖에 부호화된 class Ib 단백질 (CD1, MR1, FcRn ...)"},
+  {"id": 13, "caption": "Fig. 6.27 CD1c가 microbial lipid를 iNKT cell에 제시하기 위해 결합한 모습"},
+  {"id": 14, "caption": "Fig. 6.28 CD1이 lipid 항원과 결합한 구조 (CD1d + C8PhF)"},
+  {"id": 15, "caption": "Fig. 6.29 γδ T cell을 활성화하는 ligand들"}
+]
