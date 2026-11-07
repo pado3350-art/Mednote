@@ -19,9 +19,9 @@ The user rewrites generated sentences by hand. Those edits are the ground truth 
 3. **No filler/signposting sentences.** Cut "이야기를 따라가려면 ~ 해 두어야 한다", "여기에 하나가 더 있다", "교수님은 이 두 가지가 출발점이라고 하셨다" when the next sentence already says it.
 4. **Plain, concrete wording over literary wording.** "두 겹으로 대비하고 있다" → "2가지 대비책을 둔다". Numbers as digits (2가지), enumerations as ① ② or 1. 2.
 5. **End a thought with its consequence in your own words** when it clarifies: "…allele 종류가 아주 다양해서 MHC의 종류를 무한하게 만든다."
-6. **Compress definitions into one flowing sentence** (X는 …라는 뜻이고, Y는 …라는 뜻이다. Z는 haplotype이라고 한다.). Drop bold on those restated terms unless the user kept it. (Unconfirmed - bold treatment was not visible in the pasted edits; ask if it matters.)
+6. **Compress definitions into one flowing sentence** (X는 …라는 뜻이고, Y는 …라는 뜻이다. Z는 haplotype이라고 한다.).
+8. **Markup stays exactly as before** (user confirmed): keep bold on key terms and conclusions, red/gray/purple marks, ①② numbering and the other existing marks. Restyle the wording only; never add or strip marks.
 7. Keep the slide table (슬라이드 원문 ↔ 요점) as is; the user edited prose only.
 
 ## Open questions to confirm with the user (do not guess)
-- Should Advice boxes (헷갈리는 점) and "공부 팁" stay? (Not visible in the pasted edits.)
-- Are bold/red/gray marks wanted in prose, or only in tables and boxes?
+- Should Advice boxes (헷갈리는 점) and "공부 팁" stay? (Not visible in the pasted edits; keep them until told otherwise.)
