@@ -5,6 +5,8 @@ description: Turn lecture material (script/transcript/slides) into an easy-to-st
 
 # Readable Note Organizer
 
+> **먼저 `my-writing-style` 스킬을 읽는다.** 사용자가 직접 고친 문장에서 배운 문체 규칙이며, 아래 말투 표와 충돌하면 그쪽이 우선한다.
+
 > ## ⛔ NON-NEGOTIABLE — BLUE = PAD(기출) ONLY, ALWAYS
 > **파란색 글씨는 PAD(파드, 기출문제 모음)에 실제로 기출된 내용에만 쓴다. 예외 없음.**
 > 1. If a PAD is provided, **every** point that appears in a PAD question, answer or explanation MUST be blue (`{b|...}`) **and** cite that PAD unit in `slide_refs` (>= 1000).
