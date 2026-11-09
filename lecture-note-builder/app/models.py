@@ -93,7 +93,7 @@ class Statement(BaseModel):
     # red is `emphasis`. Blue requires a PAD (기출) source ref -> see validate_notes.
     tag: Literal["normal", "exam", "exam_other", "minor", "verify"] = "normal"
     # Layout role: paragraph, "-" bullet, "★" sub-heading, or an Advice / Reference call-out.
-    kind: Literal["para", "bullet", "star", "advice", "reference", "figure", "diagram", "row2", "quiz"] = "para"
+    kind: Literal["para", "bullet", "star", "advice", "reference", "figure", "diagram", "row2", "quiz", "figure_side", "columns"] = "para"
     level: int = 0
     image: str = ""  # kind == "figure"/"diagram": picture path (text = caption)
     # kind == "row2": one row of the two-column "slide table" (left = slide / English original, right = explanation in `text`)
@@ -103,6 +103,8 @@ class Statement(BaseModel):
     options: list[str] = Field(default_factory=list)
     answer: str = ""
     diagram: Optional["Diagram"] = None  # kind == "diagram": spec rendered to a picture by app/diagrams.py
+    # kind == "figure_side": picture (`image`, caption = `text`) beside a bullet box (`left_title`, `left` lines)
+    # kind == "columns": parallel items side by side; `diagram.groups` = one column each (title + lines)
 
 
 class Topic(BaseModel):

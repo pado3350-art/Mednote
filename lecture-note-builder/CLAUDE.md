@@ -46,3 +46,6 @@
 ## 디자인·말투 (임상 강의 우수 예시 반영)
 표지: 코멘트 + 공부 전략(`meta.tips`) + 학습목표(`meta.objectives`); 섹션: 기본정석 → 공부 팁(`tip`) → 본문(슬라이드 원문은 `row2` 2단 표, 퀴즈는 `quiz`). 템플릿 `mom_clinical.yaml`은 파랑 두 가지(담당 교수님 파드/하늘색 다른 교수님 파드).
 말투는 문장 기능별: 사실 ~한다 / 교수님 말 ~라고 합니다·하셨다 / 독자 안내 ~하시면 됩니다·~하자 / 작성자 의견은 괄호. 규칙과 예문: `.claude/skills/readable-note-organizer/` (3절, references/excellent_examples_clinical.md).
+
+## 강의 유형 → 템플릿 (실제 정리본 비교에서 얻은 규칙)
+개념 연쇄형은 `mom.yaml`(스토리), 나열형·인트로는 `mom_compact.yaml`(시험 정리 2–3쪽 + 개조식 본문, `figure_side`/`columns`, `page_break: flow`). 같은 사실은 최대 2번, 빌드 후 `PAGE_BUDGET` 경고가 없게. 근거: `outputs/precision/review_vs_MOM.md`.

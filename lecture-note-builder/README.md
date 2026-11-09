@@ -63,12 +63,22 @@ python -m app.cli build inputs/material.docx --script inputs/script.docx --templ
 ```
 PAD를 주지 않으면 파랑 글씨는 0이다.
 
+## 강의 유형별 템플릿과 쪽 예산
+| 템플릿 | 언제 | 특징 |
+|---|---|---|
+| `templates/mom.yaml` | 개념·기전이 이어지는 강의 | § 마다 새 쪽, 기본정석·공부 팁, 스토리 서술. 약 4분당 1쪽 |
+| `templates/mom_compact.yaml` | 나열형·인트로·비중 낮은 강의 | 앞쪽 시험 정리 → 본문은 한 흐름(`page_break: flow`), 장은 본문 띠, 목차는 장 수준, 출처 꼬리표 숨김, 기본정석·팁 없음. 약 6분당 1쪽 |
+
+- 노트 구성 요소: `kind: figure_side`(그림 + 개조식 상자를 좌우로), `kind: columns`(병렬 항목을 2–3칸 가로로, `diagram.groups` 사용).
+- 스크립트에 `[mm:ss ~ mm:ss]` 시간 헤더가 있으면 강의 길이로 **쪽 예산**을 계산해 넘으면 `PAGE_BUDGET` 경고를 낸다(템플릿 `minutes_per_page`).
+
 ## 예시
 | 예시 | 입력 | 노트 작성 코드 | 결과 |
 |---|---|---|---|
 | T림프구에 대한 항원제시 (면역학) | 스크립트 DOCX + 기출 PAD PDF + 그림(우수 예시 PDF) | `examples/tcell_note.py` + `examples/tcell_figures.json` | `outputs/tcell/` (파랑 = 기출, 그림 15개) |
 | Limbic system (신경과학1) | 스크립트 DOCX + 기출 PAD PDF + 그림(해부 사진·도식 PDF) | `examples/limbic_note.py` + `examples/limbic_figures.json` | `outputs/limbic/` (파랑 = 기출, 그림 12개) |
 | T림프구 항원제시 v2 (강의자료 DOCX + 스크립트, PAD 없음) | 강의자료 DOCX + 스크립트 DOCX | `examples/tcell_v2_note.py` (`examples/authoring.py` 헬퍼) | `outputs/tcell_v2/` |
+| 유전체 정밀의학 Introduction (맞춤의학) | 스크립트 TXT + 정리본 화면 캡처 이미지 | `examples/precision_note.py`(상세형) / `examples/precision_compact_note.py`(압축형, 실제 정리본과 비교 후 재구성) | `outputs/precision/`(38쪽, 리뷰 `review_vs_MOM.md`) / `outputs/precision_compact/`(12쪽) |
 
 두 스크립트는 구간 헤더 표기가 달라도(`[00:00–02:00] 제목 | 원본 2쪽` / `00:00–02:00 | 제목` + `자료 기준: 3쪽`) 같은 파서가 읽고,
 시간 구간 구조는 버린 뒤 전체 흐름으로 목차를 새로 만든다.

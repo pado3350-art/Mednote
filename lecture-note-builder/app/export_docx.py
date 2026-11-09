@@ -49,6 +49,11 @@ def _statement(doc: Document, st: Statement, tpl: Template, lecturer: bool, note
 
         _figure(doc, st, tpl)
         return
+    if st.kind in ("figure_side", "columns"):
+        from .export_mom import _columns_box, _figure_side
+
+        (_figure_side if st.kind == "figure_side" else _columns_box)(doc, st, tpl)
+        return
     p = doc.add_paragraph(style="List Bullet")
     if lecturer:
         r0 = p.add_run("▶ 교수님: ")
@@ -160,6 +165,19 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
             for st in sts:
                 if st.kind in ("figure", "diagram"):
                     L.append(f"![{_md(st.text)}]({st.image})")
+                    continue
+                if st.kind == "figure_side":
+                    if st.image:
+                        L.append(f"![{_md(st.text)}]({st.image})")
+                    if st.left_title:
+                        L.append(f"**{_md(st.left_title)}**")
+                    L += [f"- {_md(x.removeprefix('- '))}" for x in st.left]
+                    continue
+                if st.kind == "columns" and st.diagram is not None:
+                    gs = st.diagram.groups
+                    L.append("| " + " | ".join(_md(g.title) for g in gs) + " |")
+                    L.append("|" + "---|" * len(gs))
+                    L.append("| " + " | ".join("<br>".join(_md(x) for x in g.items) for g in gs) + " |")
                     continue
                 pre = "▶ **교수님:** " if st.origin == "lecturer" else ""
                 body = f"**{_md(st.text)}**" if st.emphasis else _md(st.text)

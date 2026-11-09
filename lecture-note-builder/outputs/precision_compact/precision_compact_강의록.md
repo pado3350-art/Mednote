@@ -1,0 +1,312 @@
+# 유전체 정밀의학 Introduction
+
+## 1. 요약 정리 · 시험 정리
+*PPT p.1,5,14,43,62,75,89,90*
+
+### 
+- 이 2~3쪽이 시험 대비용이다. 강의에서 시험과 연결한 것은 국시 한두 문제 수준이라는 말, 그리고 PMC 리포트 앞쪽 표(아래)이다. 본문은 막히는 부분만 찾아 보면 된다.
+![강의 전체 흐름 — 본문 5개 장](outputs/precision_compact/diagrams/diagram_01.png)
+
+| 약물(상품명) | 바이오마커 | 적응증 · 의미 | 강의 |
+|---|---|---|---|
+| Cetuximab (Erbitux) | EGFR, **KRAS** / BRAF | **전이성 대장암**: EGFR 발현 + **RAS 변이 없음(wild-type)** 일 때. BRAF 변이도 무반응 → {r|동반진단 후 처방}. 세포 밖 EGFR에 붙는 mAb | ★ |
+| Imatinib (Gleevec) | **BCR-ABL** (Ph 염색체) / PDGFR / c-KIT | **CML**(만성기) / MDS·MPD(PDGFR 재배열) / **GIST**(c-KIT). 첫 표적치료제 | ★ |
+| Gefitinib (Iressa) · Erlotinib (Tarceva) | **EGFR activating mutation** / KRAS | **비소세포폐암**(EGFR 변이: 백인 약 10%, 아시아인 최대 50%). 세포 안 EGFR kinase를 막는 TKI. KRAS 변이 대장암에는 효과 없음 | ★ |
+| Crizotinib (Xalkori) | **ALK** (EML4-ALK) | 비소세포폐암 ALK 양성 (NSCLC의 1–7%) |  |
+| Dabrafenib (Tafinlar) | **BRAF V600E** | 흑색종 (절제 불가·전이) |  |
+| Dasatinib (Sprycel) | Ph 염색체 / BCR-ABL | Ph+ ALL (기존 치료 내성·불내성) |  |
+| Trastuzumab (Herceptin) | **HER2 (ERBB2) 증폭** | 유방암. HER2를 막는 mAb | ★ |
+| Bevacizumab (Avastin) | VEGF | **VEGF에 결합해 혈관신생 억제** | ★ |
+| Irinotecan (Camptosar) | **UGT1A1＊28** / ERCC1 | 대장암: UGT1A1＊28 동형접합이면 호중구감소 위험 → 시작 용량 감량 |  |
+| Warfarin | **CYP2C9** (+ VKORC1) | 항응고(스텐트 후). 유전형에 따라 용량 결정 = **geno-dosing** | ★ |
+| Tamoxifen | **CYP2D6** | 유방암: CYP2D6가 활성형 **endoxifen**으로 전환 → 기능 allele이 있어야 효과 | ★ |
+| (그 밖의 표 항목) | CD25 / HR / ER / TS·RRM1 | Denileukin diftitox(T세포 림프종) · Everolimus·Exemestane(호르몬 수용체 양성 유방암) · Gemcitabine(췌장암·폐암) |  |
+
+| 주제 | 핵심 |
+|---|---|
+| 정밀의료 | **Right treatment, right patient, right time.** 개발 측면과 **적용(선택) 측면** — 의사에게는 적용이 더 중요. 잣대 = 유전자(가장 객관적) |
+| 바이오마커 | Clinical(GOT·GPT, 혈당, HbA1c) → Protein(IHC, ELISA) → Genetic(전좌, PCR) → **시퀀싱(NGS)** 으로 정밀의료 수준 도달 |
+| 치료제 세대 | 1세대 small molecule → 2세대 바이오 신약(항체) → 3세대 **living drug**(세포·유전자 치료, 한국이 해 볼 만함) |
+| 임상시험 | **Basket** = 약 하나·여러 질병 / **Umbrella** = 질병 하나·여러 약 / **N-of-1** = 희귀병 환자 한 명(약 ↔ 위약) |
+| 게놈·데이터 | HGP(2003) → 사람 사이 차이 발견. UK Biobank(100만) · All of Us(50만, 다인종) · 국가통합 바이오 빅데이터(최대 100만, 구축 중) |
+| 동반진단(CDx) | 표적치료제 처방 전 효과·내성을 가려내는 검사. 예: **RAS 변이 없음 확인 후 cetuximab** |
+| 기술 | AI(해석 보조) · WGS/WES/패널 · single cell → **spatial** · organoid(아바타 마우스 대체) · liquid biopsy(재발 추적) |
+| Oncotype DX | 유방암 21-유전자 재발 점수: **RS < 18 low**(타목시펜만) · 18–30 intermediate · **≥ 31 high**(항암제 병용) |
+| 약물유전체학 | CYP2C9 ＊1/＊1 대사 빠름 → warfarin 5–6 mg / ＊3/＊3 느림 → 1/3–1/4로 감량. Tamoxifen–CYP2D6 |
+
+
+## 2. PMC 리포트 원본 표
+*PPT p.89,90*
+
+### 
+![PMC 리포트 표 (1) — Cetuximab, Crizotinib, Dabrafenib, Dasatinib, Erlotinib 등](inputs/precision_figs/t01.png)
+![PMC 리포트 표 (2) — Gefitinib, Gemcitabine, Imatinib, Irinotecan](inputs/precision_figs/t02.png)
+
+
+## 3. 정밀의료의 개념
+*PPT p.1,2,3,4,5,6,7,8,9,10,11,12,13,41,42*
+
+### 
+- 수업 안내: 맞춤의학 일주일 코스의 인트로덕션. 국시에는 나와도 한두 문제 수준이지만 앞으로 환자를 보려면 개념이 필요하다. 자료는 개인 학습용으로만.
+![기존 의학(One Treatment Fits All) vs 정밀의료(More Personalized Diagnostics)](inputs/precision_figs/p03.png)
+**정밀의료 = Right treatment, right patient, right time**
+- 치료가 들을 것으로 **정의된 환자**에게, 효과가 있을 **시점**에 치료를 제공한다
+- 동서양 모두 예전부터 추구했다: 히포크라테스 **4체액설**(체액 균형), 한국의 **체질(사상의학)**
+- 그런데도 다시 필요한 이유 = 아직 잘 안 되기 때문 → **객관화**가 핵심
+- 현실(기존 의학): 증상별 치료가 하나로 고정, 변형은 몸무게·나이 정도
+- 정밀의료: 환자 개개인의 유전자 변이·단백질 발현·바이오마커로 치료를 고른다
+| ① 개발 | ② 적용(선택) |
+|---|---|
+| 환자 특성에 맞는 약을 계속 만들어 낸다<br>전문가 집단이 함께 하는 영역 | 이미 있는 많은 약·치료법 중 환자에게 줄 것을 고른다<br>의사에게 현실적으로 더 중요<br>AI 시대에 환자를 납득시키려면 필요 (‘족보’로는 부족) |
+![질병 감수성 → 표적치료, GWAS로 환자별 치료 선택](inputs/precision_figs/p05.png)
+**왜 하필 유전자인가**
+- 유전자로 환자를 그룹핑하는 것이 현재 **가장 객관적**이고, 많은 환자가 오는 병원에서 **실현 가능**해졌다
+- 그래서 강의 제목도 ‘유전자 정밀의료’. 학자가 될 필요는 없고 개념을 가지고 잘 쓰면 된다
+**Precision Medicine Initiative (2015년, 오바마)**
+- 현대 의학 = **one-size-fits-all**(기성복) → 각자에게 맞춘 **tailoring** 치료를 하자는 정책, 코호트 구축
+- 이중나선 모형을 옆에 둔 발표 = 정책을 뒷받침할 **근거(evidence)** 가 이미 있었다는 뜻
+- 한국은 그때까지 쌓은 근거(EBM 기여)가 적어 같은 선언을 할 수 없었다
+
+
+## 4. 바이오마커
+*PPT p.14,15,16,17*
+
+### 
+![바이오마커 3가지](inputs/precision_figs/p04.png)
+**Biomarker: 환자를 객관적으로 가려내는 지표**
+- ① **Clinical marker**: GOT·GPT, 공복혈당, 당화혈색소 — 보편적이지만 한계 → +α 필요
+- ② **Protein marker**(주로 암): IHC, ELISA — 병리과 전문의의 판정 필요(AI가 대체 중), 대량 처리에 한계
+- ③ **Genetic marker**: CML의 염색체 전좌 → 서로 다른 염색체에 primer를 디자인한 **PCR**
+- 여기까지는 정밀의료에 필요한 수준에 도달하지 못했다 → 시퀀싱이 혁명
+
+
+## 5. 시퀀싱과 표적 발굴
+*PPT p.18,19,20*
+
+### 
+![Genomic sequencing → biomarker testing → pharmacogenomics](inputs/precision_figs/p06.png)
+**시퀀싱의 혁명**
+- NGS를 넘어선 시퀀싱 → 질병을 **genetic variant / mutation**으로 이해 → 처방·신약 개발·표적 발굴
+- 환자 조직·혈액에서 **전체 게놈(WGS)** 또는 **엑솜(WES)** 을 읽고, 사람 간 차이는 **GWAS**로 찾는다
+![유전학적 방법으로 찾은 약물 표적과 접근 방법](inputs/precision_figs/p07.png)
+**표적을 찾은 뒤 막는 방법**
+- **small molecule**(먹는 약) / **CRISPR genome editing** / **항체** / **RNA block**
+- RNA **전달 기술**도 필요 — 코로나19 **mRNA 백신**(모더나)이 예
+- 의사가 다 개발할 수는 없다 → 전문가들의 일을 알고 **협력하는 인사이트**
+
+
+## 6. 치료제의 세 세대
+*PPT p.21,22,23,24*
+
+### 
+![치료제의 세대별 발전과 세포·유전자 치료 시대](inputs/precision_figs/p09.png)
+**1세대 → 2세대 → 3세대**
+- **1세대 합성신약**: small molecule(아스피린 등). 한국 존재감 거의 없음
+- **2세대 바이오 신약**: 항체, 재조합 단백질 → 표적치료. 아시아는 일본(빅5)만
+- **3세대 living drug**: 세포 치료·유전자 치료 — 앞 세대는 정체기(plateau)
+- 3세대는 한국이 해 볼 만하다 — CMC는 세포 치료, genome editing·mRNA 나노파티클 전달에서 리딩 그룹
+
+
+## 7. 정밀의료 임상시험
+*PPT p.25,26,27,28,29,30,31*
+
+### 
+| Basket trial | Umbrella trial | N-of-1 trial |
+|---|---|---|
+| **약물이 주인공**<br>표적치료제 하나가 들을 질병 A·B·C·D의 환자를 한 바구니에 모아 효과 검증<br>유전자 변이를 표적으로 만든 약 중심 | **환자(질병)가 주인공**<br>폐암 하나의 주요 변이 5가지에 각각 약을 적용해 비교<br>우산 아래 여러 약 중 잘 맞는 것 찾기 | **희귀병 환자 한 명**<br>환자를 모으기 힘들 때 한 사람에게 약 ↔ 위약을 번갈아 주어 비교<br>자기 자신이 대조군 |
+- 이번 코스: 세포 치료(상용화·스핀오프), 나노 메디슨(RNA 전달), AI, 암 유전체, 임상 검사, 통계, 퇴행성 신경질환, AI 신약 개발·virtual screening, genome editing, ELSI.
+
+
+## 8. 인간 게놈 프로젝트와 바이오 빅데이터
+*PPT p.32,33,34,35,36,37,38,39,40*
+
+### 
+![99.9% 같고 일부가 다르다 — 개인별 차이와 정밀의료](inputs/precision_figs/p08.png)
+**Human Genome Project (2003)**
+- 사람의 유전자는 같지만 **100%는 아니다** — 이것을 알게 된 것이 HGP
+- 2003년 미·영 정상이 해독 발표(99%~99.5%)
+- 가장 큰 소득 = **사람 사이의 차이**를 안 것 → personalized medicine의 출발
+- 차이의 크기는 강의에서 0.5%, 그림에서 0.1%로 다르게 제시됨 — 자료마다 다름
+| UK Biobank (영국) | All of Us (미국) | 국가통합 바이오 빅데이터 (한국) |
+|---|---|---|
+| **100만 명**, 한국보다 약 20년 앞섬<br>NHS(국가 100% 책임) 덕분에 모집 수월<br>유전체 + 대사체·단백질체(멀티 오믹스) + 임상·라이프로그<br>전 세계 연구자가 가장 많이 쓰는 리소스 | 약 **50만 명**<br>오믹스 + 라이프스타일 + 의무기록·환경<br>**다인종(multi-race)** | 3~4년 전 시작, **최대 100만 명**<br>이유: 영·미 자료에 **동아시아인 데이터가 부족**<br>지금은 ‘곳간을 채우는 시기’, 앞으로 활용 |
+
+
+## 9. 암 치료의 발전
+*PPT p.43,44,45*
+
+### 
+![암 치료 유형: 점점 더 정밀한 표적치료로](inputs/precision_figs/p13.png)
+**Chemotherapy에서 표적치료까지**
+- ① **Chemotherapy**(5-FU, 백금): 정밀하지 않음 — 암과 환자가 함께 손상(탈모 등)
+- ② **Hormone therapy**: 비뇨생식기암에서 호르몬 차단
+- ③ **Epigenetic modifiers**: 혈액암의 후성유전 조절 차단
+- ④ **Immune checkpoint inhibitor**: 면역감시 회피(체크포인트)를 부순다
+- ⑤ **Angiogenesis inhibitor**: 암으로 가는 혈관을 막는다
+- ⑥ **Adoptive immunotherapy**: CAR-T
+- ⑦ **Therapeutic antibodies** · ⑧ **Cell signaling inhibitors**(imatinib, gefitinib)
+
+
+## 10. 3-1. Philadelphia chromosome → Gleevec
+*PPT p.46,47*
+
+### 
+![Philadelphia chromosome과 Gleevec — 첫 표적치료제](inputs/precision_figs/p14.png)
+**CML과 imatinib**
+- **23쌍** 염색체를 중기(metaphase)로 고정해 보다가 약 40년 전 발견: **9번·22번 long arm 전좌**(필라델피아 염색체)
+- 전좌 → **BCR–ABL** 융합 → BCR 프로모터가 **ABL kinase** 자극 → 과활성 → **CML**
+- **Gleevec(imatinib)**: kinase에 먼저 붙어 기질 결합을 막는 경쟁 물질 → 활성 소실
+- 표적치료의 문을 연 **첫 breakthrough**
+- 강의는 ‘기질이 붙는 자리와 경쟁’이라고 설명. 교과서에서 imatinib은 ATP 결합 부위를 막는 억제제 — 확인 필요
+
+
+## 11. 3-2. EGFR → cetuximab, gefitinib · erlotinib
+*PPT p.48,49,51,52,53,54,55,56*
+
+### 
+![EGF·VEGF 신호와 downstream pathway(RAS, RAF …)](inputs/precision_figs/p17.png)
+**EGFR과 두 종류의 약**
+- 위장관·폐·유선 등 몸을 덮는 **상피세포**의 EGFR 변이 → downstream 활성 → 과증식 → 암
+- 상피세포는 계속 떨어지고 새로 나야 함 → 이를 돕는 수용체가 과발현·증폭되면 암
+- **Cetuximab(Erbitux)**: 세포 밖 **EGFR에 붙는 mAb** — 전이성 대장암
+- **Gefitinib · Erlotinib**: 세포 안 **EGFR kinase를 막는 TKI** — 비소세포폐암
+**그런데 왜 재발할까? → 동반진단의 출발**
+- EGFR을 막았더니 드라마틱하게 듣다가 **환자의 절반 정도에서 재발**
+- 원인: **downstream(RAS, RAF)** 에 처음부터 변이가 있으면 위를 막아도 신호가 핵으로 계속 전달
+- 그래서 비싼 약을 마구 쓰지 않고 **downstream이 clear한지 확인(verify)한 뒤** 처방
+- 실제로 진단검사의학과에서 **RAS·BRAF 변이**를 먼저 스크리닝 → indication이 되는 환자만 처방
+- 강의는 cetuximab·gefitinib을 함께 말했지만, RAS 검사는 대장암 cetuximab의 조건이고 gefitinib은 폐암의 EGFR 변이가 조건(위 표 참고)
+
+
+## 12. 동반진단 (Companion Diagnostics)
+*PPT p.57,58,59*
+
+### 
+![동반진단(CDx)과 약물 공동 개발](inputs/precision_figs/p16.png)
+**Companion Diagnostics (CDx)**
+- 처방과 **동시에** 시행해 효과 있을 환자, 나중에 효과가 없어질 환자를 **미리 가려내는 검사**
+- 임상 표현: “○○ 검사의 동반진단 결과 변이가 없어 처방 indication이 되었습니다”
+- 대표 예: 전이성 대장암 — RAS 변이 음성이어야 cetuximab
+![Paradigm shift in oncology — 장기(anatomy)에서 분자 경로로](inputs/precision_figs/p20.png)
+**종양학의 패러다임 전환**
+- 예전: chest PA, mammography, CT, endoscopy 중심
+- 지금: 여기에 **BCR-ABL, EGFR, HER2, BRAF, EML4-ALK** 등 유전자 검사를 더해 indication을 확인한 뒤 치료
+
+
+## 13. 3-3. HER2 → Herceptin · 3-4. VEGF → Bevacizumab
+*PPT p.49,50*
+
+### 
+![HER2 증폭 유방암](inputs/precision_figs/p18.png)
+**HER2 → Herceptin(trastuzumab)**
+- 유전자가 100배·1000배로 늘어나는 **증폭(amplification)** → HER2 과발현 → 유방암
+- 단백질·유전자 검사로 확인 → HER2를 막는 mAb **Herceptin**
+![Bevacizumab과 VEGF 신호](inputs/precision_figs/p19.png)
+**VEGF → Avastin(bevacizumab)**
+- 암이 자라려면 혈관이 필요 → **VEGF에 결합해 혈관신생을 억제**
+
+
+## 14. CAR-T (참고 수준)
+*PPT p.45,60,61*
+
+### 
+![CAR-T 치료: 채혈 → 제작 → 주입](inputs/precision_figs/p21.png)
+**CAR-T**
+- T cell에 **CAR**(chimeric antigen receptor)를 넣어 **종양 특이 항원**을 공격하게 함 — 혈액내과에서 자주 듣는 치료
+- CAR는 인공 설계물 → genetic engineering, CRISPR, 전달 기술이 필요
+- 한국 현황: 환자 T cell을 **미국 회사로 air shipping** → 제작 후 받아서 주입. 번거로워서 국내 제작(construct 기술 도입)을 추진 중
+
+
+## 15. AI와 멀티 오믹스
+*PPT p.62,63,64,65,66*
+
+### 
+![AI가 정밀의료를 바꾸는 방식](inputs/precision_figs/p24.png)
+**AI-assisted medicine**
+- one-fit-all 시대는 갔지만, 지놈·메타볼롬·마이크로바이옴·프로테옴을 의사가 **직접 통합 해석하기는 어렵다**
+- 예전: 바이오인포매티션과 협업(시간이 걸림) → 지금: **AI**가 해석을 돕는다
+- 쓰임: **약물 표적 탐색**, 환자 **모니터링**(혈압·혈당, 집 PC·의사 데스크탑에서), **조기 발견**, **원인 유전자**, **이질성**
+- 지금은 이행기 — 앞으로는 AI를 안 쓰면 이상한 시대, 잘 쓰는 현명함이 필요
+
+
+## 16. NGS의 세 방식
+*PPT p.67*
+
+### 
+![Whole genome · whole exome · targeted sequencing](inputs/precision_figs/p25.png)
+**얼마나 읽을 것인가**
+- **WGS**: 30억 쌍 전체 — 요즘은 시퀀싱이 빨라 엑솜을 골라내는 것이 더 번거로워져 그냥 다 읽는다
+- **WES**: 엑솜만 골라 읽기 (예전 연구에서 주로 사용)
+- **Targeted(패널)**: 암 치료에 필요한 일부만, 엑솜의 약 1/1000
+
+
+## 17. Single cell → Spatial transcriptomics
+*PPT p.68,69,70,71*
+
+### 
+![Single-cell transcriptome](inputs/precision_figs/p26.png)
+**Single cell — 평균값의 한계를 넘다**
+- 침생검 조직 = 여러 세포의 합집합 → **평균값(mean data)** 만 알 수 있음
+- **fluidics** 기술로 세포를 하나씩 띄워 특성 파악
+- 비유: ‘베리 주스가 맛있다’ → ‘딸기·블랙베리가 맛있다’를 구분
+- 한계: 떠 있는 세포라 **조직 안 위치를 모른다**
+![Spatial transcriptomics](inputs/precision_figs/p27.png)
+**Spatial transcriptomics — 위치까지**
+- 조직의 **2·3차원 상태를 유지**한 채 세포 하나하나를 본다
+- 각 세포가 조직의 어느 부위인지 알 수 있다 (세미나에 자주 나오는 이름)
+
+
+## 18. Organoid · Liquid biopsy
+*PPT p.72,73,74*
+
+### 
+![Patient-derived organoid (3D culture)](inputs/precision_figs/p28.png)
+**Organoid**
+- 투여 전 인체를 모사한 모델에서 약을 먼저 스크리닝해야 한다
+- 5년·10년 전 주목받은 **아바타 마우스**는 반응이 느려 실패 (환자를 기다리게 할 수 없음)
+- 장기·조직 일부를 **배양**한 유사 장기(-oid = 모사)로 약효 확인
+![Liquid biopsy](inputs/precision_figs/p29.png)
+**Liquid biopsy**
+- 병소에서 떨어져 나와 **혈액**을 떠도는 미세한 변화를 검출 (기술은 약 98% 준비)
+- 아직 루틴은 아니지만, 수술 후 재발 확인을 **CT·침생검 대신 피검사**로 하게 될 것
+
+
+## 19. Oncotype DX
+*PPT p.75,76,77,78,79,80*
+
+### 
+![Oncotype DX 21-gene recurrence score (Paik et al., NEJM 2004)](inputs/precision_figs/p30.png)
+**유방암 재발 점수(RS)**
+- 임상 적용 예는 데이터가 충분히 쌓인 10~15년 전 것들이다. **백순명 교수** 등(연세대 졸업, MD 앤더슨 병리과): 유방암에서 알려진 유전자(증식·호르몬 수용체·침윤)의 발현에 가중치를 주어 **공식(formula)** 을 만듦(NEJM, 2004년) → 상용화
+- RS < 18 low · 18–30 intermediate · ≥ 31 high (그림 기준. 강의는 ‘18 이하’로 말함)
+- low: 항암제를 세게 쓰지 않고 관찰 + 최소 치료(호르몬제)로 10년 이상 생존
+- 검증(JCO): low RS는 tamoxifen 단독 ≈ tamoxifen + chemo(95% 이상 생존)
+- high RS는 tamoxifen 단독이면 생존율 50% 이하 → **항암제 병용**의 이득이 큼
+
+
+## 20. 약물유전체학 — CYP450과 warfarin, tamoxifen
+*PPT p.81,82,83,84,85,86,87,88*
+
+### 
+![CYP2C9 유전형별 warfarin 하루 용량](inputs/precision_figs/p32.png)
+**Warfarin과 CYP2C9 (geno-dosing)**
+- 타고난 유전형이 임상에서 가장 많이 쓰이는 곳 = **약 처방(pharmacogenomics)**
+- **CYP450**: 몸에 들어온 수천 가지 물질을 **간에서 대사**해 배출 → 형태가 수백~수천 가지
+- Warfarin: 스텐트 시술 후 혈소판·적혈구가 붙어 다시 좁아지는 것을 막는 항응고제
+- 체중(예: 70kg)만 보고 같은 용량을 줬는데 어떤 사람은 **출혈**, 어떤 사람은 **다시 막힘** → 원인은 CYP2C9
+- **＊1/＊1** 대사 빠름 → 5–6 mg / **＊3/＊3** 대사 느림·체내 잔류 → **1/3–1/4로 감량** (VKORC1도 함께)
+- FDA: 유전형을 보고 용량을 정하라 = **geno-dosing**
+![Tamoxifen 대사: CYP2D6 → endoxifen](inputs/precision_figs/p33.png)
+**Tamoxifen과 CYP2D6**
+- Tamoxifen은 **CYP2D6**에 의해 활성형 **endoxifen**으로 바뀌어 작용 (그림)
+- 그래서 유전형에 따라 쓸지 말지가 정해질 수 있다(indication)
+
+
+## 21. 참고자료
+*PPT p.89,90,91,92*
+
+### 
+- **PMC 리포트**(Personalized Medicine Coalition, 무료 PDF): 현장에서 쓰는 제품과 indication 정리 — 앞쪽 표는 시험 정리에 옮김
+- 더 공부하려면 **EMM**(Experimental & Molecular Medicine) 스페셜 이슈
+- 마지막 출석 확인(개인정보라 생략), 질문은 따로.
+

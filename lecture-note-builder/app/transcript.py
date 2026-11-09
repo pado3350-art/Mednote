@@ -132,6 +132,24 @@ class Unit:
         return t + (f" · 원본 {self.pages}쪽" if self.pages else "")
 
 
+def lecture_minutes(text: str) -> float:
+    """Lecture length from the block headers' last end time (0 when the script has no time headers)."""
+    ends = [parse_ts(m.group(2)) for ln in text.splitlines() if (m := _UNIT_HDR.match(ln))]
+    starts = [parse_ts(m.group(1)) for ln in text.splitlines() if (m := _UNIT_HDR.match(ln))]
+    ends = [e for e in ends if e is not None]
+    starts = [x for x in starts if x is not None]
+    return (max(ends) - min(starts)) / 60.0 if ends and starts else 0.0
+
+
+def page_budget(minutes: float, minutes_per_page: float) -> int:
+    """Target page count for a note: body pages from the lecture length plus 2 pages for cover / summary."""
+    import math
+
+    if minutes <= 0 or minutes_per_page <= 0:
+        return 0
+    return math.ceil(minutes / minutes_per_page) + 2
+
+
 def is_structured(text: str) -> bool:
     return sum(1 for ln in text.splitlines() if _UNIT_HDR.match(ln)) >= 3
 

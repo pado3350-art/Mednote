@@ -118,3 +118,12 @@ T-cell 강의에서 요청하신 **스토리 형식**은 개념이 꼬리를 무
 5. **반복 제거 규칙**: 같은 사실은 시험층 1번 + 본문 1번까지. 기본정석은 본문이 3문단 이상인 §에만.
 6. **진행 이야기 분리**: 수업 안내·자료 주의·코스 소개·출석은 본문이 아니라 작성자 코멘트(한두 줄) 또는 부록으로.
 7. **스킬 보완**: `readable-note-organizer`에 “강의 유형 판단 → 서술 모드·쪽 예산 선택” 절을 추가하고, `my-writing-style`의 스토리 규칙은 **개념 연쇄형 강의에 적용**한다고 범위를 적는다.
+
+---
+
+## 7. 반영 결과 — `outputs/precision_compact/` (12쪽)
+
+- 프로그램: `templates/mom_compact.yaml`, `page_break: flow|chapter`, `toc_level: chapter`, `basics_box`/`topic_tips` 끄기, `figure_side`·`columns` 상자, `PAGE_BUDGET` 검증(스크립트 시간 헤더 × `minutes_per_page`).
+- 노트(`examples/precision_compact_note.py`): 1쪽 표지·목차(장 5줄) → 2쪽 시험 정리(PMC 약물–바이오마커 표 + 주제별 핵심 표 + 흐름 도식 1개) → 3쪽 PMC 원본 표 → 4–12쪽 본문 5장(개조식, 그림·글 좌우, 바이오뱅크·임상시험·두 측면은 가로 칸).
+- 사실 오류 수정: RS < 18 / 18–30 / ≥ 31, 요즘은 WGS, cetuximab = EGFR mAb(대장암) vs gefitinib·erlotinib = TKI(폐암), bevacizumab = VEGF 결합, CYP = 간 대사, 0.1% vs 0.5% 및 imatinib 기전은 보라 주석, tamoxifen–CYP2D6–endoxifen 추가, PMI를 1장(정의)으로 이동.
+- 남은 차이: 정리본의 PAD 칸(파랑)은 PAD 미제공이라 없음. 표지의 교시·교수명은 정리본 표지에서 가져옴.

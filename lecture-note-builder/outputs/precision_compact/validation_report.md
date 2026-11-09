@@ -1,0 +1,71 @@
+# 검증 리포트
+
+- 슬라이드 커버리지: 100%
+- 오류 0 / 경고 66 / 참고 0
+
+- ⚠️ `TERM_LOST` [발화 ¶1] 용어 'KMLE'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶10] 용어 'Physician'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶12] 원본과 유사도가 낮은 문장(근거 확인 필요): '질병 감수성 → 표적치료, GWAS로 환자별 치료 선택…'
+- ⚠️ `UNGROUNDED` [발화 ¶14] 원본과 유사도가 낮은 문장(근거 확인 필요): '바이오마커 3가지…'
+- ⚠️ `TERM_LOST` [발화 ¶15] 용어 'Immunohistochemistry'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶16] 용어 'Mass production'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶17] 용어 'Translocation'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶18] 용어 'Generation'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶18] 용어 'Next'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶19] 용어 'Antibody'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶19] 원본과 유사도가 낮은 문장(근거 확인 필요): '유전학적 방법으로 찾은 약물 표적과 접근 방법…'
+- ⚠️ `TERM_LOST` [발화 ¶20] 용어 'COVID-19'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶23] 용어 'Cell therapy'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶23] 용어 'Gene therapy'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶24] 용어 'Nanoparticle'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶30] 용어 'Commercial sector'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶30] 용어 'Spin'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶31] 용어 'Nanomedicine'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶32] 원본과 유사도가 낮은 문장(근거 확인 필요): '99.9% 같고 일부가 다르다 — 개인별 차이와 정밀의료…'
+- ⚠️ `TERM_LOST` [발화 ¶35] 용어 'Variation'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶36] 용어 'Insurance'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶36] 용어 'National'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶36] 용어 'Resource'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶37] 용어 'Data set'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶37] 용어 'Lifelog'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶41] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
+- ⚠️ `TERM_LOST` [발화 ¶42] 용어 'Based'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶43] 용어 'Host'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶43] 용어 'Platinum'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶43] 원본과 유사도가 낮은 문장(근거 확인 필요): '암 치료 유형: 점점 더 정밀한 표적치료로…'
+- ⚠️ `TERM_LOST` [발화 ¶44] 용어 'Immune surveillance'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶46] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Philadelphia chromosome과 Gleevec — 첫 표적치…'
+- ⚠️ `TERM_LOST` [발화 ¶47] 용어 'Phosphorylation'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶47] 용어 'Substrate'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶48] 용어 'Epithelial cell'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶49] 용어 'Lining'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶49] 원본과 유사도가 낮은 문장(근거 확인 필요): 'HER2 증폭 유방암…'
+- ⚠️ `TERM_LOST` [발화 ¶50] 용어 'Vascular endothelial'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶50] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Bevacizumab과 VEGF 신호…'
+- ⚠️ `TERM_LOST` [발화 ¶51] 용어 'Page attack'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶51] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
+- ⚠️ `TERM_LOST` [발화 ¶55] 용어 'RTK'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶59] 용어 'Shifting'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶62] 용어 'Integration'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶62] 원본과 유사도가 낮은 문장(근거 확인 필요): 'AI가 정밀의료를 바꾸는 방식…'
+- ⚠️ `TERM_LOST` [발화 ¶64] 용어 'Bioinformatician'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶64] 용어 'Bioinformatics'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶65] 용어 'Causal gene'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶65] 용어 'Heterogeneity'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶67] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Whole genome · whole exome · targeted se…'
+- ⚠️ `TERM_LOST` [발화 ¶68] 용어 'Needle biopsy'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶68] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Single-cell transcriptome…'
+- ⚠️ `TERM_LOST` [발화 ¶71] 용어 'Needs'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶72] 용어 'Avatar mouse'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶72] 용어 'Fail'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶72] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Patient-derived organoid (3D culture)…'
+- ⚠️ `TERM_LOST` [발화 ¶76] 용어 'England'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶76] 용어 'Journal'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶77] 용어 'Risk score'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶78] 용어 'Gain'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶82] 용어 'Cytochrome'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶84] 용어 'RBC'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶84] 용어 'Stent'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶85] 용어 'Dose'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶87] 용어 'Clearance'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶88] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Tamoxifen 대사: CYP2D6 → endoxifen…'

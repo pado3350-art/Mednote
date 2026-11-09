@@ -11,6 +11,7 @@ sections:
 format:
   layout: mom
   page_break_per_topic: true
+  minutes_per_page: 4   # PAGE_BUDGET warning above ~4 lecture minutes per page
   roman_headings: false
   exam_section: false              # 기출문제는 별도 PAD 문서; 파랑 글씨로만 본문에 표시
   preserve_original_images: true

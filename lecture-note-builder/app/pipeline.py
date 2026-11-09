@@ -8,7 +8,7 @@ from .align_content import align
 from .export_docx import export_docx, export_markdown
 from .extract_slides import extract_pptx
 from .generate_notes import Backend, generate_note
-from .models import AlignedSlide, ValidationReport
+from .models import Issue, AlignedSlide, ValidationReport
 from .template import load_template
 from .pdf_render import heading_pages, render_pdf
 from .diagrams import render_diagram
@@ -208,6 +208,20 @@ def run_pipeline(
             pdf_path = render_pdf(docx_path, out)
     elif pdf:
         pdf_path = render_pdf(docx_path, out)
+
+    # ---- page budget: a note should not be much longer than the lecture deserves (MOM handouts: ~6 min / page)
+    if pdf_path and script and tpl.format.minutes_per_page > 0:
+        from .pdf_render import page_texts
+        from .transcript import lecture_minutes, page_budget
+
+        budget = page_budget(lecture_minutes(read_script_text(script)), tpl.format.minutes_per_page)
+        pages = page_texts(pdf_path)
+        n_pages = len(pages) - (1 if pages and not pages[-1].strip() else 0)  # pdftotext ends with a form feed
+        note.meta["page_budget"], note.meta["pages"] = str(budget), str(n_pages)
+        if budget and n_pages > budget * 1.15:
+            report.issues.append(Issue(severity="warning", code="PAGE_BUDGET", slide=None,
+                                       message=f"{n_pages}쪽 — 강의 길이 기준 목표 {budget}쪽을 넘습니다. "
+                                               "반복(기본정석·요약·본문)과 쪽 나눔을 줄이거나 mom_compact 템플릿을 쓰세요."))
 
     paths = {
         "slides": dump("slides.json", slides),

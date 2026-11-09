@@ -13,6 +13,9 @@ The user rewrites generated sentences by hand. Those edits are the ground truth 
 3. When the user gives new edits: append the pairs to `references/edits_log.md`, re-derive/adjust the rules here (mark each rule with how many edits support it), and say what changed. Never delete a rule unless an edit contradicts it.
 4. Facts, numbers, terms and slide/script citations are NOT style: never drop them while restyling. The user's edit may drop a sentence for brevity - only drop what the edits show they drop (see rule 3).
 
+## Scope
+The story/narration rules apply to concept-chain lectures written as prose (`mom.yaml`). In compact notes (`mom_compact.yaml`, list-type lectures) the body is 개조식 bullets; rules 1 (no professor attribution), 4 (plain wording) and 8 (markup unchanged) still apply.
+
 ## Rules (evidence: edit batch 1 = tcell_v2 §1 도입)
 1. **Narrate directly; do not attribute to the professor.** Delete "교수님은 ~라고 하셨다 / ~하라고 당부하셨다 / “…”라고 경고하셨다" framing and quoted professor lines. Write the content as the note's own flow. (Source ¶ citations stay in the refs, not in the prose.)
 2. **Inclusive, short guiding voice:** "~를 보았다. 그렇다면 그 다음 질문은 …", "~로 넘어가 보자", "~생각해 보자". Not "교수님은 한번 ~ 생각해 보라고 하셨다".

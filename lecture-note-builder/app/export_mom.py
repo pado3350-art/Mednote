@@ -176,6 +176,12 @@ def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
     if st.kind in ("figure", "diagram"):
         _figure(doc, st, tpl)
         return
+    if st.kind == "figure_side":
+        _figure_side(doc, st, tpl)
+        return
+    if st.kind == "columns":
+        _columns_box(doc, st, tpl)
+        return
     F = tpl.format.font_korean
     base = tpl.format.font_size_pt
     p = doc.add_paragraph()
@@ -212,6 +218,96 @@ def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
         if tag:
             r = p.add_run(f"  [{tag}]")
             _font(r, F, 7, color=GRAY_TAG)
+
+
+def _cell_fill(cell, fill: str) -> None:
+    sh = OxmlElement("w:shd"); sh.set(qn("w:val"), "clear"); sh.set(qn("w:fill"), fill)
+    cell._tc.get_or_add_tcPr().append(sh)
+
+
+def _figure_side(doc, st: Statement, tpl: Template) -> None:
+    """One bordered box: picture (+ 'Figure n.' caption) on the left, title + bullet lines on the right.
+    Saves about half the height of a full-width figure followed by text (MOM handout layout)."""
+    from PIL import Image
+
+    F, base = tpl.format.font_korean, tpl.format.font_size_pt
+    path = Path(st.image) if st.image else None
+    has_pic = path is not None and path.exists()
+    t = doc.add_table(rows=1, cols=2 if has_pic else 1)
+    t.style = "Table Grid"
+    t.alignment = WD_TABLE_ALIGNMENT.CENTER
+    t.autofit = False
+    pic_w = 7.2
+    if has_pic:
+        with Image.open(path) as im:
+            w, h = im.size
+        pic_w = min(7.2, 8.5 * w / max(h, 1))  # tall pictures get narrower
+        widths = (pic_w + 0.4, 17.4 - pic_w - 0.4)
+        for ci, wd in enumerate(widths):
+            t.columns[ci].width = Cm(wd)
+            t.rows[0].cells[ci].width = Cm(wd)
+        c0 = t.cell(0, 0)
+        p = c0.paragraphs[0]; _fmt(p, before=3, after=1, line=1.0, align=WD_ALIGN_PARAGRAPH.CENTER)
+        p.add_run().add_picture(str(path), width=Cm(pic_w))
+        doc._fig_n = getattr(doc, "_fig_n", 0) + 1
+        q = c0.add_paragraph(); _fmt(q, after=2, line=1.05, align=WD_ALIGN_PARAGRAPH.CENTER)
+        r = q.add_run(f"그림 {doc._fig_n}. {_strip(st.text)}"); _font(r, F, 7.5, color=COLOR["minor"])
+    tc = t.cell(0, 1 if has_pic else 0)
+    first = tc.paragraphs[0]
+    if st.left_title:
+        _fmt(first, before=3, after=3, line=1.15)
+        for text, col, bold in runs(st.left_title):
+            r = first.add_run(text); _run_style(r, col, F, base + 0.5, bold=True)
+        first = None
+    _lines_into(tc, list(st.left), F, base - 0.5, tpl, first_par=first, bullet="-", tight=True)
+    for row in t.rows:
+        cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); row._tr.get_or_add_trPr().append(cs)
+    _fmt(doc.add_paragraph(), after=3, line=0.8)
+
+
+def _columns_box(doc, st: Statement, tpl: Template) -> None:
+    """Parallel items side by side (e.g. UK Biobank | All of Us | 국가 사업): one column per diagram group."""
+    from .diagrams import CYCLE, PALETTE
+
+    F, base = tpl.format.font_korean, tpl.format.font_size_pt
+    groups = st.diagram.groups if st.diagram is not None else []
+    if not groups:
+        return
+    if st.text:
+        p = doc.add_paragraph(); _fmt(p, before=4, after=3, line=1.15)
+        p.paragraph_format.keep_with_next = True
+        for text, col, bold in runs(st.text):
+            r = p.add_run(text); _run_style(r, col, F, base + 0.5, bold=True)
+    t = doc.add_table(rows=2, cols=len(groups))
+    t.style = "Table Grid"
+    t.alignment = WD_TABLE_ALIGNMENT.CENTER
+    t.autofit = False
+    w = 17.4 / len(groups)
+    for ci, g in enumerate(groups):
+        for ri in range(2):
+            t.rows[ri].cells[ci].width = Cm(w)
+        rgb = PALETTE.get(g.color or CYCLE[ci % len(CYCLE)], PALETTE["teal"])
+        hc = t.cell(0, ci); _cell_fill(hc, "%02X%02X%02X" % rgb)
+        hp = hc.paragraphs[0]; _fmt(hp, before=2, after=2, line=1.1, align=WD_ALIGN_PARAGRAPH.CENTER)
+        hp.paragraph_format.keep_with_next = True
+        for text, col, bold in runs(g.title):
+            r = hp.add_run(text); _font(r, F, base, bold=True, color=RGBColor(255, 255, 255))
+        bc = t.cell(1, ci)
+        _lines_into(bc, [x if x.startswith("- ") else "- " + x for x in g.items], F, base - 0.5, tpl,
+                    first_par=bc.paragraphs[0], bullet="-", tight=True)
+    for row in t.rows:
+        cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); row._tr.get_or_add_trPr().append(cs)
+    _fmt(doc.add_paragraph(), after=3, line=0.8)
+
+
+def _section_heading(doc, label: str, F: str, base: float, idx: int) -> None:
+    """In-flow § heading used when topics do not start a new page (page_break: chapter)."""
+    p = doc.add_paragraph()
+    _fmt(p, before=10, after=5, line=1.15, left=0.0)
+    p.paragraph_format.keep_with_next = True
+    _shade_par(p, "DCEFEA")
+    r = p.add_run(" " + label); _font(r, F, base + 2.5, bold=True, color=RGBColor(0x1F, 0x5F, 0x55))
+    _bookmark(p, f"_Toc{idx}", idx + 1)
 
 
 def _table(doc, tb, tpl: Template):
@@ -564,9 +660,22 @@ def export_mom(
     else:
         _banner(doc, "차 례", F, fill=TEAL_DARK, size=20, before=10, after=6)
     last_ch = None
+    chapter_toc = tpl.format.toc_level == "chapter"
     for i, t in enumerate(note.topics):
         n = nums[i]
         if n["toc"] is None:
+            continue
+        if chapter_toc and n["chapter"]:  # one line per chapter, page of its first §
+            if n["chapter"] == last_ch:
+                continue
+            last_ch = n["chapter"]
+            p = doc.add_paragraph()
+            _fmt(p, before=3, after=3, line=1.1, left=0.2)
+            p.paragraph_format.tab_stops.add_tab_stop(Cm(text_width), WD_TAB_ALIGNMENT.RIGHT, WD_TAB_LEADER.DOTS)
+            r = p.add_run(n["chapter"]); _font(r, F, 11, bold=True)
+            r = p.add_run("\t"); _font(r, F, 11)
+            _field(p, f"PAGEREF _Toc{i} \\h", str(page_map.get(i, "")), F, 11, bold=True)
+            r = p.add_run("p"); _font(r, F, 11, bold=True)
             continue
         if n["chapter"] and n["chapter"] != last_ch:
             p = doc.add_paragraph(); _fmt(p, before=8, after=3, line=1.1, left=0.2)
@@ -594,13 +703,33 @@ def export_mom(
 
     # ---------------- topics: one Word section (= new page + own header) per topic
     hs = tpl.format.heading_style
+    mode = tpl.format.page_break  # "topic" | "chapter" | "flow"
+    by_chapter = mode in ("chapter", "flow")
     for i, t in enumerate(note.topics):
         n = nums[i]
-        s_ = doc.add_section(WD_SECTION.NEW_PAGE)
-        s_.left_margin = s_.right_margin = Cm(1.8)
-        s_.top_margin, s_.bottom_margin = Cm(1.6), Cm(1.6)
-        s_.header_distance = Cm(0.9)
-        if hs == "banner":
+        prev = nums[i - 1] if i else None
+        new_chapter = prev is not None and n["chapter"] != prev["chapter"]
+        new_page = (not by_chapter or prev is None or n["front"] or prev["front"] or not n["chapter"]
+                    or (mode == "chapter" and new_chapter))
+        if not new_page:  # keep flowing on the current page
+            if new_chapter:  # flow mode: the chapter banner goes into the body instead of a new page
+                _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=14, after=4).paragraph_format.keep_with_next = True
+            _section_heading(doc, n["section"], F, base, i)
+        else:
+            s_ = doc.add_section(WD_SECTION.NEW_PAGE)
+            s_.left_margin = s_.right_margin = Cm(1.8)
+            s_.top_margin, s_.bottom_margin = Cm(1.6), Cm(1.6)
+            s_.header_distance = Cm(0.9)
+        if not new_page:
+            pass  # heading already written
+        elif mode == "flow" and not n["front"] and n["chapter"]:  # one long section: banners live in the body
+            _page_header(s_.header, None, None, None, F, tpl)
+            _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=0, after=4).paragraph_format.keep_with_next = True
+            _section_heading(doc, n["section"], F, base, i)
+        elif by_chapter and not n["front"] and n["chapter"]:  # chapter banner in the header, § heading in the body
+            _page_header(s_.header, None, n["banner"], None, F, tpl)
+            _section_heading(doc, n["section"], F, base, i)
+        elif hs == "banner":
             _page_header(s_.header, None, n["banner"], None if n["front"] else n["section"], F, tpl)
             p = doc.add_paragraph()
             _fmt(p, after=2, line=1.0)
@@ -616,9 +745,9 @@ def export_mom(
             if hs == "marker":
                 r.font.highlight_color = WD_COLOR_INDEX.YELLOW
             _bookmark(p, f"_Toc{i}", i + 1)
-        if t.basics:
+        if t.basics and tpl.format.basics_box:
             _basics_box(doc, t, (n.get("no") or 1), F, base)
-        if t.tip:
+        if t.tip and tpl.format.topic_tips:
             _tip_line(doc, t, F, base)
         for sc in tpl.sections:
             sts = t.sections.get(sc.key)

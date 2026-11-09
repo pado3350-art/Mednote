@@ -29,6 +29,9 @@ def _note_text(note: LectureNote) -> str:
         for sts in t.sections.values():
             for s in sts:  # row2 keeps the slide original in `left`, quiz keeps options / answer
                 parts += [_strip_markup(x) for x in (s.text, s.left_title, *s.left, *s.options, s.answer) if x]
+                if s.kind == "columns" and s.diagram is not None:
+                    for g in s.diagram.groups:
+                        parts += [_strip_markup(x) for x in (g.title, *g.items) if x]
         for tb in t.tables:
             parts += [" ".join(r) for r in tb.rows]
     return "\n".join(parts)

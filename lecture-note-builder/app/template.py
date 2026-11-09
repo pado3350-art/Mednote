@@ -33,6 +33,11 @@ class FormatOptions(BaseModel):
     star_style: str = "star"  # sub-headings: "star" (★ title) | "band" (light-blue band)
     exam_section: bool = True  # build a standalone 기출(PAD) section (mom.yaml: false)
     roman_headings: bool = False
+    page_break: str = "topic"  # "topic" (every § on a new page) | "chapter" (new page per chapter) | "flow" (only after front pages)
+    basics_box: bool = True  # draw the 기본정석 box when a topic has `basics`
+    topic_tips: bool = True  # draw the yellow 공부 팁 line when a topic has `tip`
+    toc_level: str = "section"  # "section" (every §) | "chapter" (chapter titles only)
+    minutes_per_page: float = 0.0  # page budget: lecture minutes per page (0 = no PAGE_BUDGET check)
     legend: list[LegendItem] = Field(default_factory=list)
 
 

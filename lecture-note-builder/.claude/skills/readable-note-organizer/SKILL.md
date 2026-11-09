@@ -19,6 +19,25 @@ description: Turn lecture material (script/transcript/slides) into an easy-to-st
 Goal: a student can study from the note alone. **Nothing from the source is dropped, but nothing is copied as dictation either.**
 The reference is `references/excellent_example.md` (a high-rated MOM note for the same kind of lecture); imitate its structure and tone.
 
+## 0. 먼저 강의 유형을 판단한다 (서술 모드 · 템플릿 · 쪽 예산)
+
+| 유형 (스크립트 단서) | 템플릿 | 본문 형식 | 쪽 예산 |
+|---|---|---|---|
+| 개념·기전 연쇄형 (“그래서/그런데/왜”, 원리 설명) | `mom.yaml` | 스토리 문단 + 기본정석 + 공부 팁 | 약 4분당 1쪽 |
+| 사례·목록 나열형 (“첫째/또/그다음에”, 제품·DB·기술 나열) | `mom_compact.yaml` | 개조식, `A → B → C` 사슬, `figure_side`, `columns` | 약 6분당 1쪽 |
+| 비중 낮은 인트로·교양 (“한두 문제”, “상식 차원”, “참고만”) | `mom_compact.yaml` | 앞쪽 **시험 정리 2–3쪽** + 압축 본문 | 전체 10–12쪽 이하 |
+
+압축형(compact) 규칙 — 실제 MOM 정리본과 비교해서 얻은 것 (`outputs/precision/review_vs_MOM.md`):
+1. **2층 구조**: 맨 앞 `요약 정리 · 시험 정리` (front) = 출제 단서가 있는 표(약물–표적 짝 등) + 주제별 핵심 표 1장 + 전체 흐름 도식 1개. “여기까지만 봐도 된다”는 층.
+2. **같은 사실은 최대 2번** (시험 정리 1번 + 본문 1번). 핵심 어휘·기본정석·공부 팁은 쓰지 않는다.
+3. **쪽 나눔은 앞쪽 뒤에 한 번** (`page_break: flow`), 장은 본문 안 띠로 이어 간다.
+4. **그림은 글과 좌우로** (`kind: figure_side`: `image` + `left_title` + `left` 줄). 병렬 항목(데이터베이스 3개, 기술 2개)은 **가로 칸** (`kind: columns`, `diagram.groups` = 칸).
+5. **주제로 묶는다**: 정의·배경 성격의 문단은 시간 순서와 달라도 해당 주제 장으로 옮긴다(예: 중간에 나온 정책 발표를 ‘정의’ 장으로).
+6. 수업 안내·자료 주의·코스 소개·출석은 작성자 코멘트나 회색 한 줄로.
+7. 출제 단서(“참고 수준”, “상식 차원”)는 **소제목 꼬리표**로 붙인다(예: `CAR-T (참고 수준)`).
+8. 표를 담은 이미지는 “글자 위주”라고 버리지 말고 **표로 옮기고 원본 이미지도 싣는다**. 그림과 본문의 숫자가 다르면 그림 기준 + 보라 주석.
+9. 빌드 후 `PAGE_BUDGET` 경고(템플릿 `minutes_per_page`)가 없을 때까지 줄인다.
+
 ## 1. Keep everything, change the shape
 - Every concept, term, number, unit, drug/gene name, cutoff and example in the source must appear (the validator checks numbers, terms and paragraph coverage).
 - Remove only *speech noise*: fillers, "자, 그러면", repetitions, transitions like "다음으로 넘어가겠습니다", meta talk about the time/slide.
