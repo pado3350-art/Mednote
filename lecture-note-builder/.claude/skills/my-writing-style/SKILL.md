@@ -25,3 +25,4 @@ The user rewrites generated sentences by hand. Those edits are the ground truth 
 
 ## Open questions to confirm with the user (do not guess)
 - Should Advice boxes (헷갈리는 점) and "공부 팁" stay? (Not visible in the pasted edits; keep them until told otherwise.)
+- Exam-cue phrases (“참고만 해라”, “상식 차원”, “시험에 나올 수 있다”): keep them with attribution as the reference MOM notes do, or restate without “교수님”? (raised in outputs/precision/review_vs_MOM.md)
