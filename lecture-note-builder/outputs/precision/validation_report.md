@@ -1,0 +1,35 @@
+# 검증 리포트
+
+- 슬라이드 커버리지: 100%
+- 오류 0 / 경고 30 / 참고 0
+
+- ⚠️ `UNGROUNDED` [발화 ¶1] 원본과 유사도가 낮은 문장(근거 확인 필요): '강의에 나온 용어를 먼저 한 줄씩 정리했다. 본문에서 하나씩 다시 나오니…'
+- ⚠️ `TERM_LOST` [발화 ¶10] 용어 'Physician'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶15] 용어 'Immunohistochemistry'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶18] 용어 'Generation'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶18] 용어 'Next'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶20] 용어 'COVID-19'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶24] 용어 'Nanoparticle'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶30] 용어 'Commercial sector'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶30] 용어 'Spin'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶31] 용어 'Nanomedicine'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶31] 용어 'Virtual screening'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶36] 용어 'Insurance'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶36] 용어 'National'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶36] 용어 'Resource'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶37] 용어 'Data set'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶37] 용어 'Lifelog'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶38] 용어 'Multi'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶42] 용어 'Based'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶43] 용어 'Platinum'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶44] 용어 'Angiogenesis inhibitor'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶48] 용어 'Epithelial cell'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶51] 용어 'Page attack'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶64] 용어 'Bioinformatician'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶71] 용어 'Needs'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶72] 용어 'Fail'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶76] 용어 'England'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶76] 용어 'Journal'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶78] 용어 'Gain'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶84] 용어 'RBC'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶84] 용어 'Stent'이(가) 강의록에 없습니다.
