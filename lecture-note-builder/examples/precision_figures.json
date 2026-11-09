@@ -1,0 +1,205 @@
+[
+ {
+  "id": 1,
+  "topic_heading": "정밀의료의 개념과 두 가지 측면",
+  "anchor": "현재의 현실",
+  "caption": "기존 의학(One Treatment Fits All)과 정밀의료(More Personalized Diagnostics)의 비교",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 2,
+  "topic_heading": "바이오마커 — 환자를 가려내는 잣대",
+  "anchor": "첫째, 가장 흔히",
+  "caption": "바이오마커 3가지: clinical marker(SGOT·SGPT) · protein marker(IHC) · genetic marker(전좌, PCR)",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 3,
+  "topic_heading": "정밀의료의 개념과 두 가지 측면",
+  "anchor": "왜 하필 유전자",
+  "caption": "Precision medicine: 질병 감수성에서 표적치료, GWAS까지의 흐름",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 4,
+  "topic_heading": "시퀀싱 혁명과 치료제의 세 세대",
+  "anchor": "혁명적 변화",
+  "caption": "시퀀싱의 발전: genomic sequencing → biomarker testing → pharmacogenomics",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 5,
+  "topic_heading": "시퀀싱 혁명과 치료제의 세 세대",
+  "anchor": "환자의 게놈을 읽어",
+  "caption": "유전학적 방법으로 발굴한 약물 표적과 이를 막는 방법(항체, RNAi, CRISPR-Cas9 등)",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 6,
+  "topic_heading": "인간 게놈 프로젝트와 국가별 바이오 빅데이터",
+  "anchor": "얻어낸 것은",
+  "caption": "99.9% 같고 0.1%가 다르다 — 개인별 차이와 정밀의료",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 7,
+  "topic_heading": "시퀀싱 혁명과 치료제의 세 세대",
+  "anchor": "치료제도 세 세대",
+  "caption": "치료제의 세대별 발전과 세포·유전자 치료 시대 (국내 슬라이드)",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 8,
+  "topic_heading": "인간 게놈 프로젝트와 국가별 바이오 빅데이터",
+  "anchor": "그래서 나라마다",
+  "caption": "UK Biobank(Pan-UK Biobank)가 담고 있는 데이터",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 9,
+  "topic_heading": "인간 게놈 프로젝트와 국가별 바이오 빅데이터",
+  "anchor": "미국은 All of Us",
+  "caption": "미국 All of Us 프로그램의 데이터 구성",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 10,
+  "topic_heading": "인간 게놈 프로젝트와 국가별 바이오 빅데이터",
+  "anchor": "미국은 All of Us",
+  "caption": "한국의 국가통합 바이오 빅데이터 구축 사업 개요",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 11,
+  "topic_heading": "암 치료의 발전사와 Precision Medicine Initiative",
+  "anchor": "암에서는 정밀해지는",
+  "caption": "암 치료의 발전: 치료 유형이 점점 더 정밀해진다",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 12,
+  "topic_heading": "표적치료의 스토리 — CML, EGFR, HER2, VEGF",
+  "anchor": "첫 번째 예",
+  "caption": "Philadelphia chromosome과 Gleevec — 표적치료의 첫 breakthrough",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 13,
+  "topic_heading": "재발의 원인과 동반진단(Companion Diagnostics)",
+  "anchor": "그 검사가 바로 동반진단",
+  "caption": "동반진단(CDx)과 약물 공동 개발 과정",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 14,
+  "topic_heading": "재발의 원인과 동반진단(Companion Diagnostics)",
+  "anchor": "원인은 downstream",
+  "caption": "EGF·VEGF 신호와 downstream pathway(RAS, RAF 등)",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 15,
+  "topic_heading": "표적치료의 스토리 — CML, EGFR, HER2, VEGF",
+  "anchor": "세 번째와 네 번째",
+  "caption": "HER2 증폭 유방암과 Herceptin",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 16,
+  "topic_heading": "표적치료의 스토리 — CML, EGFR, HER2, VEGF",
+  "anchor": "세 번째와 네 번째",
+  "caption": "VEGF를 막는 Bevacizumab — 혈관내피와 downstream pathway",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 17,
+  "topic_heading": "재발의 원인과 동반진단(Companion Diagnostics)",
+  "anchor": "그래서 종양학의 패러다임",
+  "caption": "Paradigm shift in oncology — 장기(anatomy) 중심에서 분자 경로(molecular pathway) 중심으로",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 18,
+  "topic_heading": "CAR-T와 한국의 현재 수준",
+  "anchor": "CAR-T는 어떻게",
+  "caption": "CAR-T 치료의 과정: 채혈 → 제작 → 주입",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 19,
+  "topic_heading": "시퀀싱 혁명과 치료제의 세 세대",
+  "anchor": "환자의 게놈을 읽어",
+  "caption": "표적 발굴에서 세포 치료제(CAR-T)까지 이어지는 약물 개발 과정",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 20,
+  "topic_heading": "멀티 오믹스 데이터와 AI",
+  "anchor": "해석을 돕는",
+  "caption": "AI-assisted 정밀의료: one-fits-all과 AI가 돕는 선택의 비교",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 21,
+  "topic_heading": "멀티 오믹스 데이터와 AI",
+  "anchor": "해석을 돕는",
+  "caption": "AI가 정밀의료를 바꾸는 방식: 약물 표적, 모니터링, 조기 발견, 원인 유전자, 이질성",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 22,
+  "topic_heading": "시퀀싱에서 single cell, spatial transcriptomics까지",
+  "anchor": "얼마나 읽을",
+  "caption": "Whole genome · whole exome · targeted(panel) sequencing 비교",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 23,
+  "topic_heading": "시퀀싱에서 single cell, spatial transcriptomics까지",
+  "anchor": "한계 1",
+  "caption": "Single-cell transcriptome: 세포 하나하나의 특성을 본다",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 24,
+  "topic_heading": "시퀀싱에서 single cell, spatial transcriptomics까지",
+  "anchor": "한계 2",
+  "caption": "Spatial transcriptomics: 조직 안의 위치를 유지한 채 세포별로 본다",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 25,
+  "topic_heading": "Organoid와 Liquid biopsy",
+  "anchor": "그래서 등장한",
+  "caption": "Patient-derived organoid(3D culture)",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 26,
+  "topic_heading": "Organoid와 Liquid biopsy",
+  "anchor": "Liquid biopsy",
+  "caption": "Liquid biopsy: 병소에서 떨어져 나와 혈액에 떠도는 물질을 검출",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 27,
+  "topic_heading": "Oncotype DX — 유방암 재발 점수",
+  "anchor": "누가, 어떻게",
+  "caption": "Oncotype DX 21-gene recurrence score: 암 유전자 16개와 reference 5개, RS 기준",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 28,
+  "topic_heading": "약물유전체학 — CYP450, Warfarin, Tamoxifen",
+  "anchor": "같은 용량인데",
+  "caption": "CYP2C9 유전형별 warfarin 용량(Daily dose, mg)",
+  "source": "정리본 슬라이드 캡처"
+ },
+ {
+  "id": 29,
+  "topic_heading": "약물유전체학 — CYP450, Warfarin, Tamoxifen",
+  "anchor": "Tamoxifen에도",
+  "caption": "Tamoxifen의 대사: CYP2D6가 활성 대사체 endoxifen을 만든다",
+  "source": "정리본 슬라이드 캡처"
+ }
+]

@@ -452,6 +452,8 @@ def apply_overrides(figures: list[Figure], path: str | Path) -> None:
             f.after = e["after"]
         if e.get("caption"):
             f.caption = e["caption"]
+        if e.get("source"):
+            f.source = e["source"]
         f.topic_heading = e.get("topic_heading", f.topic_heading)
         f.anchor = e.get("anchor", f.anchor)
         if "text_like" in e:
