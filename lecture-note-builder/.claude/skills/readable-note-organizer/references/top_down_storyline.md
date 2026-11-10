@@ -105,6 +105,7 @@
 | PK/PD 지표 | Cmax/MIC: aminoglycoside, fluoroquinolone / AUC/MIC: vancomycin, azithromycin, fluoroquinolone, aminoglycoside, tigecycline, linezolid / T>MIC: β-lactam, vancomycin, macrolide, clindamycin | 2장 §6 |
 
 ### ⑨ 중요도
-- 강조: 4사분면(¶14–15), PK/PD 지표(¶44)
-- 읽고 넘김: 투여 경로 결정과 병용(¶45–48) → `effort: 참고`
+- 강조: 4사분면(¶14–15), PK/PD 지표(¶44), “실제 중요한 것들은 질문2에서 많이 언급”(¶51)
+- 덜 중요: 소리가 작았던 초반 영상(¶8) — 교수님이 “슬라이드를 봐도 상관없다”(¶51) → `effort: 참고`
+- 주의: “읽고 넘겼다”는 판단은 스크립트에 근거가 있을 때만 쓴다. 사람 정리본의 평가를 옮겨 오지 않는다.
 - 생략: 영상 재생 준비, 방학·도시락 이야기, 출석(¶4–6, 9, 16, 17, 28, 51, 52) → 회색 메모 1줄
