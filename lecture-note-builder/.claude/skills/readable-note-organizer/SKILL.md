@@ -50,6 +50,11 @@ The reference is `references/excellent_example.md` (a high-rated MOM note for th
 8. **개념 정리 박스(`kind: concept`)**: 헷갈리는 용어 대비 1–2개. 기본정석(요약)과 목적이 다르다.
 9. **QUIZ 해설**: `quiz.explanations`에 선지별 해설, 정답 선지에 `(정답)`.
 10. 이전 교시와의 연결 문장은 `meta`에 이전·다음 교시 정보가 있을 때만.
+11. **시험 신호 → 표지 코멘트**: `brief/exam_signals.md`의 집계(문항 수, 연도, 출제예고·강조 안 함)를 사실로만 인용한다(“PAD 해설 기준 올해 강조 없음”). 예상(“~~ 나올 듯”)은 쓰지 않는다. 표지에는 빌드가 자동으로 **기출 이력(PAD 집계)** 한 줄을 넣는다(`meta.exam_history`).
+12. **PAD 꼬리표**(`mom_compact`: `pad_tags: true`): 파랑 문장 끝에 `[PAD 2021 Q1]`, 스크립트(발화)에 없고 PAD에만 있는 사실은 `[Only PAD …]`가 자동으로 붙는다. 그 사실은 **스크립트 출처 없이 PAD 번호만** 인용하는 별도 문장으로 분리한다(예: “Ryoncil은 골수 유래 MSC” = Only PAD). ⛔ 파랑은 PAD 내용 자체에만 — 꼬리표는 회색이다.
+13. **개념 구분 박스 의무**: 교수가 두 용어를 대비해 강조하거나 PAD 해설이 한쪽을 강조하면(스페로이드 vs 오가노이드) `kind: concept` 박스 1개.
+14. **연결 문장**: 표·목록 뒤에 결론으로 이어지는 한 줄(“따라서 각각의 한계 때문에 …”)을 작성자 추가분(`origin: "author"`)으로 쓴다. 사실을 새로 주장하지 않고 위 내용을 잇기만 한다.
+15. **수업에서 다루지 않은 기출**(해설에 ‘배우지 않았다’): 기본은 파랑 Reference 한 줄. 사용자가 `--uncovered-pad omit`을 주면 생략해도 경고가 없다.
 
 ## 1. Keep everything, change the shape
 - Every concept, term, number, unit, drug/gene name, cutoff and example in the source must appear (the validator checks numbers, terms and paragraph coverage).

@@ -423,6 +423,25 @@
             }
           },
           {
+            "text": "ESC는 윤리 문제, MSC는 분화능·증식의 한계 — 그래서 연자팀은 두 한계를 모두 피하는 iPSC에 집중한다.",
+            "origin": "author",
+            "slide_refs": [],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
             "text": "MSC는 모든 세포 계통으로 분화할 수 있는 pluripotent 세포이다.",
             "origin": "both",
             "slide_refs": [
@@ -464,6 +483,7 @@
         8,
         9,
         10,
+        30,
         1005,
         1007,
         1008,
@@ -542,10 +562,32 @@
             "diagram": null
           },
           {
-            "text": "{b|iPSC는 개인의 체세포에서 유도할 수 있어 맞춤의학(개인별 약제 독성평가, 재생 치료)에 응용된다}",
+            "text": "{b|iPSC는 개인의 체세포에서 만들 수 있어 맞춤의학에 응용된다}",
             "origin": "both",
             "slide_refs": [
               9,
+              30,
+              1008
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "{b|iPSC는 개인별 약제 독성평가와 재생 치료에 응용될 수 있다}",
+            "origin": "both",
+            "slide_refs": [
               1008
             ],
             "segment_ids": [],
@@ -910,6 +952,7 @@
       "slide_numbers": [
         14,
         23,
+        28,
         1003,
         1004,
         1006,
@@ -942,11 +985,32 @@
             "diagram": null
           },
           {
-            "text": "{b|오가노이드는 줄기세포에서 분화한 3D 세포 덩어리로 장기의 구조와 기능을 모사하며, 약제 독성평가·재생치료에 응용된다}",
+            "text": "{b|오가노이드는 줄기세포에서 분화한 3D 세포 덩어리이다}",
             "origin": "both",
             "slide_refs": [
               14,
               23,
+              1004
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "{b|오가노이드는 장기의 구조와 기능을 모사해 약제 독성평가·재생치료에 응용된다}",
+            "origin": "both",
+            "slide_refs": [
               1004,
               1010
             ],
@@ -959,6 +1023,34 @@
             "image": "",
             "left_title": "",
             "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "",
+            "origin": "both",
+            "slide_refs": [
+              14,
+              23,
+              28,
+              1004
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "concept",
+            "level": 0,
+            "image": "",
+            "left_title": "스페로이드 vs 오가노이드",
+            "left": [
+              "- **스페로이드(spheroid)**: 3D 세포 집합체 — 연자팀의 연골 스페로이드(약 200 µm)를 수업에서 강조",
+              "- **오가노이드(organoid)**: 줄기세포에서 분화한 장기 유사 3D 구조 — {b|장기의 구조·기능을 모사하는 3D 모사체}",
+              "- {g|기출 해설(2023 Q2)도 ‘오가노이드보다 스페로이드를 강조했다’고 적었다}"
+            ],
             "options": [],
             "answer": "",
             "explanations": [],
@@ -1337,7 +1429,7 @@
             "diagram": null
           },
           {
-            "text": "{b|Ryoncil은 골수 유래 MSC로, GVHD에 대해 2024년 12월 미국 FDA가 최초로 허가한 줄기세포 치료제이다}",
+            "text": "{b|Ryoncil은 GVHD 치료제로 미국 FDA가 허가한 최초의 줄기세포(simple MSC) 치료제이다}",
             "origin": "both",
             "slide_refs": [
               22,
@@ -1355,7 +1447,28 @@
             "options": [],
             "answer": "",
             "explanations": [],
-            "effort": "",
+            "effort": "참고",
+            "diagram": null
+          },
+          {
+            "text": "{b|Ryoncil은 골수(bone marrow) 유래 MSC이고 2024년 12월에 승인되었다}",
+            "origin": "both",
+            "slide_refs": [
+              1002
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "참고",
             "diagram": null
           },
           {
@@ -2006,6 +2119,27 @@
             "slide_refs": [
               31,
               1001
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "이해",
+            "diagram": null
+          },
+          {
+            "text": "{p|확인 필요: 이 날짜는 음성 변환 스크립트 기준이다(허가 2023년 8월 1일, 3명 투여 2025년). 사람이 쓴 정리본은 IND 허가를 2024년 8월로 적었다 — 슬라이드로 확인}",
+            "origin": "both",
+            "slide_refs": [
+              31
             ],
             "segment_ids": [],
             "time_ranges": [],

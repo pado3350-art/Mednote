@@ -16,6 +16,7 @@ format:
   page_break_per_topic: true
   page_break: flow           # new page only after the front pages; chapters flow on with an in-body banner
   basics_box: false
+  pad_tags: true             # [PAD 2021 Q1] after blue statements, [Only PAD …] when the lecture never said it
   topic_tips: false
   toc_level: chapter
   minutes_per_page: 6

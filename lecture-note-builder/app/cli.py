@@ -85,6 +85,8 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--no-auto-blue", action="store_true", help="오프라인 모드에서 PAD 자동 대조(파랑 표시)를 끈다")
     b.add_argument("--meta-json", help="표지 정보 JSON: comment, tips(공부 전략), objectives(학습목표) … (목록은 줄바꿈 문자열 또는 배열)")
     b.add_argument("--name", help="출력 파일 기본 이름 (기본: 입력 파일 이름)")
+    b.add_argument("--uncovered-pad", choices=["reference", "omit"], default="reference",
+                   help="수업에서 다루지 않았다고 PAD 해설에 적힌 문항: reference(파랑 Reference로 싣기, 기본) / omit(생략 허용, 경고 없음)")
     b.add_argument("--no-pdf", action="store_true")
     pr = sub.add_parser("prepare", help="API 없이: Claude Code가 직접 노트를 쓰기 위한 작업 패킷(brief/) 생성")
     pr.add_argument("--script", required=True)
@@ -142,7 +144,7 @@ def main(argv: list[str] | None = None) -> int:
             meta.setdefault(k, "\n".join(v) if isinstance(v, list) else str(v))
     if a.comment:
         meta["comment"] = a.comment.replace("\\n", "\n")
-    report, paths = run_pipeline(a.pptx, a.out, a.template, a.script, backend, a.title, meta, pdf=not a.no_pdf, exam_pdf=a.exam_pdf, toc=a.toc, outline_json=a.outline_json,
+    report, paths = run_pipeline(a.pptx, a.out, a.template, a.script, backend, a.title, meta, pdf=not a.no_pdf, pad_uncovered=a.uncovered_pad, exam_pdf=a.exam_pdf, toc=a.toc, outline_json=a.outline_json,
                                  figures=a.figures, figures_json=a.figures_json,
                                  max_figures_per_topic=a.max_figures_per_topic,
                                  keep_text_images=a.keep_text_images,

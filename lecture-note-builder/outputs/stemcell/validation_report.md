@@ -14,10 +14,10 @@
 - ⚠️ `UNGROUNDED` [발화 ¶9] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
 - ⚠️ `UNGROUNDED` [발화 ¶10] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
 - ⚠️ `TERM_LOST` [발화 ¶12] 용어 'Adipose tissue'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶12] 용어 'Bone marrow'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶12] 용어 'Cord blood'이(가) 강의록에 없습니다.
 - ⚠️ `UNGROUNDED` [발화 ¶12] 원본과 유사도가 낮은 문장(근거 확인 필요): 'auto vs allo…'
 - ⚠️ `TERM_LOST` [발화 ¶14] 용어 'Extracellular matrix'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶14] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
 - ⚠️ `TERM_LOST` [발화 ¶17] 용어 'Chronic degenerative'이(가) 강의록에 없습니다.
 - ⚠️ `UNGROUNDED` [발화 ¶17] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
 - ⚠️ `TERM_LOST` [발화 ¶18] 용어 'Young'이(가) 강의록에 없습니다.

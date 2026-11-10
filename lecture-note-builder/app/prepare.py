@@ -67,6 +67,19 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
         E.append(f"## unit {it.number} — {it.label} ({it.professor})\n- 문제: {it.question}\n- 정답: {it.answer}\n- 해설: {it.commentary or '(없음)'}\n")
     (brief / "exam_items.md").write_text("\n".join(E) if items else "# 기출(PAD) 없음\n\n파랑 글씨를 쓰지 않는다.\n", encoding="utf-8")
 
+    # exam signals: what the handout writer's commentary says about each question (facts only)
+    from .exam import exam_history, signal_label
+
+    X = [f"# 기출(PAD) 신호 — 표지 코멘트·노력 꼬리표의 근거", "",
+         "사실만 적는다(추측·예상 금지). 해설에 적힌 단서를 문항별로 모았다. 표지 코멘트에 인용하거나 `effort`를 정할 때 쓴다.", "",
+         "**집계**: " + (exam_history(items, meta.get("professor", "")) or "(기출 없음)"), ""]
+    sugg = {"출제예고": "필수 후보", "강조안함": "참고 후보(수업에서 강조하지 않음)", "미수업": "해당 내용은 수업에 없음 → Only PAD 또는 생략(`--uncovered-pad`)",
+            "선지미수업": "오답 선지가 수업에 없다는 뜻일 수 있음 — 문항 전체 미수업으로 단정하지 않는다", "족보반복": "이전 기출 반복 → 필수 후보"}
+    for it in items:
+        if it.signals:
+            X.append(f"- unit {it.number} · {it.label}: " + "; ".join(f"{signal_label(g)} → {sugg[g]}" for g in it.signals))
+    (brief / "exam_signals.md").write_text("\n".join(X) + "\n", encoding="utf-8")
+
     # figures
     figs = collect_figures(figures, out / "figures") if figures else []
     F = [f"# 그림·사진 자료 {len(figs)}개", "",
@@ -118,7 +131,7 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
 ## 순서
 0. `brief/learned_rules.md`(사용자가 승인한 학습 규칙)를 읽고 따른다. 강의 유형에 맞는 규칙만 적용한다.
 1. `.claude/skills/readable-note-organizer/SKILL.md`를 읽는다. **맨 위 ⛔ 파랑 = PAD 기출 ONLY 규칙은 무조건 지킨다.**
-2. `brief/effort_cues.md`(교수가 말한 노력 수준 단서)도 읽는다. `brief/paragraphs.md`(모든 발화), `brief/exam_items.md`(기출), `brief/figures.md`(그림; 이미지는 Read로 직접 본다)를 읽는다.
+2. `brief/effort_cues.md`(교수가 말한 노력 수준 단서)와 `brief/exam_signals.md`(기출 해설의 신호: 출제예고·강조 안 함·미수업 — 표지 코멘트와 `effort`의 근거)도 읽는다. `brief/paragraphs.md`(모든 발화), `brief/exam_items.md`(기출), `brief/figures.md`(그림; 이미지는 Read로 직접 본다)를 읽는다.
 3. 목차를 판단한다: 챕터 2~4개 × § 소절 2~4개. `outline_proposal.json`은 기계적 초안일 뿐이다. 모든 발화 단락(검증참고 제외)이 정확히 한 소절에 들어가야 하고, 검증참고는 마지막 `부록 & 검증 참고`.
 4. `{out}/note_authored.json`을 작성한다 (스키마: `brief/note_schema.json`, 예: `examples/limbic_note.py` 의 헬퍼 P·B·STAR·ADV·REF·T 로 Python 스크립트를 쓰는 방식 권장).
    - 소절마다 기본정석 박스(`basics`, `basics_refs`), 설명 순서로 재구성한 본문, Advice/Reference, 비교표.

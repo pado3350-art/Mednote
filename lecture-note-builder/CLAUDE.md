@@ -58,3 +58,6 @@
 
 ## 서술 기법 (Nucleotide 모범 예시 반영)
 `kind: check`(쪽마다 O/X + § 끝 정답 상자), `effort`(필수/이해/참고 꼬리표), `origin: "author"`(회색 괄호 — 비유·팁·정정), `kind: concept`(개념 정리 박스), `quiz.explanations`(해설). `prepare`가 `brief/effort_cues.md`를 만든다. 어미는 한다체 유지, **파랑은 기출(PAD) 전용 — 이 기능들은 파랑을 쓰지 않는다.** 규칙: 스킬 `readable-note-organizer` 0b, 분석: `docs/nucleotide_example_analysis.md`.
+
+## 시험 신호·PAD 꼬리표 (사람 정리본 비교에서 얻은 규칙)
+`--exam-pdf`는 PDF/DOCX 모두 가능. 기출 해설의 단서(출제예고·강조 안 함·‘배우지 않았다’·이전 기출 반복)를 `ExamItem.signals`로 모아 표지에 **기출 이력(PAD 집계)** 을 자동 표시하고(`meta.exam_history`, 사실만) `prepare`가 `brief/exam_signals.md`를 만든다. 템플릿 `pad_tags: true`(mom_compact)면 PAD 인용 문장에 `[PAD …]`, PAD에만 있는 사실에 `[Only PAD …]` 회색 꼬리표. `--uncovered-pad omit`은 수업에서 안 다룬 기출의 생략을 허용한다. **파랑은 PAD 내용 전용이며 꼬리표·신호는 파랑을 쓰지 않는다.**

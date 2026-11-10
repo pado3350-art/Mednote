@@ -10,7 +10,7 @@ from __future__ import annotations
 import re
 import shutil
 import subprocess
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 EXAM_BASE = 1000  # PAD units are numbered 1001, 1002, ... (script paragraphs use 1..999)
@@ -36,11 +36,12 @@ class ExamItem:
     question: str  # question + choices
     answer: str
     commentary: str
-    header_note: str = ""
+    header_note: str = ""  # "b" when the same "year / professor" header appears again (keeps labels unique)
+    signals: list[str] = field(default_factory=list)  # lecturer / handout-writer cues found in the commentary
 
     @property
     def label(self) -> str:
-        head = (f"{self.year}({self.cohort})" if self.cohort else str(self.year)) if self.year else self.cohort
+        head = (f"{self.year}({self.cohort})" if self.cohort else f"{self.year}{self.header_note}") if self.year else self.cohort
         return f"PAD {head} Q{self.q_no}"
 
     @property
@@ -132,7 +133,7 @@ def parse_exam_text(text: str) -> list[ExamItem]:
         else:
             cur["q"].append(s)
     close()
-    return items
+    return attach_signals(items)
 
 
 _DOCX_HDR = re.compile(r"^\s*(\d{4})년\s*([^\s.(]+?)\s*교수님\s*$")
@@ -150,13 +151,15 @@ def parse_exam_docx(path: str | Path) -> list[ExamItem]:
     items: list[ExamItem] = []
     hdr: tuple[int, str] | None = None
     cur: dict | None = None
+    seen: dict[tuple[int, str], int] = {}
+    part = ""
 
     def close():
         nonlocal cur
         if cur is not None and hdr is not None:
             items.append(ExamItem(number=EXAM_BASE + len(items) + 1, cohort="", year=hdr[0], professor=hdr[1] + " 교수님",
                                   course="", q_no=cur["no"], question=" ".join(cur["q"]).strip(), answer=cur["ans"],
-                                  commentary=" ".join(cur["c"]).strip()))
+                                  commentary=" ".join(cur["c"]).strip(), header_note=part))
         cur = None
 
     for p in Document(str(path)).paragraphs:
@@ -167,6 +170,8 @@ def parse_exam_docx(path: str | Path) -> list[ExamItem]:
         if h:
             close()
             hdr = (int(h.group(1)), h.group(2).strip())
+            seen[hdr] = seen.get(hdr, 0) + 1
+            part = "" if seen[hdr] == 1 else "bcdefgh"[min(seen[hdr] - 2, 6)]
             continue
         if hdr is None:
             continue
@@ -187,7 +192,7 @@ def parse_exam_docx(path: str | Path) -> list[ExamItem]:
         else:
             cur["q"].append(s)
     close()
-    return items
+    return attach_signals(items)
 
 
 def parse_exam_pdf(path: str | Path) -> list[ExamItem]:
@@ -195,3 +200,50 @@ def parse_exam_pdf(path: str | Path) -> list[ExamItem]:
     if str(path).lower().endswith(".docx"):
         return parse_exam_docx(path)
     return parse_exam_text(pdf_text(path))
+
+
+# ---------------------------------------------------------------- exam signals (facts the handout writer put in the commentary)
+SIGNAL_PATTERNS: list[tuple[str, str, str]] = [  # (signal, regex, shown label)
+    ("출제예고", r"출제\s*예고", "출제예고"),
+    ("강조안함", r"강조(?:한|하신)?\s*(?:부분|내용)?(?:은|이|는)?\s*(?:아닙니다|아니었|없었|전혀)|강조\s*(?:안|하지\s*않)", "강조 안 함"),
+    ("미수업", r"(?:배운\s*적\s*(?:이\s*)?없|안\s*배웠|배우지\s*않)", "‘배우지 않았다’ 언급(문항 또는 선지)"),
+    ("선지미수업", r"(?:등장한\s*적\s*없|언급(?:한\s*적|된\s*적)?\s*없)", "‘수업에 나온 적 없다’ 언급"),
+    ("족보반복", r"\(\s*\d{4}\s*년\s*짤\s*\)|짤\)", "이전 기출 반복"),
+]
+
+
+def exam_signals(text: str) -> list[str]:
+    import re as _re
+
+    return [sig for sig, pat, _ in SIGNAL_PATTERNS if _re.search(pat, text)]
+
+
+def signal_label(sig: str) -> str:
+    return next((lab for s_, _, lab in SIGNAL_PATTERNS if s_ == sig), sig)
+
+
+def attach_signals(items: list[ExamItem]) -> list[ExamItem]:
+    for it in items:
+        it.signals = exam_signals(f"{it.question} {it.commentary}")
+    return items
+
+
+def exam_history(items: list[ExamItem], professor: str = "") -> str:
+    """Facts only (counted from the PAD file, no prediction): how many questions per year / professor and which
+    commentary cues exist. Shown on the cover so the reader sees the exam trend at a glance."""
+    if not items:
+        return ""
+    from collections import Counter
+
+    prof = professor.replace("교수님", "").strip()
+    mine = [i for i in items if prof and prof in i.professor]
+    other = [i for i in items if i not in mine] if prof else []
+    yrs = lambda xs: ", ".join(f"{y}년 {n}" for y, n in sorted(Counter(i.year for i in xs).items()))
+    L = [f"기출(PAD) {len(items)}문항 ({min(i.year for i in items)}–{max(i.year for i in items)}년)."]
+    if prof:
+        L.append(f"{prof} 교수님 {len(mine)}문항({yrs(mine)})" + (f", 다른 교수님 {len(other)}문항({yrs(other)})." if other else "."))
+    for sig, _, lab in SIGNAL_PATTERNS:
+        hit = [i for i in items if sig in i.signals]
+        if hit:
+            L.append(f"해설 {lab}: " + ", ".join(i.label.replace("PAD ", "") for i in hit) + ".")
+    return " ".join(L)

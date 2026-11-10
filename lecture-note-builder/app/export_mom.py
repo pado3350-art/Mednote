@@ -172,6 +172,17 @@ def _figure(doc, st: Statement, tpl: Template) -> None:
     _font(r, F, 8.5, color=COLOR["minor"])
 
 
+def pad_tag(st: Statement, note: LectureNote) -> str:
+    """'PAD 2021 Q1 · 2022 Q1' - or 'Only PAD …' when the statement rests on PAD alone (the lecture never said it).
+    Grey source tag only: blue is reserved for the PAD *content* itself."""
+    pad = [r for r in st.slide_refs if r >= 1000]
+    if not pad:
+        return ""
+    labels = " · ".join(note.unit_labels.get(r, f"PAD {r}").replace("PAD ", "") for r in pad)
+    only = not [r for r in st.slide_refs if r < 1000] and not st.segment_ids
+    return ("Only PAD " if only else "PAD ") + labels
+
+
 def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
     if st.kind in ("figure", "diagram"):
         _figure(doc, st, tpl)
@@ -227,6 +238,11 @@ def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
         _run_style(r, col, F, size, bold=True if (bold or base_bold) else None, base_color=base_color)
     if st.kind != "star":
         _effort_tag(p, st, F, size)
+    if tpl.format.pad_tags and st.kind in ("para", "bullet", "reference"):
+        tag = pad_tag(st, note)
+        if tag:
+            r = p.add_run(f"  [{tag}]")
+            _font(r, F, 7, color=COLOR["minor"])
     if tpl.format.include_source_references and st.kind == "para":
         tag = source_tag(st, note)
         if tag:
@@ -745,6 +761,10 @@ def export_mom(
         for para in meta["comment"].split("\n"):
             p = container.add_paragraph(); _fmt(p, after=2 if dense else 3, line=1.2 if dense else 1.3, left=0.2)
             r = p.add_run(para); _font(r, F, 8.5 if dense else 9)
+    if meta.get("exam_history"):  # facts counted from the PAD file (no prediction)
+        p = container.add_paragraph(); _fmt(p, before=2, after=3, line=1.2, left=0.2)
+        r = p.add_run("기출 이력(PAD 집계): "); _font(r, F, 8.5 if dense else 9, bold=True)
+        r = p.add_run(meta["exam_history"]); _font(r, F, 8.5 if dense else 9, color=COLOR["minor"])
     _tips(container, note, F, 8.5 if dense else 9)
     _legend_lines(container, note, tpl, F, stacked=box_cover)
     if box_cover:

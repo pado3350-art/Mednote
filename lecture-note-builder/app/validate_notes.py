@@ -67,6 +67,9 @@ def validate(
     for n in missing:
         if n >= EXAM_BASE and not template.format.exam_section and n in cited_pad:
             continue  # reflected as blue statements
+        if (n >= EXAM_BASE and not template.format.exam_section and note.meta.get("pad_uncovered_mode") == "omit"
+                and str(n) in (note.meta.get("pad_uncovered_units") or "").split(",")):
+            continue  # --uncovered-pad omit: the handout writer says this was never taught, leaving it out is allowed
         if n >= EXAM_BASE and not template.format.exam_section:
             # PAD is only a colour reference when there is no standalone 기출 section
             rep.issues.append(Issue(severity="warning", code="PAD_UNUSED", slide=n,

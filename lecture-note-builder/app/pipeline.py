@@ -65,6 +65,7 @@ def run_pipeline(
     title: str | None = None,
     meta: dict[str, str] | None = None,
     pdf: bool = True,
+    pad_uncovered: str = "reference",
     exam_pdf: str | Path | None = None,
     toc: str | None = None,  # "ai" | "heuristic" | "unit" | None(auto)
     outline_json: str | Path | None = None,
@@ -128,6 +129,11 @@ def run_pipeline(
         from .models import BodyLine, Slide
 
         exam_items = parse_exam_pdf(exam_pdf)
+        from .exam import exam_history
+
+        meta.setdefault("exam_history", exam_history(exam_items, meta.get("professor", "")))
+        meta["pad_uncovered_units"] = ",".join(str(i.number) for i in exam_items if "미수업" in i.signals)
+        meta["pad_uncovered_mode"] = pad_uncovered
         for it in exam_items:
             body = [BodyLine(text=it.question), BodyLine(text=f"정답: {it.answer}")]
             if it.commentary:

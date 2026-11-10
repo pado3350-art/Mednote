@@ -119,3 +119,43 @@ def test_pad_title_year_is_not_a_lost_number():
         Statement(text="{b|정답은 3번} q", slide_refs=[1001])]})])
     rep = validate(note, [sl], [AlignedSlide(slide_number=1001, segments=[])], _tpl())
     assert not [i for i in rep.issues if i.code == "NUMBER_LOST" and "2022" in i.message]
+
+
+def test_exam_signals_and_history():
+    from app.exam import ExamItem, exam_history, exam_signals
+
+    assert exam_signals("작년 출제예고, 이번에 강조한 부분은 아닙니다.") == ["출제예고", "강조안함"]
+    assert exam_signals("작년과 올해 모두 강조한 내용 아닙니다.") == ["강조안함"]
+    assert "미수업" in exam_signals("저희는 신장 오가노이드에 대해 안 배웠습니다.")
+    assert "족보반복" in exam_signals("최근들어 각광을 받는 구조물은? (2019년 짤)")
+    assert exam_signals("체세포를 Yamanaka factor로 만드는 과정은 reprogramming이다.") == []
+    items = [ExamItem(1001, "", 2025, "주지현 교수님", "", 27, "q", "1", "작년 출제예고, 이번에 강조한 부분은 아닙니다.", signals=["출제예고", "강조안함"]),
+             ExamItem(1002, "", 2023, "김용균 교수님", "", 1, "q", "3", "")]
+    h = exam_history(items, "주지현")
+    assert "주지현 교수님 1문항(2025년 1)" in h and "다른 교수님 1문항(2023년 1)" in h and "출제예고: 2025 Q27" in h
+
+
+def test_pad_tags_and_only_pad(tmp_path):
+    note = _note([Statement(text="{b|Ryoncil은 골수 유래 MSC이다}", slide_refs=[1002], origin="both"),
+                  Statement(text="{b|Ryoncil은 GVHD에 처음 허가되었다}", slide_refs=[1, 1002], origin="both")])
+    note.unit_labels = {1002: "PAD 2025 Q28"}
+    doc = Document(str(export_mom(note, _tpl(), tmp_path / "n.docx")))
+    text = "\n".join(p.text for p in doc.paragraphs)
+    assert "[Only PAD 2025 Q28]" in text and "[PAD 2025 Q28]" in text
+    plain = load_template("templates/mom.yaml")  # pad_tags is opt-in: the default template prints nothing extra
+    text2 = "\n".join(p.text for p in Document(str(export_mom(note, plain, tmp_path / "m.docx"))).paragraphs)
+    assert "Only PAD" not in text2
+
+
+def test_uncovered_pad_omit_option():
+    sl = Slide(number=1001, title="x", body=[])
+    base = _note()
+    base.meta = {"pad_uncovered_units": "1001", "pad_uncovered_mode": "reference"}
+    base.topics[0].slide_numbers.append(1001) if False else None
+    al = [AlignedSlide(slide_number=1001, segments=[])]
+    sl1, al1 = _slides()
+    rep = validate(base, sl1 + [sl], al1 + al, _tpl())
+    assert any(i.code == "PAD_UNUSED" for i in rep.issues)
+    base.meta["pad_uncovered_mode"] = "omit"
+    rep = validate(base, sl1 + [sl], al1 + al, _tpl())
+    assert not any(i.code == "PAD_UNUSED" for i in rep.issues)

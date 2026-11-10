@@ -36,6 +36,7 @@ class FormatOptions(BaseModel):
     page_break: str = "topic"  # "topic" (every § on a new page) | "chapter" (new page per chapter) | "flow" (only after front pages)
     basics_box: bool = True  # draw the 기본정석 box when a topic has `basics`
     topic_tips: bool = True  # draw the yellow 공부 팁 line when a topic has `tip`
+    pad_tags: bool = False  # print a small [PAD 2021 Q1] / [Only PAD …] tag after statements that cite PAD units
     toc_level: str = "section"  # "section" (every §) | "chapter" (chapter titles only)
     minutes_per_page: float = 0.0  # page budget: lecture minutes per page (0 = no PAGE_BUDGET check)
     legend: list[LegendItem] = Field(default_factory=list)
