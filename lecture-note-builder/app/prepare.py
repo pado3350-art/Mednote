@@ -61,6 +61,13 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
     (brief / "note_skeleton.json").write_text(json.dumps(skel, ensure_ascii=False, indent=2), encoding="utf-8")
     (brief / "note_schema.json").write_text(json.dumps(Topic.model_json_schema(), ensure_ascii=False, indent=2), encoding="utf-8")
 
+    # rules the user approved from their own edits (none approved -> short notice)
+    from .feedback import approved_rules_markdown
+
+    (brief / "learned_rules.md").write_text(
+        approved_rules_markdown() or "# 승인된 학습 규칙 없음\n\n`/learn-mednote-style`로 수정본을 비교해 승인하면 여기에 나타난다.\n",
+        encoding="utf-8")
+
     # build command
     args = ["python", "-m", "app.cli", "build", "--script", str(script), "--template", str(template),
             "--note-json", str(out / "note_authored.json"), "--out", str(out)]
@@ -76,6 +83,7 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
 입력: 발화 단락 {len(segs)}개(검증참고 {len(notes)}개), 기출 {len(items)}문항, 그림 {len(figs)}개. 메타: {json.dumps(meta, ensure_ascii=False)}
 
 ## 순서
+0. `brief/learned_rules.md`(사용자가 승인한 학습 규칙)를 읽고 따른다. 강의 유형에 맞는 규칙만 적용한다.
 1. `.claude/skills/readable-note-organizer/SKILL.md`를 읽는다. **맨 위 ⛔ 파랑 = PAD 기출 ONLY 규칙은 무조건 지킨다.**
 2. `brief/paragraphs.md`(모든 발화), `brief/exam_items.md`(기출), `brief/figures.md`(그림; 이미지는 Read로 직접 본다)를 읽는다.
 3. 목차를 판단한다: 챕터 2~4개 × § 소절 2~4개. `outline_proposal.json`은 기계적 초안일 뿐이다. 모든 발화 단락(검증참고 제외)이 정확히 한 소절에 들어가야 하고, 검증참고는 마지막 `부록 & 검증 참고`.

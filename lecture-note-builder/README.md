@@ -72,6 +72,24 @@ PAD를 주지 않으면 파랑 글씨는 0이다.
 - 노트 구성 요소: `kind: figure_side`(그림 + 개조식 상자를 좌우로), `kind: columns`(병렬 항목을 2–3칸 가로로, `diagram.groups` 사용).
 - 스크립트에 `[mm:ss ~ mm:ss]` 시간 헤더가 있으면 강의 길이로 **쪽 예산**을 계산해 넘으면 `PAGE_BUDGET` 경고를 낸다(템플릿 `minutes_per_page`).
 
+## 피드백 학습 — 내가 고친 강의록에서 규칙 배우기
+AI가 만든 원본 DOCX와 내가 고친 DOCX를 비교해 수정 패턴을 뽑는다. **승인하기 전에는 어떤 규칙도 적용되지 않는다.**
+```bash
+# 1) 비교: 문단·제목·표·셀·굵게·색·순서 변경 → JSON + Markdown 리포트 (규칙 후보는 모두 미승인)
+python -m app.cli feedback diff feedback/originals/note.docx feedback/edited/note.docx --out feedback/reports
+# 2) 리포트를 읽고 승인할 후보만 저장 (적용 강의 유형: all / concept_chain / list_intro / clinical)
+python -m app.cli feedback approve feedback/reports/feedback_note.json --ids R1 R3 --lecture-type concept_chain
+python -m app.cli feedback reject  feedback/reports/feedback_note.json --ids R2
+# 3) 승인된 규칙 보기 / 문서로 내보내기 / 사용 중지
+python -m app.cli feedback rules --lecture-type concept_chain
+python -m app.cli feedback export
+python -m app.cli feedback rules --retire L2 --reason "잘못 승인"
+```
+- 분류: 문체 · 구성 · 설명 깊이 · 용어 · 서식 · 의학적 사실. 의학적 사실 수정은 문체 규칙으로 일반화하지 않고 그 강의의 정정 기록으로만 남는다.
+- 승인 규칙은 `style_rules/approved_rules.json`에 적용 강의 유형, 수정 전후 예시, 근거, 버전과 함께 저장되고, 그 뒤에만 생성(`--backend anthropic`의 스타일 가이드, `prepare`의 `brief/learned_rules.md`)에 반영된다.
+- Claude Code에서는 `/learn-mednote-style 원본.docx 수정본.docx`.
+- 원본·수정본·리포트는 `feedback/`(gitignore)에 둔다. `*.docx`, `*.pptx`, 음성 파일도 커밋되지 않는다.
+
 ## 예시
 | 예시 | 입력 | 노트 작성 코드 | 결과 |
 |---|---|---|---|

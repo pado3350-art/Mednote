@@ -8,6 +8,7 @@ description: Apply the USER'S OWN wording style, learned from sentences the user
 The user rewrites generated sentences by hand. Those edits are the ground truth for voice. **User edits beat every other style rule** (including the voice table in `readable-note-organizer`) when they conflict.
 
 ## How to use
+0. New edits given as DOCX files go through `/learn-mednote-style` (diff → report → user approval → `style_rules/approved_rules.json`). Approved rules there outrank the rules below. The rules below came from pasted text in an earlier session and stay as they are.
 1. Before writing note text, read `references/edits_log.md` (before → after pairs, newest last).
 2. Follow the rules below; when a rule and a pair disagree, trust the pair.
 3. When the user gives new edits: append the pairs to `references/edits_log.md`, re-derive/adjust the rules here (mark each rule with how many edits support it), and say what changed. Never delete a rule unless an edit contradicts it.

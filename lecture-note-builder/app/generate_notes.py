@@ -29,7 +29,20 @@ def load_style_guide() -> str:
         text = p.read_text(encoding="utf-8")
     except OSError:
         return ""
-    return re.sub(r"^---.*?---\s*", "", text, count=1, flags=re.S)
+    guide = re.sub(r"^---.*?---\s*", "", text, count=1, flags=re.S)
+    return guide + learned_rules()
+
+
+def learned_rules(lecture_type: str = "") -> str:
+    """Rules the USER APPROVED from their own edits (app/feedback.py). Empty when none are approved, so the
+    generator is unchanged until the user approves something; pending candidates are never read."""
+    try:
+        from .feedback import approved_rules_markdown
+
+        text = approved_rules_markdown(lecture_type)
+    except Exception:  # a broken rule file must never stop note generation
+        return ""
+    return ("\n\n" + text) if text else ""
 
 
 SYSTEM_PROMPT = """당신은 의과대학 강의록 작성 도우미입니다. 규칙:

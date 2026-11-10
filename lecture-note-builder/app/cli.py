@@ -12,6 +12,46 @@ DEFAULT_TEMPLATE = Path(__file__).resolve().parent.parent / "templates" / "medic
 DEFAULT_TEMPLATE_MOM = Path(__file__).resolve().parent.parent / "templates" / "mom.yaml"
 
 
+def _feedback(a) -> int:
+    from . import feedback as fbk
+
+    if a.fcmd == "diff":
+        rep = fbk.build_report(a.original, a.edited, a.lecture_type)
+        jp, mp = fbk.save_report(rep, a.out)
+        print(f"변경 {len(rep.changes)}건 · 규칙 후보 {len(rep.candidates)}개 (모두 미승인)")
+        for k, v in rep.counts.items():
+            print(f"  {fbk.CATEGORIES[k]:8s} {v}")
+        print(f"report_json  {jp}\nreport_md    {mp}")
+        print("※ 어떤 규칙도 저장·적용되지 않았습니다. 리포트를 보고 `feedback approve`로 승인한 것만 저장됩니다.")
+        return 0
+    if a.fcmd == "approve":
+        try:
+            rules = fbk.approve(a.report, a.ids, a.lecture_type, a.store, a.note, a.rule)
+        except ValueError as e:
+            print(f"오류: {e}")
+            return 2
+        for r in rules:
+            print(f"승인 저장: {r.id} v{r.version} [{fbk.CATEGORIES.get(r.category, r.category)}] {r.rule}")
+        print(f"저장소: {a.store or fbk.RULE_STORE} (v{fbk.load_store(a.store).store_version})")
+        return 0
+    if a.fcmd == "reject":
+        fbk.reject(a.report, a.ids)
+        print(f"거절 표시: {', '.join(a.ids)}")
+        return 0
+    if a.fcmd == "rules":
+        if a.retire:
+            r = fbk.retire(a.retire, a.store, a.reason)
+            print(f"사용 중지: {r.id} v{r.version}")
+            return 0
+        print(fbk.approved_rules_markdown(a.lecture_type, a.store) or "승인된 규칙이 없습니다.")
+        return 0
+    out = Path(a.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(fbk.store_markdown(a.store), encoding="utf-8")
+    print(f"rules_md     {out}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="mednote")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -52,7 +92,35 @@ def main(argv: list[str] | None = None) -> int:
     pr.add_argument("--figures", nargs="+", metavar="PATH")
     pr.add_argument("--template", default=str(DEFAULT_TEMPLATE_MOM))
     pr.add_argument("--out", default="outputs/work")
+    fb = sub.add_parser("feedback", help="수정한 DOCX와 AI 원본 DOCX 비교 → 수정 패턴 리포트 → (사용자 승인 후) 학습 규칙")
+    fsub = fb.add_subparsers(dest="fcmd", required=True)
+    fd = fsub.add_parser("diff", help="두 DOCX 비교, JSON·Markdown 리포트 저장 (규칙은 저장하지 않음)")
+    fd.add_argument("original", help="AI가 생성한 원본 DOCX")
+    fd.add_argument("edited", help="사용자가 수정한 DOCX")
+    fd.add_argument("--out", default="feedback/reports")
+    fd.add_argument("--lecture-type", default="", help="참고용 강의 유형 메모")
+    fa = fsub.add_parser("approve", help="사용자가 승인한 후보만 학습 규칙으로 저장")
+    fa.add_argument("report", help="feedback diff가 만든 JSON 리포트")
+    fa.add_argument("--ids", nargs="+", required=True, help="승인할 후보 ID (예: R1 R3)")
+    fa.add_argument("--lecture-type", nargs="+", required=True,
+                    help="적용 강의 유형: all / concept_chain / list_intro / clinical")
+    fa.add_argument("--note", default="", help="메모")
+    fa.add_argument("--rule", default="", help="규칙 문장을 직접 지정 (후보 1개일 때)")
+    fa.add_argument("--store")
+    fj = fsub.add_parser("reject", help="후보를 거절로 표시 (규칙 저장소는 건드리지 않음)")
+    fj.add_argument("report")
+    fj.add_argument("--ids", nargs="+", required=True)
+    fr = fsub.add_parser("rules", help="승인된 규칙 보기 / 사용 중지")
+    fr.add_argument("--lecture-type", default="")
+    fr.add_argument("--retire", help="사용 중지할 규칙 ID (예: L2)")
+    fr.add_argument("--reason", default="")
+    fr.add_argument("--store")
+    fe = fsub.add_parser("export", help="승인된 규칙 전체를 Markdown으로 저장")
+    fe.add_argument("--out", default="style_rules/approved_rules.md")
+    fe.add_argument("--store")
     a = ap.parse_args(argv)
+    if a.cmd == "feedback":
+        return _feedback(a)
     if a.cmd == "prepare":
         from .prepare import prepare_brief
 

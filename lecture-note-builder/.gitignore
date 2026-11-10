@@ -4,3 +4,18 @@ outputs/*
 !outputs/.gitkeep
 inputs/*
 !inputs/.gitkeep
+
+# --- 비공개 자료 보호 (강의자료·DOCX 원본·수정본·피드백 리포트) ---
+# 수정 전후 DOCX와 diff 리포트에는 강의 내용이 그대로 들어 있다.
+feedback/
+*.docx
+*.doc
+*.pptx
+*.ppt
+*.hwp
+*.hwpx
+*.m4a
+*.mp3
+*.wav
+~$*
+# 승인된 학습 규칙(style_rules/approved_rules.json)만 추적한다.
