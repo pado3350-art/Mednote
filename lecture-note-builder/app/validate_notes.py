@@ -224,6 +224,13 @@ def validate(
                         rep.issues.append(Issue(severity="warning", code="LINE_TOO_DENSE", slide=st.slide_refs[0] if st.slide_refs else None,
                                                 message=f"한 줄에 사실을 몰아넣었습니다(—/· 연결, {len(plain)}자): '{plain[:40]}…'"))
 
+    # 4c-3. Mixed style (default, approved rule L10): explain § vs list § conventions
+    if template.format.mixed:
+        from .mixed import mixed_issues
+
+        for sev, code, msg in mixed_issues(note):
+            rep.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
+
     # 4d. The 요약 정리 page must carry a visual (schematic or figure)
     for t in note.topics:
         if t.role == "front" and "요약" in t.heading:

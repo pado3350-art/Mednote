@@ -1,0 +1,43 @@
+# "MOM" MIXED style (혼합형) - DEFAULT for new notes (approved rule L10).
+# Each body § picks a shape (Topic.style): explain = question heading + one-line "핵심 답" box + reasoning
+# paragraphs; list = bullets / columns / tables + a "즉 …" line (no box). Checked by app/mixed.py
+# (MIXED_STYLE_MISSING, EXPLAIN_NO_ANSWER, EXPLAIN_TOO_LISTY, LIST_NO_SUMMARY ...).
+# Learned from 3 human MOM notes (docs/mixed_style_analysis.md). Same layout machinery as mom_compact.
+template_name: mom_mixed_v1
+language: ko
+detail_level: comprehensive
+
+sections:
+  - {key: body, label: ""}          # free-flow body (no sub-heading)
+
+format:
+  layout: mom
+  page_break_per_topic: true
+  page_break: flow           # new page only after the front pages; chapters flow on with an in-body banner
+  basics_box: true
+  basics_label: 핵심 답
+  mixed: true                # every body § has style explain|list (app/mixed.py)
+  pad_tags: true             # [PAD 2021 Q1] after blue statements, [Only PAD …] when the lecture never said it
+  topic_tips: false
+  toc_level: chapter
+  minutes_per_page: 5.5
+  roman_headings: false
+  exam_section: false              # 기출문제는 별도 PAD 문서; 파랑 글씨로만 본문에 표시
+  preserve_original_images: true
+  tables_for_comparisons: true
+  include_source_references: false  # sources stay in note.json / validation report
+  numbered_headings: true
+  font_korean: 맑은 고딕
+  font_size_pt: 9
+  legend:
+    - {tag: emphasis, word: 빨강, meaning: "교수님 강조 / 시험 언급 / 꼭 외울 부분"}
+    - {tag: exam,     word: 파랑, meaning: "기출된 내용 (PAD 기출문제에 나온 부분에만 사용)"}
+    - {tag: minor,    word: 회색, meaning: "중요도 낮은 부분 (이해용 부연)"}
+    - {tag: verify,   word: 보라, meaning: "원자료와 대조 필요 / 불확실"}
+    - {tag: highlight, word: 노랑, meaning: "공부 전략 · 꼭 봐야 할 부분"}
+
+quality:
+  preserve_all_key_concepts: true
+  flag_uncertain_facts: true
+  require_source_traceability: true
+  min_alignment_confidence: 0.15

@@ -107,6 +107,20 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
     EC += [f"- ¶{i} [{e}] “{cue}” — {sent}" for i, e, cue, sent in cues]
     (brief / "effort_cues.md").write_text("\n".join(EC) + "\n", encoding="utf-8")
 
+    # mixed style plan (default L10): explain vs list suggestion per lecture paragraph
+    from .mixed import style_scores, suggest_style
+
+    SP = ["# 혼합형 소절 모양 제안 (제안일 뿐 — 강의 논리를 보고 소절마다 `style`을 정한다)", "",
+          "- **explain**: 개념·기전·원리·‘왜’ → 질문형 제목 + 핵심 답 1줄 + 추론 문단(정의 → 그럼/왜 → 기전 사슬 → 따라서 1줄 → 사례 적용)",
+          "- **list**: 수치·사례·제품·실험 결과·절차·분류 → bullet/표(앞에 도입문 1줄), 끝에 ‘즉 …’ 1줄", "",
+          "| ¶ | 제안 | 설명 신호 | 데이터 신호 | 시작 |", "|---|---|---|---|---|"]
+    for g in segs:
+        if g.kind != "speech":
+            continue
+        e, l = style_scores(g.text)
+        SP.append(f"| ¶{g.id} | {suggest_style(g.text)} | {e} | {l} | {g.text[:40].replace('|', '/')}… |")
+    (brief / "style_plan.md").write_text("\n".join(SP) + "\n", encoding="utf-8")
+
     # rules the user approved from their own edits (none approved -> short notice)
     from .feedback import approved_rules_markdown
 
@@ -131,7 +145,7 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
 ## 순서
 0. `brief/learned_rules.md`(사용자가 승인한 학습 규칙)를 읽고 따른다. 강의 유형에 맞는 규칙만 적용한다.
 1. `.claude/skills/readable-note-organizer/SKILL.md`를 읽는다. **맨 위 ⛔ 파랑 = PAD 기출 ONLY 규칙은 무조건 지킨다.**
-2. `brief/effort_cues.md`(교수가 말한 노력 수준 단서)와 `brief/exam_signals.md`(기출 해설의 신호: 출제예고·강조 안 함·미수업 — 표지 코멘트와 `effort`의 근거)도 읽는다. `brief/paragraphs.md`(모든 발화), `brief/exam_items.md`(기출), `brief/figures.md`(그림; 이미지는 Read로 직접 본다)를 읽는다.
+2. `brief/style_plan.md`(혼합형: 소절별 explain/list 제안 — 템플릿 기본값 `mom_mixed.yaml`), `brief/effort_cues.md`(교수가 말한 노력 수준 단서)와 `brief/exam_signals.md`(기출 해설의 신호: 출제예고·강조 안 함·미수업 — 표지 코멘트와 `effort`의 근거)도 읽는다. `brief/paragraphs.md`(모든 발화), `brief/exam_items.md`(기출), `brief/figures.md`(그림; 이미지는 Read로 직접 본다)를 읽는다.
 3. 목차를 판단한다: 챕터 2~4개 × § 소절 2~4개. `outline_proposal.json`은 기계적 초안일 뿐이다. 모든 발화 단락(검증참고 제외)이 정확히 한 소절에 들어가야 하고, 검증참고는 마지막 `부록 & 검증 참고`.
 4. `{out}/note_authored.json`을 작성한다 (스키마: `brief/note_schema.json`, 예: `examples/limbic_note.py` 의 헬퍼 P·B·STAR·ADV·REF·T 로 Python 스크립트를 쓰는 방식 권장).
    - 소절마다 기본정석 박스(`basics`, `basics_refs`), 설명 순서로 재구성한 본문, Advice/Reference, 비교표.

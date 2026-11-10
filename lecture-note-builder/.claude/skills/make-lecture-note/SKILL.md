@@ -21,7 +21,7 @@ You (Claude Code) do the AI part; the program does extraction, validation, layou
 5. **Fix** until `validation_report.md` has 0 errors and no BLUE_/PAD_/MARKUP_LEAK findings; look at the PDF pages; correct misplaced figures in `figures.json` (`topic_heading`, `anchor`, `caption`, `skip`) and rebuild with `--figures-json`.
 6. Tell the user what is approximate (figure placement, anything flagged purple) and where the files are.
 
-No Claude Code either? `python -m app.cli build --script ... --exam-pdf ... --figures ... --template templates/mom.yaml` works fully offline (rule-based organiser; good first draft, review blue/figure placement).
+No Claude Code either? `python -m app.cli build --script ... --exam-pdf ... --figures ... --template templates/mom_mixed.yaml` works fully offline (rule-based organiser; good first draft, review blue/figure placement).
 
 
 ## 서술 기법 (모범 예시 반영)

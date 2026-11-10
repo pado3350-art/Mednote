@@ -9,7 +9,7 @@ from .generate_notes import AnthropicBackend, OfflineBackend, PrecomputedBackend
 from .pipeline import run_pipeline
 
 DEFAULT_TEMPLATE = Path(__file__).resolve().parent.parent / "templates" / "medical.yaml"
-DEFAULT_TEMPLATE_MOM = Path(__file__).resolve().parent.parent / "templates" / "mom.yaml"
+DEFAULT_TEMPLATE_MOM = Path(__file__).resolve().parent.parent / "templates" / "mom_mixed.yaml"  # mixed style = default (L10)
 
 
 def _feedback(a) -> int:

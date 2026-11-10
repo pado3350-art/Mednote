@@ -5,7 +5,7 @@ description: Turn lecture material (script/transcript/slides) into an easy-to-st
 
 # Readable Note Organizer
 
-> **사용자가 승인한 학습 규칙이 최우선**: `python -m app.cli feedback rules --lecture-type <유형>` (또는 `brief/learned_rules.md`). 현재 L1–L9(사람 정리본 비교에서 승인): 한 줄 한 사실 · 표 도입문과 “즉” 정리문 · 인과 다리는 본문 · 연구 서사 방법→결과→의미 · 메모는 합니다체 괄호 · “교수님 연구(팀)” 허용(인용형은 금지, “연자” 금지) · 슬라이드 영문 용어 우선 · 일화·장식 수치는 회색(아주 사소하고 기출 없음은 삭제, `meta.omitted`) · 사례는 “이름(영문): 한 줄” + 회색 부가설명. 검증 `LINE_TOO_DENSE`.
+> **사용자가 승인한 학습 규칙이 최우선**: `python -m app.cli feedback rules --lecture-type <유형>` (또는 `brief/learned_rules.md`). 현재 L1–L14(사람 정리본 비교에서 승인). **L10 혼합형이 기본**(0c절), L11 정의 → “그럼” 추론 · L12 기전 사슬 + “따라서 A → B → C” · L13 원리 → 사례 적용·대조 · L14 “**용어**: 정의 + 한 마디”. L1–L9: 한 줄 한 사실 · 표 도입문과 “즉” 정리문 · 인과 다리는 본문 · 연구 서사 방법→결과→의미 · 메모는 합니다체 괄호 · “교수님 연구(팀)” 허용(인용형은 금지, “연자” 금지) · 슬라이드 영문 용어 우선 · 일화·장식 수치는 회색(아주 사소하고 기출 없음은 삭제, `meta.omitted`) · 사례는 “이름(영문): 한 줄” + 회색 부가설명. 검증 `LINE_TOO_DENSE`.
 
 > **먼저 `my-writing-style` 스킬을 읽는다.** 사용자가 직접 고친 문장에서 배운 문체 규칙이며, 아래 말투 표와 충돌하면 그쪽이 우선한다.
 
@@ -22,6 +22,8 @@ Goal: a student can study from the note alone. **Nothing from the source is drop
 The reference is `references/excellent_example.md` (a high-rated MOM note for the same kind of lecture); imitate its structure and tone.
 
 ## 0. 먼저 강의 유형을 판단한다 (서술 모드 · 템플릿 · 쪽 예산)
+
+> **기본값은 혼합형 `mom_mixed.yaml`(L10, 0c절).** 아래 표는 강의 전체가 한쪽으로 치우쳤을 때만 쓴다(예: 인트로 강의 전체가 나열형이면 `mom_compact.yaml`).
 
 | 유형 (스크립트 단서) | 템플릿 | 본문 형식 | 쪽 예산 |
 |---|---|---|---|
@@ -58,14 +60,24 @@ The reference is `references/excellent_example.md` (a high-rated MOM note for th
 14. **연결 문장**: 표·목록 뒤에 결론으로 이어지는 한 줄(“따라서 각각의 한계 때문에 …”)을 작성자 추가분(`origin: "author"`)으로 쓴다. 사실을 새로 주장하지 않고 위 내용을 잇기만 한다.
 15. **수업에서 다루지 않은 기출**(해설에 ‘배우지 않았다’): 기본은 파랑 Reference 한 줄. 사용자가 `--uncovered-pad omit`을 주면 생략해도 경고가 없다.
 
-## 0c. 설명식(교과서식) 모드 — 실험 단계 (`templates/mom_explain.yaml`)
-"Claude에게 물어보면 답해 주는" 하나의 흐름 위주 정리. 비교: `outputs/stemcell_explain/compare_list_vs_explain.md`.
-- § 제목은 **질문**으로 쓴다("왜 MSC로는 부족한가?"). 다음 § 제목은 앞 § 결론에서 생긴 질문이 되게 이어 붙인다.
-- `basics`는 한 줄 **핵심 답**(`basics_title: 핵심 답`). 시험 직전에는 이 줄만 읽어도 되게 쓴다.
-- 본문은 bullet이 아니라 짧은 문단(`para`) 2~4개: 정의 → 왜 → 어떻게 → 한계 → 그래서/즉(결론). 문장 길이는 개조식과 같게(평균 40자 내외), 늘리는 것은 연결어뿐이다.
-- 연결어(그래서·즉·그런데·반면·때문)는 **스크립트에 있는 인과만** 잇는다. 작성자가 만든 인과·비유는 `origin: author`(회색 괄호).
-- 숫자·사례·제품 목록·비교는 문단에 녹이지 말고 bullet/`columns`/표로 남긴다(혼합형). 그림 상자 제목은 "그림에서 볼 것".
-- 파랑(PAD)·L1–L9 규칙은 그대로. 혼합형을 기본으로 할지는 사용자 승인 후 결정한다.
+## 0c. 혼합형 = 기본 (L10, `templates/mom_mixed.yaml`) — 사람 MOM 3건에서 배운 서술
+분석: `docs/mixed_style_analysis.md`. 적용 예: `examples/stemcell_mixed_note.py`, 비교 `outputs/stemcell_mixed/compare_three_versions.md`.
+소절마다 `style`을 정한다(`prepare`의 `brief/style_plan.md`가 ¶별로 제안). 검증: `MIXED_STYLE_MISSING`, `EXPLAIN_NO_ANSWER`, `EXPLAIN_TOO_LISTY`, `LIST_NO_SUMMARY`, `MIXED_ONE_STYLE`.
+
+| `style` | 쓰는 곳 | 모양 |
+|---|---|---|
+| `explain` | 개념·기전·원리·병리·임상 판단·“왜” | **질문형 제목** + `basics` 한 줄(**핵심 답**) + 짧은 문단 2–4개 |
+| `list` | 수치·사례·제품·실험 결과·절차·원인 분류·감별 소견 | 도입문 1줄 → `**라벨**: 내용` bullet / `columns` / 표 → 끝에 **“즉 …” 1줄**. 핵심 답 상자 없음 |
+
+설명형 문단의 기법:
+- **L11 정의 → 그럼**: 정의 다음 문장에서 바로 따라 나오는 결론을 끌어낸다. “ESC는 inner cell mass를 배양한 것이다. 그럼 수정란을 써야 하므로 윤리 문제가 생긴다.”
+- **L12 기전 사슬**: 원인 → 결과를 문단으로 풀고 “따라서 A → B → C” 한 줄로 묶는다(화살표는 인과에만).
+- **L13 원리 → 사례**: 원리를 먼저 세우고 사례마다 원리를 다시 부른다(“~이므로”, “앞의 X와 달리 …, 이는 ~ 때문이다”). 표 앞 읽는 법 안내는 회색 메모(합니다체): “먼저 두 원리를 이해하고, 아래 네 조합에 대입해 보세요.”
+- 문장 길이는 개조식과 같게(평균 40자 내외). 늘리는 것은 연결어뿐이다. 연결어는 **스크립트에 있는 인과만** 잇는다.
+나열형의 기법:
+- **L14** 항목은 “**용어**(한글): 정의”에 쉬운 풀이나 이유 한 마디. 결과·수치 라벨은 굵게(**대상**, **통증**, **1상**).
+- 마지막 “즉 …” 다음에 다음 설명형 소절의 질문을 다리 문장으로 둘 수 있다(“그렇다면 무엇을 바꾸면 …?”).
+공통: 파랑 = PAD 전용, 한다체(L5; 사람 예시의 합니다·요체는 따르지 않는다), 교수님 인용형 금지(L6), 일화는 회색(L8). 같은 강의에 두 모양이 섞여야 한다 — 한쪽만 쓰면 `MIXED_ONE_STYLE`.
 
 ## 1. Keep everything, change the shape
 - Every concept, term, number, unit, drug/gene name, cutoff and example in the source must appear (the validator checks numbers, terms and paragraph coverage).

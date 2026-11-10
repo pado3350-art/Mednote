@@ -64,8 +64,8 @@ def TERM(term: str, definition: str, s=(), g=()):
     return _st(definition, s, g, kind="row2", left_title=term, left=[])
 
 
-def T(heading, chapter, slide_numbers, body, basics_title="", basics=(), tip="", tables=(), flags=(), role="body"):
-    return Topic(heading=heading, chapter=chapter, role=role, slide_numbers=sorted(set(slide_numbers)),
+def T(heading, chapter, slide_numbers, body, basics_title="", basics=(), tip="", tables=(), flags=(), role="body", style=""):
+    return Topic(heading=heading, chapter=chapter, role=role, slide_numbers=sorted(set(slide_numbers)), style=style,
                  basics_title=basics_title or heading, basics=list(basics), tip=tip,
                  sections={"body": body}, tables=list(tables), review_flags=list(flags))
 

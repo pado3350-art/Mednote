@@ -127,6 +127,9 @@ class Topic(BaseModel):
     tables: list[SlideTable] = Field(default_factory=list)
     images: list[str] = Field(default_factory=list)
     review_flags: list[str] = Field(default_factory=list)
+    # mixed style (default): "explain" = question heading + 핵심 답 + reasoning paragraphs,
+    # "list" = bullets / columns / tables + "즉 …" line. "" = not decided (non-mixed templates)
+    style: Literal["", "explain", "list"] = ""
 
 
 class Figure(BaseModel):

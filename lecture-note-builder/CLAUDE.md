@@ -49,7 +49,7 @@
 
 ## 강의 유형 → 템플릿 (실제 정리본 비교에서 얻은 규칙)
 개념 연쇄형은 `mom.yaml`(스토리), 나열형·인트로는 `mom_compact.yaml`(시험 정리 2–3쪽 + 개조식 본문, `figure_side`/`columns`, `page_break: flow`). 같은 사실은 최대 2번, 빌드 후 `PAGE_BUDGET` 경고가 없게. 근거: `outputs/precision/review_vs_MOM.md`.
-설명식(교과서식, 질문형 제목 + 핵심 답 + 문단) 실험 템플릿 `mom_explain.yaml` — 비교 `outputs/stemcell_explain/compare_list_vs_explain.md`, 스킬 0c.
+**기본 = 혼합형 `mom_mixed.yaml` (승인 규칙 L10–L14)**: 개념·기전 소절은 설명형(`Topic.style: explain` — 질문형 제목 + 핵심 답 + 추론 문단: 정의→그럼, 기전 사슬→따라서, 원리→사례), 수치·사례·결과 소절은 나열형(`style: list` — `**라벨**: 내용` + ‘즉 …’). `prepare` 기본 템플릿이며 `brief/style_plan.md`가 ¶별 제안, 검증은 `app/mixed.py`(MIXED_*/EXPLAIN_*/LIST_*). 근거 `docs/mixed_style_analysis.md`(사람 MOM 3건), 스킬 0c. 순수 설명식 `mom_explain.yaml`·나열식 `mom_compact.yaml`은 비교용.
 
 ## 피드백 학습 (사용자 수정본 → 승인 규칙)
 `app/docx_diff.py`(DOCX 비교) + `app/feedback.py`(6분류, 규칙 후보, 승인 저장소), CLI `feedback diff|approve|reject|rules|export`, 스킬 `/learn-mednote-style`.
