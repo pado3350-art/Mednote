@@ -359,6 +359,38 @@ def approve(report_path: str | Path, candidate_ids: list[str], lecture_types: li
     return done
 
 
+def approve_manual(rule: str, category: str, lecture_types: list[str], evidence_doc: str, examples: list[Example] = (),
+                   note: str = "", signal: str = "", store_path: str | Path | None = None,
+                   original: str = "", edited: str = "") -> Rule:
+    """Store a rule the user approved from an ANALYSIS (e.g. comparing a human-written note) rather than from a
+    DOCX diff report. Same gate as `approve`: call it only for rules the user explicitly chose."""
+    if category not in CATEGORIES:
+        raise ValueError(f"분류가 올바르지 않습니다: {category}")
+    bad = [t for t in lecture_types if t not in LECTURE_TYPES]
+    if bad or not lecture_types:
+        raise ValueError(f"강의 유형이 올바르지 않습니다: {bad or '(없음)'}")
+    store = load_store(store_path)
+    now = dt.datetime.now().isoformat(timespec="seconds")
+    ev = Evidence(report=evidence_doc, original=original, edited=edited, date=now)
+    same = next((r for r in store.rules if r.status == "approved" and signal and r.signal == signal), None)
+    if same:
+        same.version += 1
+        same.rule, same.examples, same.note = rule, list(examples) or same.examples, note or same.note
+        same.evidence.append(ev)
+        same.history.append(f"v{same.version} {now}: 다시 승인 ({evidence_doc})")
+        same.approved_at = now
+        r = same
+    else:
+        n = 1 + max([int(x.id[1:]) for x in store.rules if x.id[1:].isdigit()], default=0)
+        r = Rule(id=f"L{n}", category=category, rule=rule, lecture_types=list(lecture_types), examples=list(examples),
+                 evidence=[ev], signal=signal, note=note, approved_at=now, history=[f"v1 {now}: 승인 ({evidence_doc})"])
+        store.rules.append(r)
+    store.store_version += 1
+    store.updated = now
+    save_store(store, store_path)
+    return r
+
+
 def reject(report_path: str | Path, candidate_ids: list[str]) -> None:
     rep = load_report(report_path)
     for c in rep.candidates:

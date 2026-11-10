@@ -5,6 +5,8 @@ description: Turn lecture material (script/transcript/slides) into an easy-to-st
 
 # Readable Note Organizer
 
+> **사용자가 승인한 학습 규칙이 최우선**: `python -m app.cli feedback rules --lecture-type <유형>` (또는 `brief/learned_rules.md`). 현재 L1–L9(사람 정리본 비교에서 승인): 한 줄 한 사실 · 표 도입문과 “즉” 정리문 · 인과 다리는 본문 · 연구 서사 방법→결과→의미 · 메모는 합니다체 괄호 · “교수님 연구(팀)” 허용(인용형은 금지, “연자” 금지) · 슬라이드 영문 용어 우선 · 일화·장식 수치는 회색(아주 사소하고 기출 없음은 삭제, `meta.omitted`) · 사례는 “이름(영문): 한 줄” + 회색 부가설명. 검증 `LINE_TOO_DENSE`.
+
 > **먼저 `my-writing-style` 스킬을 읽는다.** 사용자가 직접 고친 문장에서 배운 문체 규칙이며, 아래 말투 표와 충돌하면 그쪽이 우선한다.
 
 > ## ⛔ NON-NEGOTIABLE — BLUE = PAD(기출) ONLY, ALWAYS

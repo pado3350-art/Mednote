@@ -1,51 +1,63 @@
 # 검증 리포트
 
 - 슬라이드 커버리지: 100%
-- 오류 0 / 경고 46 / 참고 0
+- 오류 0 / 경고 54 / 참고 4
 
 - ⚠️ `UNGROUNDED` [발화 ¶1] 원본과 유사도가 낮은 문장(근거 확인 필요): '이 한 쪽이 시험 대비용이다. 파랑은 기출(PAD)에 나온 내용이고 본문…'
-- ⚠️ `TERM_LOST` [발화 ¶7] 용어 'Embryonic stem'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶6] 원본과 유사도가 낮은 문장(근거 확인 필요): '다음 단계는 파괴가 아니라 재생이다.…'
 - ⚠️ `UNGROUNDED` [발화 ¶7] 원본과 유사도가 낮은 문장(근거 확인 필요): '한국에서 쓸 수 있는 줄기세포: iPSC(역분화), ESC, MSC…'
-- ⚠️ `TERM_LOST` [발화 ¶8] 용어 'Mesenchymal stem'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶9] 용어 'Adult stem'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶9] 용어 'Induced pluripotent'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶9] 용어 'Pluripotent stem'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶9] 용어 'Totipotent cell'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶9] 원본과 유사도가 낮은 문장(근거 확인 필요): '따라서 각각의 한계 때문에 교수님 연구팀은 iPSC에 집중한다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶9] 원본과 유사도가 낮은 문장(근거 확인 필요): '줄기세포를 분화능에 따라 나누면 다음과 같다.…'
 - ⚠️ `UNGROUNDED` [발화 ¶9] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
-- ⚠️ `UNGROUNDED` [발화 ¶10] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
-- ⚠️ `TERM_LOST` [발화 ¶12] 용어 'Adipose tissue'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶12] 용어 'Cord blood'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶11] 원본과 유사도가 낮은 문장(근거 확인 필요): '초기: 내과에서 진통제와 소염제로 지켜본다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶11] 원본과 유사도가 낮은 문장(근거 확인 필요): '그 사이 약 20년 동안은 다룰 방법이 없다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶12] 원본과 유사도가 낮은 문장(근거 확인 필요): '기존 연골 재생 치료: auto와 allo, 모두 한계가 있다…'
+- ⚠️ `UNGROUNDED` [발화 ¶12] 원본과 유사도가 낮은 문장(근거 확인 필요): '이식 방식에 따라 나누면 다음과 같다.…'
 - ⚠️ `UNGROUNDED` [발화 ¶12] 원본과 유사도가 낮은 문장(근거 확인 필요): 'auto vs allo…'
-- ⚠️ `TERM_LOST` [발화 ¶14] 용어 'Extracellular matrix'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶13] 원본과 유사도가 낮은 문장(근거 확인 필요): '또 실제로 재생되었다는 과학적 증거가 부족하다.…'
 - ⚠️ `UNGROUNDED` [발화 ¶14] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
-- ⚠️ `TERM_LOST` [발화 ¶17] 용어 'Chronic degenerative'이(가) 강의록에 없습니다.
-- ⚠️ `UNGROUNDED` [발화 ¶17] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
+- ⚠️ `TERM_LOST` [발화 ¶15] 용어 'Facilitation'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶15] 원본과 유사도가 낮은 문장(근거 확인 필요): '연골 결손에 넣었더니 결손이 잘 메꿔졌다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶15] 원본과 유사도가 낮은 문장(근거 확인 필요): 'ECM은 무생물이라 규제 부담이 작다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶17] 원본과 유사도가 낮은 문장(근거 확인 필요): '그러나 규제 기관이 원재료 기준까지 요구해 쉽지 않다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶17] 원본과 유사도가 낮은 문장(근거 확인 필요): '교수님 연구팀은 mitochondria를 분리해 골관절염 동물 모델(MI…'
 - ⚠️ `TERM_LOST` [발화 ¶18] 용어 'Young'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶19] 용어 'Randomized controlled'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶20] 용어 'Lateral compartment'이(가) 강의록에 없습니다.
+- ℹ️ `OMITTED_BY_RULE` [발화 ¶20] 수치 '0.001'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
+- ℹ️ `OMITTED_BY_RULE` [발화 ¶20] 수치 '12개월'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
 - ⚠️ `TERM_LOST` [발화 ¶20] 용어 'Qualitative'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶20] 용어 'Quantitative'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶20] 원본과 유사도가 낮은 문장(근거 확인 필요): 'MRI상 연골 재생은 유의하지 않았다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶20] 원본과 유사도가 낮은 문장(근거 확인 필요): '즉 통증은 일부 줄었지만 연골 재생은 증명하지 못한 절반의 성공이었다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶21] 원본과 유사도가 낮은 문장(근거 확인 필요): '1회 주사에 약 2,000만 원인데 근거가 없으면 앞날이 불투명하다.…'
 - ⚠️ `TERM_LOST` [발화 ¶22] 용어 'Approve'이(가) 강의록에 없습니다.
-- ⚠️ `UNGROUNDED` [발화 ¶23] 원본과 유사도가 낮은 문장(근거 확인 필요): '줄기세포 유래 치료제 후보 — 3D organoid(세포 덩어리)…'
-- ⚠️ `UNGROUNDED` [발화 ¶23] 원본과 유사도가 낮은 문장(근거 확인 필요): '연골치료제 개발 후보: MSC · 연골세포 · iPSC, single c…'
+- ℹ️ `OMITTED_BY_RULE` [발화 ¶23] 수치 '2주'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
+- ⚠️ `UNGROUNDED` [발화 ¶23] 원본과 유사도가 낮은 문장(근거 확인 필요): 'spheroid와 organoid를 구분하면 다음과 같다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶23] 원본과 유사도가 낮은 문장(근거 확인 필요): '줄기세포 유래 치료제 후보: 3D organoid(세포 덩어리)…'
 - ⚠️ `TERM_LOST` [발화 ¶24] 용어 'Turn'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶25] 용어 'Injectable spheroid'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶24] 원본과 유사도가 낮은 문장(근거 확인 필요): '‘벌집 속 애벌레’ 비유…'
+- ⚠️ `UNGROUNDED` [발화 ¶24] 원본과 유사도가 낮은 문장(근거 확인 필요): '즉 국내 회사들도 교수님 연구팀이 처음 제시한 방향을 따라가고 있다.…'
 - ⚠️ `TERM_LOST` [발화 ¶25] 용어 'Mimic'이(가) 강의록에 없습니다.
-- ⚠️ `UNGROUNDED` [발화 ¶25] 원본과 유사도가 낮은 문장(근거 확인 필요): 'For better cell therapy…change cell orig…'
-- ⚠️ `UNGROUNDED` [발화 ¶25] 원본과 유사도가 낮은 문장(근거 확인 필요): 'For better cell therapy…different CMC? —…'
-- ⚠️ `UNGROUNDED` [발화 ¶26] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Distinguished approaches: (1) new cell, …'
+- ⚠️ `TERM_LOST` [발화 ¶25] 용어 'Practical'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶25] 원본과 유사도가 낮은 문장(근거 확인 필요): 'For better cell therapy… change cell ori…'
+- ⚠️ `UNGROUNDED` [발화 ¶25] 원본과 유사도가 낮은 문장(근거 확인 필요): 'For better cell therapy… different CMC?…'
+- ⚠️ `UNGROUNDED` [발화 ¶26] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Distinguished approaches: new cell, CMC,…'
 - ⚠️ `TERM_LOST` [발화 ¶27] 용어 'Surgeon'이(가) 강의록에 없습니다.
-- ⚠️ `UNGROUNDED` [발화 ¶27] 원본과 유사도가 낮은 문장(근거 확인 필요): '스페로이드의 의미: United we stand, divided we f…'
-- ⚠️ `UNGROUNDED` [발화 ¶27] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Spheroids: MIUChon = Newer formula + Str…'
-- ⚠️ `UNGROUNDED` [발화 ¶27] 원본과 유사도가 낮은 문장(근거 확인 필요): '연자팀이 ‘더 좋은 세포 치료제’를 위해 바꾼 세 가지가 아닌 것은?…'
+- ⚠️ `UNGROUNDED` [발화 ¶27] 원본과 유사도가 낮은 문장(근거 확인 필요): '교수님 연구팀의 전략은 다음 세 가지다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶27] 원본과 유사도가 낮은 문장(근거 확인 필요): 'United we stand, divided we fall…'
+- ⚠️ `UNGROUNDED` [발화 ¶27] 원본과 유사도가 낮은 문장(근거 확인 필요): 'MIUChon = Newer formula + Stronger cell …'
+- ⚠️ `UNGROUNDED` [발화 ¶27] 원본과 유사도가 낮은 문장(근거 확인 필요): '교수님 연구팀이 더 좋은 세포 치료제를 위해 바꾼 세 가지가 아닌 것은?…'
+- ℹ️ `OMITTED_BY_RULE` [발화 ¶28] 수치 '3개월'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
 - ⚠️ `TERM_LOST` [발화 ¶28] 용어 'Tearing'이(가) 강의록에 없습니다.
-- ⚠️ `UNGROUNDED` [발화 ¶28] 원본과 유사도가 낮은 문장(근거 확인 필요): 'iPSC 유래 약 200 µm 크기 스페로이드를 치료제로 개발했다…'
-- ⚠️ `UNGROUNDED` [발화 ¶30] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Part 1 Summary: MSC·iPSC × auto·allo, 새 …'
-- ⚠️ `UNGROUNDED` [발화 ¶31] 원본과 유사도가 낮은 문장(근거 확인 필요): '1상은 효과가 아니라 부작용(안전성) 을 보는 단계 — 3명에서 부작용이…'
+- ⚠️ `UNGROUNDED` [발화 ¶28] 원본과 유사도가 낮은 문장(근거 확인 필요): '교수님 연구팀은 iPSC 유래 연골 spheroid를 토끼, 비글, 돼지…'
+- ⚠️ `UNGROUNDED` [발화 ¶28] 원본과 유사도가 낮은 문장(근거 확인 필요): 'spheroid 크기는 약 200 µm…'
+- ⚠️ `UNGROUNDED` [발화 ¶28] 원본과 유사도가 낮은 문장(근거 확인 필요): '위약군에서는 연골 손상과 osteophyte가 나타났다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶28] 원본과 유사도가 낮은 문장(근거 확인 필요): '약 7, 8년 전부터 진행. 비글 8마리(십자인대 절단, 반월판(meni…'
+- ⚠️ `UNGROUNDED` [발화 ¶29] 원본과 유사도가 낮은 문장(근거 확인 필요): '돼지: 결손 충전과 부피 변화가 대조군보다 컸다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶30] 원본과 유사도가 낮은 문장(근거 확인 필요): '세포 종류와 이식 방식으로 나누면 다음과 같다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶31] 원본과 유사도가 낮은 문장(근거 확인 필요): 'IND 허가 후 3명에게 투여했다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶31] 원본과 유사도가 낮은 문장(근거 확인 필요): '샘플 1개에 1억 원이 들었고 지금은 약 2, 300만 원 수준이다…'
+- ⚠️ `UNGROUNDED` [발화 ¶31] 원본과 유사도가 낮은 문장(근거 확인 필요): '1상(Phase 1)은 효과가 아니라 부작용(안전성)을 본다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶31] 원본과 유사도가 낮은 문장(근거 확인 필요): '3명 모두 부작용이 없었다.…'
 - ⚠️ `UNGROUNDED` [발화 ¶31] 원본과 유사도가 낮은 문장(근거 확인 필요): '1상 임상시험은 유효성이 아니라 안전성(부작용)을 보는 단계이다.…'
-- ⚠️ `TERM_LOST` [발화 ¶32] 용어 'Cartilage thickness'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶32] 용어 'Defect size'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶32] 용어 'Phase'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶32] 용어 'Synovial fluid'이(가) 강의록에 없습니다.
-- ⚠️ `TERM_LOST` [발화 ¶33] 용어 'Spinal cord'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶32] 원본과 유사도가 낮은 문장(근거 확인 필요): '위약 대조가 없어 효과는 말할 수 없고 탐색적 신호만 확인했다.…'
 - ⚠️ `UNGROUNDED` [발화 ¶33] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Break News: World 1st conditional approv…'

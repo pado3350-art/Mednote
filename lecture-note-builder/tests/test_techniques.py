@@ -159,3 +159,19 @@ def test_uncovered_pad_omit_option():
     base.meta["pad_uncovered_mode"] = "omit"
     rep = validate(base, sl1 + [sl], al1 + al, _tpl())
     assert not any(i.code == "PAD_UNUSED" for i in rep.issues)
+
+
+def test_line_density_and_omitted_numbers():
+    sl, al = _slides()
+    dense = Statement(text="ECM은 연골 기질이다 — 세포를 오래 살게 하고 · 기능을 촉진하며 · 규제 부담이 작고 · 이미 제품이 있고 · 수입도 한다", slide_refs=[1])
+    rep = validate(_note([dense]), sl, al, _tpl())
+    assert any(i.code == "LINE_TOO_DENSE" for i in rep.issues)
+    sl2 = [Slide(number=1, title="u", body=[]), ]
+    from app.models import BodyLine
+    sl2 = [Slide(number=1, title="u", body=[BodyLine(text="주가가 10분의 1, 2주일 전 일")])]
+    n = _note()
+    rep = validate(n, sl2, al, _tpl())
+    assert any(i.code == "NUMBER_LOST" for i in rep.issues)
+    n.meta = {"omitted": "2주|10분|1"}
+    rep = validate(n, sl2, al, _tpl())
+    assert not any(i.code == "NUMBER_LOST" for i in rep.issues) and any(i.code == "OMITTED_BY_RULE" for i in rep.issues)

@@ -80,7 +80,8 @@ def validate(
     miss_content = sum(1 for n in missing if n < EXAM_BASE)
     rep.slide_coverage = 1 - miss_content / content_total if content_total else 1.0
 
-    # 2. Numbers/units and key terms preserved
+    # 2. Numbers/units and key terms preserved (numbers the author dropped on purpose are listed in meta.omitted, "a|b|c")
+    omitted = {_norm(x) for x in (note.meta.get("omitted") or "").split("|") if x.strip()}
     for n, s in by_slide.items():
         if n in missing:
             continue
@@ -88,6 +89,10 @@ def validate(
         src = " ".join(b.text for b in s.body) if n >= EXAM_BASE else s.plain_text()
         for m in sorted({x.group().strip() for x in _NUM.finditer(src)}):
             if len(re.sub(r"\D", "", m)) == 0:
+                continue
+            if _norm(m) not in full and _norm(m) in omitted:
+                rep.issues.append(Issue(severity="info", code="OMITTED_BY_RULE", slide=n,
+                                        message=f"수치 '{m}'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted)."))
                 continue
             if _norm(m) not in full:
                 rep.issues.append(Issue(severity="error", code="NUMBER_LOST", slide=n,
@@ -207,6 +212,17 @@ def validate(
             if "*" in left or LEAK.search(left):
                 rep.issues.append(Issue(severity="warning", code="MARKUP_LEAK",
                                         slide=None, message=f"렌더링되지 않는 서식 기호가 남아 있습니다: '{left[:40]}…'"))
+
+    # 4c-2. One fact per line (approved rule L1): a long line glued together with dashes / middle dots is too dense
+    for t in note.topics:
+        for sts in t.sections.values():
+            for st in sts:
+                lines = [st.text, *st.left] + ([i for g in st.diagram.groups for i in g.items] if st.kind == "columns" and st.diagram else [])
+                for line in lines:
+                    plain = _strip_markup(line)
+                    if len(plain) > 60 and plain.count("—") + plain.count("·") >= 2:
+                        rep.issues.append(Issue(severity="warning", code="LINE_TOO_DENSE", slide=st.slide_refs[0] if st.slide_refs else None,
+                                                message=f"한 줄에 사실을 몰아넣었습니다(—/· 연결, {len(plain)}자): '{plain[:40]}…'"))
 
     # 4d. The 요약 정리 page must carry a visual (schematic or figure)
     for t in note.topics:

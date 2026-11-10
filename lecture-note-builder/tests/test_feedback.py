@@ -188,3 +188,15 @@ def test_private_material_is_gitignored():
     assert sorted(res.stdout.split()) == sorted(paths)
     keep = subprocess.run(["git", "check-ignore", "style_rules/approved_rules.json"], cwd=ROOT, capture_output=True, text=True)
     assert keep.stdout.strip() == ""  # the approved rules stay versioned
+
+
+def test_approve_manual_rule_from_analysis(tmp_path):
+    store = tmp_path / "rules.json"
+    r = fb.approve_manual("한 줄에 한 사실", "style", ["all"], evidence_doc="analysis.md",
+                          examples=[fb.Example(before="a — b · c", after="a. / b.")], signal="x1", store_path=store)
+    assert (r.id, r.version, r.evidence[0].report) == ("L1", 1, "analysis.md")
+    r2 = fb.approve_manual("한 줄에 한 사실(개정)", "style", ["all"], evidence_doc="analysis2.md", signal="x1", store_path=store)
+    assert r2.id == "L1" and r2.version == 2 and len(fb.load_store(store).rules) == 1
+    assert "한 줄에 한 사실(개정)" in fb.approved_rules_markdown("", store)
+    with pytest.raises(ValueError):
+        fb.approve_manual("x", "nope", ["all"], evidence_doc="a", store_path=store)

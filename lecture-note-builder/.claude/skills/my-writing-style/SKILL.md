@@ -21,7 +21,7 @@ The story/narration rules apply to concept-chain lectures written as prose (`mom
 Structure/technique rules in `readable-note-organizer` 0b (check boxes, effort tags, author-added parentheses, analogies, mechanism steps) are adopted; the example's voice (합니다체, colloquial, professor attribution) is NOT. Blue stays PAD-only.
 
 ## Rules (evidence: edit batch 1 = tcell_v2 §1 도입)
-1. **Narrate directly; do not attribute to the professor.** Delete "교수님은 ~라고 하셨다 / ~하라고 당부하셨다 / “…”라고 경고하셨다" framing and quoted professor lines. Write the content as the note's own flow. (Source ¶ citations stay in the refs, not in the prose.)
+1. **Narrate directly; do not QUOTE the professor.** (Scope narrowed by approved rule L6: “교수님 연구(팀)” to mark the professor’s own research is allowed; “연자” is not used.) Delete "교수님은 ~라고 하셨다 / ~하라고 당부하셨다 / “…”라고 경고하셨다" framing and quoted professor lines. Write the content as the note's own flow. (Source ¶ citations stay in the refs, not in the prose.)
 2. **Inclusive, short guiding voice:** "~를 보았다. 그렇다면 그 다음 질문은 …", "~로 넘어가 보자", "~생각해 보자". Not "교수님은 한번 ~ 생각해 보라고 하셨다".
 3. **No filler/signposting sentences.** Cut "이야기를 따라가려면 ~ 해 두어야 한다", "여기에 하나가 더 있다", "교수님은 이 두 가지가 출발점이라고 하셨다" when the next sentence already says it.
 4. **Plain, concrete wording over literary wording.** "두 겹으로 대비하고 있다" → "2가지 대비책을 둔다". Numbers as digits (2가지), enumerations as ① ② or 1. 2.

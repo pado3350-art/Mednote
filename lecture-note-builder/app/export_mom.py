@@ -383,6 +383,7 @@ def _check_box(doc, checks: list[Statement], tpl: Template, answers_inline: bool
             r = q.add_run(text); _run_style(r, col, F, base - 0.5, bold=True if bold else None)
         r = q.add_run("\t(O, X)" + (f"  → {st.answer}" if answers_inline else "")); _font(r, F, base - 0.5, bold=True)
     _fmt(c.add_paragraph(), after=0, line=0.5)
+    cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); t.rows[0]._tr.get_or_add_trPr().append(cs)
     _fmt(doc.add_paragraph(), after=2, line=0.7)
 
 
