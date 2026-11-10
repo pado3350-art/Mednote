@@ -1,6 +1,6 @@
 {
-  "store_version": 21,
-  "updated": "2026-11-10T15:12:18",
+  "store_version": 26,
+  "updated": "2026-11-10T15:31:27",
   "rules": [
     {
       "id": "L1",
@@ -145,18 +145,18 @@
     },
     {
       "id": "L5",
-      "version": 1,
+      "version": 2,
       "status": "approved",
       "kind": "rule",
       "category": "style",
-      "rule": "내용은 한다체로, 작성자가 독자에게 하는 메모(진행 상황·출제 정보)는 합니다체 괄호로 쓴다.",
+      "rule": "설명 문단, 질문 상자의 ‘A.’ 답, 핵심 답, 작성자 메모는 모두 합니다체로 쓴다(‘~합니다/~입니다’). 표 칸은 개조식(L19), 제목·라벨은 명사형, 개념 Check·QUIZ의 O/X·보기 문장은 시험 문장 형태(한다체)를 유지한다. 교수님 발언 인용형은 쓰지 않는다(L6).",
       "lecture_types": [
         "all"
       ],
       "examples": [
         {
-          "before": "Part 2는 … 3분 동안만 발표하고 넘어갔다",
-          "after": "(교수님께서 3분 만에 빠르게 넘어간 부분입니다.)",
+          "before": "약이 균이 있는 곳에 충분히 닿아야 하므로 기관마다 약과 경로를 바꾼다.",
+          "after": "약이 균이 있는 곳에 충분히 닿아야 하므로 기관마다 약과 경로를 바꿉니다.",
           "change_id": ""
         }
       ],
@@ -168,13 +168,22 @@
           "change_ids": [],
           "support": 0,
           "date": "2026-11-10T08:49:01"
+        },
+        {
+          "report": "사용자 승인 '승인해줘. 그리고 L5를 합니다체로 바꿔' (2026-11-10). 근거: docs/mom_style_head_trauma.md (두부 외상 MOM 비교, 4회 루프)",
+          "original": "항균제 노트(한다체)",
+          "edited": "사람 MOM(합니다체)",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-10T15:31:27"
         }
       ],
       "signal": "human_compare_C5",
-      "note": "",
-      "approved_at": "2026-11-10T08:49:01",
+      "note": "v2: 한다체 → 합니다체(사용자 지시). v1은 ‘내용은 한다체, 메모만 합니다체 괄호’였다. L19의 ‘설명 문단과 A. 줄은 한다체’는 이 규칙이 대체함.",
+      "approved_at": "2026-11-10T15:31:27",
       "history": [
-        "v1 2026-11-10T08:49:01: 승인 (outputs/stemcell/style_content_analysis.md)"
+        "v1 2026-11-10T08:49:01: 승인 (outputs/stemcell/style_content_analysis.md)",
+        "v2 2026-11-10T15:31:27: 다시 승인 (사용자 승인 '승인해줘. 그리고 L5를 합니다체로 바꿔' (2026-11-10). 근거: docs/mom_style_head_trauma.md (두부 외상 MOM 비교, 4회 루프))"
       ]
     },
     {
@@ -646,23 +655,18 @@
     },
     {
       "id": "L19",
-      "version": 1,
+      "version": 2,
       "status": "approved",
       "kind": "rule",
       "category": "style",
-      "rule": "표 칸은 개조식으로 쓴다: ‘-다’ 문장으로 끝내지 않고 명사형(사용, 투여, 고려, 가능)이나 ‘-음/-함/-됨’, ‘~할 수 있음’으로 마친다. 마침표 없이 한 줄에 조건 → 조치. 설명 문단과 ‘A.’ 줄은 한다체, 작성자 메모는 합니다체(L5).",
+      "rule": "표 칸은 개조식으로 쓴다: ‘-다’ 문장으로 끝내지 않고 명사형(사용, 투여, 고려, 가능)이나 ‘-음/-함/-됨’, ‘~할 수 있음’으로 마친다. 마침표 없이 한 줄에 조건 → 조치. 설명 문단과 ‘A.’ 줄, 작성자 메모는 합니다체(L5 v2).",
       "lecture_types": [
         "all"
       ],
       "examples": [
         {
-          "before": "외래는 경구가 기본이다. 그래도 하루 한 번 주사실에서 IV를 맞는 경우가 있다",
-          "after": "외래는 경구가 기본, 그래도 하루 한 번 주사실에서 IV를 맞는 경우가 있음",
-          "change_id": ""
-        },
-        {
           "before": "경구약의 효과를 기대하기 어렵다",
-          "after": "경구약의 효과를 기대하기 어려움 (MOM: 설사, GI bleeding 등이 있을 땐 경구 항생제 섭취가 어려움)",
+          "after": "경구약의 효과를 기대하기 어려움",
           "change_id": ""
         }
       ],
@@ -674,13 +678,22 @@
           "change_ids": [],
           "support": 0,
           "date": "2026-11-10T15:12:18"
+        },
+        {
+          "report": "사용자 승인 '승인해줘. 그리고 L5를 합니다체로 바꿔' (2026-11-10). 근거: docs/mom_style_head_trauma.md (두부 외상 MOM 비교, 4회 루프)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-10T15:31:27"
         }
       ],
       "signal": "table_cells_gaejosik",
-      "note": "",
-      "approved_at": "2026-11-10T15:12:18",
+      "note": "문단 어미 표기를 L5 v2에 맞춤(한다체 → 합니다체)",
+      "approved_at": "2026-11-10T15:31:27",
       "history": [
-        "v1 2026-11-10T15:12:18: 승인 (사용자 지시 '말투, 문체도 학습해' · 'MOM에 근접' · '개념 check 기출문제 없는 파트에서는 빼' · '4분면 요약이라면 4분면 그림이 들어가는 게 맞아' (2026-11-10). 근거: 사람 MOM(항균제) 표 칸 문체 측정, outputs/abx/review_vs_MOM.md 13절)"
+        "v1 2026-11-10T15:12:18: 승인 (사용자 지시 '말투, 문체도 학습해' · 'MOM에 근접' · '개념 check 기출문제 없는 파트에서는 빼' · '4분면 요약이라면 4분면 그림이 들어가는 게 맞아' (2026-11-10). 근거: 사람 MOM(항균제) 표 칸 문체 측정, outputs/abx/review_vs_MOM.md 13절)",
+        "v2 2026-11-10T15:31:27: 다시 승인 (사용자 승인 '승인해줘. 그리고 L5를 합니다체로 바꿔' (2026-11-10). 근거: docs/mom_style_head_trauma.md (두부 외상 MOM 비교, 4회 루프))"
       ]
     },
     {
@@ -749,6 +762,102 @@
       "approved_at": "2026-11-10T15:12:18",
       "history": [
         "v1 2026-11-10T15:12:18: 승인 (사용자 지시 '말투, 문체도 학습해' · 'MOM에 근접' · '개념 check 기출문제 없는 파트에서는 빼' · '4분면 요약이라면 4분면 그림이 들어가는 게 맞아' (2026-11-10). 근거: 사람 MOM(항균제) 표 칸 문체 측정, outputs/abx/review_vs_MOM.md 13절)"
+      ]
+    },
+    {
+      "id": "L22",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "그림 뒤에는 ‘무엇을 보라’는 1~2문장 해설을 둔다(‘파란 선은 …, 빨간 선은 …’). 같은 내용이 바로 위 표에 있으면 표 행을 그림 아래 문장으로 옮겨 한 번만 쓴다.",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "표 행: 그림 (균 수) | 유지 | 급감  (그림 아래 글 없음)",
+          "after": "그림 아래: 파란 선(정균제)은 균 수가 유지되고, 빨간 선(살균제)은 급격히 감소합니다.",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 승인 '승인해줘. 그리고 L5를 합니다체로 바꿔' (2026-11-10). 근거: docs/mom_style_head_trauma.md (두부 외상 MOM 비교, 4회 루프)",
+          "original": "항균제 노트",
+          "edited": "두부 외상 MOM",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-10T15:31:27"
+        }
+      ],
+      "signal": "figure_reading_line",
+      "note": "",
+      "approved_at": "2026-11-10T15:31:27",
+      "history": [
+        "v1 2026-11-10T15:31:27: 승인 (사용자 승인 '승인해줘. 그리고 L5를 합니다체로 바꿔' (2026-11-10). 근거: docs/mom_style_head_trauma.md (두부 외상 MOM 비교, 4회 루프))"
+      ]
+    },
+    {
+      "id": "L23",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "style",
+      "rule": "스크립트의 ‘중요하다·꼭·기억·시험’ 발언을 찾아 노트의 빨강 강조와 맞춰 보고, 빠진 곳은 빨강으로 표시한다(근거 문단 번호 확인).",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "(외래 병력 청취 강조가 표에 표시 없음)",
+          "after": "{r|외래에서는 병력 청취가 중요}",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 승인 '승인해줘. 그리고 L5를 합니다체로 바꿔' (2026-11-10). 근거: docs/mom_style_head_trauma.md (두부 외상 MOM 비교, 4회 루프)",
+          "original": "항균제 노트",
+          "edited": "두부 외상 MOM",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-10T15:31:27"
+        }
+      ],
+      "signal": "red_emphasis_audit",
+      "note": "",
+      "approved_at": "2026-11-10T15:31:27",
+      "history": [
+        "v1 2026-11-10T15:31:27: 승인 (사용자 승인 '승인해줘. 그리고 L5를 합니다체로 바꿔' (2026-11-10). 근거: docs/mom_style_head_trauma.md (두부 외상 MOM 비교, 4회 루프))"
+      ]
+    },
+    {
+      "id": "L24",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "그림 중심 MOM(쪽당 큰 그림 2개 이상)과 비교할 때는 쪽수·쪽당 글자·글자 크기를 비교하지 않고 문체(문장 길이, 질문, 강조, 그림 해설)만 비교한다.",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [],
+      "evidence": [
+        {
+          "report": "사용자 승인 '승인해줘. 그리고 L5를 합니다체로 바꿔' (2026-11-10). 근거: docs/mom_style_head_trauma.md (두부 외상 MOM 비교, 4회 루프)",
+          "original": "항균제 노트",
+          "edited": "두부 외상 MOM",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-10T15:31:27"
+        }
+      ],
+      "signal": "picture_led_compare",
+      "note": "",
+      "approved_at": "2026-11-10T15:31:27",
+      "history": [
+        "v1 2026-11-10T15:31:27: 승인 (사용자 승인 '승인해줘. 그리고 L5를 합니다체로 바꿔' (2026-11-10). 근거: docs/mom_style_head_trauma.md (두부 외상 MOM 비교, 4회 루프))"
       ]
     }
   ]

@@ -65,7 +65,7 @@ def _colour_mixed(text: str) -> bool:
 
 def table_style_issues(note: LectureNote) -> list[tuple[str, str, str]]:
     """Table cells are 개조식 (user rule L19, learned from the human MOM): they end in a noun / '-음, -함, -됨' / '~할 수 있음',
-    not in a full '-다' sentence. Prose paragraphs and the 'A.' lines stay 한다체."""
+    not in a full '-다' sentence. Prose paragraphs and the 'A.' lines are 합니다체 (L5 v2)."""
     out = []
     for t in note.topics:
         for sts in t.sections.values():
@@ -151,6 +151,10 @@ def mixed_issues(note: LectureNote) -> list[tuple[str, str, str]]:
                 out.append(("warning", "PARAGRAPH_TOO_LONG", f"'{t.heading}': 문단 {pl}자 — 3줄(약 140자) 이하로 나눈다: '{_plain(s.text)[:24]}…'"))
             if _colour_mixed(s.text):
                 out.append(("info", "COLOUR_IN_PARAGRAPH", f"'{t.heading}': 문단 중간에 회색·빨강 문장이 섞였다 → 별도 줄로 뺀다: '{_plain(s.text)[:24]}…'"))
+        plain_ends = [x for s_ in paras for x in re.split(r"(?<=[다요])\.\s+", _plain(s_.text)) if re.search(r"[가-힣]다\.?$", x) and not re.search(r"니다\.?$", x)]
+        plain_ends += [a for s_ in sts if s_.kind == "qa" for a in s_.left if re.search(r"[가-힣]다\.?$", a.strip()) and not re.search(r"니다\.?$", a.strip())]
+        if plain_ends:  # approved rule L5 v2: explanation paragraphs and 'A.' lines are 합니다체
+            out.append(("info", "TONE_NOT_FORMAL", f"'{t.heading}': 설명 문단·A. 줄 {len(plain_ends)}문장이 ‘-다’로 끝난다 → 합니다체(L5): '{plain_ends[0][:24]}…'"))
         for x in texts:
             if ANNOUNCE.search(x):
                 out.append(("warning", "ANNOUNCE_SENTENCE", f"'{t.heading}': 내용 없이 앞을 여는 문장 → 빼고 핵심부터: '{x[:28]}…'"))

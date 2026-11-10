@@ -1,7 +1,7 @@
 """Offline (no API) organizer: turns raw lecture paragraphs into readable study text with rules.
 
 Honest scope: this is rule-based. It does NOT understand medicine - it cleans speech noise, converts spoken
-endings to a study voice (한다체), highlights emphasis cues (red) and low-importance remarks (gray), bolds distinctive
+endings to a study voice (합니다체, rule L5 v2), highlights emphasis cues (red) and low-importance remarks (gray), bolds distinctive
 English terms, builds 기본정석 boxes from the most salient sentences, writes 핵심 어휘 / 요약 정리 pages, and
 marks sentences that match the PAD (blue). The result is a solid first draft; for the best quality let
 Claude Code author the note with the `make-lecture-note` skill (still no API key needed).
@@ -36,17 +36,15 @@ def _bnida(m: re.Match) -> str:
 
 
 def to_study_voice(s: str) -> str:
-    s = s.replace("아닙니다", "아니다").replace("입니다", "이다")
-    s = re.sub(r"(겁니다|거예요|거에요)", "것이다", s)
-    s = re.sub(r"([가-힣])시죠[?.!]?(?=\s|$)", r"\1자", s)  # "보시죠" -> "보자"
-    s = re.sub(r"습니다", "다", s)
-    s = re.sub(r"([가-힣])니다(?=[\s.!?,)]|$)", _bnida, s)
-    s = re.sub(r"(이에요|예요)(?=[\s.!?]|$)", "이다", s)
-    for a, b in (("있어요", "있다"), ("없어요", "없다"), ("같아요", "같다"), ("많아요", "많다"), ("좋아요", "좋다"),
-                 ("해요", "한다"), ("돼요", "된다"), ("봐요", "본다")):
+    """Study voice = 합니다체 (approved rule L5 v2): 합니다/입니다 stay, 요체 and 죠 endings become 합니다체."""
+    s = re.sub(r"(겁니다|거예요|거에요)", "것입니다", s)
+    s = re.sub(r"([가-힣])시죠[?.!]?(?=\s|$)", r"\1시기 바랍니다", s)  # "보시죠" -> "보시기 바랍니다"
+    s = re.sub(r"(이에요|예요)(?=[\s.!?]|$)", "입니다", s)
+    for a, b in (("있어요", "있습니다"), ("없어요", "없습니다"), ("같아요", "같습니다"), ("많아요", "많습니다"), ("좋아요", "좋습니다"),
+                 ("해요", "합니다"), ("돼요", "됩니다"), ("봐요", "봅니다")):
         s = re.sub(a + r"(?=[\s.!?]|$)", b, s)
-    s = re.sub(r"(세요|십시오)(?=[\s.!?]|$)", "자", s)
-    s = re.sub(r"(죠|지요)[?]?(?=[\s.!]|$)", "다", s)
+    s = re.sub(r"(세요|십시오)(?=[\s.!?]|$)", "시기 바랍니다", s)
+    s = re.sub(r"(죠|지요)[?]?(?=[\s.!]|$)", "습니다", s)
     return s
 
 

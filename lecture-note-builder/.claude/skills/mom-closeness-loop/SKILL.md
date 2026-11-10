@@ -51,7 +51,7 @@ description: Iteratively make a generated lecture note (PDF/DOCX) closer to a hu
 | 문단 중간에 회색·빨강 문장 | 색 문장을 문단에 끼움 | 별도 줄 | `COLOUR_IN_PARAGRAPH` |
 | 같은 사실이 표·띠·문단·Check로 반복 | 소절마다 모양을 바꿔 되풀이 | 한 소절 한 모양, PAD(파랑)는 표 안에만 | 쪽 이미지 |
 | 개념 Check가 소절마다 | — | **기출(PAD)이 있는 소절에만**(L20), 장 끝 한 상자, `[§n]` 표시 | `CHECK_NO_PAD`, `CHECK_TOO_MANY` |
-| 표 칸이 ‘-다’ 문장 | MOM의 표 칸은 개조식 | **명사형, ‘-음/-함’**(L19), 설명 문단·A.는 한다체, 작성자 메모는 합니다체 | `TABLE_CELL_STYLE` |
+| 표 칸이 ‘-다’ 문장 | MOM의 표 칸은 개조식 | **명사형, ‘-음/-함’**(L19), 설명 문단·A.·작성자 메모는 합니다체(L5 v2) | `TABLE_CELL_STYLE` |
 | 표지가 빽빽, 제목 두 번 | 배너 표지 | `cover_style: box`, 코멘트 3문단 | 쪽 이미지 |
 | QUIZ 상자가 쪽 사이에서 갈라짐, QUIZ가 § 번호를 받음 | — | `cantSplit`, QUIZ는 번호 없음 | 쪽 이미지 |
 | 요약 쪽에 그림 없음/주제 그림 없음 | — | 요약 쪽 = 그 주제의 슬라이드 그림 + 표 | `SUMMARY_NO_VISUAL` |

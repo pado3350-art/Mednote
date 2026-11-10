@@ -29,8 +29,8 @@ def test_suggest_style():
 
 def test_good_mixed_note_has_no_warnings():
     ex = _t("왜 MSC로는 부족한가?", "explain",
-            [Statement(text="MSC는 multipotent다. 그럼 분화능이 제한된다.", kind="para", slide_refs=[1])],
-            basics=["분화능이 제한되기 때문이다."])
+            [Statement(text="MSC는 multipotent입니다. 그럼 분화능이 제한됩니다.", kind="para", slide_refs=[1])],
+            basics=["분화능이 제한되기 때문입니다."])
     ls = _t("RCT 결과", "list", [Statement(text="**통증**: 9개월째에만 유의했다.", kind="bullet", slide_refs=[1]),
                                  Statement(text="즉 절반의 성공이었다.", kind="bullet", slide_refs=[1])])
     assert _codes([ex, ls]) == set()
@@ -121,3 +121,8 @@ def test_answer_repeated_in_first_paragraph():
     ex = _t("왜?", "explain", [Statement(text="분화능이 제한되기 때문이다. 그래서 덩어리로 넣는다.", kind="para", slide_refs=[1])],
             ["분화능이 제한되기 때문이다."])
     assert "ANSWER_REPEATED" in _codes([ex])
+
+
+def test_tone_not_formal_flagged():
+    ex = _t("왜?", "explain", [Statement(text="분화능이 제한된다. 그래서 덩어리로 넣는다.", kind="para", slide_refs=[1])], ["a"])
+    assert "TONE_NOT_FORMAL" in _codes([ex])

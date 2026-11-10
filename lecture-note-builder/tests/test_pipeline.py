@@ -669,9 +669,9 @@ def test_study_voice_conversion():
     from app.offline_organizer import clean_sentences, to_study_voice
 
     assert [to_study_voice(x) for x in ("합니다.", "봅니다.", "됩니다.", "입니다.", "있습니다.", "보세요.", "배웠죠.", "할 겁니다.")] == \
-        ["한다.", "본다.", "된다.", "이다.", "있다.", "보자.", "배웠다.", "할 것이다."]
+        ["합니다.", "봅니다.", "됩니다.", "입니다.", "있습니다.", "보시기 바랍니다.", "배웠습니다.", "할 것입니다."]
     out = clean_sentences("자, 이제 그림을 보겠습니다. MHC는 6번 염색체에 있습니다. 꼭 기억하세요.")
-    assert out == ["MHC는 6번 염색체에 있다.", "꼭 기억하자."]  # pure speech noise dropped, content (6번) kept
+    assert out == ["MHC는 6번 염색체에 있습니다.", "꼭 기억하시기 바랍니다."]  # pure speech noise dropped, content (6번) kept
 
 
 def test_pad_matcher_blue_only_on_real_overlap():

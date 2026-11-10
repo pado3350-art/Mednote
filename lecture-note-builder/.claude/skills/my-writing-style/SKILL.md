@@ -33,3 +33,6 @@ Structure/technique rules in `readable-note-organizer` 0b (check boxes, effort t
 ## Open questions to confirm with the user (do not guess)
 - Should Advice boxes (헷갈리는 점) and "공부 팁" stay? (Not visible in the pasted edits; keep them until told otherwise.)
 - Exam-cue phrases (“참고만 해라”, “상식 차원”, “시험에 나올 수 있다”): keep them with attribution as the reference MOM notes do, or restate without “교수님”? (raised in outputs/precision/review_vs_MOM.md)
+
+## 2026-11-10 갱신: 어미 = 합니다체 (승인 규칙 L5 v2)
+설명 문단, 질문 상자의 `A.` 답, 핵심 답, 작성자 메모는 합니다체로 쓴다. 표 칸은 개조식(L19), 개념 Check·QUIZ의 O/X·보기는 시험 문장(한다체). 위 ‘한다체’ 예시와 충돌하면 이 항목이 우선한다(어미만 바뀌고 나머지 규칙 — 인용 금지 L6, 군더더기 삭제 — 은 그대로). 검증: `TONE_NOT_FORMAL`.
