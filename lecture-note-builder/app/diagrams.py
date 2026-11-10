@@ -13,7 +13,8 @@ from PIL import Image, ImageDraw, ImageFont
 from .markup import runs
 from .models import Diagram
 
-W = 1700  # canvas width in px (placed at ~16.5 cm -> ~260 dpi)
+W = 1700  # canvas width in px (placed at ~16.5 cm -> ~260 dpi); "side" diagrams use SIDE_W
+SIDE_W = 900  # narrow canvas for diagrams placed beside text (~7 cm wide)
 M = 40  # outer margin
 INK = (30, 30, 30)
 TEXT_COLORS = {None: INK, "emphasis": (192, 0, 0), "exam": (31, 78, 200), "exam_other": (0, 150, 205), "minor": (130, 130, 130),
@@ -305,8 +306,146 @@ def render_compare(spec: Diagram) -> Image.Image:
     return im
 
 
+def render_pyramid(spec: Diagram) -> Image.Image:
+    """Hierarchy drawn as stacked trapezoid bands: groups[0] = top (narrowest, highest level) ... last = base.
+    `root` is written along an upward arrow on the left (e.g. "분화능 ↑")."""
+    n = max(len(spec.groups), 1)
+    tsize, isize = (38, 30) if W <= SIDE_W else (40, 32)
+    tl, th0 = _title_h(spec)
+    axis = 110 if spec.root else 0
+    x0, x1 = M + axis, W - M
+    full = x1 - x0
+    cx = (x0 + x1) // 2
+    w_top, w_bot = int(full * 0.42), full
+    bands = []
+    for i, g in enumerate(spec.groups):
+        wt = w_top + (w_bot - w_top) * i // n
+        inner = int(wt * 0.86) - 40
+        tl2 = wrap("**" + g.title + "**", tsize, inner)
+        il = [wrap(it, isize, inner) for it in g.items]
+        h = block_height(tl2, tsize, 1.25) + sum(block_height(x, isize, 1.25) for x in il) + 44
+        bands.append((g, tl2, il, h))
+    H = M + th0 + sum(b[3] for b in bands) + M
+    im = Image.new("RGB", (W, H), "white")
+    d = ImageDraw.Draw(im)
+    if tl:
+        draw_lines(d, tl, M, M, 40)
+    y = M + th0
+    for i, (g, tl2, il, h) in enumerate(bands):
+        wt = w_top + (w_bot - w_top) * i // n
+        wb = w_top + (w_bot - w_top) * (i + 1) // n
+        c = _color(g, i)
+        d.polygon([(cx - wt // 2, y), (cx + wt // 2, y), (cx + wb // 2, y + h), (cx - wb // 2, y + h)],
+                  fill=c, outline="white")
+        d.line([(cx - wb // 2, y + h), (cx + wb // 2, y + h)], fill="white", width=4)
+        yy = y + 20
+        for ln in tl2:
+            lw = sum(font(tsize).getlength(t) for t, _, _ in ln)
+            draw_lines_white(d, [ln], int(cx - lw / 2), yy, tsize); yy += int(tsize * 1.25)
+        for lines in il:
+            for ln in lines:
+                lw = sum(font(isize).getlength(t) for t, _, _ in ln)
+                f = font(isize); xx = cx - lw / 2
+                for text, _, bold in ln:
+                    d.text((xx, yy), text, font=f, fill=(255, 255, 255), stroke_width=1 if bold else 0, stroke_fill=(255, 255, 255))
+                    xx += f.getlength(text)
+                yy += int(isize * 1.25)
+        y += h
+    if spec.root:  # upward axis arrow with its label
+        ax = M + 30
+        _arrow(d, (ax, M + th0 + sum(b[3] for b in bands) - 10), (ax, M + th0 + 10), (70, 70, 70), width=6, head=24)
+        chars = [ch for ch in spec.root.replace("↑", "").replace(" ", "")]  # stacked vertical label (reads in Korean)
+        f = font(32)
+        total = len(chars) * 38
+        yy = M + th0 + (sum(b[3] for b in bands) - total) // 2
+        for ch in chars:
+            d.text((ax + 22, yy), ch, font=f, fill=(70, 70, 70)); yy += 38
+    return im
+
+
+def render_cycle(spec: Diagram) -> Image.Image:
+    """Loop: groups around a circle, arrows i -> i+1 and last -> first; `root` in the middle."""
+    import math
+
+    n = max(len(spec.groups), 2)
+    tsize, isize = (34, 28)
+    tl, th0 = _title_h(spec)
+    cw = int(W * (0.36 if n <= 3 else 0.30))
+    cards = []
+    for g in spec.groups:
+        tl2 = wrap("**" + g.title + "**", tsize, cw - 36)
+        laid = _items_layout(g.items, isize, cw - 36)
+        cards.append((g, tl2, laid, block_height(tl2, tsize, 1.3) + 22 + _items_height(laid, isize) + 26))
+    ch = max(c[3] for c in cards)
+    rx = (W - 2 * M - cw) / 2
+    ry = max(ch * 1.3, rx * (0.7 if n <= 3 else 0.85))
+    H = int(M + th0 + 2 * ry + ch + M)
+    im = Image.new("RGB", (W, H), "white")
+    d = ImageDraw.Draw(im)
+    if tl:
+        draw_lines(d, tl, M, M, 40)
+    ccx, ccy = W / 2, M + th0 + ch / 2 + ry
+    pos = []
+    for i in range(len(cards)):
+        a = -math.pi / 2 + 2 * math.pi * i / len(cards)
+        pos.append((ccx + rx * math.cos(a), ccy + ry * math.sin(a)))
+    boxes = []
+    for i, ((g, tl2, laid, h), (px, py)) in enumerate(zip(cards, pos)):
+        x, y = int(px - cw / 2), int(py - ch / 2)
+        boxes.append((x, y, x + cw, y + ch))
+    col = (70, 70, 70)
+
+    def edge(b, tx, ty):  # point where the line from the box centre to (tx, ty) leaves the box
+        bx, by = (b[0] + b[2]) / 2, (b[1] + b[3]) / 2
+        dx, dy = tx - bx, ty - by
+        sx = (b[2] - b[0]) / 2 / abs(dx) if dx else 1e9
+        sy = (b[3] - b[1]) / 2 / abs(dy) if dy else 1e9
+        k = min(sx, sy)
+        return bx + dx * k, by + dy * k
+
+    for i in range(len(boxes)):
+        j = (i + 1) % len(boxes)
+        bi, bj = boxes[i], boxes[j]
+        ci = ((bi[0] + bi[2]) / 2, (bi[1] + bi[3]) / 2)
+        cj = ((bj[0] + bj[2]) / 2, (bj[1] + bj[3]) / 2)
+        p0, p1 = edge(bi, *cj), edge(bj, *ci)
+        v = (p1[0] - p0[0], p1[1] - p0[1]); L = math.hypot(*v) or 1
+        p0 = (p0[0] + v[0] / L * 14, p0[1] + v[1] / L * 14); p1 = (p1[0] - v[0] / L * 14, p1[1] - v[1] / L * 14)
+        _arrow(d, p0, p1, col, width=6, head=24)
+        lab = next((a.label for a in spec.arrows if a.src == i and a.dst == j and a.label), "")
+        if lab:
+            f = font(26); lw = f.getlength(lab)
+            mx, my = (p0[0] + p1[0]) / 2, (p0[1] + p1[1]) / 2
+            # push the label outwards, away from the centre
+            ox, oy = mx - ccx, my - ccy; OL = math.hypot(ox, oy) or 1
+            d.text((mx + ox / OL * 30 - lw / 2, my + oy / OL * 30 - 15), lab, font=f, fill=col)
+    for (g, tl2, laid, h), b, i in zip(cards, boxes, range(len(cards))):
+        _card(d, b[0], b[1], cw, ch, _color(g, i), g.title, laid, tsize, isize, tl2)
+    if spec.root:
+        rl = wrap("**" + spec.root + "**", 32, int(rx * 0.9))
+        y = int(ccy - block_height(rl, 32) / 2)
+        for ln in rl:
+            lw = sum(font(32).getlength(t) for t, _, _ in ln)
+            draw_lines(d, [ln], int(ccx - lw / 2), y, 32); y += int(32 * 1.32)
+    return im
+
+
 def render_diagram(spec: Diagram, path: str | Path) -> Path:
-    im = {"tree": render_tree, "flow": render_flow, "compare": render_compare}[spec.kind](spec)
+    global W
+    old = W
+    if spec.size == "side":
+        W = SIDE_W
+    try:
+        im = {"tree": render_tree, "flow": render_flow, "compare": render_compare,
+              "pyramid": render_pyramid, "cycle": render_cycle}[spec.kind](spec)
+    finally:
+        W = old
+    if spec.kind == "cycle":  # trim the unused band under the lower cards
+        from PIL import ImageChops
+
+        box = ImageChops.difference(im, Image.new("RGB", im.size, "white")).getbbox()
+        if box:
+            im = im.crop((0, max(0, box[1] - M), im.width, min(im.height, box[3] + M)))
     p = Path(path)
     p.parent.mkdir(parents=True, exist_ok=True)
     im.save(p)

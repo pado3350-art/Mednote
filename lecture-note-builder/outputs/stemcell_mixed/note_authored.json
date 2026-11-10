@@ -65,6 +65,7 @@
             "effort": "",
             "diagram": {
               "kind": "flow",
+              "size": "full",
               "title": "",
               "root": "",
               "groups": [
@@ -443,7 +444,7 @@
             "diagram": null
           },
           {
-            "text": "",
+            "text": "분화능의 위계 (위로 갈수록 분화능이 크다)",
             "origin": "both",
             "slide_refs": [
               9
@@ -465,7 +466,39 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "diagram": null
+            "diagram": {
+              "kind": "pyramid",
+              "size": "side",
+              "title": "",
+              "root": "분화능",
+              "groups": [
+                {
+                  "title": "totipotent",
+                  "items": [
+                    "세포 하나 → 생명 개체"
+                  ],
+                  "color": "violet"
+                },
+                {
+                  "title": "pluripotent",
+                  "items": [
+                    "모든 계통",
+                    "ESC, iPSC"
+                  ],
+                  "color": "salmon"
+                },
+                {
+                  "title": "multipotent",
+                  "items": [
+                    "몇 개 계통만",
+                    "MSC"
+                  ],
+                  "color": "teal"
+                }
+              ],
+              "arrows": [],
+              "row_labels": []
+            }
           },
           {
             "text": "{b|분화능이 가장 높은 것은 pluripotent인 ESC와 iPSC이고, 성체줄기세포(MSC)는 그보다 낮은 multipotent이다}.",
@@ -533,6 +566,34 @@
             "diagram": null
           },
           {
+            "text": "Recently available stem cells in South Korea: iPSC, ESC, MSC",
+            "origin": "both",
+            "slide_refs": [
+              7,
+              8,
+              9,
+              10
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "figure_side",
+            "level": 0,
+            "image": "inputs/stemcell_figs/s02.png",
+            "left_title": "그림에서 볼 것: 세 세포의 출처",
+            "left": [
+              "- 가운데 위 수정란 → blastocyst → ESC (Embryo-derived, pluripotent)",
+              "- 왼쪽 primary cell → reprogramming(Oct4, Klf4, Sox2, c-Myc) → iPSC",
+              "- 아래 MSC: 성체줄기세포(adult stem cell), multipotent"
+            ],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
             "text": "두 세포를 나란히 놓으면 다음과 같다.",
             "origin": "both",
             "slide_refs": [
@@ -554,6 +615,7 @@
             "effort": "",
             "diagram": {
               "kind": "compare",
+              "size": "full",
               "title": "",
               "root": "",
               "groups": [
@@ -759,6 +821,73 @@
             "explanations": [],
             "effort": "",
             "diagram": null
+          },
+          {
+            "text": "골관절염 치료의 공백: 초기 약물과 말기 수술 사이",
+            "origin": "slide",
+            "slide_refs": [
+              11,
+              12
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "diagram",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": {
+              "kind": "flow",
+              "size": "full",
+              "title": "",
+              "root": "",
+              "groups": [
+                {
+                  "title": "초기",
+                  "items": [
+                    "내과: 진통제, 소염제",
+                    "증상 조절"
+                  ],
+                  "color": "blue"
+                },
+                {
+                  "title": "약 20년",
+                  "items": [
+                    "연골이 닳는 것을 다룰 방법이 없다",
+                    "**재생 치료의 자리**"
+                  ],
+                  "color": "salmon"
+                },
+                {
+                  "title": "말기",
+                  "items": [
+                    "정형외과: 인공관절 수술"
+                  ],
+                  "color": "gray"
+                }
+              ],
+              "arrows": [
+                {
+                  "src": 0,
+                  "dst": 1,
+                  "label": "연골 계속 닳음",
+                  "both": false
+                },
+                {
+                  "src": 1,
+                  "dst": 2,
+                  "label": "",
+                  "both": false
+                }
+              ],
+              "row_labels": []
+            }
           },
           {
             "text": "그럼 이 빈칸을 채우는 것이 재생 치료의 몫이다. 줄기세포의 재생 능력으로 연골이 닳는 과정을 늦추거나, 멈추거나, 되돌릴 수 있다면 치료의 판이 바뀐다.",
@@ -1118,7 +1247,7 @@
             "diagram": null
           },
           {
-            "text": "",
+            "text": "spheroid vs organoid",
             "origin": "both",
             "slide_refs": [
               14,
@@ -1143,7 +1272,34 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "diagram": null
+            "diagram": {
+              "kind": "tree",
+              "size": "side",
+              "title": "",
+              "root": "3D 세포 구조",
+              "groups": [
+                {
+                  "title": "spheroid",
+                  "items": [
+                    "세포를 뭉친다",
+                    "→ 3D 집합체",
+                    "연골 spheroid"
+                  ],
+                  "color": "teal"
+                },
+                {
+                  "title": "organoid",
+                  "items": [
+                    "줄기세포가 분화",
+                    "→ 장기 유사 구조",
+                    "{b|장기 구조·기능 모사}"
+                  ],
+                  "color": "violet"
+                }
+              ],
+              "arrows": [],
+              "row_labels": []
+            }
           },
           {
             "text": "수업에서 직접 다루지 않았지만 기출에 나온 개념: {b|환자 유래 줄기세포로 환자의 병적 상태를 흉내 내는 기술 = recapitulation}, {b|신장 organoid는 혈관세포 분화가 제한적이다}",
@@ -1254,8 +1410,8 @@
             "diagram": null
           },
           {
-            "text": "ECM(세포외기질): 줄기세포 유래 치료제 후보",
-            "origin": "both",
+            "text": "ECM이 연골세포를 돌보는 순환",
+            "origin": "slide",
             "slide_refs": [
               15
             ],
@@ -1265,16 +1421,61 @@
             "tag": "normal",
             "kind": "figure_side",
             "level": 0,
-            "image": "inputs/stemcell_figs/s05.png",
-            "left_title": "그림에서 볼 것",
+            "image": "",
+            "left_title": "도식에서 볼 것",
             "left": [
-              "- 세 후보 중 왼쪽 ECM이 강조되어 있다."
+              "- 연골세포가 만든 기질이 다시 연골세포를 돌본다.",
+              "- 그래서 기질(ECM)만 넣어도 재생을 도울 수 있다.",
+              "- {g|강의 슬라이드에는 ECM이 후보로 표시만 되어 있어(s05) 순환을 도식으로 그렸다.}"
             ],
             "options": [],
             "answer": "",
             "explanations": [],
             "effort": "",
-            "diagram": null
+            "diagram": {
+              "kind": "cycle",
+              "size": "side",
+              "title": "",
+              "root": "ECM",
+              "groups": [
+                {
+                  "title": "연골세포",
+                  "items": [
+                    "기질을 만든다"
+                  ],
+                  "color": "teal"
+                },
+                {
+                  "title": "기질",
+                  "items": [
+                    "hyaline cartilage (ECM)"
+                  ],
+                  "color": "amber"
+                },
+                {
+                  "title": "생존·기능 ↑",
+                  "items": [
+                    "오래 살고 일을 잘한다"
+                  ],
+                  "color": "blue"
+                }
+              ],
+              "arrows": [
+                {
+                  "src": 0,
+                  "dst": 1,
+                  "label": "생성",
+                  "both": false
+                },
+                {
+                  "src": 1,
+                  "dst": 2,
+                  "label": "돌봄",
+                  "both": false
+                }
+              ],
+              "row_labels": []
+            }
           },
           {
             "text": "교수님 연구팀은 iPSC로 연골세포 덩어리를 만든 뒤 세포를 제거해 ECM만 남겼다. 이 ECM을 분화 중인 연골세포에 처리했더니 연골세포 marker 발현이 증가했고, 연골 결손에 넣었더니 결손이 잘 메꿔졌다. 즉 ECM 자체도 연골 재생 치료제가 될 수 있다.",
@@ -1426,6 +1627,86 @@
             "explanations": [],
             "effort": "",
             "diagram": null
+          },
+          {
+            "text": "mitochondria 치료의 논리",
+            "origin": "slide",
+            "slide_refs": [
+              17,
+              18
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "diagram",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": {
+              "kind": "flow",
+              "size": "full",
+              "title": "",
+              "root": "",
+              "groups": [
+                {
+                  "title": "만성 퇴행성 질환",
+                  "items": [
+                    "골관절염, 알츠하이머"
+                  ],
+                  "color": "gray"
+                },
+                {
+                  "title": "mitochondria 부족",
+                  "items": [
+                    "기능과 양이 부족",
+                    "(원인이 아니라 연관 요인)"
+                  ],
+                  "color": "salmon"
+                },
+                {
+                  "title": "밖에서 채운다",
+                  "items": [
+                    "iPSC 유래 젊은 mitochondria 투여"
+                  ],
+                  "color": "teal"
+                },
+                {
+                  "title": "연골 개선",
+                  "items": [
+                    "MIA 모델, 대조군보다 개선",
+                    "성체줄기세포 유래보다 효과 ↑"
+                  ],
+                  "color": "blue"
+                }
+              ],
+              "arrows": [
+                {
+                  "src": 0,
+                  "dst": 1,
+                  "label": "연관",
+                  "both": false
+                },
+                {
+                  "src": 1,
+                  "dst": 2,
+                  "label": "그럼",
+                  "both": false
+                },
+                {
+                  "src": 2,
+                  "dst": 3,
+                  "label": "",
+                  "both": false
+                }
+              ],
+              "row_labels": []
+            }
           },
           {
             "text": "{g|mitochondria 이식은 근육병증(inflammatory myopathy)에서도 효과가 보고되어 임상 연구가 진행 중이다.}",
@@ -1926,6 +2207,33 @@
             "diagram": null
           },
           {
+            "text": "Distinguished approaches: (1) new cell, (2) CMC & (3) route",
+            "origin": "both",
+            "slide_refs": [
+              25,
+              26,
+              27
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "figure_side",
+            "level": 0,
+            "image": "inputs/stemcell_figs/s11.png",
+            "left_title": "그림에서 볼 것: 세 가지 전략",
+            "left": [
+              "- 1 Good material: MSC 대신 induced pluripotent stem cell",
+              "- 2 Formulation: single cell → cell aggregate(spheroid)",
+              "- 3 Application: 수술(surgery) → 주사(injection)"
+            ],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
             "text": "첫째, **재료**다. 앞의 MSC RCT에서 보았듯 multipotent한 MSC로는 한계가 뚜렷했다. 그래서 pluripotent한 iPSC로 바꾼다. {g|교수님은 이를 ‘5G 시대에 2G 폰을 쓰는 것’에 비유했다.} 국내에서 iPSC를 환자에게 투여한 곳은 교수님 연구팀이 거의 유일하다 {g|(국내 31명 중 30명, 연세대 카리스바이오 1명)}.",
             "origin": "both",
             "slide_refs": [
@@ -2082,9 +2390,10 @@
             "diagram": null
           },
           {
-            "text": "United we stand, divided we fall",
+            "text": "MIUChon: Newer formula + Stronger cell source + Easier access",
             "origin": "both",
             "slide_refs": [
+              27,
               28
             ],
             "segment_ids": [],
@@ -2093,10 +2402,12 @@
             "tag": "normal",
             "kind": "figure_side",
             "level": 0,
-            "image": "inputs/stemcell_figs/s13.png",
-            "left_title": "그림에서 볼 것",
+            "image": "inputs/stemcell_figs/s12.png",
+            "left_title": "그림에서 볼 것: AS-IS → TO-BE",
             "left": [
-              "- 한 마리보다 뭉친 새들이 살아남는다."
+              "- 왼쪽 AS-IS: single cell therapeutics, 흩어진 작은 물고기는 상어에게 먹힌다.",
+              "- 오른쪽 TO-BE: multi-cell therapeutics, 뭉친 물고기가 상어를 이긴다.",
+              "- {g|같은 뜻의 슬라이드: ‘United we stand, divided we fall’(뭉친 새 사진).}"
             ],
             "options": [],
             "answer": "",
@@ -2120,6 +2431,31 @@
             "image": "",
             "left_title": "",
             "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "연골치료제 개발 후보: MSC(×3), Chondrocyte(×3), iPSC(×1)/Single(×4), Multi(×3)",
+            "origin": "both",
+            "slide_refs": [
+              23,
+              24
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "figure_side",
+            "level": 0,
+            "image": "inputs/stemcell_figs/s08.png",
+            "left_title": "그림에서 볼 것",
+            "left": [
+              "- 윗줄이 국내 연골 치료제 후보 제품이다.",
+              "- 맨 오른쪽 MIUChon만 iPSC 유래다."
+            ],
             "options": [],
             "answer": "",
             "explanations": [],
@@ -2426,6 +2762,7 @@
             "effort": "",
             "diagram": {
               "kind": "compare",
+              "size": "full",
               "title": "",
               "root": "",
               "groups": [
@@ -2706,6 +3043,74 @@
             "explanations": [],
             "effort": "",
             "diagram": null
+          },
+          {
+            "text": "뮤콘 임상 단계",
+            "origin": "slide",
+            "slide_refs": [
+              31,
+              32
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "diagram",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": {
+              "kind": "flow",
+              "size": "full",
+              "title": "",
+              "root": "",
+              "groups": [
+                {
+                  "title": "IND 허가",
+                  "items": [
+                    "식약처 초기 허가"
+                  ],
+                  "color": "gray"
+                },
+                {
+                  "title": "1상",
+                  "items": [
+                    "3명",
+                    "안전성: 부작용 없음",
+                    "MRI 탐색적 신호"
+                  ],
+                  "color": "teal"
+                },
+                {
+                  "title": "2상",
+                  "items": [
+                    "30명 (뮤콘 15, 위약 15)",
+                    "위약 대조로 효과 확인"
+                  ],
+                  "color": "blue"
+                }
+              ],
+              "arrows": [
+                {
+                  "src": 0,
+                  "dst": 1,
+                  "label": "",
+                  "both": false
+                },
+                {
+                  "src": 1,
+                  "dst": 2,
+                  "label": "",
+                  "both": false
+                }
+              ],
+              "row_labels": []
+            }
           },
           {
             "text": "즉 안전성은 확인했고, 효과는 위약 대조가 있는 2상에서 판가름 난다.",

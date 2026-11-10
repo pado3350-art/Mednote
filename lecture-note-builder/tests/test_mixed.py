@@ -64,3 +64,43 @@ def test_prepare_writes_style_plan(tmp_path):
     plan = (tmp_path / "o" / "brief" / "style_plan.md").read_text(encoding="utf-8")
     assert "| explain |" in plan and "| list |" in plan
     assert "style_plan.md" in (tmp_path / "o" / "brief" / "TASK.md").read_text(encoding="utf-8")
+
+
+def test_pyramid_and_cycle_diagrams_render(tmp_path):
+    from PIL import Image
+
+    from app.diagrams import SIDE_W, render_diagram
+    from app.models import Arrow, Diagram, Group
+
+    pyr = Diagram(kind="pyramid", size="side", root="분화능",
+                  groups=[Group(title="totipotent"), Group(title="pluripotent", items=["ESC, iPSC"]), Group(title="multipotent")])
+    cyc = Diagram(kind="cycle", size="side", root="ECM", arrows=[Arrow(src=0, dst=1, label="생성")],
+                  groups=[Group(title="연골세포"), Group(title="기질"), Group(title="생존 ↑")])
+    for spec in (pyr, cyc):
+        with Image.open(render_diagram(spec, tmp_path / f"{spec.kind}.png")) as im:
+            assert im.width == SIDE_W and im.height > 200
+    with Image.open(render_diagram(Diagram(kind="flow", groups=[Group(title="a"), Group(title="b")]), tmp_path / "f.png")) as im:
+        assert im.width > SIDE_W  # full width by default
+
+
+def test_concept_box_gets_picture_and_missing_visual_is_flagged(tmp_path):
+    from docx import Document
+
+    from app.diagrams import render_diagram
+    from app.export_mom import export_mom
+    from app.models import Diagram, Group
+    from app.validate_notes import validate
+
+    dia = Diagram(kind="pyramid", size="side", groups=[Group(title="상위"), Group(title="하위")])
+    with_pic = Statement(text="위계", kind="concept", left_title="위계", left=["- 상위 > 하위"], slide_refs=[1], diagram=dia)
+    with_pic.image = str(render_diagram(dia, tmp_path / "d.png"))
+    bare = Statement(text="", kind="concept", left_title="대비", left=["- A vs B"], slide_refs=[1])
+    t = _t("왜?", "explain", [Statement(text="본문. 그럼 결론.", kind="para", slide_refs=[1]), with_pic, bare], ["답"])
+    note = LectureNote(title="t", topics=[t, _t("결과", "list", [Statement(text="즉 끝", kind="bullet", slide_refs=[1])])])
+    tpl = load_template("templates/mom_mixed.yaml")
+    doc = Document(str(export_mom(note, tpl, tmp_path / "n.docx")))
+    assert len(doc.inline_shapes) == 1  # the schematic sits inside the concept box
+    assert any("도식 1." in c.text for tb in doc.tables for r in tb.rows for c in r.cells)
+    rep = validate(note, [], [], tpl)
+    flagged = [i for i in rep.issues if i.code == "CONCEPT_NO_VISUAL"]
+    assert len(flagged) == 1 and "대비" in flagged[0].message

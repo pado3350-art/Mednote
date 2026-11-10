@@ -11,6 +11,7 @@ Fine-tuning learned from three human MOM notes (docs/mixed_style_analysis.md), r
 Same front page and quiz as examples/stemcell_note.py; L1-L9 and blue = PAD only still apply.
 Run:  python -m examples.stemcell_mixed_note > outputs/stemcell_mixed/note_authored.json
 """
+from app.models import Arrow, Diagram, Group, Statement
 from examples.authoring import T, dump
 from examples.stemcell_note import CHK, COLS, CONCEPT, FS, MEMO, _st
 from examples.stemcell_note import build as build_list
@@ -29,6 +30,34 @@ def P(text, g=(), effort=""):
 
 def B(text, g=(), effort=""):
     return _st("bullet", text, g, effort=effort)
+
+
+def DIA(kind, groups, root="", arrows=(), title="", size="side", row_labels=()):
+    """Program-drawn schematic - used only where the lecture slides have no picture of the idea (L15)."""
+    return Diagram(kind=kind, size=size, root=root, title=title, row_labels=list(row_labels),
+                   groups=[Group(title=t, items=list(it), color=c) for t, c, it in groups],
+                   arrows=[Arrow(src=a, dst=b, label=l) for a, b, l in arrows])
+
+
+def DFS(diagram, caption, title, lines, g=()):
+    """figure_side box whose picture is a program schematic (caption '도식 n.')."""
+    return Statement(text=caption, kind="figure_side", slide_refs=list(g), diagram=diagram, left_title=title,
+                     left=["- " + x for x in lines])
+
+
+def DFLOW(caption, groups, arrows, g=()):
+    """full-width flow schematic (caption '도식 n.')."""
+    return Statement(text=caption, kind="diagram", slide_refs=list(g),
+                     diagram=DIA("flow", groups, arrows=arrows, size="full"))
+
+
+def CONCEPT_V(title, lines, g, diagram=None, image="", caption=""):
+    """개념 정리 box with a picture on the right: slide image first, else a schematic."""
+    st = CONCEPT(title, lines, g)
+    st.text, st.diagram = caption or title, diagram
+    if image:
+        st.image = "inputs/stemcell_figs/" + image
+    return st
 
 
 def EX(heading, chapter, answer, body):
@@ -71,10 +100,14 @@ def build():
     top.append(EX("재생에 어떤 줄기세포를 쓸 수 있는가?", CH2,
                   "분화능은 totipotent > pluripotent(ESC, iPSC) > multipotent(MSC) 순이고, 윤리와 안전을 함께 만족하는 것이 iPSC다.", [
         P("줄기세포를 고르는 첫 기준은 **분화능**, 즉 몇 가지 세포로 될 수 있는가이다. 분화능에 따라 나누면 다음과 같다.", [9]),
-        CONCEPT("분화능의 위계", [
+        CONCEPT_V("분화능의 위계", [
             "**totipotent cell**: 세포 하나가 생명 개체가 된다 {g|(‘신의 영역’이라 연구자들이 부담스러워한다)}",
             "**pluripotent stem cell(PSC)**: 모든 계통으로 분화한다 (ESC, iPSC = Induced pluripotent stem cell)",
-            "**multipotent**: 몇 개 계통으로만 분화한다 (MSC)"], [9]),
+            "**multipotent**: 몇 개 계통으로만 분화한다 (MSC)"], [9],
+            diagram=DIA("pyramid", [("totipotent", "violet", ["세포 하나 → 생명 개체"]),
+                                    ("pluripotent", "salmon", ["모든 계통", "ESC, iPSC"]),
+                                    ("multipotent", "teal", ["몇 개 계통만", "MSC"])], root="분화능"),
+            caption="분화능의 위계 (위로 갈수록 분화능이 크다)"),
         P("{b|분화능이 가장 높은 것은 pluripotent인 ESC와 iPSC이고, 성체줄기세포(MSC)는 그보다 낮은 multipotent이다}.", [9, 1007]),
         P("가장 강력한 pluripotent 세포는 ESC(Embryonic stem cell)다. 정자와 난자가 만나(fertilization) blastocyst가 되면, "
           "{b|그 안의 inner cell mass를 꺼내 배양한 것이 ESC다}. "
@@ -83,6 +116,11 @@ def build():
         P("앞의 ESC와 달리 MSC(Mesenchymal stem cell)는 지방(adipose tissue), 골수(bone marrow), 제대혈(cord blood)에서 얻는 "
           "성체줄기세포(adult stem cell)다. 그래서 윤리 부담이 없고 안전하다. 대신 multipotent라 분화능이 제한되고, "
           "계대 배양을 거듭하면 줄기세포 능력을 잃는다.", [8]),
+        FS("s02.png", "Recently available stem cells in South Korea: iPSC, ESC, MSC", "그림에서 볼 것: 세 세포의 출처", [
+            "가운데 위 수정란 → blastocyst → ESC (Embryo-derived, pluripotent)",
+            "왼쪽 primary cell → reprogramming(Oct4, Klf4, Sox2, c-Myc) → iPSC",
+            "아래 MSC: 성체줄기세포(adult stem cell), multipotent",
+        ], [7, 8, 9, 10]),
         COLS("두 세포를 나란히 놓으면 다음과 같다.", [
             ("ESC", "salmon", ["blastocyst의 inner cell mass", "pluripotent, 무한 증식", "**윤리 문제**"]),
             ("MSC", "teal", ["지방, 골수, 제대혈", "multipotent, 증식 한계", "**윤리적이고 안전**"]),
@@ -104,6 +142,11 @@ def build():
         P("퇴행성 골관절염은 **연골세포의 노화**, 즉 연골의 질과 양이 떨어지는 병이다. {g|연골 상태는 20대에 가장 좋고 이후 내리막이다.}", [11]),
         P("치료는 두 단계뿐이다. 초기에는 내과에서 진통제와 소염제로 증상을 조절하고, 말기에는 정형외과에서 인공관절 수술을 한다. "
           "그런데 그 사이 약 **20년** 동안 연골이 닳는 것 자체를 다룰 방법이 없다.", [11]),
+        DFLOW("골관절염 치료의 공백: 초기 약물과 말기 수술 사이", [
+            ("초기", "blue", ["내과: 진통제, 소염제", "증상 조절"]),
+            ("약 20년", "salmon", ["연골이 닳는 것을 다룰 방법이 없다", "**재생 치료의 자리**"]),
+            ("말기", "gray", ["정형외과: 인공관절 수술"]),
+        ], [(0, 1, "연골 계속 닳음"), (1, 2, "")], [11, 12]),
         P("그럼 이 빈칸을 채우는 것이 재생 치료의 몫이다. 줄기세포의 재생 능력으로 연골이 닳는 과정을 늦추거나, 멈추거나, 되돌릴 수 있다면 치료의 판이 바뀐다.", [12]),
         CHK("퇴행성 골관절염의 초기에는 인공관절 수술이 일차 치료이다.", "X", [11], why="초기는 진통제와 소염제, 인공관절은 말기이다."),
     ]))
@@ -134,10 +177,14 @@ def build():
         ], [14]),
         B("{b|organoid는 줄기세포에서 분화한 3D 세포 덩어리이다}.", [14, 23, 1004]),
         B("{b|organoid는 장기의 구조와 기능을 모사해 약제 독성평가와 재생치료에 응용된다}.", [1004, 1010]),
-        CONCEPT("spheroid와 organoid는 다르다", [
+        CONCEPT_V("spheroid와 organoid는 다르다", [
             "**spheroid**: 3D 세포 집합체. 교수님 연구팀의 연골 spheroid를 수업에서 강조했다",
             "**organoid**: 줄기세포에서 분화한 장기 유사 3D 구조. {b|장기의 구조와 기능을 모사하는 3D 모사체}",
-            "{g|기출 해설(2023 Q2)도 ‘organoid보다 spheroid를 강조했다’고 적었다}"], [14, 23, 28, 1004]),
+            "{g|기출 해설(2023 Q2)도 ‘organoid보다 spheroid를 강조했다’고 적었다}"], [14, 23, 28, 1004],
+            diagram=DIA("tree", [("spheroid", "teal", ["세포를 뭉친다", "→ 3D 집합체", "연골 spheroid"]),
+                                 ("organoid", "violet", ["줄기세포가 분화", "→ 장기 유사 구조", "{b|장기 구조·기능 모사}"])],
+                        root="3D 세포 구조"),
+            caption="spheroid vs organoid"),
         _st("reference", "수업에서 직접 다루지 않았지만 기출에 나온 개념: {b|환자 유래 줄기세포로 환자의 병적 상태를 흉내 내는 기술 = recapitulation}, {b|신장 organoid는 혈관세포 분화가 제한적이다}", [1006, 1003]),
         B("즉 세포 치료제는 이제 세포 하나가 아니라 세포가 만든 것, 세포에서 나온 것, 세포를 뭉친 것까지 포함한다.", [14]),
     ]))
@@ -146,7 +193,15 @@ def build():
         P("연골세포는 **hyaline cartilage**라는 기질을 만든다. 흥미롭게도 이 기질이 다시 연골세포를 돌본다. "
           "세포를 오래 살게 하고 기능도 촉진한다(facilitation). 좋은 환경에 있는 세포가 일을 잘하는 것과 같다.", [15]),
         P("따라서 연골세포 → 기질 생성 → 기질이 연골세포를 살림의 순환이 생긴다. 그럼 기질만 넣어도 재생을 도울 수 있다.", [15]),
-        FS("s05.png", "ECM(세포외기질): 줄기세포 유래 치료제 후보", "그림에서 볼 것", ["세 후보 중 왼쪽 ECM이 강조되어 있다."], [15]),
+        DFS(DIA("cycle", [("연골세포", "teal", ["기질을 만든다"]),
+                          ("기질", "amber", ["hyaline cartilage (ECM)"]),
+                          ("생존·기능 ↑", "blue", ["오래 살고 일을 잘한다"])],
+                root="ECM", arrows=[(0, 1, "생성"), (1, 2, "돌봄")]),
+            "ECM이 연골세포를 돌보는 순환", "도식에서 볼 것", [
+                "연골세포가 만든 기질이 다시 연골세포를 돌본다.",
+                "그래서 기질(ECM)만 넣어도 재생을 도울 수 있다.",
+                "{g|강의 슬라이드에는 ECM이 후보로 표시만 되어 있어(s05) 순환을 도식으로 그렸다.}",
+            ], [15]),
         P("교수님 연구팀은 iPSC로 연골세포 덩어리를 만든 뒤 세포를 제거해 ECM만 남겼다. "
           "이 ECM을 분화 중인 연골세포에 처리했더니 연골세포 marker 발현이 증가했고, 연골 결손에 넣었더니 결손이 잘 메꿔졌다. "
           "즉 ECM 자체도 연골 재생 치료제가 될 수 있다.", [15]),
@@ -166,6 +221,12 @@ def build():
         P("교수님 연구팀은 mitochondria를 분리해 골관절염 동물 모델(MIA)의 무릎에 투여했다. "
           "대조군보다 연골이 많이 개선되었고, 성체줄기세포보다 iPSC에서 분리한 mitochondria의 효과가 더 좋았다. "
           "즉 젊은(young) mitochondria, 말하자면 충전된 건전지를 넣어 주는 것 자체가 치료가 될 수 있다.", [17, 18]),
+        DFLOW("mitochondria 치료의 논리", [
+            ("만성 퇴행성 질환", "gray", ["골관절염, 알츠하이머"]),
+            ("mitochondria 부족", "salmon", ["기능과 양이 부족", "(원인이 아니라 연관 요인)"]),
+            ("밖에서 채운다", "teal", ["iPSC 유래 젊은 mitochondria 투여"]),
+            ("연골 개선", "blue", ["MIA 모델, 대조군보다 개선", "성체줄기세포 유래보다 효과 ↑"]),
+        ], [(0, 1, "연관"), (1, 2, "그럼"), (2, 3, "")], [17, 18]),
         P("{g|mitochondria 이식은 근육병증(inflammatory myopathy)에서도 효과가 보고되어 임상 연구가 진행 중이다.}", [18]),
         CHK("iPSC에서 분리한 mitochondria가 성체줄기세포 유래보다 연골 개선 효과가 좋았다.", "O", [18]),
     ]))
@@ -201,6 +262,11 @@ def build():
     top.append(EX("무엇을 바꾸면 세포 치료가 성공할까?", CH5,
                   "재료(MSC → iPSC), 제형(single cell → spheroid), 경로(수술 → 주사) 세 가지를 바꾼다.", [
         P("교수님 연구팀의 답은 세 가지를 동시에 바꾸는 것이다. 앞에서 본 실패 원인에 하나씩 대응한다.", [27]),
+        FS("s11.png", "Distinguished approaches: (1) new cell, (2) CMC & (3) route", "그림에서 볼 것: 세 가지 전략", [
+            "1 Good material: MSC 대신 induced pluripotent stem cell",
+            "2 Formulation: single cell → cell aggregate(spheroid)",
+            "3 Application: 수술(surgery) → 주사(injection)",
+        ], [25, 26, 27]),
         P("첫째, **재료**다. 앞의 MSC RCT에서 보았듯 multipotent한 MSC로는 한계가 뚜렷했다. 그래서 pluripotent한 iPSC로 바꾼다. "
           "{g|교수님은 이를 ‘5G 시대에 2G 폰을 쓰는 것’에 비유했다.} "
           "국내에서 iPSC를 환자에게 투여한 곳은 교수님 연구팀이 거의 유일하다 {g|(국내 31명 중 30명, 연세대 카리스바이오 1명)}.", [25]),
@@ -221,9 +287,17 @@ def build():
         P("세 가지를 합친 개념이 ‘뭉치면 살고 흩어지면 죽는다’다. 연골세포를 하나씩 넣으면 취약하지만, "
           "여러 세포(multicellular, cell aggregation)와 ECM을 함께 넣으면 강력해진다. 교수님 연구팀이 세계 최초로 제시한 개념이다. "
           "{g|제품은 입셀(YiPSCELL)의 MIUChon(뮤콘), Newer formula + Stronger cell source + Easier access.}", [27, 28]),
-        FS("s13.png", "United we stand, divided we fall", "그림에서 볼 것", ["한 마리보다 뭉친 새들이 살아남는다."], [28]),
+        FS("s12.png", "MIUChon: Newer formula + Stronger cell source + Easier access", "그림에서 볼 것: AS-IS → TO-BE", [
+            "왼쪽 AS-IS: single cell therapeutics, 흩어진 작은 물고기는 상어에게 먹힌다.",
+            "오른쪽 TO-BE: multi-cell therapeutics, 뭉친 물고기가 상어를 이긴다.",
+            "{g|같은 뜻의 슬라이드: ‘United we stand, divided we fall’(뭉친 새 사진).}",
+        ], [27, 28]),
         P("국내 회사들도 같은 방향으로 움직이고 있다. auto에서 allo로, single cell에서 조직을 모사(mimic)하는 제형으로 전환(turn)하고, "
           "MSC에서 pluripotent 세포로 바꾸고 있다. {g|경쟁사: 카티스템, 조인트스템, 카틸로이드, 카티큐어, 인보사 등}", [23, 24]),
+        FS("s08.png", "연골치료제 개발 후보: MSC(×3), Chondrocyte(×3), iPSC(×1)/Single(×4), Multi(×3)", "그림에서 볼 것", [
+            "윗줄이 국내 연골 치료제 후보 제품이다.",
+            "맨 오른쪽 MIUChon만 iPSC 유래다.",
+        ], [23, 24]),
         CHK("연골세포는 기질에서 떼어 단독으로 배양할 때 가장 안정적이고 기능이 좋다.", "X", [25, 28], why="1주일 안에 죽거나 fibroblast로 변한다."),
     ]))
     top.append(LS("iPSC spheroid 동물 실험", CH5, [
@@ -264,6 +338,11 @@ def build():
           "다만 위약 대조가 없으므로 효과가 아니라 탐색적 신호다.", [32]),
         B("{g|MRI에서 검정은 뼈, 하양은 synovial fluid, 회색은 연골이다.}", [32]),
         B("**2상(Phase 2)**: 30명(뮤콘 15명, 위약 15명), 다음 주 마지막 투여다.", [32]),
+        DFLOW("뮤콘 임상 단계", [
+            ("IND 허가", "gray", ["식약처 초기 허가"]),
+            ("1상", "teal", ["3명", "안전성: 부작용 없음", "MRI 탐색적 신호"]),
+            ("2상", "blue", ["30명 (뮤콘 15, 위약 15)", "위약 대조로 효과 확인"]),
+        ], [(0, 1, ""), (1, 2, "")], [31, 32]),
         B("즉 안전성은 확인했고, 효과는 위약 대조가 있는 2상에서 판가름 난다.", [32]),
         CHK("1상 임상시험은 유효성이 아니라 안전성(부작용)을 보는 단계이다.", "O", [31, 32]),
     ]))

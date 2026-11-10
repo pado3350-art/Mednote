@@ -174,7 +174,7 @@ def run_pipeline(
     for t in note.topics:
         for sts in t.sections.values():
             for st in sts:
-                if st.kind == "diagram" and st.diagram is not None:
+                if st.kind in ("diagram", "figure_side", "concept") and st.diagram is not None and not st.image:
                     n_dia += 1
                     st.image = str(render_diagram(st.diagram, out / "diagrams" / f"diagram_{n_dia:02d}.png"))
 

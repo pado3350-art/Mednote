@@ -48,6 +48,11 @@
 - 분화능이 가장 높은 것은 pluripotent인 ESC와 iPSC이고, 성체줄기세포(MSC)는 그보다 낮은 multipotent이다.
 - 가장 강력한 pluripotent 세포는 ESC(Embryonic stem cell)다. 정자와 난자가 만나(fertilization) blastocyst가 되면, 그 안의 inner cell mass를 꺼내 배양한 것이 ESC다. 그럼 ESC를 얻으려면 수정란을 써야 하므로 윤리 문제가 생긴다. 천주교는 수정 순간을 생명의 시작으로 보기 때문에 이 학교에서는 ESC를 연구할 수 없다.
 - 앞의 ESC와 달리 MSC(Mesenchymal stem cell)는 지방(adipose tissue), 골수(bone marrow), 제대혈(cord blood)에서 얻는 성체줄기세포(adult stem cell)다. 그래서 윤리 부담이 없고 안전하다. 대신 multipotent라 분화능이 제한되고, 계대 배양을 거듭하면 줄기세포 능력을 잃는다.
+![Recently available stem cells in South Korea: iPSC, ESC, MSC](inputs/stemcell_figs/s02.png)
+**그림에서 볼 것: 세 세포의 출처**
+- 가운데 위 수정란 → blastocyst → ESC (Embryo-derived, pluripotent)
+- 왼쪽 primary cell → reprogramming(Oct4, Klf4, Sox2, c-Myc) → iPSC
+- 아래 MSC: 성체줄기세포(adult stem cell), multipotent
 | ESC | MSC |
 |---|---|
 | blastocyst의 inner cell mass<br>pluripotent, 무한 증식<br>**윤리 문제** | 지방, 골수, 제대혈<br>multipotent, 증식 한계<br>**윤리적이고 안전** |
@@ -64,6 +69,7 @@
 ### 
 - 퇴행성 골관절염은 **연골세포의 노화**, 즉 연골의 질과 양이 떨어지는 병이다. 연골 상태는 20대에 가장 좋고 이후 내리막이다.
 - 치료는 두 단계뿐이다. 초기에는 내과에서 진통제와 소염제로 증상을 조절하고, 말기에는 정형외과에서 인공관절 수술을 한다. 그런데 그 사이 약 **20년** 동안 연골이 닳는 것 자체를 다룰 방법이 없다.
+![골관절염 치료의 공백: 초기 약물과 말기 수술 사이](outputs/stemcell_mixed/diagrams/diagram_03.png)
 - 그럼 이 빈칸을 채우는 것이 재생 치료의 몫이다. 줄기세포의 재생 능력으로 연골이 닳는 과정을 늦추거나, 멈추거나, 되돌릴 수 있다면 치료의 판이 바뀐다.
 - **개념 Check** 퇴행성 골관절염의 초기에는 인공관절 수술이 일차 치료이다. (O, X) → X — 초기는 진통제와 소염제, 인공관절은 말기이다.
 
@@ -110,9 +116,11 @@
 ### 
 - 연골세포는 **hyaline cartilage**라는 기질을 만든다. 흥미롭게도 이 기질이 다시 연골세포를 돌본다. 세포를 오래 살게 하고 기능도 촉진한다(facilitation). 좋은 환경에 있는 세포가 일을 잘하는 것과 같다.
 - 따라서 연골세포 → 기질 생성 → 기질이 연골세포를 살림의 순환이 생긴다. 그럼 기질만 넣어도 재생을 도울 수 있다.
-![ECM(세포외기질): 줄기세포 유래 치료제 후보](inputs/stemcell_figs/s05.png)
-**그림에서 볼 것**
-- 세 후보 중 왼쪽 ECM이 강조되어 있다.
+![ECM이 연골세포를 돌보는 순환](outputs/stemcell_mixed/diagrams/diagram_05.png)
+**도식에서 볼 것**
+- 연골세포가 만든 기질이 다시 연골세포를 돌본다.
+- 그래서 기질(ECM)만 넣어도 재생을 도울 수 있다.
+- 강의 슬라이드에는 ECM이 후보로 표시만 되어 있어(s05) 순환을 도식으로 그렸다.
 - 교수님 연구팀은 iPSC로 연골세포 덩어리를 만든 뒤 세포를 제거해 ECM만 남겼다. 이 ECM을 분화 중인 연골세포에 처리했더니 연골세포 marker 발현이 증가했고, 연골 결손에 넣었더니 결손이 잘 메꿔졌다. 즉 ECM 자체도 연골 재생 치료제가 될 수 있다.
 - ECM을 택한 또 다른 이유는 규제다. 살아 있는 세포는 암세포로 바뀔 수 있어 규제 기관이 까다롭게 보지만, ECM은 무생물이라 부담이 작다. 실제로 연골 기질 제품이 이미 쓰인다 (히루안, 시노비안, 콘드란). MegaCARTI는 기증받은 사체 연골 제품이다 (국내는 법률상 불가능해 수입 연골로 개발한다).
 - **개념 Check** ECM은 살아 있는 세포가 아니므로 규제 기관이 세포 치료제보다 편하게 본다. (O, X) → O
@@ -125,6 +133,7 @@
 - secretome, exosome, mitochondria(미토콘드리아)처럼 세포에서 떨어져 나온 물질도 후보다. 처음에는 세포를 넣기 어려워 고른 차선책이었다. 그런데 규제 기관이 원재료 기준까지 요구하면서 이 길도 쉽지 않게 되었다. 세포가 아닌 물질만으로는 효능(efficacy)도 제한될 수밖에 없다.
 - 왜 하필 mitochondria일까? 골관절염, 알츠하이머 같은 만성 퇴행성 질환(chronic degenerative disease)은 mitochondria의 기능과 양이 부족한 것과 연관되어 있다(원인이 아니라 연관 요인). 그럼 부족한 mitochondria를 밖에서 채워 주는 것이 치료가 될 수 있다.
 - 교수님 연구팀은 mitochondria를 분리해 골관절염 동물 모델(MIA)의 무릎에 투여했다. 대조군보다 연골이 많이 개선되었고, 성체줄기세포보다 iPSC에서 분리한 mitochondria의 효과가 더 좋았다. 즉 젊은(young) mitochondria, 말하자면 충전된 건전지를 넣어 주는 것 자체가 치료가 될 수 있다.
+![mitochondria 치료의 논리](outputs/stemcell_mixed/diagrams/diagram_06.png)
 - mitochondria 이식은 근육병증(inflammatory myopathy)에서도 효과가 보고되어 임상 연구가 진행 중이다.
 - **개념 Check** iPSC에서 분리한 mitochondria가 성체줄기세포 유래보다 연골 개선 효과가 좋았다. (O, X) → O
 
@@ -166,6 +175,11 @@
 
 ### 
 - 교수님 연구팀의 답은 세 가지를 동시에 바꾸는 것이다. 앞에서 본 실패 원인에 하나씩 대응한다.
+![Distinguished approaches: (1) new cell, (2) CMC & (3) route](inputs/stemcell_figs/s11.png)
+**그림에서 볼 것: 세 가지 전략**
+- 1 Good material: MSC 대신 induced pluripotent stem cell
+- 2 Formulation: single cell → cell aggregate(spheroid)
+- 3 Application: 수술(surgery) → 주사(injection)
 - 첫째, **재료**다. 앞의 MSC RCT에서 보았듯 multipotent한 MSC로는 한계가 뚜렷했다. 그래서 pluripotent한 iPSC로 바꾼다. 교수님은 이를 ‘5G 시대에 2G 폰을 쓰는 것’에 비유했다. 국내에서 iPSC를 환자에게 투여한 곳은 교수님 연구팀이 거의 유일하다 (국내 31명 중 30명, 연세대 카리스바이오 1명).
 ![For better cell therapy… change cell origin?](inputs/stemcell_figs/s09.png)
 **그림에서 볼 것**
@@ -179,10 +193,16 @@
 - 오른쪽 spheroid는 기능이 좋다(functional).
 - 셋째, **경로**다. 환자들은 인공관절 수술을 두려워한다. 그래서 수술이 아니라 주사로 넣는 접근성이 중요하다. 수술하는 의사(surgeon)에 따라 결과가 갈리고, 수술이 잘 안 된 환자들의 하소연이 두려움을 키운다는 이야기도 있었다.
 - 세 가지를 합친 개념이 ‘뭉치면 살고 흩어지면 죽는다’다. 연골세포를 하나씩 넣으면 취약하지만, 여러 세포(multicellular, cell aggregation)와 ECM을 함께 넣으면 강력해진다. 교수님 연구팀이 세계 최초로 제시한 개념이다. 제품은 입셀(YiPSCELL)의 MIUChon(뮤콘), Newer formula + Stronger cell source + Easier access.
-![United we stand, divided we fall](inputs/stemcell_figs/s13.png)
-**그림에서 볼 것**
-- 한 마리보다 뭉친 새들이 살아남는다.
+![MIUChon: Newer formula + Stronger cell source + Easier access](inputs/stemcell_figs/s12.png)
+**그림에서 볼 것: AS-IS → TO-BE**
+- 왼쪽 AS-IS: single cell therapeutics, 흩어진 작은 물고기는 상어에게 먹힌다.
+- 오른쪽 TO-BE: multi-cell therapeutics, 뭉친 물고기가 상어를 이긴다.
+- 같은 뜻의 슬라이드: ‘United we stand, divided we fall’(뭉친 새 사진).
 - 국내 회사들도 같은 방향으로 움직이고 있다. auto에서 allo로, single cell에서 조직을 모사(mimic)하는 제형으로 전환(turn)하고, MSC에서 pluripotent 세포로 바꾸고 있다. 경쟁사: 카티스템, 조인트스템, 카틸로이드, 카티큐어, 인보사 등
+![연골치료제 개발 후보: MSC(×3), Chondrocyte(×3), iPSC(×1)/Single(×4), Multi(×3)](inputs/stemcell_figs/s08.png)
+**그림에서 볼 것**
+- 윗줄이 국내 연골 치료제 후보 제품이다.
+- 맨 오른쪽 MIUChon만 iPSC 유래다.
 - **개념 Check** 연골세포는 기질에서 떼어 단독으로 배양할 때 가장 안정적이고 기능이 좋다. (O, X) → X — 1주일 안에 죽거나 fibroblast로 변한다.
 
 
@@ -228,6 +248,7 @@
 - **1상 MRI**: 연골 결손(defect size)이 줄었고, 세 번째 환자는 연골 두께(cartilage thickness)가 연속 MRI에서 늘었다. 다만 위약 대조가 없으므로 효과가 아니라 탐색적 신호다.
 - MRI에서 검정은 뼈, 하양은 synovial fluid, 회색은 연골이다.
 - **2상(Phase 2)**: 30명(뮤콘 15명, 위약 15명), 다음 주 마지막 투여다.
+![뮤콘 임상 단계](outputs/stemcell_mixed/diagrams/diagram_07.png)
 - 즉 안전성은 확인했고, 효과는 위약 대조가 있는 2상에서 판가름 난다.
 - **개념 Check** 1상 임상시험은 유효성이 아니라 안전성(부작용)을 보는 단계이다. (O, X) → O
 

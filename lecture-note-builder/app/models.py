@@ -74,7 +74,10 @@ class Arrow(BaseModel):
 
 class Diagram(BaseModel):
     """Schematic drawn by the program (no image needed): concept tree, left-to-right flow, comparison cards."""
-    kind: Literal["tree", "flow", "compare"] = "tree"
+    kind: Literal["tree", "flow", "compare", "pyramid", "cycle"] = "tree"
+    # pyramid: hierarchy, groups top (narrow, highest) -> bottom (wide), `root` = axis label (e.g. "분화능 ↑")
+    # cycle: groups around a circle with arrows i -> i+1 (last -> first), `root` = text in the middle
+    size: Literal["full", "side"] = "full"  # side = narrow canvas for a figure_side / concept box (bigger text)
     title: str = ""
     root: str = ""  # tree: text of the top box
     groups: list[Group] = Field(default_factory=list)

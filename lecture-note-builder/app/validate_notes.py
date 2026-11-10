@@ -168,7 +168,7 @@ def validate(
     for t in note.topics:
         for sts in t.sections.values():
             for st in sts:
-                if st.kind == "diagram" and st.diagram is not None:
+                if st.kind in ("diagram", "figure_side", "concept") and st.diagram is not None:
                     if diagram_has_exam(st.diagram) and not any(r >= EXAM_BASE for r in st.slide_refs):
                         rep.issues.append(Issue(severity="error", code="BLUE_WITHOUT_PAD",
                                                 slide=st.slide_refs[0] if st.slide_refs else None,
@@ -205,7 +205,7 @@ def validate(
 
     # 4c. Unrendered markup (stray '*' or '{x|') would show up literally in the document
     for t in note.topics:
-        dia_texts = [tx for sts in t.sections.values() for x in sts if x.kind == "diagram" and x.diagram
+        dia_texts = [tx for sts in t.sections.values() for x in sts if x.kind in ("diagram", "figure_side", "concept") and x.diagram
                      for tx in diagram_texts(x.diagram)]
         for text in [_all_text(x) for sts in t.sections.values() for x in sts if x.kind not in ("figure", "diagram")] + list(t.basics) + [t.tip] + dia_texts:
             left = _strip_markup(text)
@@ -230,6 +230,16 @@ def validate(
 
         for sev, code, msg in mixed_issues(note):
             rep.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
+
+    # 4c-4. Concept boxes are drawn, not only written (L15): slide picture first, else a program schematic
+    if template.format.mixed:
+        for t in note.topics:
+            for sts in t.sections.values():
+                for st in sts:
+                    if st.kind == "concept" and not st.image and st.diagram is None:
+                        rep.issues.append(Issue(severity="warning", code="CONCEPT_NO_VISUAL", slide=st.slide_refs[0] if st.slide_refs else None,
+                                                message=f"개념 정리 '{_strip_markup(st.left_title)[:30]}'에 그림이 없습니다. 강의자료 그림(image)을 우선 붙이고, "
+                                                        "없으면 도식(diagram: pyramid/flow/cycle/compare/tree)을 넣습니다."))
 
     # 4d. The 요약 정리 page must carry a visual (schematic or figure)
     for t in note.topics:

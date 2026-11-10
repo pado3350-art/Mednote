@@ -5,7 +5,7 @@ description: Turn lecture material (script/transcript/slides) into an easy-to-st
 
 # Readable Note Organizer
 
-> **사용자가 승인한 학습 규칙이 최우선**: `python -m app.cli feedback rules --lecture-type <유형>` (또는 `brief/learned_rules.md`). 현재 L1–L14(사람 정리본 비교에서 승인). **L10 혼합형이 기본**(0c절), L11 정의 → “그럼” 추론 · L12 기전 사슬 + “따라서 A → B → C” · L13 원리 → 사례 적용·대조 · L14 “**용어**: 정의 + 한 마디”. L1–L9: 한 줄 한 사실 · 표 도입문과 “즉” 정리문 · 인과 다리는 본문 · 연구 서사 방법→결과→의미 · 메모는 합니다체 괄호 · “교수님 연구(팀)” 허용(인용형은 금지, “연자” 금지) · 슬라이드 영문 용어 우선 · 일화·장식 수치는 회색(아주 사소하고 기출 없음은 삭제, `meta.omitted`) · 사례는 “이름(영문): 한 줄” + 회색 부가설명. 검증 `LINE_TOO_DENSE`.
+> **사용자가 승인한 학습 규칙이 최우선**: `python -m app.cli feedback rules --lecture-type <유형>` (또는 `brief/learned_rules.md`). 현재 L1–L15(사람 정리본 비교·사용자 지시로 승인). **L15 개념 정리는 도식화**(강의자료 그림 우선, 없으면 도형 도식, 0d절). **L10 혼합형이 기본**(0c절), L11 정의 → “그럼” 추론 · L12 기전 사슬 + “따라서 A → B → C” · L13 원리 → 사례 적용·대조 · L14 “**용어**: 정의 + 한 마디”. L1–L9: 한 줄 한 사실 · 표 도입문과 “즉” 정리문 · 인과 다리는 본문 · 연구 서사 방법→결과→의미 · 메모는 합니다체 괄호 · “교수님 연구(팀)” 허용(인용형은 금지, “연자” 금지) · 슬라이드 영문 용어 우선 · 일화·장식 수치는 회색(아주 사소하고 기출 없음은 삭제, `meta.omitted`) · 사례는 “이름(영문): 한 줄” + 회색 부가설명. 검증 `LINE_TOO_DENSE`.
 
 > **먼저 `my-writing-style` 스킬을 읽는다.** 사용자가 직접 고친 문장에서 배운 문체 규칙이며, 아래 말투 표와 충돌하면 그쪽이 우선한다.
 
@@ -78,6 +78,24 @@ The reference is `references/excellent_example.md` (a high-rated MOM note for th
 - **L14** 항목은 “**용어**(한글): 정의”에 쉬운 풀이나 이유 한 마디. 결과·수치 라벨은 굵게(**대상**, **통증**, **1상**).
 - 마지막 “즉 …” 다음에 다음 설명형 소절의 질문을 다리 문장으로 둘 수 있다(“그렇다면 무엇을 바꾸면 …?”).
 공통: 파랑 = PAD 전용, 한다체(L5; 사람 예시의 합니다·요체는 따르지 않는다), 교수님 인용형 금지(L6), 일화는 회색(L8). 같은 강의에 두 모양이 섞여야 한다 — 한쪽만 쓰면 `MIXED_ONE_STYLE`.
+
+## 0d. 개념은 그림으로 (L15) — 강의자료 그림 우선, 없으면 도식
+위계·분류·대비·기전 사슬·순환·단계를 글로만 정리하지 않는다. 순서:
+1. **강의자료에 그 내용의 그림이 있으면 그것을 쓴다.** `figure_side`(그림 + “그림에서 볼 것: …” 줄) 또는 `concept`의 `image`. 아직 안 쓴 슬라이드 그림부터 확인한다(`brief/figures.md`, 이미지를 직접 본다).
+2. **없거나 일부만 있으면 도식을 그린다**(`diagram`, 프로그램이 PNG로 그림, 캡션 ‘도식 n.’):
+
+| 내용 | `diagram.kind` | 놓는 곳 |
+|---|---|---|
+| 위계 (totipotent > pluripotent > multipotent) | `pyramid` (위 = 높은 단계, `root` = 축 이름) | `concept` 박스 오른쪽 (`size: side`) |
+| 순환 (세포 → 기질 → 세포 돌봄) | `cycle` (`root` = 가운데 글자, 화살표 라벨) | `figure_side` (`size: side`) |
+| 인과 사슬, 치료 단계, 임상 단계 | `flow` (화살표 라벨) | 전체 폭 `kind: diagram` |
+| 분류 (한 개념 아래 둘 이상) | `tree` | `concept` 박스 오른쪽 |
+| 항목 × 속성 대비 | `compare` | 전체 폭 또는 `columns` |
+
+- 도식 칸 글자는 짧게(한 칸 2–3줄, 줄당 15자 안팎). 설명은 옆 글이 한다.
+- 도식 안 파랑도 PAD 출처가 있어야 한다(`BLUE_WITHOUT_PAD`). 그림을 지어내지 않는다 — 도식은 강의 내용을 도형으로 옮기는 것만.
+- 검증: `CONCEPT_NO_VISUAL`(mom_mixed) — 그림도 도식도 없는 개념 정리 박스.
+- 예: `examples/stemcell_mixed_note.py` (분화능 피라미드, ECM 순환, 골관절염 치료 공백 flow, mitochondria 논리 flow, spheroid/organoid tree, 임상 단계 flow + 슬라이드 s02, s08, s11, s12).
 
 ## 1. Keep everything, change the shape
 - Every concept, term, number, unit, drug/gene name, cutoff and example in the source must appear (the validator checks numbers, terms and paragraph coverage).

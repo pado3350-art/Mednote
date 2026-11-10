@@ -279,9 +279,14 @@ def _figure_side(doc, st: Statement, tpl: Template) -> None:
         c0 = t.cell(0, 0)
         p = c0.paragraphs[0]; _fmt(p, before=3, after=1, line=1.0, align=WD_ALIGN_PARAGRAPH.CENTER)
         p.add_run().add_picture(str(path), width=Cm(pic_w))
-        doc._fig_n = getattr(doc, "_fig_n", 0) + 1
+        if st.diagram is not None:  # schematic drawn by the program (no slide picture for this idea)
+            doc._dia_n = getattr(doc, "_dia_n", 0) + 1
+            label = f"도식 {doc._dia_n}."
+        else:
+            doc._fig_n = getattr(doc, "_fig_n", 0) + 1
+            label = f"그림 {doc._fig_n}."
         q = c0.add_paragraph(); _fmt(q, after=2, line=1.05, align=WD_ALIGN_PARAGRAPH.CENTER)
-        r = q.add_run(f"그림 {doc._fig_n}. {_strip(st.text)}"); _font(r, F, 7.5, color=COLOR["minor"])
+        r = q.add_run(f"{label} {_strip(st.text)}"); _font(r, F, 7.5, color=COLOR["minor"])
     tc = t.cell(0, 1 if has_pic else 0)
     first = tc.paragraphs[0]
     if st.left_title:
@@ -343,13 +348,40 @@ def _effort_tag(p, st: Statement, F: str, size: float) -> None:
 
 
 def _concept_box(doc, st: Statement, tpl: Template) -> None:
-    """Grey '개념 정리' box (term contrast / definition repeated after the prose)."""
+    """Grey '개념 정리' box (term contrast / definition repeated after the prose). With `image` (a slide picture) or a
+    rendered `diagram` the box gets a second column with the picture: text left, schematic right."""
+    from PIL import Image
+
     F, base = tpl.format.font_korean, tpl.format.font_size_pt
-    t = doc.add_table(rows=1, cols=1)
+    path = Path(st.image) if st.image else None
+    has_pic = path is not None and path.exists()
+    t = doc.add_table(rows=1, cols=2 if has_pic else 1)
     t.alignment = WD_TABLE_ALIGNMENT.CENTER
     c = t.cell(0, 0)
     _box(c, sz=4, color="BFBFBF")
     _cell_fill(c, "F2F2F2")
+    if has_pic:
+        with Image.open(path) as im:
+            w, h = im.size
+        pic_w = min(7.0, 6.0 * w / max(h, 1))
+        t.autofit = False
+        for ci, wd in enumerate((17.4 - pic_w - 0.4, pic_w + 0.4)):
+            t.columns[ci].width = Cm(wd)
+            t.rows[0].cells[ci].width = Cm(wd)
+        c1 = t.cell(0, 1)
+        _box(c1, sz=4, color="BFBFBF")
+        _cell_fill(c1, "FFFFFF")
+        p1 = c1.paragraphs[0]; _fmt(p1, before=3, after=1, line=1.0, align=WD_ALIGN_PARAGRAPH.CENTER)
+        p1.add_run().add_picture(str(path), width=Cm(pic_w))
+        if st.diagram is not None:
+            doc._dia_n = getattr(doc, "_dia_n", 0) + 1
+            label = f"도식 {doc._dia_n}."
+        else:
+            doc._fig_n = getattr(doc, "_fig_n", 0) + 1
+            label = f"그림 {doc._fig_n}."
+        q = c1.add_paragraph(); _fmt(q, after=2, line=1.05, align=WD_ALIGN_PARAGRAPH.CENTER)
+        r = q.add_run(f"{label} {_strip(st.text or st.left_title)}"); _font(r, F, 7.5, color=COLOR["minor"])
+        cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); t.rows[0]._tr.get_or_add_trPr().append(cs)
     p = c.paragraphs[0]; _fmt(p, before=3, after=3, line=1.2)
     r = p.add_run(" 개념 정리 "); _font(r, F, base - 1, bold=True, color=RGBColor(255, 255, 255)); _shade_run(r, "7F7F7F")
     if st.left_title:
