@@ -40,6 +40,9 @@
 - API 키 없이 쓴다: ① 오프라인 규칙 기반 `build` ② Claude Code가 직접 작성하는 `/make-lecture-note` (`prepare` → 노트 JSON → `build`). 스킬 `make-lecture-note` 참고.
 - 그림·사진 자료(`--figures` PDF/PPTX/폴더, 슬라이드 입력)는 최대한 활용한다: 본문이 그림이 보여주는 것을 가리키게 쓰고, `figures.json`으로 캡션·위치를 다듬는다. 글자뿐인 슬라이드는 제외, 그림을 만들어 내지 않는다.
 
+## Top-down 작성 (흐름 먼저, 문장은 나중)
+노트 문장을 쓰기 전에 `{out}/storyline.md`를 먼저 쓴다: 강의 스스로의 뼈대(교수의 질문, 첫째/둘째, Part — 있으면 그것이 목차) → 한 문장 요지 → 장 요지 → 소절의 질문과 한 줄 답 → 다리 → 반복되는 축 → 시험 축(앞쪽 요약 = PAD 유형 표 + 지도 1장) → 그림 인벤토리. `prepare`가 `brief/storyline_template.md`(구조 신호·PAD·그림 미리 채움)를 만들고, 빌드는 `STORYLINE_MISSING`/`STORYLINE_DRIFT`를 띄운다(`app/storyline.py`). 문장은 스킬 00b절 ‘한 번 읽고 이해되는 문장’. 근거 `outputs/abx/review_vs_MOM.md`, 예시 `references/top_down_storyline.md`.
+
 ## 개념 = 그림 (L15)
 개념 정리(위계·분류·대비·사슬·순환·단계)는 도식화한다: 강의자료 그림 우선(`figure_side`, `concept.image`), 없으면 프로그램 도식 `diagram`(pyramid/cycle/flow/tree/compare, `size: side`면 글 옆 좁은 그림). `concept`·`figure_side`에 `diagram`을 주면 빌드가 PNG로 그려 넣는다(캡션 ‘도식 n.’). 검증 `CONCEPT_NO_VISUAL`. 스킬 0d.
 

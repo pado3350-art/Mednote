@@ -121,6 +121,11 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
         SP.append(f"| ¶{g.id} | {suggest_style(g.text)} | {e} | {l} | {g.text[:40].replace('|', '/')}… |")
     (brief / "style_plan.md").write_text("\n".join(SP) + "\n", encoding="utf-8")
 
+    # top-down: storyline template (filled and saved as <out>/storyline.md BEFORE any sentence is written)
+    from .storyline import storyline_template
+
+    (brief / "storyline_template.md").write_text(storyline_template(segs, items, figs, meta.get("title", "")), encoding="utf-8")
+
     # rules the user approved from their own edits (none approved -> short notice)
     from .feedback import approved_rules_markdown
 
@@ -146,8 +151,12 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
 0. `brief/learned_rules.md`(사용자가 승인한 학습 규칙)를 읽고 따른다. 강의 유형에 맞는 규칙만 적용한다.
 1. `.claude/skills/readable-note-organizer/SKILL.md`를 읽는다. **맨 위 ⛔ 파랑 = PAD 기출 ONLY 규칙은 무조건 지킨다.**
 2. `brief/style_plan.md`(혼합형: 소절별 explain/list 제안 — 템플릿 기본값 `mom_mixed.yaml`), `brief/effort_cues.md`(교수가 말한 노력 수준 단서)와 `brief/exam_signals.md`(기출 해설의 신호: 출제예고·강조 안 함·미수업 — 표지 코멘트와 `effort`의 근거)도 읽는다. `brief/paragraphs.md`(모든 발화), `brief/exam_items.md`(기출), `brief/figures.md`(그림; 이미지는 Read로 직접 본다)를 읽는다.
-3. 목차를 판단한다: 챕터 2~4개 × § 소절 2~4개. `outline_proposal.json`은 기계적 초안일 뿐이다. 모든 발화 단락(검증참고 제외)이 정확히 한 소절에 들어가야 하고, 검증참고는 마지막 `부록 & 검증 참고`.
-4. `{out}/note_authored.json`을 작성한다 (스키마: `brief/note_schema.json`, 예: `examples/limbic_note.py` 의 헬퍼 P·B·STAR·ADV·REF·T 로 Python 스크립트를 쓰는 방식 권장).
+3. **스토리라인 먼저 (top-down)** — 노트 문장을 한 줄도 쓰기 전에 `brief/storyline_template.md`를 채워 `{out}/storyline.md`로 저장한다 (절차·예시: `.claude/skills/readable-note-organizer/references/top_down_storyline.md`, 스킬 00절).
+   ① 강의 스스로의 뼈대(교수의 질문, 첫째/둘째, Part, 학습목표 순서 — 템플릿에 프로그램이 찾은 신호가 있다; 뼈대가 있으면 그것이 목차) ② 한 문장 요지 ③ 장 요지 ④ 소절마다 질문·한 줄 답·explain/list·¶ (모든 발화 단락이 정확히 한 소절에, 검증참고는 마지막 `부록 & 검증 참고`) ⑤ 다리 ⑥ 반복되는 축(첫 등장 ↔ 재등장) ⑦ 시험 축(앞쪽 요약 = PAD 유형 표 + 지도 1장) ⑧ 그림 인벤토리(그림이 담은 사실) ⑨ 강조/읽고 넘김/생략.
+   한 줄 답만 이어 읽어 강의 줄거리가 되는지 확인한 뒤 다음으로 간다. `outline_proposal.json`은 기계적 초안일 뿐이다.
+4. `{out}/note_authored.json`을 스토리라인을 펼쳐 작성한다 (스키마: `brief/note_schema.json`, 예: `examples/abx_note.py`). 제목·순서·`style`·핵심 답은 storyline.md에서 그대로 가져오고, 쓰는 도중 새 소절을 만들지 않는다.
+   - 문장은 스킬 00b절 **한 번 읽고 이해되는 문장**: 문단 첫 문장이 결론, 한 문장에 새 정보 하나, 정의 전 사용 금지, 용어 병기는 처음 한 번, 지시어 대신 명사, 괄호 하나까지, 대비는 같은 틀, 수치는 기준과 함께, 그림은 내용으로 설명.
+   - 다 쓴 뒤 핵심 답만, 장 첫 문장만 이어 읽어 스토리라인과 맞는지 확인한다. 빌드는 `STORYLINE_MISSING` / `STORYLINE_DRIFT`로 알려 준다.
    - 소절마다 기본정석 박스(`basics`, `basics_refs`), 설명 순서로 재구성한 본문, Advice/Reference, 비교표.
    - 앞쪽에 `role: "front"` 두 장: 핵심 어휘, 요약 정리.
    - 모든 문장에 `slide_refs`(¶번호, PAD는 unit 번호).

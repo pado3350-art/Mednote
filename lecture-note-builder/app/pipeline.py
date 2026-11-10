@@ -231,6 +231,14 @@ def run_pipeline(
                                        message=f"{n_pages}쪽 — 강의 길이 기준 목표 {budget}쪽을 넘습니다. "
                                                "반복(기본정석·요약·본문)과 쪽 나눔을 줄이거나 mom_compact 템플릿을 쓰세요."))
 
+    # ---- top-down authoring: a note written by Claude Code (precomputed) must follow <out>/storyline.md
+    from .generate_notes import PrecomputedBackend
+    from .storyline import storyline_issues
+
+    if isinstance(backend, PrecomputedBackend):
+        for sev, code, msg in storyline_issues(note, out / "storyline.md"):
+            report.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
+
     paths = {
         "slides": dump("slides.json", slides),
         "alignment": dump("alignment.json", aligned),
