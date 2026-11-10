@@ -41,3 +41,19 @@ def test_prepare_writes_storyline_template_and_task_step(tmp_path):
     assert "① 강의의 뼈대" in (brief / "storyline_template.md").read_text(encoding="utf-8")
     task = (brief / "TASK.md").read_text(encoding="utf-8")
     assert "스토리라인 먼저" in task and task.index("스토리라인 먼저") < task.index("note_authored.json`을")
+
+
+def test_vague_headings_are_flagged():
+    """'질문1: 무엇을 고를까' says nothing about the lecture; subject + terms make a heading informative."""
+    from app.storyline import heading_content, heading_issues
+
+    assert heading_content("질문1: 무엇을 고를까") == "" and heading_content("질문2: 어떻게 줄까") == ""
+    vague = LectureNote(title="t", topics=[
+        Topic(heading="무엇을 고를까", chapter="질문1: 무엇을 고를까", slide_numbers=[1], sections={"body": [Statement(text="x", slide_refs=[1])]})])
+    issues = heading_issues(vague)
+    assert [c for _, c, _ in issues] == ["HEADING_TOO_VAGUE", "HEADING_TOO_VAGUE"] and "항균제" in issues[0][2]
+    good = LectureNote(title="t", topics=[
+        Topic(heading="경험적 치료(empiric)는 언제 표적 치료(targeted)로 바뀌나?", chapter="항균제 선택 원칙: 사용 목적, 감염 장기, 환자 맥락",
+              slide_numbers=[1], sections={"body": [Statement(text="x", slide_refs=[1])]}),
+        Topic(heading="QUIZ", chapter="", slide_numbers=[1], sections={"body": [Statement(text="x", slide_refs=[1])]})])
+    assert heading_issues(good) == []

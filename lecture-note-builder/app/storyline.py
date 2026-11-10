@@ -71,3 +71,33 @@ def storyline_issues(note: LectureNote, path: str | Path) -> list[tuple[str, str
             out.append(("warning", "STORYLINE_DRIFT",
                         f"소절 '{t.heading}'이 스토리라인에 없습니다. 스토리라인을 고치거나 소절을 스토리라인에 맞춥니다."))
     return out
+
+
+# ---- headings must say WHAT the lecture is about (subject + medical terms), not only "무엇을 고를까"
+_GENERIC = sorted(["무엇", "어떻게", "어떤", "어디", "언제", "왜", "누구", "고를까", "줄까", "쓰나", "하나", "인가", "일까", "질문",
+                   "원칙", "과정", "방법", "이유", "것", "장", "절"], key=len, reverse=True)
+_PARTICLES = "은는이가을를에의로도와과"
+
+
+def heading_content(heading: str) -> str:
+    """The part of a heading that carries meaning: no digits, punctuation, question words or particles."""
+    s = re.sub(r"\{[a-z]\|([^}]*)\}", r"\1", heading).replace("**", "")
+    s = re.sub(r"[\d\W_]+", "", s)
+    for w in _GENERIC:
+        s = s.replace(w, "")
+    return "".join(c for c in s if c not in _PARTICLES)
+
+
+def heading_issues(note: LectureNote, min_chars: int = 5) -> list[tuple[str, str, str]]:
+    """Chapter and § headings made only of question words ('질문1: 무엇을 고를까') tell the reader nothing."""
+    out, seen = [], set()
+    for t in note.topics:
+        if t.role != "body" or t.heading.upper().startswith("QUIZ"):
+            continue
+        for label, text in (("장", t.chapter), ("소절", t.heading)):
+            if text and text not in seen and len(heading_content(text)) < min_chars:
+                seen.add(text)
+                out.append(("warning", "HEADING_TOO_VAGUE",
+                            f"{label} 제목 '{text}'에 주제와 의학 용어가 없습니다. 무엇에 대한 강의인지 제목만 읽어도 알 수 있게 "
+                            "대상(예: 항균제)과 핵심 용어를 넣습니다. ‘질문N’은 본문 안 설명으로만 씁니다."))
+    return out

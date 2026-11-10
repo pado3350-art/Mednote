@@ -233,10 +233,10 @@ def run_pipeline(
 
     # ---- top-down authoring: a note written by Claude Code (precomputed) must follow <out>/storyline.md
     from .generate_notes import PrecomputedBackend
-    from .storyline import storyline_issues
+    from .storyline import heading_issues, storyline_issues
 
     if isinstance(backend, PrecomputedBackend):
-        for sev, code, msg in storyline_issues(note, out / "storyline.md"):
+        for sev, code, msg in storyline_issues(note, out / "storyline.md") + heading_issues(note):
             report.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
 
     paths = {
