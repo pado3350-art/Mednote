@@ -92,6 +92,44 @@ def test_markdown_keeps_new_fields(tmp_path):
     assert "[필수]" in md and "(항암제 5-FU" in md and "개념 Check" in md and "개념 정리" in md
 
 
+def test_markdown_mom_structure_and_assets(tmp_path):
+    from app.export_docx import export_markdown
+    from app.models import SlideTable
+    from app.template import load_template
+
+    note = _note()
+    note.ref_style = "para"
+    note.meta["tips"] = "먼저 표를 보세요"
+    note.unit_labels = {1002: "PAD 20학번 Q2"}
+    topic = note.topics[0]
+    topic.chapter = "치료 원칙"
+    topic.slide_numbers = [13, 1002]
+    topic.basics = ["출처를 먼저 확인한다."]
+    topic.tables = [SlideTable(rows=[["표시", "설명"], ["{b|기출 내용}", "A | B"]])]
+    picture = tmp_path / "study image.png"
+    picture.touch()
+    topic.sections["body"] += [
+        Statement(kind="diagram", text="흐름도", image=str(picture)),
+        Statement(kind="figure", text="빠진 그림"),
+        Statement(kind="quiz", text="무엇이 맞나?", options=["선지 A", "선지 B"],
+                  answer="선지 A", explanations=["해설 A"]),
+    ]
+    tpl = load_template("templates/mom_mixed.yaml")
+    tpl.format.include_source_references = True
+
+    md = export_markdown(note, tpl, tmp_path / "out" / "note.md").read_text(encoding="utf8")
+    assert "먼저 표를 보세요" in md
+    assert "[1장. 치료 원칙](#chapter-1)" in md
+    assert '<a name="chapter-1"></a>' in md
+    assert "### 1. " in md and "###" not in md.splitlines()
+    assert "**핵심 답**" in md
+    assert "발화 ¶13 / PAD 20학번 Q2" in md
+    assert r"| **[기출]** 기출 내용 | A \| B |" in md
+    assert "![흐름도](../study%20image.png)" in md
+    assert "빠진 그림 (파일 없음)" in md
+    assert "- 선지 B" in md and "<details>" in md and "**정답:** 선지 A" in md and "- 해설 A" in md
+
+
 def test_parse_pad_docx(tmp_path):
     from app.exam import EXAM_BASE, parse_exam_pdf
 

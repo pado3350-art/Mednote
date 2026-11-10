@@ -1,7 +1,9 @@
 """Stage 5: LectureNote -> DOCX / Markdown. Code (not the AI) owns all styling."""
 from __future__ import annotations
 
+import os
 from pathlib import Path
+from urllib.parse import quote
 
 from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -19,7 +21,15 @@ RED = RGBColor(0xB9, 0x1C, 0x1C)
 
 
 def _md(text: str) -> str:
-    return "".join(f"**{t}**" if b else t for t, _, b in _runs(text))
+    labels = {"exam": "**[기출]** ", "exam_other": "**[다른 교수님 기출]** "}
+    parts = []
+    last_color = None
+    for value, color, bold in _runs(text):
+        if color != last_color:
+            parts.append(labels.get(color, ""))
+        parts.append(f"**{value}**" if bold else value)
+        last_color = color
+    return "".join(parts)
 
 
 def source_tag(st: Statement, note: LectureNote) -> str:
@@ -155,39 +165,109 @@ def export_docx(
     return out
 
 
+def _md_table(rows: list[list[str]]) -> list[str]:
+    if not rows or not (width := max(map(len, rows))):
+        return []
+    lines = []
+    for row in rows:
+        cells = [_md(cell).replace("|", r"\|").replace("\n", "<br>") for cell in row]
+        lines.append("| " + " | ".join(cells + [""] * (width - len(cells))) + " |")
+    return ["", lines[0], "|" + "---|" * width, *lines[1:], ""]
+
+
+def _md_image(image: str, caption: str, folder: Path) -> str:
+    path = Path(image)
+    caption = _strip(caption) or path.name
+    if not image or not path.is_file():
+        return f"*그림: {caption} (파일 없음)*"
+    try:
+        relative = Path(os.path.relpath(path.resolve(), folder.resolve())).as_posix()
+    except ValueError:
+        return f"*그림: {caption} (문서와 다른 드라이브에 있음)*"
+    alt = caption.replace("[", r"\[").replace("]", r"\]").replace("\n", " ")
+    return f"![{alt}]({quote(relative, safe='/')})"
+
+
 def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> Path:
+    out = Path(out_path)
     L = [f"# {note.title}", ""]
+    if tpl.format.layout == "mom":
+        for key, label in (("comment", "작성자 코멘트"), ("tips", "먼저 볼 내용"), ("objectives", "학습목표")):
+            lines = note.meta.get(key, "").splitlines()
+            if lines:
+                L += [f"**{label}**", "", *[f"- {_md(line)}" for line in lines if line.strip()], ""]
+
+    contents = []
+    body_lines = []
+    chapter = ""
+    chapter_number = 0
+    section_number = 0
     for i, t in enumerate(note.topics, start=1):
-        prefix = f"{i}. " if tpl.format.numbered_headings else ""
-        L += [f"## {prefix}{t.heading}", f"*PPT p.{','.join(map(str, t.slide_numbers))}*", ""]
+        grouped = t.role == "body" and bool(t.chapter)
+        if grouped and t.chapter != chapter:
+            chapter_number += 1
+            section_number = 0
+            chapter_title = f"{chapter_number}장. {t.chapter}" if tpl.format.numbered_headings else t.chapter
+            anchor = f"chapter-{chapter_number}"
+            contents.append(f"- [{chapter_title}](#{anchor})")
+            body_lines += [f'<a name="{anchor}"></a>', "", f"## {chapter_title}", ""]
+        chapter = t.chapter if grouped else ""
+        section_number += 1
+        anchor = f"topic-{i}"
+        prefix = f"{section_number if grouped else i}. " if tpl.format.numbered_headings else ""
+        heading = prefix + t.heading
+        if not grouped:
+            contents.append(f"- [{heading}](#{anchor})")
+        body_lines += [f'<a name="{anchor}"></a>', "", f"{'###' if grouped else '##'} {heading}", ""]
+        if tpl.format.include_source_references:
+            refs = format_refs(t.slide_numbers, note)
+            if refs:
+                body_lines += [f"*{refs}*", ""]
+        if tpl.format.basics_box and t.basics:
+            body_lines += [f"**{t.basics_title or tpl.format.basics_label}**", ""]
+            body_lines += [f"- {_md(item)}" for item in t.basics]
+            if tpl.format.include_source_references and (refs := format_refs(t.basics_refs, note)):
+                body_lines += ["", f"*{refs}*"]
+            body_lines.append("")
+        if tpl.format.topic_tips and t.tip:
+            body_lines += [f"> **공부 팁** {_md(t.tip)}", ""]
         for sec in tpl.sections:
             sts = t.sections.get(sec.key)
             if not sts:
                 continue
-            L.append(f"### {sec.label}")
+            if sec.label.strip():
+                body_lines += [f"{'####' if grouped else '###'} {sec.label}", ""]
             for st in sts:
                 if st.kind in ("figure", "diagram"):
-                    L.append(f"![{_md(st.text)}]({st.image})")
+                    body_lines += ["", _md_image(st.image, st.text, out.parent), ""]
                     continue
                 if st.kind == "figure_side":
                     if st.image:
-                        L.append(f"![{_md(st.text)}]({st.image})")
+                        body_lines += ["", _md_image(st.image, st.text, out.parent), ""]
                     if st.left_title:
-                        L.append(f"**{_md(st.left_title)}**")
-                    L += [f"- {_md(x.removeprefix('- '))}" for x in st.left]
+                        body_lines.append(f"**{_md(st.left_title)}**")
+                    body_lines += [f"- {_md(x.removeprefix('- '))}" for x in st.left]
+                    continue
+                if st.kind == "quiz":
+                    body_lines += ["", f"**문제** {_md(st.text)}", "", *[f"- {_md(x)}" for x in st.options], ""]
+                    if st.answer or st.explanations:
+                        body_lines += ["<details>", "<summary>정답과 해설</summary>", ""]
+                        if st.answer:
+                            body_lines += [f"**정답:** {_md(st.answer)}", ""]
+                        body_lines += [*[f"- {_md(x)}" for x in st.explanations], "", "</details>", ""]
                     continue
                 if st.kind == "check":
-                    L.append(f"- **개념 Check** {_md(st.text)} (O, X) → {st.answer}" + (f" — {_md(st.explanations[0])}" if st.explanations else ""))
+                    body_lines.append(f"- **개념 Check** {_md(st.text)} (O, X) → {st.answer}" + (f" — {_md(st.explanations[0])}" if st.explanations else ""))
                     continue
                 if st.kind == "concept":
-                    L.append(f"> **개념 정리** {_md(st.left_title)}")
-                    L += [f"> - {_md(x.removeprefix('- '))}" for x in st.left]
+                    body_lines.append(f"> **개념 정리** {_md(st.left_title)}")
+                    body_lines += [f"> - {_md(x.removeprefix('- '))}" for x in st.left]
+                    if st.image:
+                        body_lines += ["", _md_image(st.image, st.text, out.parent), ""]
                     continue
                 if st.kind == "columns" and st.diagram is not None:
                     gs = st.diagram.groups
-                    L.append("| " + " | ".join(_md(g.title) for g in gs) + " |")
-                    L.append("|" + "---|" * len(gs))
-                    L.append("| " + " | ".join("<br>".join(_md(x) for x in g.items) for g in gs) + " |")
+                    body_lines += _md_table([[g.title for g in gs], ["<br>".join(g.items) for g in gs]])
                     continue
                 pre = "▶ **교수님:** " if st.origin == "lecturer" else ""
                 body = f"**{_md(st.text)}**" if st.emphasis else _md(st.text)
@@ -196,22 +276,22 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
                 if st.effort:
                     body += f" [{st.effort}]"
                 tag = source_tag(st, note)
-                L.append(f"- {pre}{body}" + (f" `[{tag}]`" if tag and tpl.format.include_source_references else ""))
-            L.append("")
+                line = f"{pre}{body}" + (f" `[{tag}]`" if tag and tpl.format.include_source_references else "")
+                if t.style == "explain" and st.kind == "para":
+                    body_lines += ["", line, ""]
+                else:
+                    body_lines.append(f"- {line}")
+            body_lines.append("")
         for tb in t.tables:
-            if tb.rows:
-                w = max(len(r) for r in tb.rows)
-                rows = [r + [""] * (w - len(r)) for r in tb.rows]
-                L.append("| " + " | ".join(rows[0]) + " |")
-                L.append("|" + "---|" * w)
-                L += ["| " + " | ".join(r) + " |" for r in rows[1:]]
-                L.append("")
+            body_lines += _md_table(tb.rows)
         for img in t.images:
-            L.append(f"![{Path(img).name}]({img})")
-        L.append("")
+            body_lines += ["", _md_image(img, "", out.parent), ""]
+        body_lines.append("")
+    if contents:
+        L += ["## 목차", "", *contents, ""]
+    L += body_lines
     if note.exam_points:
-        L += ["## 시험 포인트", *[f"- {s.text} `[{source_tag(s, note)}]`" for s in note.exam_points], ""]
-    out = Path(out_path)
+        L += ["## 시험 포인트", *[f"- {_md(s.text)} `[{source_tag(s, note)}]`" for s in note.exam_points], ""]
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text("\n".join(L), encoding="utf-8")
     return out
