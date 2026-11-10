@@ -175,3 +175,18 @@ def test_line_density_and_omitted_numbers():
     n.meta = {"omitted": "2주|10분|1"}
     rep = validate(n, sl2, al, _tpl())
     assert not any(i.code == "NUMBER_LOST" for i in rep.issues) and any(i.code == "OMITTED_BY_RULE" for i in rep.issues)
+
+
+def test_omitted_terms_turn_term_lost_into_info():
+    """Trivial English glosses of the transcript can be left out on purpose (meta.omitted_terms) instead of forcing parentheses."""
+    from app.models import BodyLine
+
+    sl = [Slide(number=1, title="u", body=[BodyLine(text="검체 스페시멘(Specimen)과 감수성 검사 Susceptibility test")])]
+    _, al = _slides()
+    n = _note([Statement(text="검체로 감수성 검사를 한다.", slide_refs=[1])])
+    rep = validate(n, sl, al, _tpl())
+    assert any(i.code == "TERM_LOST" and "Specimen" in i.message for i in rep.issues)
+    n.meta = {"omitted_terms": "specimen|susceptibility test"}
+    rep = validate(n, sl, al, _tpl())
+    assert not any(i.code == "TERM_LOST" for i in rep.issues)
+    assert any(i.code == "OMITTED_BY_RULE" and "Specimen" in i.message for i in rep.issues)

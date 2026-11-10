@@ -82,6 +82,9 @@ def validate(
 
     # 2. Numbers/units and key terms preserved (numbers the author dropped on purpose are listed in meta.omitted, "a|b|c")
     omitted = {_norm(x) for x in (note.meta.get("omitted") or "").split("|") if x.strip()}
+    # English glosses of the transcript ("스페시멘(Specimen)", "옵티멀(Optimal)") that are not needed to understand or pass:
+    # leave them out of the text on purpose instead of forcing a parenthesis into every sentence (meta.omitted_terms "a|b|c")
+    omitted_terms = {_norm(x) for x in (note.meta.get("omitted_terms") or "").split("|") if x.strip()}
     for n, s in by_slide.items():
         if n in missing:
             continue
@@ -99,7 +102,10 @@ def validate(
                                         message=f"수치 '{m}'이(가) 강의록에서 누락/변형되었습니다."))
         if template.quality.preserve_all_key_concepts and n < EXAM_BASE:  # PAD distractors need not be echoed
             for term in sorted({x.group() for x in _TERM.finditer(src)}):
-                if _norm(term) not in full:
+                if _norm(term) not in full and _norm(term) in omitted_terms:
+                    rep.issues.append(Issue(severity="info", code="OMITTED_BY_RULE", slide=n,
+                                            message=f"용어 '{term}'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms)."))
+                elif _norm(term) not in full:
                     rep.issues.append(Issue(severity="warning", code="TERM_LOST", slide=n,
                                             message=f"용어 '{term}'이(가) 강의록에 없습니다."))
         # 3. Tables / images retained

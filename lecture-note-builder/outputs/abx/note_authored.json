@@ -1033,7 +1033,7 @@
       "sections": {
         "body": [
           {
-            "text": "경험적 치료는 원인균을 모르는 채 시작한다. 그럼 균이 확인된 뒤에는 어떻게 바꾸나? 치료는 다섯 단계로 흐른다. 환자 평가(patient evaluation)에서 증상과 sign을 보고, 경험적 치료(initial empirical therapy)를 시작한다.",
+            "text": "경험적 치료는 원인균을 모르는 채 시작한다. 그럼 균이 확인된 뒤에는 어떻게 바꿀까? 치료는 환자 평가에서 증상과 징후를 확인하는 데서 시작해, 경험적 치료, 감수성 검사, 표적 치료, 모니터링의 다섯 단계로 이어진다.",
             "origin": "both",
             "slide_refs": [
               18
@@ -1148,72 +1148,11 @@
             }
           },
           {
-            "text": "감수성 검사(susceptibility test)는 경험적 치료와 동시에 한다. 검체(specimen)는 치료 전에 채취한 혈액 등이다.",
+            "text": "경험적 치료를 시작하면서, 치료 전에 채취한 혈액 등의 검체로 감수성 검사(susceptibility test)를 함께 한다. 이 검사로 균이 동정되고 항균제별 감수성과 MIC(Minimum Inhibitory Concentration, 최소 억제 농도)가 나오면, 그 결과를 보고 지금 환자에게 가장 알맞은 약으로 바꾸는 것이 표적 치료(definitive therapy)다. 다만 경험적 치료가 이미 적절하다면 그대로 유지하는 것이 가장 좋고, 바꿀지는 다음 다섯 가지로 판단한다.",
             "origin": "both",
             "slide_refs": [
-              19
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "diagram": null
-          },
-          {
-            "text": "균이 동정되고 감수성이 확인되면 표적 치료(definitive therapy)로 바꾼다.",
-            "origin": "both",
-            "slide_refs": [
-              19
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "diagram": null
-          },
-          {
-            "text": "검사 결과지는 항균제별 감수성을 보여 준다. 이것으로 MIC(Minimum Inhibitory Concentration, 최소 억제 농도)도 정한다. 결과를 보고 지금 환자에게 가장 알맞은(optimal) 약을 고른다.",
-            "origin": "both",
-            "slide_refs": [
-              20
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "diagram": null
-          },
-          {
-            "text": "경험적 치료가 적절하면 그대로 둔다. 가장 좋은 경우다. 바꿀지는 다음 다섯 가지로 판단한다.",
-            "origin": "both",
-            "slide_refs": [
+              19,
+              20,
               21
             ],
             "segment_ids": [],
@@ -1400,7 +1339,7 @@
             "left": [
               "- 약이 없으면 살아 있는 균 수가 계속 는다.",
               "- 정균제(예: chloramphenicol)를 넣으면 균 수가 그대로 유지된다.",
-              "- 살균제(예: penicillin)를 넣으면 살아 있는 균(viable bacteria)이 급격히 준다."
+              "- 살균제(예: penicillin)를 넣으면 살아 있는 균이 급격히 준다."
             ],
             "options": [],
             "answer": "",
@@ -1887,7 +1826,7 @@
             "diagram": null
           },
           {
-            "text": "질문2의 답은 세 축이다. 첫째, 어느 기관(organ)의 감염인가. 둘째, 어떤 환자인가(외래, 입원, critically ill 중환자). 셋째, IV와 PO(경구) 중 무엇인가. 셋째는 오랫동안 고민되어 온 문제다.",
+            "text": "질문2의 답은 세 축이다. 첫째, 어느 기관의 감염인가. 둘째, 어떤 환자인가(외래, 입원, 중환자). 셋째, IV와 PO(경구) 중 무엇인가. 셋째는 오랫동안 고민되어 온 문제다.",
             "origin": "both",
             "slide_refs": [
               32
@@ -2078,7 +2017,7 @@
             "diagram": null
           },
           {
-            "text": "**흡입(inhalation therapy)**: 폐렴이면 입자가 large airway와 bronchiole을 지나 alveoli(폐포)까지 가야 한다. 일반 nebulizer와 aerosol generator 중에서 고른다.",
+            "text": "**흡입(inhalation therapy)**: 폐렴이면 입자가 large airway를 지나 alveoli(폐포)까지 가야 한다. 일반 nebulizer와 aerosol generator 중에서 고른다.",
             "origin": "both",
             "slide_refs": [
               34
@@ -2497,7 +2436,7 @@
             "diagram": null
           },
           {
-            "text": "{b|시간 의존성(time-dependent killing)은 MIC 이상으로 유지되는 시간이 길수록 유리하다}. 대표는 β-lactam(beta-lactam)이다. 그럼 농도를 오래 유지해야 하므로 저용량을 짧은 간격으로 주는 dosing regimen을 따른다.",
+            "text": "{b|시간 의존성(time-dependent killing)은 MIC 이상으로 유지되는 시간이 길수록 유리하다}. 대표는 β-lactam이다. 그럼 농도를 오래 유지해야 하므로 저용량을 짧은 간격으로 준다.",
             "origin": "both",
             "slide_refs": [
               41,
