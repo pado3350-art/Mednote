@@ -1,0 +1,51 @@
+# 검증 리포트
+
+- 슬라이드 커버리지: 100%
+- 오류 0 / 경고 46 / 참고 0
+
+- ⚠️ `UNGROUNDED` [발화 ¶1] 원본과 유사도가 낮은 문장(근거 확인 필요): '이 한 쪽이 시험 대비용이다. 파랑은 기출(PAD)에 나온 내용이고 본문…'
+- ⚠️ `TERM_LOST` [발화 ¶7] 용어 'Embryonic stem'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶7] 원본과 유사도가 낮은 문장(근거 확인 필요): '한국에서 쓸 수 있는 줄기세포: iPSC(역분화), ESC, MSC…'
+- ⚠️ `TERM_LOST` [발화 ¶8] 용어 'Mesenchymal stem'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶9] 용어 'Adult stem'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶9] 용어 'Induced pluripotent'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶9] 용어 'Pluripotent stem'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶9] 용어 'Totipotent cell'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶9] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
+- ⚠️ `UNGROUNDED` [발화 ¶10] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
+- ⚠️ `TERM_LOST` [발화 ¶12] 용어 'Adipose tissue'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶12] 용어 'Bone marrow'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶12] 용어 'Cord blood'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶12] 원본과 유사도가 낮은 문장(근거 확인 필요): 'auto vs allo…'
+- ⚠️ `TERM_LOST` [발화 ¶14] 용어 'Extracellular matrix'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶17] 용어 'Chronic degenerative'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶17] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
+- ⚠️ `TERM_LOST` [발화 ¶18] 용어 'Young'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶19] 용어 'Randomized controlled'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶20] 용어 'Lateral compartment'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶20] 용어 'Qualitative'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶20] 용어 'Quantitative'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶22] 용어 'Approve'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶23] 원본과 유사도가 낮은 문장(근거 확인 필요): '줄기세포 유래 치료제 후보 — 3D organoid(세포 덩어리)…'
+- ⚠️ `UNGROUNDED` [발화 ¶23] 원본과 유사도가 낮은 문장(근거 확인 필요): '연골치료제 개발 후보: MSC · 연골세포 · iPSC, single c…'
+- ⚠️ `TERM_LOST` [발화 ¶24] 용어 'Turn'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶25] 용어 'Injectable spheroid'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶25] 용어 'Mimic'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶25] 원본과 유사도가 낮은 문장(근거 확인 필요): 'For better cell therapy…change cell orig…'
+- ⚠️ `UNGROUNDED` [발화 ¶25] 원본과 유사도가 낮은 문장(근거 확인 필요): 'For better cell therapy…different CMC? —…'
+- ⚠️ `UNGROUNDED` [발화 ¶26] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Distinguished approaches: (1) new cell, …'
+- ⚠️ `TERM_LOST` [발화 ¶27] 용어 'Surgeon'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶27] 원본과 유사도가 낮은 문장(근거 확인 필요): '스페로이드의 의미: United we stand, divided we f…'
+- ⚠️ `UNGROUNDED` [발화 ¶27] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Spheroids: MIUChon = Newer formula + Str…'
+- ⚠️ `UNGROUNDED` [발화 ¶27] 원본과 유사도가 낮은 문장(근거 확인 필요): '연자팀이 ‘더 좋은 세포 치료제’를 위해 바꾼 세 가지가 아닌 것은?…'
+- ⚠️ `TERM_LOST` [발화 ¶28] 용어 'Tearing'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶28] 원본과 유사도가 낮은 문장(근거 확인 필요): 'iPSC 유래 약 200 µm 크기 스페로이드를 치료제로 개발했다…'
+- ⚠️ `UNGROUNDED` [발화 ¶30] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Part 1 Summary: MSC·iPSC × auto·allo, 새 …'
+- ⚠️ `UNGROUNDED` [발화 ¶31] 원본과 유사도가 낮은 문장(근거 확인 필요): '1상은 효과가 아니라 부작용(안전성) 을 보는 단계 — 3명에서 부작용이…'
+- ⚠️ `UNGROUNDED` [발화 ¶31] 원본과 유사도가 낮은 문장(근거 확인 필요): '1상 임상시험은 유효성이 아니라 안전성(부작용)을 보는 단계이다.…'
+- ⚠️ `TERM_LOST` [발화 ¶32] 용어 'Cartilage thickness'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶32] 용어 'Defect size'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶32] 용어 'Phase'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶32] 용어 'Synovial fluid'이(가) 강의록에 없습니다.
+- ⚠️ `TERM_LOST` [발화 ¶33] 용어 'Spinal cord'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶33] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Break News: World 1st conditional approv…'

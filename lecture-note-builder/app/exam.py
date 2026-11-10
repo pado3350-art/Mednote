@@ -40,17 +40,17 @@ class ExamItem:
 
     @property
     def label(self) -> str:
-        head = f"{self.year}({self.cohort})" if self.year else self.cohort
+        head = (f"{self.year}({self.cohort})" if self.cohort else str(self.year)) if self.year else self.cohort
         return f"PAD {head} Q{self.q_no}"
 
     @property
     def title(self) -> str:
-        return f"기출 {self.year}년 {self.cohort} {self.professor} Q{self.q_no}" if self.year else \
+        return f"기출 {self.year}년 {self.cohort} {self.professor} Q{self.q_no}".replace("  ", " ") if self.year else \
             f"기출 {self.cohort} {self.professor} Q{self.q_no}"
 
     @property
     def when(self) -> str:
-        return f"{self.year}년({self.cohort})" if self.year else self.cohort
+        return (f"{self.year}년({self.cohort})" if self.cohort else f"{self.year}년") if self.year else self.cohort
 
 
 def pdf_text(path: str | Path) -> str:
@@ -135,5 +135,63 @@ def parse_exam_text(text: str) -> list[ExamItem]:
     return items
 
 
+_DOCX_HDR = re.compile(r"^\s*(\d{4})년\s*([^\s.(]+?)\s*교수님\s*$")
+_DOCX_Q = re.compile(r"^\s*(\d+)\.\s+(\S.*)$")
+_DOCX_ANS = re.compile(r"^\s*(?:정답|답)\s*[|:：]\s*(.*)$")
+_DOCX_COMMENT = re.compile(r"^\s*(?:공식\s*해설|작성자\s*해설|해설)\s*[|:：]\s*(.*)$")
+
+
+def parse_exam_docx(path: str | Path) -> list[ExamItem]:
+    """PAD as a Word file: "2025년 주지현 교수님" headers, "27. question" + unnumbered or "1)" options,
+    "답 | 1" / "답: 3)", "해설 | …" / "공식해설:" / "작성자 해설:" (the writer's commentary follows the answer).
+    Lines such as "아래로는 전부 ○○ 교수님입니다." are skipped. Spot-check the result (the CLI prints it)."""
+    from docx import Document
+
+    items: list[ExamItem] = []
+    hdr: tuple[int, str] | None = None
+    cur: dict | None = None
+
+    def close():
+        nonlocal cur
+        if cur is not None and hdr is not None:
+            items.append(ExamItem(number=EXAM_BASE + len(items) + 1, cohort="", year=hdr[0], professor=hdr[1] + " 교수님",
+                                  course="", q_no=cur["no"], question=" ".join(cur["q"]).strip(), answer=cur["ans"],
+                                  commentary=" ".join(cur["c"]).strip()))
+        cur = None
+
+    for p in Document(str(path)).paragraphs:
+        s = " ".join(p.text.split())
+        if not s or s.startswith("아래로는"):
+            continue
+        h = _DOCX_HDR.match(s)
+        if h:
+            close()
+            hdr = (int(h.group(1)), h.group(2).strip())
+            continue
+        if hdr is None:
+            continue
+        q = _DOCX_Q.match(s)
+        if q and (cur is None or cur["ans"]):
+            close()
+            cur = {"no": int(q.group(1)), "q": [q.group(2)], "ans": "", "c": []}
+            continue
+        if cur is None:
+            continue
+        a = _DOCX_ANS.match(s)
+        if a and not cur["ans"]:
+            cur["ans"] = a.group(1).strip()
+            continue
+        if cur["ans"]:
+            c = _DOCX_COMMENT.match(s)
+            cur["c"].append(c.group(1).strip() if c else s)
+        else:
+            cur["q"].append(s)
+    close()
+    return items
+
+
 def parse_exam_pdf(path: str | Path) -> list[ExamItem]:
+    """PAD file: .docx (Word) or a text-based PDF."""
+    if str(path).lower().endswith(".docx"):
+        return parse_exam_docx(path)
     return parse_exam_text(pdf_text(path))

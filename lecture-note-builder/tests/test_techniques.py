@@ -90,3 +90,32 @@ def test_markdown_keeps_new_fields(tmp_path):
 
     md = export_markdown(_note(), _tpl(), tmp_path / "n.md").read_text(encoding="utf-8")
     assert "[필수]" in md and "(항암제 5-FU" in md and "개념 Check" in md and "개념 정리" in md
+
+
+def test_parse_pad_docx(tmp_path):
+    from app.exam import EXAM_BASE, parse_exam_pdf
+
+    d = Document()
+    for line in ["2025년 주지현 교수님", "(세포치료) 줄기세포 – 주지현 교수님", "27. 임상시험용으로 받는 허가는?", "IND 허가", "NDA 승인",
+                 "답 | 1", "해설 | IND는 초기 허가임.", "작년 출제예고입니다.", "아래로는 전부 주지현 교수님입니다.",
+                 "2022년 주지현 교수님", "1. iPSC가 만들어지는 과정은?", "1) reproduction", "3) reprogramming", "답: 3)",
+                 "공식해설: 체세포를 Yamanaka factor로 …"]:
+        d.add_paragraph(line)
+    f = tmp_path / "pad.docx"
+    d.save(f)
+    items = parse_exam_pdf(f)  # .docx goes through the Word parser
+    assert [(i.number, i.year, i.q_no, i.answer) for i in items] == [(EXAM_BASE + 1, 2025, 27, "1"), (EXAM_BASE + 2, 2022, 1, "3)")]
+    assert "NDA 승인" in items[0].question and "IND는 초기 허가임" in items[0].commentary
+    assert items[0].label == "PAD 2025 Q27" and "2022" in items[1].title
+
+
+def test_pad_title_year_is_not_a_lost_number():
+    from app.exam import ExamItem
+    from app.models import BodyLine
+
+    it = ExamItem(number=1001, cohort="", year=2022, professor="주지현 교수님", course="", q_no=1, question="q", answer="3", commentary="")
+    sl = Slide(number=1001, title=it.title, body=[BodyLine(text=it.question), BodyLine(text="정답: 3")])
+    note = LectureNote(title="t", ref_style="para", topics=[Topic(heading="h", chapter="c", slide_numbers=[1001], sections={"body": [
+        Statement(text="{b|정답은 3번} q", slide_refs=[1001])]})])
+    rep = validate(note, [sl], [AlignedSlide(slide_number=1001, segments=[])], _tpl())
+    assert not [i for i in rep.issues if i.code == "NUMBER_LOST" and "2022" in i.message]

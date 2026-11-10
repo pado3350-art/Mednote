@@ -81,7 +81,8 @@ def validate(
     for n, s in by_slide.items():
         if n in missing:
             continue
-        src = s.plain_text()
+        # a PAD unit's generated title ("기출 2022년 …") is metadata, not content: only its question/answer/commentary count
+        src = " ".join(b.text for b in s.body) if n >= EXAM_BASE else s.plain_text()
         for m in sorted({x.group().strip() for x in _NUM.finditer(src)}):
             if len(re.sub(r"\D", "", m)) == 0:
                 continue
