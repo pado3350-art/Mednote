@@ -237,9 +237,9 @@ def validate(
 
     # 4c-3. Mixed style (default, approved rule L10): explain § vs list § conventions
     if template.format.mixed:
-        from .mixed import mixed_issues
+        from .mixed import mixed_issues, table_orphan_issues
 
-        for sev, code, msg in mixed_issues(note):
+        for sev, code, msg in mixed_issues(note) + table_orphan_issues(note):
             rep.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
 
     # 4c-4. Concept boxes are drawn, not only written (L15): slide picture first, else a program schematic

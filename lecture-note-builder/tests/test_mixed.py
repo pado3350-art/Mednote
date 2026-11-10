@@ -41,7 +41,7 @@ def test_mixed_checks_flag_problems():
     listy = _t("기전 설명", "explain", [Statement(text=f"줄 {i}", kind="bullet", slide_refs=[1]) for i in range(3)])
     no_sum = _t("결과", "list", [Statement(text="**통증**: 유의", kind="bullet", slide_refs=[1])])
     codes = _codes([no_style, listy, no_sum])
-    assert {"MIXED_STYLE_MISSING", "EXPLAIN_NO_ANSWER", "EXPLAIN_TOO_LISTY", "EXPLAIN_HEADING_NOT_QUESTION",
+    assert {"MIXED_STYLE_MISSING", "EXPLAIN_NO_ANSWER", "EXPLAIN_TOO_LISTY",
             "LIST_NO_SUMMARY"} <= codes
     one = _codes([_t("a?", "explain", [Statement(text="x", kind="para", slide_refs=[1])], ["y"])] * 2)
     assert "MIXED_ONE_STYLE" in one

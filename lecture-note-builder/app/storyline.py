@@ -88,7 +88,7 @@ def heading_content(heading: str) -> str:
     return "".join(c for c in s if c not in _PARTICLES)
 
 
-def heading_issues(note: LectureNote, min_chars: int = 5) -> list[tuple[str, str, str]]:
+def heading_issues(note: LectureNote, min_chars: int = 5, max_heading: int = 44, max_chapter: int = 34) -> list[tuple[str, str, str]]:
     """Chapter and § headings made only of question words ('질문1: 무엇을 고를까') tell the reader nothing."""
     out, seen = [], set()
     for t in note.topics:
@@ -100,4 +100,9 @@ def heading_issues(note: LectureNote, min_chars: int = 5) -> list[tuple[str, str
                 out.append(("warning", "HEADING_TOO_VAGUE",
                             f"{label} 제목 '{text}'에 주제와 의학 용어가 없습니다. 무엇에 대한 강의인지 제목만 읽어도 알 수 있게 "
                             "대상(예: 항균제)과 핵심 용어를 넣습니다. ‘질문N’은 본문 안 설명으로만 씁니다."))
+            limit = max_chapter if label == "장" else max_heading
+            if text and len(text) > limit and text not in seen:  # a heading that wraps to 2 lines is noise (the question box / table carry the detail)
+                seen.add(text)
+                out.append(("warning", "HEADING_TOO_LONG",
+                            f"{label} 제목 '{text[:30]}…'이 {len(text)}자입니다(한 줄 {limit}자 이하). 세부 용어는 질문 상자와 표에 맡깁니다."))
     return out

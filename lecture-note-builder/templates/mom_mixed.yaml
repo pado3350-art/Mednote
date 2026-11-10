@@ -12,6 +12,7 @@ sections:
 
 format:
   layout: mom
+  cover_style: box           # title once in a double-ruled box + a bordered 작성자 코멘트 box (like the human MOM cover)
   page_break_per_topic: true
   page_break: flow           # new page only after the front pages; chapters flow on with an in-body banner
   basics_box: true

@@ -125,6 +125,10 @@ def numbering(note: LectureNote, roman: bool = False) -> list[dict]:
         elif t.chapter:
             if t.chapter != last_ch:
                 ch_no += 1; sec_no = 0; last_ch = t.chapter
+            if t.heading.upper().startswith("QUIZ"):  # the quiz is not a numbered § of the chapter
+                out.append({"front": False, "chapter": f"{ch_no}. {t.chapter}", "section": t.heading,
+                            "banner": f"{ch_no}. {t.chapter}", "toc": t.heading, "no": 0})
+                continue
             sec_no += 1
             out.append({"front": False, "chapter": f"{ch_no}. {t.chapter}", "section": f"§ {sec_no}. {t.heading}",
                         "banner": f"{ch_no}. {t.chapter}", "toc": f"§ {sec_no}. {t.heading}", "no": sec_no})
@@ -396,6 +400,31 @@ def _concept_box(doc, st: Statement, tpl: Template) -> None:
     _fmt(doc.add_paragraph(), after=3, line=0.7)
 
 
+def rows_widths(st: Statement) -> list[float]:
+    """Column widths (cm) of a `rows` table: given, else label column + equal rest (17.4 cm text width)."""
+    rows = [r for r in st.rows if r]
+    ncol = max((len(r) for r in rows + ([st.col_titles] if st.col_titles else [])), default=0)
+    total = 17.4
+    if len(st.col_widths) == ncol:
+        return list(st.col_widths)
+    if ncol == 2:
+        return [4.4, total - 4.4]
+    first = 3.6
+    return [first] + [(total - first) / max(ncol - 1, 1)] * max(ncol - 1, 0)
+
+
+def _gap(doc, pt: float = 3.0):
+    """A very thin spacer paragraph (exact line height): at a page end it can never spill onto an empty page of its own."""
+    from docx.enum.text import WD_LINE_SPACING
+
+    g = doc.add_paragraph()
+    g.paragraph_format.space_before = Pt(0); g.paragraph_format.space_after = Pt(0)
+    g.paragraph_format.line_spacing_rule = WD_LINE_SPACING.EXACTLY
+    g.paragraph_format.line_spacing = Pt(pt)
+    r = g.add_run(""); r.font.size = Pt(1)
+    return g
+
+
 def _rows_table(doc, st: Statement, tpl: Template) -> None:
     """Table (L16): "라벨 | 한 줄 → 결론" rows. The knowledge lives in the table, the eye reads down the label column.
     st.rows = [[label, cell, ...]]; st.col_titles = optional header; st.col_widths = optional widths (cm)."""
@@ -404,29 +433,27 @@ def _rows_table(doc, st: Statement, tpl: Template) -> None:
     if not rows:
         return
     ncol = max(len(r) for r in rows + ([st.col_titles] if st.col_titles else []))
-    total = 17.4
-    if len(st.col_widths) == ncol:
-        widths = list(st.col_widths)
-    elif ncol == 2:
-        widths = [3.8, total - 3.8]
-    else:
-        first = 3.6
-        widths = [first] + [(total - first) / (ncol - 1)] * (ncol - 1)
+    widths = rows_widths(st)
     t = doc.add_table(rows=len(rows) + (1 if st.col_titles else 0), cols=ncol)
     t.style = "Table Grid"
     t.alignment = WD_TABLE_ALIGNMENT.CENTER
     t.autofit = False
     for ci, wd in enumerate(widths):
         t.columns[ci].width = Cm(wd)
+    mar = OxmlElement("w:tblCellMar")  # padding inside every cell: text no longer touches the borders
+    for side, w in (("top", 80), ("left", 120), ("bottom", 80), ("right", 120)):
+        e = OxmlElement(f"w:{side}"); e.set(qn("w:w"), str(w)); e.set(qn("w:type"), "dxa"); mar.append(e)
+    look = t._tbl.tblPr.find(qn("w:tblLook"))
+    (look.addprevious(mar) if look is not None else t._tbl.tblPr.append(mar))
     r0 = 0
     if st.col_titles:
         for ci in range(ncol):
             c = t.cell(0, ci)
             c.width = Cm(widths[ci])
             _cell_fill(c, "1F8A7A")
-            p = c.paragraphs[0]; _fmt(p, before=2, after=2, line=1.15, align=WD_ALIGN_PARAGRAPH.CENTER)
+            p = c.paragraphs[0]; _fmt(p, before=0, after=0, line=1.15, align=WD_ALIGN_PARAGRAPH.CENTER)
             for text, col, bold in runs(st.col_titles[ci] if ci < len(st.col_titles) else ""):
-                r = p.add_run(text); _font(r, F, base - 0.5, bold=True, color=RGBColor(255, 255, 255))
+                r = p.add_run(text); _font(r, F, base, bold=True, color=RGBColor(255, 255, 255))
         hdr = OxmlElement("w:tblHeader"); hdr.set(qn("w:val"), "true"); t.rows[0]._tr.get_or_add_trPr().append(hdr)
         r0 = 1
     for ri, row in enumerate(rows):
@@ -436,18 +463,18 @@ def _rows_table(doc, st: Statement, tpl: Template) -> None:
             text = row[ci] if ci < len(row) else ""
             if ci == 0:  # label column: grey, bold
                 _cell_fill(c, "F2F2F2")
-                p = c.paragraphs[0]; _fmt(p, before=2, after=2, line=1.2)
+                p = c.paragraphs[0]; _fmt(p, before=0, after=0, line=1.2)
                 for tx, col, bold in runs(text):
-                    r = p.add_run(tx); _run_style(r, col, F, base - 0.5, bold=True)
+                    r = p.add_run(tx); _run_style(r, col, F, base, bold=True)
             else:
-                _lines_into(c, text.split("\n"), F, base - 0.5, tpl, first_par=c.paragraphs[0], bullet="-", tight=True)
+                _lines_into(c, text.split("\n"), F, base, tpl, first_par=c.paragraphs[0], bullet="-", tight=True)
         cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); t.rows[ri + r0]._tr.get_or_add_trPr().append(cs)
     if len(rows) <= 6:  # a small table stays on ONE page: every row but the last keeps with the next
         for row in t.rows[:-1]:
             for c in row.cells:
                 for p in c.paragraphs:
                     p.paragraph_format.keep_with_next = True
-    _fmt(doc.add_paragraph(), after=3, line=0.8)
+    _gap(doc, 4)
 
 
 def _qa_box(doc, st: Statement, tpl: Template) -> None:
@@ -505,26 +532,26 @@ def _check_box(doc, checks: list[Statement], tpl: Template, answers_inline: bool
         r = q.add_run("\t(O, X)" + (f"  → {st.answer}" if answers_inline else "")); _font(r, F, base - 0.5, bold=True)
     _fmt(c.add_paragraph(), after=0, line=0.5)
     cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); t.rows[0]._tr.get_or_add_trPr().append(cs)
-    _fmt(doc.add_paragraph(), after=2, line=0.7)
+    _gap(doc, 3)
 
 
 def _answer_box(doc, checks: list[Statement], first_no: int, tpl: Template) -> None:
-    """정답 box at the end of the topic, ONE compact paragraph that never splits across pages:
-    '정답  1. X (이유)  ·  2. O'. Numbers match the check box above."""
+    """정답 box under the 개념 Check box: one line per check ('1. X  이유'), never splitting across pages."""
     F, base = tpl.format.font_korean, tpl.format.font_size_pt
     t = doc.add_table(rows=1, cols=1)
-    t.alignment = WD_TABLE_ALIGNMENT.RIGHT
+    t.alignment = WD_TABLE_ALIGNMENT.CENTER
     c = t.cell(0, 0)
     _box(c, sz=4, color="BFBFBF")
-    _cell_fill(c, "EDEDED")
+    _cell_fill(c, "F2F2F2")
     cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); t.rows[0]._tr.get_or_add_trPr().append(cs)
-    p = c.paragraphs[0]; _fmt(p, before=2, after=2, line=1.15)
-    r = p.add_run(" 정답 "); _font(r, F, base - 1.5, bold=True, color=RGBColor(255, 255, 255)); _shade_run(r, "1F8A7A")
+    p = c.paragraphs[0]; _fmt(p, before=2, after=1, line=1.15)
+    r = p.add_run(" 정답 "); _font(r, F, base - 1, bold=True, color=RGBColor(255, 255, 255)); _shade_run(r, "1F8A7A")
     for i, st in enumerate(checks):
-        r = p.add_run(f"   {first_no + i}. {st.answer}"); _font(r, F, base - 1, bold=True)
+        q = c.add_paragraph(); _fmt(q, after=1, line=1.2, left=0.8, first=-0.6)
+        r = q.add_run(f"{first_no + i}. {st.answer}  "); _font(r, F, base - 0.5, bold=True)
         if st.explanations:
-            r = p.add_run(f" ({_strip(st.explanations[0])})"); _font(r, F, base - 1.5, color=COLOR["minor"])
-    _fmt(doc.add_paragraph(), after=3, line=0.6)
+            r = q.add_run(_strip(st.explanations[0])); _font(r, F, base - 1, color=RGBColor(0x40, 0x40, 0x40))
+    _gap(doc, 3)
 
 
 def _section_heading(doc, label: str, F: str, base: float, idx: int) -> None:
@@ -751,6 +778,7 @@ def _quiz_box(doc, st: Statement, tpl: Template) -> None:
         for text, col, bold in runs(label + o):
             r = q.add_run(text); _run_style(r, col, F, base - 0.5, bold=True)
     _fmt(c.add_paragraph(), after=0, line=0.5)
+    cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); box.rows[0]._tr.get_or_add_trPr().append(cs)  # the quiz box never splits
     if st.answer:
         a = doc.add_paragraph(); _fmt(a, before=4, after=6, line=1.3, left=0.2)
         r = a.add_run("→ 정답: "); _font(r, F, base, bold=True, color=COLOR["emphasis"])
@@ -1043,7 +1071,7 @@ def export_mom(
                     if tpl.format.checks_where == "off":
                         pass
                     elif chapter_mode:  # collected: one box + one answer line at the end of the chapter
-                        chapter_checks += sts[k:j]
+                        chapter_checks += [c.model_copy(update={"text": f"[§{n['no']}] {c.text}"}) for c in sts[k:j]]
                     else:
                         topic_checks += sts[k:j]
                         _check_box(doc, sts[k:j], tpl)
@@ -1053,6 +1081,9 @@ def export_mom(
                     _quiz_box(doc, st, tpl)
                 else:
                     _statement(doc, st, note, tpl)
+                    nxt = sts[k + 1] if k + 1 < len(sts) else None
+                    if nxt is not None and st.kind in ("para", "bullet", "star") and nxt.kind in ("rows", "figure", "diagram", "qa", "columns"):
+                        doc.paragraphs[-1].paragraph_format.keep_with_next = True  # a lead-in is never left alone at a page end
                 k += 1
         if topic_checks:
             _answer_box(doc, topic_checks, 1, tpl)

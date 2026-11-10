@@ -150,6 +150,15 @@ The reference is `references/excellent_example.md` (a high-rated MOM note for th
 - 같은 사실은 요약과 본문의 같은 표 두 번까지. 개념 정리 박스, 문단, Check에서 모양을 바꿔 또 쓰지 않는다.
 - 장치는 파랑 제목띠 · 질문 상자 · 표 · 그림 · 보라/회색 메모 정도로 줄인다.
 
+**레이아웃 v2.1 — 사람 MOM과의 비교(review 10절)에서 나온 쓰기 규칙** (빌드 검사가 알려 준다)
+- **제목은 한 줄**: 장 29자, 소절 44자 이하(`HEADING_TOO_LONG`). 대상과 용어는 넣되 세부 용어는 질문 상자와 표에 맡긴다. 질문은 노란 질문 상자에 있으므로 소절 제목은 짧은 명사구여도 된다.
+- **소절 앞머리는 하나**: 질문 상자가 있으면 핵심 답 띠를 쓰지 않고, `A.` 줄은 제목을 되풀이하지 않는다. 교수 강조(빨강)는 한 줄.
+- **한 소절에 한 모양**: 같은 사실을 핵심 답 띠, 표, 문단, Check로 되풀이하지 않는다. PAD(파랑) 내용은 표 안에 두고 같은 내용의 파란 문단을 또 쓰지 않는다.
+- **문단은 3줄(175자) 이하**(`PARAGRAPH_TOO_LONG`). 영어 풀이는 한 곳에서 한 번만. 회색·빨강 문장은 문단 안이 아니라 별도 줄로(`COLOUR_IN_PARAGRAPH`).
+- **핵심 답 띠는 62자 이하**(`BASICS_TOO_LONG`). 한글 줄 끝 1–2글자가 다음 줄에 혼자 남지 않게 한다. 표 칸 줄은 칸 너비에 맞게 `\n`으로 나눈다(`TABLE_ORPHAN`).
+- **개념 Check는 장당 2개 이하**(`CHECK_TOO_MANY`). 장 끝 상자에 `[§n]`으로 소절이 표시된다.
+- 소절은 새 쪽으로 시작하지 않는다(장 시작만 새 쪽). 표 앞 도입 문장은 표와 같은 쪽에 붙는다.
+
 ## 1. Keep everything, change the shape
 - Every concept, term, number, unit, drug/gene name, cutoff and example in the source must appear (the validator checks numbers, terms and paragraph coverage).
 - Remove only *speech noise*: fillers, "자, 그러면", repetitions, transitions like "다음으로 넘어가겠습니다", meta talk about the time/slide.
