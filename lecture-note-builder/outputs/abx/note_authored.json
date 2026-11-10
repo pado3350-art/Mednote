@@ -655,6 +655,30 @@
             "diagram": null
           },
           {
+            "text": "{r|교수님 강조: 어느 장기에 어떤 균이 흔한지가 가장 중요하다.}",
+            "origin": "both",
+            "slide_refs": [
+              12
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "같은 장기의 감염이라도 환자가 다르면 약이 달라진다.",
             "origin": "both",
             "slide_refs": [
@@ -1229,11 +1253,6 @@
                 "치유는 누가",
                 "최종 치료는 숙주 면역계에 의존",
                 "면역저하 환자, 중증 감염에서\n주로 선택"
-              ],
-              [
-                "그림 (균 수)",
-                "유지 (예: chloramphenicol)",
-                "급감 (예: penicillin)"
               ]
             ],
             "col_titles": [
@@ -1261,6 +1280,30 @@
             "kind": "figure",
             "level": 0,
             "image": "inputs/abx_figs/f2_static_cidal.png",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "파란 선(정균제, 예: chloramphenicol)은 균 수가 유지되고, 빨간 선(살균제, 예: penicillin)은 살아 있는 균 수가 급격히 감소한다.",
+            "origin": "both",
+            "slide_refs": [
+              23
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
             "left_title": "",
             "left": [],
             "options": [],
@@ -1350,7 +1393,7 @@
               ],
               [
                 "신기능, 간기능 저하",
-                "그 장기로 제거되는 약의 혈중 농도 ↑ → 독성 위험 ↑\n일부 약은 GFR, 간기능에 따른 용법 제한 기준이 있음\n검사로 확인, 외래에서는 병력 청취가 중요"
+                "그 장기로 제거되는 약의 혈중 농도 ↑ → 독성 위험 ↑\n일부 약은 GFR, 간기능에 따른 용법 제한 기준이 있음\n검사로 확인, {r|외래에서는 병력 청취가 중요}"
               ],
               [
                 "저관류",
@@ -1463,7 +1506,8 @@
       "slide_numbers": [
         32,
         33,
-        34
+        34,
+        40
       ],
       "sections": {
         "body": [
@@ -1486,6 +1530,30 @@
             "left": [
               "약이 균이 있는 곳에 충분히 닿아야 하므로 기관마다 약과 경로를 바꾼다."
             ],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "{r|교수님 강조: ‘어떤 기관의 감염인가’는 질문1에 이어 계속 중요하다.}",
+            "origin": "both",
+            "slide_refs": [
+              40
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
             "options": [],
             "answer": "",
             "explanations": [],
@@ -1658,7 +1726,8 @@
       "new_page": false,
       "tip": "",
       "slide_numbers": [
-        39
+        39,
+        47
       ],
       "sections": {
         "body": [
@@ -1717,6 +1786,30 @@
             "origin": "both",
             "slide_refs": [
               39
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "{r|교수님 강조: 경구 vancomycin과 IV vancomycin의 차이를 이해하는 것이 중요하다.}",
+            "origin": "both",
+            "slide_refs": [
+              47
             ],
             "segment_ids": [],
             "time_ranges": [],

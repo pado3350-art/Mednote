@@ -84,3 +84,6 @@ python3 -m app.cli compare-mom <MOM.pdf> outputs/abx/abx_강의록.pdf --note ou
 - 푸시는 **종료 코드로 확인**한다: `if git push -u origin <branch>; then …; else git fetch; git rebase origin/<branch>; fi`. `git push … | tail -1 && break` 는 push가 실패해도 성공으로 보인다(실제로 한 번 놓칠 뻔했다).
 - 원격에 새 커밋이 있으면 **덮어쓰지 않고 리베이스**한다. 충돌 없이 합쳐져도 같은 함수를 둘이 고쳤다면 테스트를 돌리고 결과물(md/pdf)을 다시 만든다.
 - 커밋 메시지 끝에 시스템이 지정한 `Co-Authored-By`, `Claude-Session` 줄.
+
+## 6. 다른 강의의 MOM(그림 중심)과 비교할 때
+`compare-mom`은 MOM의 쪽당 큰 그림이 2개 이상이면 쪽수·글자 밀도·글자 크기·잉크 비교를 생략하고 `prose_style`(본문 문장 길이, 질문, 빨강, 글 없는 그림)만 보고한다. 문체 판단은 `docs/mom_style_head_trauma.md`처럼 ‘채택 / 채택하지 않음(승인 규칙 우선) / 후보’로 나눠 적고, 승인 전 규칙은 `approved_rules`에 넣지 않는다.

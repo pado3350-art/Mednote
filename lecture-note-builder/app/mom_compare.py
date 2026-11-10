@@ -29,6 +29,8 @@ MIN_GLYPH_GAP_PT = 1.0  # text may be at most 1 pt smaller than the MOM's
 MIN_PAGE_FILL = 0.6  # a page (except the last) whose content ends above 60% of the page is "half empty"
 MAX_INK_RATIO = 1.30  # the most crowded page may be 30% inkier than the MOM's most crowded page
 FILL_TOP_SKIP = 0.07  # ignore the page-number line at the very top
+IMAGE_HEAVY = 2.0  # a MOM with >= 2 big pictures per page is a picture-led lecture: its text density says nothing about ours
+MAX_SENTENCE = 70  # average prose sentence length (chars); the human MOM sits around 60
 
 
 def _need(tool: str) -> str:
@@ -53,6 +55,38 @@ def page_metrics(pdf: str | Path, dpi: int = 40) -> list[dict]:
             fill = (box[3] + int(h * FILL_TOP_SKIP)) / h if box else 0.0
             out.append({"fill": round(fill, 2), "ink": round(ink * 100, 1)})
     return out
+
+
+def image_density(pdf: str | Path) -> float:
+    """Big pictures (>150x100 px) per page. Text inside a picture is invisible to pdftotext, so a picture-led MOM also has a thin text layer."""
+    rows = subprocess.run([_need("pdfimages"), "-list", str(pdf)], capture_output=True, text=True).stdout.splitlines()[2:]
+    pages = subprocess.run([_need("pdfinfo"), str(pdf)], capture_output=True, text=True).stdout
+    n = int(re.search(r"Pages:\s+(\d+)", pages).group(1)) if "Pages:" in pages else 0
+    big = sum(1 for r in rows if len(r.split()) > 4 and r.split()[3].isdigit() and int(r.split()[3]) > 150 and int(r.split()[4]) > 100)
+    return round(big / n, 2) if n else 0.0
+
+
+def prose_style(note_json: str | Path) -> dict:
+    """What the prose of our note does that the human MOM's prose is compared on: sentence length, questions outside the lecturer's
+    QA boxes, red (lecturer emphasis) marks, figures that have no sentence under them."""
+    note = json.loads(Path(note_json).read_text(encoding="utf-8"))
+    plain = lambda x: re.sub(r"\{[a-z]\|([^}]*)\}", r"\1", x).replace("**", "")
+    lens, questions, red, bare_figs = [], 0, 0, 0
+    for t in note.get("topics", []):
+        for sts in t.get("sections", {}).values():
+            for i, st in enumerate(sts):
+                if st.get("kind") in ("para", "bullet"):
+                    for sent in re.split(r"(?<=[다요])\.\s+|(?<=\?)\s+", plain(st["text"])):
+                        if len(sent) > 5:
+                            lens.append(len(sent))
+                            questions += sent.endswith("?")
+                    red += len(re.findall(r"\{r\|", st["text"]))
+                elif st.get("kind") == "rows":
+                    red += sum(len(re.findall(r"\{r\|", c)) for row in st.get("rows", []) for c in row)
+                elif st.get("kind") == "figure" and not any(x.get("kind") in ("para", "bullet", "rows") for x in sts[i + 1:i + 2]):
+                    bare_figs += 1
+    return {"avg_sentence": round(statistics.mean(lens)) if lens else 0, "sentences": len(lens), "questions": questions,
+            "red_marks": red, "figures_without_text": bare_figs}
 
 
 def text_metrics(pdf: str | Path) -> dict:
@@ -121,9 +155,12 @@ def summarize(pages: list[dict], text: dict) -> dict:
             "max_ink": max((p["ink"] for p in pages), default=0.0), "fills": fills, "inks": [p["ink"] for p in pages]}
 
 
-def assess(mom: dict, ours: dict, cells: list[str] | None = None, shape: dict | None = None) -> list[str]:
+def assess(mom: dict, ours: dict, cells: list[str] | None = None, shape: dict | None = None, prose: dict | None = None) -> list[str]:
     """What is still unlike the MOM note. Empty list = nothing left that the measurements can see."""
     f: list[str] = []
+    picture_led = mom.get("img_per_page", 0) >= IMAGE_HEAVY and ours.get("img_per_page", 0) < mom.get("img_per_page", 0) / 2
+    if picture_led:  # density, glyph size, ink and page count depend on the lecture's pictures, not on the writing: do not "fix" them
+        mom = {**mom, "pages": 0, "chars_per_page": 0, "glyph_pt": 0, "max_ink": 0}
     if mom["pages"] and ours["pages"] > mom["pages"] * MAX_PAGE_RATIO:
         f.append(f"쪽수 {ours['pages']}쪽 > MOM {mom['pages']}쪽의 {MAX_PAGE_RATIO:.2f}배: 반복 장치(Check, QUIZ, 중복 표현)와 새 쪽 강제를 줄인다")
     if mom["chars_per_page"]:
@@ -143,6 +180,8 @@ def assess(mom: dict, ours: dict, cells: list[str] | None = None, shape: dict | 
         bad = [c for c in cells if ending_kind(c) == "한다체(-다)"]
         if bad:
             f.append(f"표 칸 {len(bad)}/{len(cells)}줄이 ‘-다’ 문장: 개조식(명사형, ‘-음/-함’)으로(L19) 예: {bad[0][:30]}")
+    if prose and prose["avg_sentence"] > MAX_SENTENCE:
+        f.append(f"본문 문장 평균 {prose['avg_sentence']}자 > {MAX_SENTENCE}자: 한 문장에 사실 하나로 끊는다")
     if shape:
         if shape["max_heading"] > 44 or shape["max_chapter"] > 34:
             f.append(f"제목 길이 소절 {shape['max_heading']}자 / 장 {shape['max_chapter']}자(한계 44 / 34): 한 줄로 줄인다")
@@ -152,13 +191,14 @@ def assess(mom: dict, ours: dict, cells: list[str] | None = None, shape: dict | 
 
 
 def compare(mom_pdf: str | Path, our_pdf: str | Path, note_json: str | Path | None = None) -> dict:
-    mom = summarize(page_metrics(mom_pdf), text_metrics(mom_pdf))
-    ours = summarize(page_metrics(our_pdf), text_metrics(our_pdf))
+    mom = {**summarize(page_metrics(mom_pdf), text_metrics(mom_pdf)), "img_per_page": image_density(mom_pdf)}
+    ours = {**summarize(page_metrics(our_pdf), text_metrics(our_pdf)), "img_per_page": image_density(our_pdf)}
+    prose = prose_style(note_json) if note_json else None
     cells = cell_lines(note_json) if note_json else None
     shape = note_shape(note_json) if note_json else None
     return {"mom": mom, "ours": ours, "cells": {k: sum(1 for c in cells if ending_kind(c) == k) for k in
                                                    ("한다체(-다)", "개조식(-함/-음)", "명사·어간 종결", "영문·숫자 종결")} if cells else None,
-            "shape": shape, "findings": assess(mom, ours, cells, shape)}
+            "shape": shape, "prose": prose, "findings": assess(mom, ours, cells, shape, prose)}
 
 
 def format_report(r: dict) -> str:
@@ -167,6 +207,12 @@ def format_report(r: dict) -> str:
          f"| 쪽수 | {m['pages']} | {o['pages']} |", f"| 쪽당 글자 | {m['chars_per_page']} | {o['chars_per_page']} |",
          f"| 글자 크기(중앙값) | {m['glyph_pt']} pt | {o['glyph_pt']} pt |", f"| 쪽 평균 채움 | {m['avg_fill']} | {o['avg_fill']} |",
          f"| 가장 빽빽한 쪽의 잉크 | {m['max_ink']}% | {o['max_ink']}% |", f"| 절반 이하로 빈 쪽 | {m['half_empty']} | {o['half_empty']} |"]
+    L += [f"| 쪽당 큰 그림 | {m.get('img_per_page', '-')} | {o.get('img_per_page', '-')} |"]
+    if m.get("img_per_page", 0) >= IMAGE_HEAVY and o.get("img_per_page", 0) < m["img_per_page"] / 2:
+        L += ["", f"※ MOM이 그림 중심(쪽당 {m['img_per_page']}개)이라 쪽수·쪽당 글자·글자 크기·잉크 비교는 생략했다(그림 속 글자는 텍스트로 읽히지 않는다)."]
+    if r.get("prose"):
+        p = r["prose"]
+        L += ["", f"본문 문장 평균 {p['avg_sentence']}자({p['sentences']}문장), 본문 질문 {p['questions']}개, 빨강 강조 {p['red_marks']}곳, 아래 글이 없는 그림 {p['figures_without_text']}개"]
     if r.get("cells"):
         L += ["", "표 칸 줄의 끝맺음(생성본): " + ", ".join(f"{k} {v}" for k, v in r["cells"].items())]
     if r.get("shape"):

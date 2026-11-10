@@ -85,3 +85,28 @@ def test_abx_figs_side_by_side(tmp_path):
     assert im.size == (460 + 460 + 30, 470)  # width = sum + gap, height = the taller one
     assert im.getpixel((10, 10)) == (255, 0, 0) and im.getpixel((460 + 30 + 10, 10)) == (0, 0, 255) and im.getpixel((460 + 10, 10)) == (255, 255, 255)
     assert set(PICKS) == {"f1_quadrant.png", "f2_static_cidal.png", "f3_time_dep.png", "f4_conc_dep.png", "f5_pkpd_index.png"}
+
+
+def test_picture_led_mom_skips_density_findings():
+    from app.mom_compare import assess
+
+    mom = {"pages": 30, "chars_per_page": 259, "glyph_pt": 9.3, "max_ink": 35.0, "img_per_page": 4.1}
+    ours = {"pages": 12, "chars_per_page": 600, "glyph_pt": 13.2, "avg_fill": 0.8, "half_empty": [], "max_ink": 14.0, "inks": [14.0], "img_per_page": 0.6}
+    assert assess(mom, ours) == []
+    text_mom = {**mom, "img_per_page": 0.3}
+    assert any("쪽당 글자" in x for x in assess(text_mom, ours))
+
+
+def test_prose_style_counts(tmp_path):
+    import json
+
+    from app.mom_compare import prose_style
+
+    note = {"topics": [{"sections": {"body": [
+        {"kind": "figure", "text": "그림"},
+        {"kind": "para", "text": "{r|교수님 강조: 중요하다.} 그럼 왜 그럴까? 이유가 있다."},
+        {"kind": "figure", "text": "그림2"}, {"kind": "qa", "text": "질문?"}]}}]}
+    f = tmp_path / "n.json"
+    f.write_text(json.dumps(note), encoding="utf-8")
+    r = prose_style(f)
+    assert r["red_marks"] == 1 and r["questions"] == 1 and r["figures_without_text"] == 1
