@@ -25,6 +25,9 @@ LIST_CUES = re.compile(
     r"\d+(?:[.,]\d+)?\s*(?:명|마리|개|원|억|만|년|월|개월|주|%|mg|ml|점|상)|p\s*[<=]|허가|승인|제품|회사|"
     r"첫째|둘째|셋째|①|②|③|종류|분류|목록|사례|케이스|임상시험|대조군|투여군|결과")
 
+# sentences that announce what comes next instead of saying it (MOM style: start with the content)
+ANNOUNCE = re.compile(r"(아래|다음)\s*(세|네|두|다섯)?\s*소절|한 번 더 정리한다|살펴보(자|겠다|도록)|살펴본다|이제 .{0,20}(본다|보자)\.?$|"
+                      r"(이 쪽|다음 쪽).{0,12}(표|그림)|다시 나온다|보자\.?$|설명한다\.?$")
 QUESTION_END = re.compile(r"(\?|까|나|가|는가|인가|일까|을까|ㄹ까)\s*$")
 SUMMARY_START = re.compile(r"^\s*(?:\{[a-z]\|)?\s*(?:\*\*)?\s*(즉|따라서|결국|정리하면|요약하면)")
 
@@ -128,6 +131,7 @@ def _plain(s: str) -> str:
 def mixed_issues(note: LectureNote) -> list[tuple[str, str, str]]:
     """-> [(severity, code, message)] for a note written in the mixed style (template format.mixed)."""
     out: list[tuple[str, str, str]] = []
+    no_recap = note.meta.get("recap_lines") == "off"  # note-level switch: no closing '즉 …' line per list §
     body = [t for t in note.topics if t.role == "body" and not t.heading.upper().startswith("QUIZ")]
     styles = [t.style for t in body]
     for t in body:
@@ -147,6 +151,14 @@ def mixed_issues(note: LectureNote) -> list[tuple[str, str, str]]:
                 out.append(("warning", "PARAGRAPH_TOO_LONG", f"'{t.heading}': 문단 {pl}자 — 3줄(약 140자) 이하로 나눈다: '{_plain(s.text)[:24]}…'"))
             if _colour_mixed(s.text):
                 out.append(("info", "COLOUR_IN_PARAGRAPH", f"'{t.heading}': 문단 중간에 회색·빨강 문장이 섞였다 → 별도 줄로 뺀다: '{_plain(s.text)[:24]}…'"))
+        for x in texts:
+            if ANNOUNCE.search(x):
+                out.append(("warning", "ANNOUNCE_SENTENCE", f"'{t.heading}': 내용 없이 앞을 여는 문장 → 빼고 핵심부터: '{x[:28]}…'"))
+        if t.style == "explain" and t.basics and paras:
+            a = re.sub(r"\W", "", _plain(t.basics[0]))
+            f = re.sub(r"\W", "", _plain(paras[0].text))
+            if len(a) >= 12 and (a in f or f[:len(a)] == a):
+                out.append(("info", "ANSWER_REPEATED", f"'{t.heading}': 본문 첫 문장이 핵심 답을 되풀이한다 → 이유·사례로 시작: '{f[:20]}…'"))
         n_checks = sum(1 for s in sts if s.kind == "check")
         has_pad = any(r >= 1000 for s in sts for r in s.slide_refs) or any(r >= 1000 for r in t.basics_refs)
         if n_checks and not has_pad:  # 개념 Check only where a past exam (PAD) item exists (user rule L20)
@@ -163,7 +175,10 @@ def mixed_issues(note: LectureNote) -> list[tuple[str, str, str]]:
         else:  # list
             if len(bullets) >= 4 and not has_table:
                 out.append(("info", "LIST_NOT_TABLE", f"'{t.heading}': 나열형 소절은 bullet 대신 표(rows: 라벨 | 한 줄 → 결론)로 쓰면 훑어 읽기 쉽다(L16)."))
-            if not any(SUMMARY_START.search(x) for x in texts):
+            if no_recap:  # the table / bullets already say it; a closing '즉 …' only repeats them
+                if any(SUMMARY_START.search(x) for x in texts):
+                    out.append(("warning", "RECAP_LINE", f"'{t.heading}': 표·bullet을 되풀이하는 '즉 …' 정리문은 뺀다."))
+            elif not any(SUMMARY_START.search(x) for x in texts):
                 out.append(("warning", "LIST_NO_SUMMARY", f"'{t.heading}': 나열형 소절 끝에 '즉 …' 정리문 1줄을 쓴다(L2)."))
             long_paras = [s for s in paras if len(_plain(s.text)) > 160]
             if long_paras:

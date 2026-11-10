@@ -104,3 +104,20 @@ def test_concept_box_gets_picture_and_missing_visual_is_flagged(tmp_path):
     rep = validate(note, [], [], tpl)
     flagged = [i for i in rep.issues if i.code == "CONCEPT_NO_VISUAL"]
     assert len(flagged) == 1 and "대비" in flagged[0].message
+
+
+def test_recap_off_flags_closing_summary_and_announcements():
+    from app.models import LectureNote
+
+    ls = _t("결과", "list", [Statement(text="**통증**: 유의", kind="bullet", slide_refs=[1]),
+                             Statement(text="즉 절반의 성공이었다.", kind="bullet", slide_refs=[1])])
+    ex = _t("왜?", "explain", [Statement(text="아래 세 소절이 이 순서다.", kind="para", slide_refs=[1])], ["a"])
+    note = LectureNote(title="t", topics=[ls, ex], meta={"recap_lines": "off"})
+    codes = {c for _, c, _ in mixed_issues(note)}
+    assert {"RECAP_LINE", "ANNOUNCE_SENTENCE"} <= codes and "LIST_NO_SUMMARY" not in codes
+
+
+def test_answer_repeated_in_first_paragraph():
+    ex = _t("왜?", "explain", [Statement(text="분화능이 제한되기 때문이다. 그래서 덩어리로 넣는다.", kind="para", slide_refs=[1])],
+            ["분화능이 제한되기 때문이다."])
+    assert "ANSWER_REPEATED" in _codes([ex])
