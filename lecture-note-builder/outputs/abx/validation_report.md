@@ -1,12 +1,13 @@
 # 검증 리포트
 
 - 슬라이드 커버리지: 100%
-- 오류 0 / 경고 20 / 참고 23
+- 오류 0 / 경고 10 / 참고 25
 
-- ⚠️ `UNGROUNDED` [발화 ¶2] 원본과 유사도가 낮은 문장(근거 확인 필요): '기출 6문항은 두 유형뿐이다. 두 표가 그 두 유형이고, 아래 지도가 강…'
+- ⚠️ `UNGROUNDED` [발화 ¶2] 원본과 유사도가 낮은 문장(근거 확인 필요): '기출 6문항은 두 유형뿐이다. 아래 두 표가 그 두 유형이고, 본문에 같…'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶5] 수치 '2주'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
-- ⚠️ `UNGROUNDED` [발화 ¶10] 원본과 유사도가 낮은 문장(근거 확인 필요): '질문1의 세 축…'
-- ⚠️ `UNGROUNDED` [발화 ¶14] 원본과 유사도가 낮은 문장(근거 확인 필요): '생각해야 될 원인균? 획득 경로 × 면역 4사분면…'
+- ℹ️ `OMITTED_BY_RULE` [발화 ¶8] 용어 'Gram'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
+- ⚠️ `UNGROUNDED` [발화 ¶13] 원본과 유사도가 낮은 문장(근거 확인 필요): '따라서 감염 장소가 생각할 균을, 생각할 균이 약을 정한다. 만나는 장소…'
+- ℹ️ `OMITTED_BY_RULE` [발화 ¶14] 용어 'Context'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ⚠️ `UNGROUNDED` [발화 ¶14] 원본과 유사도가 낮은 문장(근거 확인 필요): '개두술 7일 뒤 뇌수막염 증상을 보이는 18세 남성은 community …'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶16] 수치 '2분'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶17] 수치 '2분'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
@@ -17,27 +18,18 @@
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶19] 용어 'Specimen'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶20] 용어 'Optimal'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶23] 용어 'Viable bacteria'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
-- ⚠️ `UNGROUNDED` [발화 ¶23] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Bacteriostatic vs bactericidal agent…'
-- ⚠️ `UNGROUNDED` [발화 ¶31] 원본과 유사도가 낮은 문장(근거 확인 필요): '정해진 용법에는 근거가 셋 있다.…'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶32] 용어 'Critically ill'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶32] 용어 'Organ'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
-- ⚠️ `UNGROUNDED` [발화 ¶32] 원본과 유사도가 낮은 문장(근거 확인 필요): '1장에서 감염 장기는 ‘어떤 균이 흔한가’의 문제였다. 여기서는 ‘약을 …'
+- ⚠️ `UNGROUNDED` [발화 ¶32] 원본과 유사도가 낮은 문장(근거 확인 필요): '어떤 기관에 발생한 감염증인가? 약이 균이 있는 곳에 충분히 닿아야 하므…'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶33] 용어 'Organ'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ⚠️ `UNGROUNDED` [발화 ¶33] 원본과 유사도가 낮은 문장(근거 확인 필요): '즉 약은 혈중이 아니라 균이 있는 곳에서 충분한 농도여야 한다.…'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶34] 용어 'Bronchiole'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
-- ⚠️ `UNGROUNDED` [발화 ¶35] 원본과 유사도가 낮은 문장(근거 확인 필요): '같은 기관의 감염이라도 환자가 실제로 맞고 먹을 수 있어야 한다. 다섯 …'
 - ⚠️ `UNGROUNDED` [발화 ¶35] 원본과 유사도가 낮은 문장(근거 확인 필요): '즉 경로와 횟수는 약효만이 아니라 환자의 사정으로도 정한다.…'
-- ⚠️ `UNGROUNDED` [발화 ¶39] 원본과 유사도가 낮은 문장(근거 확인 필요): '주사가 늘 낫지는 않다. IV는 100% 들어가지만, 감염이 어디에 있느…'
 - ⚠️ `UNGROUNDED` [발화 ¶39] 원본과 유사도가 낮은 문장(근거 확인 필요): '즉 경로는 ‘더 센 것’을 고르는 일이 아니라, 약이 필요한 곳에 필요한…'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶41] 용어 'Beta'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶41] 용어 'Dosing regimen'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
-- ⚠️ `UNGROUNDED` [발화 ¶41] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Concentration-dependent antibiotics…'
-- ⚠️ `UNGROUNDED` [발화 ¶41] 원본과 유사도가 낮은 문장(근거 확인 필요): '시간 의존성 vs 농도 의존성…'
 - ⚠️ `UNGROUNDED` [발화 ¶41] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Aminoglycoside는 time-dependent killing을 …'
-- ⚠️ `UNGROUNDED` [발화 ¶43] 원본과 유사도가 낮은 문장(근거 확인 필요): '지표는 세 가지다. 약마다 무엇을 보는지 다르다.…'
-- ⚠️ `UNGROUNDED` [발화 ¶43] 원본과 유사도가 낮은 문장(근거 확인 필요): 'PK/PD 지표와 해당 약물…'
-- ⚠️ `UNGROUNDED` [발화 ¶45] 원본과 유사도가 낮은 문장(근거 확인 필요): 'PK/PD로 간격과 용량을 정했으면 마지막으로 경로를 확인한다. 원칙은 …'
-- ⚠️ `UNGROUNDED` [발화 ¶45] 원본과 유사도가 낮은 문장(근거 확인 필요): '경로를 고르는 원칙은 다음과 같다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶45] 원본과 유사도가 낮은 문장(근거 확인 필요): 'PK/PD로 간격과 용량을 정했으면 마지막으로 경로를 확인한다.…'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶51] 수치 '10분'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶51] 수치 '11'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶51] 수치 '30분'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).

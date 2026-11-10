@@ -56,20 +56,24 @@ def mixed_issues(note: LectureNote) -> list[tuple[str, str, str]]:
         sts = [s for v in t.sections.values() for s in v]
         paras = [s for s in sts if s.kind == "para" and s.origin != "author"]
         bullets = [s for s in sts if s.kind == "bullet" and s.origin != "author"]
+        has_table = any(s.kind in ("rows", "columns") for s in sts)
+        has_qa = any(s.kind == "qa" for s in sts)
         texts = [_plain(s.text) for s in sts if s.kind in ("para", "bullet", "star")]
         if not t.style:
             out.append(("warning", "MIXED_STYLE_MISSING",
                         f"'{t.heading}': 혼합형에서는 소절마다 style(explain/list)을 정한다."))
             continue
         if t.style == "explain":
-            if not t.basics:
-                out.append(("warning", "EXPLAIN_NO_ANSWER", f"'{t.heading}': 설명형 소절은 한 줄 핵심 답(basics)으로 시작한다."))
+            if not t.basics and not has_qa:
+                out.append(("warning", "EXPLAIN_NO_ANSWER", f"'{t.heading}': 설명형 소절은 한 줄 핵심 답(basics) 또는 강의의 질문 상자(qa)로 시작한다."))
             if len(bullets) > len(paras):
                 out.append(("warning", "EXPLAIN_TOO_LISTY",
                             f"'{t.heading}': 설명형인데 bullet({len(bullets)})이 문단({len(paras)})보다 많다 → list로 바꾸거나 문단으로 잇는다."))
             if not QUESTION_END.search(_plain(t.heading)):
                 out.append(("info", "EXPLAIN_HEADING_NOT_QUESTION", f"'{t.heading}': 설명형 제목은 질문으로 쓰면 흐름이 산다."))
         else:  # list
+            if len(bullets) >= 4 and not has_table:
+                out.append(("info", "LIST_NOT_TABLE", f"'{t.heading}': 나열형 소절은 bullet 대신 표(rows: 라벨 | 한 줄 → 결론)로 쓰면 훑어 읽기 쉽다(L16)."))
             if not any(SUMMARY_START.search(x) for x in texts):
                 out.append(("warning", "LIST_NO_SUMMARY", f"'{t.heading}': 나열형 소절 끝에 '즉 …' 정리문 1줄을 쓴다(L2)."))
             long_paras = [s for s in paras if len(_plain(s.text)) > 160]

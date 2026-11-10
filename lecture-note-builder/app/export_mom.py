@@ -196,6 +196,12 @@ def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
     if st.kind == "concept":
         _concept_box(doc, st, tpl)
         return
+    if st.kind == "rows":
+        _rows_table(doc, st, tpl)
+        return
+    if st.kind == "qa":
+        _qa_box(doc, st, tpl)
+        return
     if st.kind == "check":
         _check_box(doc, [st], tpl, answers_inline=True)
         return
@@ -390,7 +396,90 @@ def _concept_box(doc, st: Statement, tpl: Template) -> None:
     _fmt(doc.add_paragraph(), after=3, line=0.7)
 
 
-def _check_box(doc, checks: list[Statement], tpl: Template, answers_inline: bool = False) -> None:
+def _rows_table(doc, st: Statement, tpl: Template) -> None:
+    """Table (L16): "라벨 | 한 줄 → 결론" rows. The knowledge lives in the table, the eye reads down the label column.
+    st.rows = [[label, cell, ...]]; st.col_titles = optional header; st.col_widths = optional widths (cm)."""
+    F, base = tpl.format.font_korean, tpl.format.font_size_pt
+    rows = [r for r in st.rows if r]
+    if not rows:
+        return
+    ncol = max(len(r) for r in rows + ([st.col_titles] if st.col_titles else []))
+    total = 17.4
+    if len(st.col_widths) == ncol:
+        widths = list(st.col_widths)
+    elif ncol == 2:
+        widths = [3.8, total - 3.8]
+    else:
+        first = 3.6
+        widths = [first] + [(total - first) / (ncol - 1)] * (ncol - 1)
+    t = doc.add_table(rows=len(rows) + (1 if st.col_titles else 0), cols=ncol)
+    t.style = "Table Grid"
+    t.alignment = WD_TABLE_ALIGNMENT.CENTER
+    t.autofit = False
+    for ci, wd in enumerate(widths):
+        t.columns[ci].width = Cm(wd)
+    r0 = 0
+    if st.col_titles:
+        for ci in range(ncol):
+            c = t.cell(0, ci)
+            c.width = Cm(widths[ci])
+            _cell_fill(c, "1F8A7A")
+            p = c.paragraphs[0]; _fmt(p, before=2, after=2, line=1.15, align=WD_ALIGN_PARAGRAPH.CENTER)
+            for text, col, bold in runs(st.col_titles[ci] if ci < len(st.col_titles) else ""):
+                r = p.add_run(text); _font(r, F, base - 0.5, bold=True, color=RGBColor(255, 255, 255))
+        hdr = OxmlElement("w:tblHeader"); hdr.set(qn("w:val"), "true"); t.rows[0]._tr.get_or_add_trPr().append(hdr)
+        r0 = 1
+    for ri, row in enumerate(rows):
+        for ci in range(ncol):
+            c = t.cell(ri + r0, ci)
+            c.width = Cm(widths[ci])
+            text = row[ci] if ci < len(row) else ""
+            if ci == 0:  # label column: grey, bold
+                _cell_fill(c, "F2F2F2")
+                p = c.paragraphs[0]; _fmt(p, before=2, after=2, line=1.2)
+                for tx, col, bold in runs(text):
+                    r = p.add_run(tx); _run_style(r, col, F, base - 0.5, bold=True)
+            else:
+                _lines_into(c, text.split("\n"), F, base - 0.5, tpl, first_par=c.paragraphs[0], bullet="-", tight=True)
+        cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); t.rows[ri + r0]._tr.get_or_add_trPr().append(cs)
+    if len(rows) <= 6:  # a small table stays on ONE page: every row but the last keeps with the next
+        for row in t.rows[:-1]:
+            for c in row.cells:
+                for p in c.paragraphs:
+                    p.paragraph_format.keep_with_next = True
+    _fmt(doc.add_paragraph(), after=3, line=0.8)
+
+
+def _qa_box(doc, st: Statement, tpl: Template) -> None:
+    """The lecturer's own question in a yellow-ruled box ('질문1.' / '[역질문2]'), then the answer lines 'A. ...'."""
+    F, base = tpl.format.font_korean, tpl.format.font_size_pt
+    p = doc.add_paragraph()  # a bordered PARAGRAPH (not a table): keep-with-next chains heading -> question -> A. -> table
+    _fmt(p, before=3, after=3, line=1.25, left=0.2)
+    p.paragraph_format.keep_with_next = True
+    _shade_par(p, "FFFBEA")
+    pPr = p._p.get_or_add_pPr()
+    bd = OxmlElement("w:pBdr")
+    for side in ("top", "left", "bottom", "right"):
+        e = OxmlElement(f"w:{side}"); e.set(qn("w:val"), "single"); e.set(qn("w:sz"), "12"); e.set(qn("w:space"), "4"); e.set(qn("w:color"), "FFC000")
+        bd.append(e)
+    pPr.append(bd)
+    if st.left_title:
+        r = p.add_run(st.left_title + (". " if st.left_title.startswith("질문") else "  ")); _font(r, F, base + 0.5, bold=True)
+    for text, col, bold in runs(st.text):
+        r = p.add_run(text); _run_style(r, col, F, base + 0.5, bold=True)
+    sp = doc.add_paragraph(); _fmt(sp, after=1, line=0.6); sp.paragraph_format.keep_with_next = True
+    for k, line in enumerate(st.left):
+        q = doc.add_paragraph(); _fmt(q, after=4, line=1.4, left=0.8, first=-0.8)
+        q.paragraph_format.keep_with_next = True  # question box + answer stay with what follows (the table)
+        if k == 0:
+            r = q.add_run("A.  "); _font(r, F, base, bold=True)
+        else:
+            r = q.add_run("    "); _font(r, F, base)
+        for text, col, bold in runs(line):
+            r = q.add_run(text); _run_style(r, col, F, base, bold=True if bold else None)
+
+
+def _check_box(doc, checks: list[Statement], tpl: Template, answers_inline: bool = False, summary: bool = True) -> None:
     """'개념 Check!' box: one-line summary + numbered O/X statements. The answers go to _answer_box at the end of the
     topic (the reference notes print them in a box at the foot of the page), or inline when answers_inline."""
     F, base = tpl.format.font_korean, tpl.format.font_size_pt
@@ -400,10 +489,10 @@ def _check_box(doc, checks: list[Statement], tpl: Template, answers_inline: bool
     _box(c, sz=6, color="1F8A7A")
     p = c.paragraphs[0]; _fmt(p, before=3, after=2, line=1.15)
     r = p.add_run(" 개념 Check! "); _font(r, F, base, bold=True, color=RGBColor(255, 255, 255)); _shade_run(r, "1F8A7A")
-    summary = next((x.left_title for x in checks if x.left_title), "")
-    if summary:
+    summary_text = next((x.left_title for x in checks if x.left_title), "") if summary else ""
+    if summary_text:
         q = c.add_paragraph(); _fmt(q, after=3, line=1.2, left=0.2)
-        for text, col, bold in runs(summary):
+        for text, col, bold in runs(summary_text):
             r = q.add_run(text); _run_style(r, col, F, base - 0.5, bold=True if bold else None, base_color=COLOR["minor"])
     for st in checks:
         n = getattr(doc, "_check_n", 0) + 1
@@ -545,6 +634,24 @@ def _page_header(header, note_text: str | None, banner: str | None, section: str
     if section:
         p = header.add_paragraph(); _fmt(p, before=2, after=6, line=1.1, align=WD_ALIGN_PARAGRAPH.CENTER)
         r = p.add_run(section); _font(r, F, 15, bold=False)
+
+
+def _basics_band(doc, t: Topic, F: str, base: float, label: str) -> None:
+    """핵심 답 as ONE light line (instead of the red-ruled box): label + the answer; keeps the page calm."""
+    p = doc.add_paragraph()
+    _fmt(p, before=2, after=6, line=1.3, left=0.3)
+    p.paragraph_format.keep_with_next = True
+    _shade_par(p, "EAF5F2")
+    pPr = p._p.get_or_add_pPr()
+    bd = OxmlElement("w:pBdr")
+    e = OxmlElement("w:left"); e.set(qn("w:val"), "single"); e.set(qn("w:sz"), "24"); e.set(qn("w:space"), "6"); e.set(qn("w:color"), "1F8A7A")
+    bd.append(e); pPr.append(bd)
+    r = p.add_run(f"{label}  "); _font(r, F, base - 0.5, bold=True, color=RGBColor(0x1F, 0x8A, 0x7A))
+    for k, line in enumerate(t.basics):
+        if k:
+            p.add_run("  ")
+        for text, col, bold in runs(line):
+            r = p.add_run(text); _run_style(r, col, F, base, bold=True if bold else None)
 
 
 def _basics_box(doc, t: Topic, n: int, F: str, base: float, label: str = "기본정석"):
@@ -854,6 +961,7 @@ def export_mom(
 
     # ---------------- topics: one Word section (= new page + own header) per topic
     hs = tpl.format.heading_style
+    chapter_checks: list[Statement] = []
     mode = tpl.format.page_break  # "topic" | "chapter" | "flow"
     by_chapter = mode in ("chapter", "flow")
     for i, t in enumerate(note.topics):
@@ -861,7 +969,8 @@ def export_mom(
         prev = nums[i - 1] if i else None
         new_chapter = prev is not None and n["chapter"] != prev["chapter"]
         new_page = (not by_chapter or prev is None or n["front"] or prev["front"] or not n["chapter"]
-                    or (mode == "chapter" and new_chapter))
+                    or (mode == "chapter" and new_chapter)
+                    or (mode == "flow" and not n["front"] and (t.new_page or (new_chapter and tpl.format.chapter_page_break))))
         if not new_page:  # keep flowing on the current page
             if new_chapter:  # flow mode: the chapter banner goes into the body instead of a new page
                 _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=14, after=4).paragraph_format.keep_with_next = True
@@ -875,7 +984,8 @@ def export_mom(
             pass  # heading already written
         elif mode == "flow" and not n["front"] and n["chapter"]:  # one long section: banners live in the body
             _page_header(s_.header, None, None, None, F, tpl)
-            _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=0, after=4).paragraph_format.keep_with_next = True
+            if prev is None or prev["front"] or new_chapter:  # the chapter banner only where a chapter starts
+                _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=0, after=4).paragraph_format.keep_with_next = True
             _section_heading(doc, n["section"], F, base, i)
         elif by_chapter and not n["front"] and n["chapter"]:  # chapter banner in the header, § heading in the body
             _page_header(s_.header, None, n["banner"], None, F, tpl)
@@ -897,11 +1007,18 @@ def export_mom(
                 r.font.highlight_color = WD_COLOR_INDEX.YELLOW
             _bookmark(p, f"_Toc{i}", i + 1)
         if t.basics and tpl.format.basics_box:
-            _basics_box(doc, t, (n.get("no") or 1), F, base, tpl.format.basics_label)
+            if tpl.format.basics_style == "band":
+                _basics_band(doc, t, F, base, tpl.format.basics_label)
+            else:
+                _basics_box(doc, t, (n.get("no") or 1), F, base, tpl.format.basics_label)
         if t.tip and tpl.format.topic_tips:
             _tip_line(doc, t, F, base)
         topic_checks: list[Statement] = []
-        doc._check_n = 0  # check numbers restart in every topic
+        chapter_mode = tpl.format.checks_where == "chapter"
+        if not chapter_mode or new_chapter or prev is None or prev["front"]:
+            doc._check_n = 0  # check numbers restart in every topic (or chapter)
+            if chapter_mode:
+                chapter_checks = []
         for sc in tpl.sections:
             sts = t.sections.get(sc.key)
             if not sts:
@@ -923,8 +1040,13 @@ def export_mom(
                     j = k
                     while j < len(sts) and sts[j].kind == "check":
                         j += 1
-                    topic_checks += sts[k:j]
-                    _check_box(doc, sts[k:j], tpl)
+                    if tpl.format.checks_where == "off":
+                        pass
+                    elif chapter_mode:  # collected: one box + one answer line at the end of the chapter
+                        chapter_checks += sts[k:j]
+                    else:
+                        topic_checks += sts[k:j]
+                        _check_box(doc, sts[k:j], tpl)
                     k = j
                     continue
                 if st.kind == "quiz":
@@ -943,6 +1065,12 @@ def export_mom(
         for f in t.review_flags:
             p = doc.add_paragraph(); _fmt(p, after=4, left=0.2)
             r = p.add_run(f"※ 검증 필요: {f}"); _font(r, F, 9, color=COLOR["verify"])
+        nxt = note.topics[i + 1] if i + 1 < len(note.topics) else None
+        chapter_ends = nxt is None or nums[i + 1]["chapter"] != n["chapter"] or nxt.heading.upper().startswith("QUIZ")
+        if chapter_mode and chapter_checks and chapter_ends:
+            _check_box(doc, chapter_checks, tpl, summary=False)
+            _answer_box(doc, chapter_checks, 1, tpl)
+            chapter_checks = []
 
     if note.review_flags:
         p = doc.add_paragraph(); _fmt(p, before=14, after=4)

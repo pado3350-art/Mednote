@@ -7,7 +7,7 @@ description: Turn lecture material (script/transcript/slides) into an easy-to-st
 
 > **작성 순서는 top-down이다(00절): ① `storyline.md`(뼈대 → 요지 → 장 → 소절의 질문과 한 줄 답 → 다리 → 시험 축 → 그림 인벤토리) ② 그다음에 문장(00b절 한 번 읽고 이해되는 문장).**
 
-> **사용자가 승인한 학습 규칙이 최우선**: `python -m app.cli feedback rules --lecture-type <유형>` (또는 `brief/learned_rules.md`). 현재 L1–L15(사람 정리본 비교·사용자 지시로 승인). **L15 개념 정리는 도식화**(강의자료 그림 우선, 없으면 도형 도식, 0d절). **L10 혼합형이 기본**(0c절), L11 정의 → “그럼” 추론 · L12 기전 사슬 + “따라서 A → B → C” · L13 원리 → 사례 적용·대조 · L14 “**용어**: 정의 + 한 마디”. L1–L9: 한 줄 한 사실 · 표 도입문과 “즉” 정리문 · 인과 다리는 본문 · 연구 서사 방법→결과→의미 · 메모는 합니다체 괄호 · “교수님 연구(팀)” 허용(인용형은 금지, “연자” 금지) · 슬라이드 영문 용어 우선 · 일화·장식 수치는 회색(아주 사소하고 기출 없음은 삭제, `meta.omitted`) · 사례는 “이름(영문): 한 줄” + 회색 부가설명. 검증 `LINE_TOO_DENSE`.
+> **사용자가 승인한 학습 규칙이 최우선**: `python -m app.cli feedback rules --lecture-type <유형>` (또는 `brief/learned_rules.md`). 현재 L1–L18(사람 정리본 비교·사용자 지시로 승인). **L16–L18 레이아웃(0e절)**: 나열형은 표, 강의의 질문 단위 유지, 한 쪽 한 앵커, 장치 줄이기, 10.5pt. **L15 개념 정리는 도식화**(강의자료 그림 우선, 없으면 도형 도식, 0d절). **L10 혼합형이 기본**(0c절), L11 정의 → “그럼” 추론 · L12 기전 사슬 + “따라서 A → B → C” · L13 원리 → 사례 적용·대조 · L14 “**용어**: 정의 + 한 마디”. L1–L9: 한 줄 한 사실 · 표 도입문과 “즉” 정리문 · 인과 다리는 본문 · 연구 서사 방법→결과→의미 · 메모는 합니다체 괄호 · “교수님 연구(팀)” 허용(인용형은 금지, “연자” 금지) · 슬라이드 영문 용어 우선 · 일화·장식 수치는 회색(아주 사소하고 기출 없음은 삭제, `meta.omitted`) · 사례는 “이름(영문): 한 줄” + 회색 부가설명. 검증 `LINE_TOO_DENSE`.
 
 > **먼저 `my-writing-style` 스킬을 읽는다.** 사용자가 직접 고친 문장에서 배운 문체 규칙이며, 아래 말투 표와 충돌하면 그쪽이 우선한다.
 
@@ -133,6 +133,22 @@ The reference is `references/excellent_example.md` (a high-rated MOM note for th
 - 도식 안 파랑도 PAD 출처가 있어야 한다(`BLUE_WITHOUT_PAD`). 그림을 지어내지 않는다 — 도식은 강의 내용을 도형으로 옮기는 것만.
 - 검증: `CONCEPT_NO_VISUAL`(mom_mixed) — 그림도 도식도 없는 개념 정리 박스.
 - 예: `examples/stemcell_mixed_note.py` (분화능 피라미드, ECM 순환, 골관절염 치료 공백 flow, mitochondria 논리 flow, spheroid/organoid tree, 임상 단계 flow + 슬라이드 s02, s08, s11, s12).
+
+## 0e. 레이아웃 v2 (L16–L18) — 사람 MOM처럼 훑어 읽히는 쪽
+근거: `outputs/abx/review_vs_MOM.md` 8절(같은 쪽 나란히 비교). 예: `examples/abx_note.py`. 헬퍼 `QA`, `ROWS`, `FIG`.
+
+| 쓰는 곳 | 구성요소 (`kind`) | 규칙 |
+|---|---|---|
+| 강의가 던진 질문·역질문 | `qa`: 노란 상자(`left_title` = “질문1”, “역질문2”, `text` = 질문) + `left` = “A.” 한두 줄 | 교수·영상의 질문을 그대로 살린다. 질문이 있는 소절은 핵심 답 띠 대신 이것으로 시작(`basics` 생략) |
+| 나열형 § (기관별, 환자별, 정의 비교, 지표) | `rows`: `[[라벨, 칸, ...]]`, `col_titles`, `col_widths` | 라벨 칸은 굵게, 칸은 한 줄 + `→ 결론`. 칸 안 줄바꿈 `\n`. bullet 4개 이상이면 표로(`LIST_NOT_TABLE`) |
+| 큰 슬라이드 그림 | `figure`(그림 + 캡션) | 쪽 첫머리에 크게. 그림이 담은 사실은 **같은 소절의 표**가 말한다. 그림을 되풀이하는 bullet은 쓰지 않는다. 그림이 중심인 소절은 `new_page=True` |
+| 설명형 § 요지 | `basics` = 핵심 답 **한 줄 띠**(`basics_style: band`) | 상자·번호·빨간 줄 없음 |
+| 복습 | `check` | 소절 사이가 아니라 **장 끝에 한 상자**(`checks_where: chapter`) |
+| 기출 두 유형 | 앞쪽 요약의 `rows` = 본문의 `rows` (같은 객체) | **같은 표를 같은 모양으로 두 번** |
+
+- 한 쪽에 하나의 시각 앵커(큰 그림 또는 표 하나)를 둔다. 작은 도식·상자·썸네일을 한 쪽에 여럿 놓지 않는다.
+- 같은 사실은 요약과 본문의 같은 표 두 번까지. 개념 정리 박스, 문단, Check에서 모양을 바꿔 또 쓰지 않는다.
+- 장치는 파랑 제목띠 · 질문 상자 · 표 · 그림 · 보라/회색 메모 정도로 줄인다.
 
 ## 1. Keep everything, change the shape
 - Every concept, term, number, unit, drug/gene name, cutoff and example in the source must appear (the validator checks numbers, terms and paragraph coverage).

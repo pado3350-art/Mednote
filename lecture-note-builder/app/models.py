@@ -96,7 +96,7 @@ class Statement(BaseModel):
     # red is `emphasis`. Blue requires a PAD (기출) source ref -> see validate_notes.
     tag: Literal["normal", "exam", "exam_other", "minor", "verify"] = "normal"
     # Layout role: paragraph, "-" bullet, "★" sub-heading, or an Advice / Reference call-out.
-    kind: Literal["para", "bullet", "star", "advice", "reference", "figure", "diagram", "row2", "quiz", "figure_side", "columns", "check", "concept"] = "para"
+    kind: Literal["para", "bullet", "star", "advice", "reference", "figure", "diagram", "row2", "quiz", "figure_side", "columns", "check", "concept", "rows", "qa"] = "para"
     level: int = 0
     image: str = ""  # kind == "figure"/"diagram": picture path (text = caption)
     # kind == "row2": one row of the two-column "slide table" (left = slide / English original, right = explanation in `text`)
@@ -108,12 +108,19 @@ class Statement(BaseModel):
     explanations: list[str] = Field(default_factory=list)  # quiz: per-option explanation (mark the right one "(정답)"); check: reason
     # How much effort this deserves (the lecturer's cue): 필수 = memorise, 이해 = understand, 참고 = just know it exists
     effort: Literal["", "필수", "이해", "참고"] = ""
+    rows: list[list[str]] = Field(default_factory=list)
+    col_titles: list[str] = Field(default_factory=list)
+    col_widths: list[float] = Field(default_factory=list)
     diagram: Optional["Diagram"] = None  # kind == "diagram": spec rendered to a picture by app/diagrams.py
     # kind == "check": `text` = statement to judge, `answer` = "O"/"X", `left_title` = one-line summary of the page/§
     #   (shown once above the group), `explanations[0]` = why (shown in the answer box). Answers are printed at the end of the topic.
     # kind == "concept": grey "개념 정리" box: `left_title` = title, `left` = lines
     # kind == "figure_side": picture (`image`, caption = `text`) beside a bullet box (`left_title`, `left` lines)
     # kind == "columns": parallel items side by side; `diagram.groups` = one column each (title + lines)
+    # kind == "rows": a table (L16): `rows` = [[label, cell, ...], ...] (cell text: markup, "\n" = new line, "- " = bullet,
+    #   "→ x" lines are plain), `col_titles` = optional header row, `col_widths` = optional widths in cm
+    # kind == "qa": the lecturer's own question in a yellow box (`left_title` = "질문1" / "역질문2", `text` = the question)
+    #   followed by the answer lines in `left` ("A. ...")
 
 
 class Topic(BaseModel):
@@ -123,6 +130,7 @@ class Topic(BaseModel):
     basics_title: str = ""  # 기본정석 box title
     basics: list[str] = Field(default_factory=list)  # 기본정석 box: 2-4 core points of the §
     basics_refs: list[int] = Field(default_factory=list)  # sources of the box; PAD units here allow BLUE inside it
+    new_page: bool = False  # start this § on a new page (a § built around one big figure / table: one anchor per page)
     tip: str = ""  # study-priority hint shown as a yellow-highlighted line under the 기본정석 box
     slide_numbers: list[int]
     # template section key -> statements

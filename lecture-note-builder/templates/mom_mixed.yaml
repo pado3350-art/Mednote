@@ -16,11 +16,14 @@ format:
   page_break: flow           # new page only after the front pages; chapters flow on with an in-body banner
   basics_box: true
   basics_label: 핵심 답
+  basics_style: band         # 핵심 답 as one light line, not a red-ruled box (L16)
+  checks_where: chapter      # 개념 Check boxes collected at the end of each chapter (L16)
+  chapter_page_break: true   # every chapter starts on a new page; a § with Topic.new_page starts one too
   mixed: true                # every body § has style explain|list (app/mixed.py)
   pad_tags: true             # [PAD 2021 Q1] after blue statements, [Only PAD …] when the lecture never said it
   topic_tips: false
   toc_level: chapter
-  minutes_per_page: 5.5
+  minutes_per_page: 4.5
   roman_headings: false
   exam_section: false              # 기출문제는 별도 PAD 문서; 파랑 글씨로만 본문에 표시
   preserve_original_images: true
@@ -28,7 +31,7 @@ format:
   include_source_references: false  # sources stay in note.json / validation report
   numbered_headings: true
   font_korean: 맑은 고딕
-  font_size_pt: 9
+  font_size_pt: 10.5          # was 9; the human MOM notes read at ~12pt (docs: review_vs_MOM.md section 8)
   legend:
     - {tag: emphasis, word: 빨강, meaning: "교수님 강조 / 시험 언급 / 꼭 외울 부분"}
     - {tag: exam,     word: 파랑, meaning: "기출된 내용 (PAD 기출문제에 나온 부분에만 사용)"}

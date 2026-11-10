@@ -28,7 +28,8 @@ def _note_text(note: LectureNote) -> str:
         parts += [_strip_markup(t.tip)] + [_strip_markup(b) for b in t.basics]
         for sts in t.sections.values():
             for s in sts:  # row2 keeps the slide original in `left`, quiz keeps options / answer
-                parts += [_strip_markup(x) for x in (s.text, s.left_title, *s.left, *s.options, s.answer, *s.explanations) if x]
+                parts += [_strip_markup(x) for x in (s.text, s.left_title, *s.left, *s.options, s.answer, *s.explanations,
+                                                     *s.col_titles, *[c for r in s.rows for c in r]) if x]
                 if s.kind == "columns" and s.diagram is not None:
                     for g in s.diagram.groups:
                         parts += [_strip_markup(x) for x in (g.title, *g.items) if x]
@@ -150,10 +151,13 @@ def validate(
                     [by_slide[r].plain_text() for r in st.slide_refs]
                     + [seg_text.get(i, "") for i in st.segment_ids]
                 )
-                if _cosine(_bigrams(_strip_markup(st.text)), _bigrams(source)) < _GROUND_MIN:
+                claim = st.text if st.kind not in ("rows", "qa") else " ".join([st.text, *st.left, *[c for r in st.rows for c in r]])
+                if not claim.strip():
+                    continue
+                if _cosine(_bigrams(_strip_markup(claim)), _bigrams(source)) < _GROUND_MIN:
                     rep.issues.append(Issue(severity="warning", code="UNGROUNDED",
                                             slide=st.slide_refs[0] if st.slide_refs else None,
-                                            message=f"원본과 유사도가 낮은 문장(근거 확인 필요): '{_strip_markup(st.text)[:40]}…'"))
+                                            message=f"원본과 유사도가 낮은 문장(근거 확인 필요): '{_strip_markup(claim)[:40]}…'"))
 
     # 4b. Colour rule (NON-NEGOTIABLE): BLUE = content that appeared in the PAD (기출) - nothing else.
     #     * blue text must cite a PAD unit;  * a statement citing a PAD unit must be blue
@@ -162,7 +166,7 @@ def validate(
         return tag in PAD_TAGS or any(c in PAD_TAGS for _, c, _ in _runs(text))
 
     def _all_text(st) -> str:  # row2 / quiz keep text in several fields
-        return " ".join([st.text, *st.left, *st.options, st.answer, *st.explanations])
+        return " ".join([st.text, *st.left, *st.options, st.answer, *st.explanations, *st.col_titles, *[c for r in st.rows for c in r]])
 
     two_blues = any(i.tag == "exam_other" for i in template.format.legend)  # template declares the 2nd blue
     cur_prof = (note.meta.get("professor") or "").replace("교수님", "").strip()
@@ -223,7 +227,8 @@ def validate(
     for t in note.topics:
         for sts in t.sections.values():
             for st in sts:
-                lines = [st.text, *st.left] + ([i for g in st.diagram.groups for i in g.items] if st.kind == "columns" and st.diagram else [])
+                lines = [st.text, *st.left] + ([i for g in st.diagram.groups for i in g.items] if st.kind == "columns" and st.diagram else []) \
+                    + [ln for r in st.rows for c in r for ln in c.split("\n")]
                 for line in lines:
                     plain = _strip_markup(line)
                     if len(plain) > 60 and plain.count("—") + plain.count("·") >= 2:

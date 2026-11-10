@@ -59,6 +59,11 @@ def _statement(doc: Document, st: Statement, tpl: Template, lecturer: bool, note
 
         _figure(doc, st, tpl)
         return
+    if st.kind in ("rows", "qa"):
+        from .export_mom import _qa_box, _rows_table
+
+        {"rows": _rows_table, "qa": _qa_box}[st.kind](doc, st, tpl)
+        return
     if st.kind in ("figure_side", "columns", "concept", "check"):
         from .export_mom import _check_box, _columns_box, _concept_box, _figure_side
 
@@ -255,6 +260,21 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
                         if st.answer:
                             body_lines += [f"**정답:** {_md(st.answer)}", ""]
                         body_lines += [*[f"- {_md(x)}" for x in st.explanations], "", "</details>", ""]
+                    continue
+                if st.kind == "rows":
+                    n_c = max((len(r) for r in st.rows), default=0)
+                    if st.col_titles:
+                        L.append("| " + " | ".join(_md(x) for x in st.col_titles) + " |")
+                        L.append("|" + "---|" * len(st.col_titles))
+                    elif n_c:
+                        L.append("| " + " | ".join([" "] * n_c) + " |")
+                        L.append("|" + "---|" * n_c)
+                    for r in st.rows:
+                        L.append("| " + " | ".join(_md(x).replace("\n", "<br>") for x in r) + " |")
+                    continue
+                if st.kind == "qa":
+                    L.append(f"> **{_md(st.left_title)}** {_md(st.text)}")
+                    L += [f"- A. {_md(x)}" if k == 0 else f"  {_md(x)}" for k, x in enumerate(st.left)]
                     continue
                 if st.kind == "check":
                     body_lines.append(f"- **개념 Check** {_md(st.text)} (O, X) → {st.answer}" + (f" — {_md(st.explanations[0])}" if st.explanations else ""))
