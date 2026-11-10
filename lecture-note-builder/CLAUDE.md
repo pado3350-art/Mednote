@@ -46,6 +46,9 @@
 ## 레이아웃 v2 (L16–L18: 표 우선, 강의의 질문 단위, 한 쪽 한 앵커)
 `mom_mixed.yaml` 기본: 본문 10.5pt, 핵심 답 한 줄 띠(`basics_style: band`), 개념 Check는 장 끝에 모음(`checks_where: chapter`), 장마다 새 쪽(`chapter_page_break`) + 그림 중심 소절 새 쪽(`Topic.new_page`). 새 문장 종류 `rows`(라벨 | 한 줄 → 결론 표; 작은 표는 한 쪽에 붙음), `qa`(강의의 질문 노란 상자 + A. 한 줄). 나열형은 표로(`LIST_NOT_TABLE`), 큰 슬라이드 그림은 `figure`로 쪽 첫머리에. 근거 `outputs/abx/review_vs_MOM.md` 8절, 예 `examples/abx_note.py`, 스킬 0e. 사소한 녹취 영어는 `meta.omitted_terms`로 뺀다(괄호를 끼워 넣지 않는다). **v2.1**(review 10절): 상자형 표지(`cover_style: box`), 장 29자·소절 44자 제목, 문단 3줄, 핵심 답 62자, 장당 Check 2개, 소절은 새 쪽 없이 이어 붙임(장 시작만 새 쪽). 검사 `HEADING_TOO_LONG`·`PARAGRAPH_TOO_LONG`·`COLOUR_IN_PARAGRAPH`·`BASICS_TOO_LONG`·`TABLE_ORPHAN`·`CHECK_TOO_MANY`. **문체(L19–L21)**: 표 칸은 개조식(명사형, ‘-음/-함’), 개념 Check는 기출이 있는 소절에만, 요약 쪽은 그 주제의 그림 포함(`TABLE_CELL_STYLE`, `CHECK_NO_PAD`). 알려진 한계: 샌드박스 PDF에는 한글 굵은 글꼴이 없어 한글 굵게가 안 보인다(Word 파일은 정상).
 
+## MOM 근접 루프 (스킬 `mom-closeness-loop`, 명령 `/mom-loop`)
+사람 MOM과 같은 쪽 단위로 비교하며 반복 개선한다. 측정 `python -m app.cli compare-mom <MOM.pdf> <노트.pdf> --note note.json`(쪽 채움, 쪽당 글자, 글자 크기, 잉크, 표 칸 문체, 제목 길이, 기출 없는 Check → 남은 차이 목록, `app/mom_compare.py`). 절차·점검표·멈춤 조건·재현 방법·함정은 스킬과 `references/loop_findings.md`. MOM 글은 비교 전용(생성엔 이미지만), 승인 없는 규칙은 저장하지 않고, 푸시는 종료 코드로 확인한다.
+
 ## 개념 = 그림 (L15)
 개념 정리(위계·분류·대비·사슬·순환·단계)는 도식화한다: 강의자료 그림 우선(`figure_side`, `concept.image`), 없으면 프로그램 도식 `diagram`(pyramid/cycle/flow/tree/compare, `size: side`면 글 옆 좁은 그림). `concept`·`figure_side`에 `diagram`을 주면 빌드가 PNG로 그려 넣는다(캡션 ‘도식 n.’). 검증 `CONCEPT_NO_VISUAL`. 스킬 0d.
 

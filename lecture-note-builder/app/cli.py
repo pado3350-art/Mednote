@@ -120,7 +120,21 @@ def main(argv: list[str] | None = None) -> int:
     fe = fsub.add_parser("export", help="승인된 규칙 전체를 Markdown으로 저장")
     fe.add_argument("--out", default="style_rules/approved_rules.md")
     fe.add_argument("--store")
+    cm = sub.add_parser("compare-mom", help="생성 노트 PDF를 사람이 쓴 MOM PDF와 비교: 쪽 채움·글자 수·문체를 재고 남은 차이를 나열")
+    cm.add_argument("mom", help="사람이 쓴 MOM PDF (비교 전용. 노트 생성에는 글을 읽지 않는다)")
+    cm.add_argument("ours", help="생성한 노트 PDF")
+    cm.add_argument("--note", help="생성 노트의 note.json (표 칸 문체, 제목 길이, 개념 Check 검사)")
+    cm.add_argument("--out", help="리포트를 저장할 Markdown 경로")
     a = ap.parse_args(argv)
+    if a.cmd == "compare-mom":
+        from .mom_compare import compare, format_report
+
+        report = format_report(compare(a.mom, a.ours, a.note))
+        print(report)
+        if a.out:
+            Path(a.out).parent.mkdir(parents=True, exist_ok=True)
+            Path(a.out).write_text(report, encoding="utf-8")
+        return 0
     if a.cmd == "feedback":
         return _feedback(a)
     if a.cmd == "prepare":
