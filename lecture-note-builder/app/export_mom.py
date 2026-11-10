@@ -271,7 +271,7 @@ def _figure_side(doc, st: Statement, tpl: Template) -> None:
     if has_pic:
         with Image.open(path) as im:
             w, h = im.size
-        pic_w = min(7.2, 8.5 * w / max(h, 1))  # tall pictures get narrower
+        pic_w = min(7.2, 6.0 * w / max(h, 1))  # square / tall pictures get narrower (about 6 cm high at most)
         widths = (pic_w + 0.4, 17.4 - pic_w - 0.4)
         for ci, wd in enumerate(widths):
             t.columns[ci].width = Cm(wd)
@@ -571,6 +571,7 @@ def _basics_box(doc, t: Topic, n: int, F: str, base: float, label: str = "기본
             r = q.add_run(text)
             _run_style(r, col, F, base + 0.5, bold=True if bold else None)
     _fmt(c.add_paragraph(), after=0, line=0.6)
+    cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); box.rows[0]._tr.get_or_add_trPr().append(cs)  # never split the box
     _fmt(doc.add_paragraph(), after=4)
 
 

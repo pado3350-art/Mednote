@@ -18,7 +18,7 @@ EXAM_BASE = 1000  # PAD units are numbered 1001, 1002, ... (script paragraphs us
 # Header: "20학번 (2022년) 김태규 교수님. (감염과 면역)"  or  "20학번 김인범교수님" (year / course optional)
 _HDR = re.compile(r"^\s*(\d{2})학번\s*(?:\((\d{4})년\))?\s*([^\s.(]+?)\s*교수님\.?\s*(?:\((.+?)\))?\s*$")
 _ANS = re.compile(r"^\s*(?:정답|답)\s*[:：]\s*(.*)$")
-_ANS_BARE = re.compile(r"^\s*정답\s+(\d.*)$")
+_ANS_BARE = re.compile(r"^\s*(?:정답\s+|답\s+(?=\d[\d,\s번)]*$))(\d.*)$")  # "정답 3번. 짤입니다." / bare "답 5" (no colon)
 _ANS_INLINE = re.compile(r"^(.*?\S)\s+(?:정답|답)\s*[:：]\s*(\S.*)$")
 _QSTART = re.compile(r"^(서술형\s*)?(\d+)\.\s+(\S.*)$")
 _FOOTER = re.compile(r"^-\s*\d+\s*-$")
@@ -87,6 +87,8 @@ def parse_exam_text(text: str) -> list[ExamItem]:
         blank_before, prev_blank = prev_blank, not s
         if not s or s == "기출문제" or _FOOTER.match(s):
             continue
+        if s.isdigit() and len(s) <= 2 and not (cur is not None and cur.get("pending")):
+            continue  # bare page number between pages
         if _END.search(s):
             close(); break
         h = _HDR.match(s)
@@ -208,7 +210,7 @@ SIGNAL_PATTERNS: list[tuple[str, str, str]] = [  # (signal, regex, shown label)
     ("강조안함", r"강조(?:한|하신)?\s*(?:부분|내용)?(?:은|이|는)?\s*(?:아닙니다|아니었|없었|전혀)|강조\s*(?:안|하지\s*않)", "강조 안 함"),
     ("미수업", r"(?:배운\s*적\s*(?:이\s*)?없|안\s*배웠|배우지\s*않)", "‘배우지 않았다’ 언급(문항 또는 선지)"),
     ("선지미수업", r"(?:등장한\s*적\s*없|언급(?:한\s*적|된\s*적)?\s*없)", "‘수업에 나온 적 없다’ 언급"),
-    ("족보반복", r"\(\s*\d{4}\s*년\s*짤\s*\)|짤\)", "이전 기출 반복"),
+    ("족보반복", r"\(\s*\d{4}\s*년\s*짤\s*\)|짤\)|짤입니다|동일한\s*문제|유형이\s*(?:완전히\s*)?같", "이전 기출 반복"),
 ]
 
 
@@ -238,8 +240,12 @@ def exam_history(items: list[ExamItem], professor: str = "") -> str:
     prof = professor.replace("교수님", "").strip()
     mine = [i for i in items if prof and prof in i.professor]
     other = [i for i in items if i not in mine] if prof else []
-    yrs = lambda xs: ", ".join(f"{y}년 {n}" for y, n in sorted(Counter(i.year for i in xs).items()))
-    L = [f"기출(PAD) {len(items)}문항 ({min(i.year for i in items)}–{max(i.year for i in items)}년)."]
+    if all(i.year for i in items):
+        yrs = lambda xs: ", ".join(f"{y}년 {n}" for y, n in sorted(Counter(i.year for i in xs).items()))
+        L = [f"기출(PAD) {len(items)}문항 ({min(i.year for i in items)}–{max(i.year for i in items)}년)."]
+    else:  # handout prints cohorts ("20학번") instead of exam years
+        yrs = lambda xs: ", ".join(f"{c} {n}" for c, n in sorted(Counter(i.when for i in xs).items(), reverse=True))
+        L = [f"기출(PAD) {len(items)}문항 ({yrs(items)})."]
     if prof:
         L.append(f"{prof} 교수님 {len(mine)}문항({yrs(mine)})" + (f", 다른 교수님 {len(other)}문항({yrs(other)})." if other else "."))
     for sig, _, lab in SIGNAL_PATTERNS:

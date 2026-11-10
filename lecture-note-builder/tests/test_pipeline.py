@@ -965,3 +965,42 @@ def test_offline_slide_table_mode_groups_slides_into_two_column_rows(sample_pptx
     d = Document(str(paths["docx"]))
     two_col = [t for t in d.tables if len(t.columns) == 2]
     assert two_col and sum(len(t.rows) for t in two_col) >= 3
+
+
+PAD_COHORT = """1
+    2026년 8월 19일 화요일 2교시 임상약리 한성필 교수님
+    20학번 한성필 교수님
+    19,20은 짤입니다.
+1. 항균제 용량 용법에 관한 설명으로 옳은 것은?
+1 Time dependent killing을 갖는 약물로 aminoglycoside가 대표적이다.
+5 PAE란 MIC 이하에서 항균효과가 지속되는 것을 의미한다.
+                                                     답 5
+해설
+1 Aminoglycoside는 농도 의존성입니다.
+2. 원인균의 성격 및 면역 상태의 올바른 조합은?
+1 nosocomial / compromised
+4 nosocomial / competent
+                                                     답 4
+해설
+병원 감염 Nosocomial 에 해당합니다.
+2
+    19학번 한성필 교수님
+1. 같은 유형입니다?
+1 a
+                                                     답 3
+해설
+20학번과 동일한 문제입니다.
+"""
+
+
+def test_exam_parse_bare_answers_and_cohort_history():
+    """'답 5' without a colon splits questions; page numbers are dropped; cohorts replace missing exam years."""
+    from app.exam import exam_history, parse_exam_text
+
+    items = parse_exam_text(PAD_COHORT)
+    assert [(i.cohort, i.q_no, i.answer) for i in items] == [("20학번", 1, "5"), ("20학번", 2, "4"), ("19학번", 1, "3")]
+    assert "Aminoglycoside" in items[0].commentary and "2. " not in items[0].commentary
+    assert not items[1].commentary.endswith(" 2")  # bare page number skipped
+    assert "족보반복" in items[2].signals
+    h = exam_history(items, "한성필")
+    assert "3문항 (20학번 2, 19학번 1)" in h and "0년" not in h
