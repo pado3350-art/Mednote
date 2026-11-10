@@ -124,6 +124,30 @@
             }
           },
           {
+            "text": "생각해야 될 원인균? 획득 경로 × 면역 4사분면 (슬라이드)",
+            "origin": "slide",
+            "slide_refs": [
+              14
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "figure",
+            "level": 0,
+            "image": "inputs/abx_figs/f1_quadrant.png",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "",
             "origin": "slide",
             "slide_refs": [
@@ -275,7 +299,7 @@
               [
                 "PAE",
                 "{b|PAE(post-antibiotic effect): MIC 이하로 떨어진 뒤에도 항균 효과가 지속되는 것}\n그림: 작거나 중간",
-                "그림: 길다"
+                "그림: PAE가 김"
               ]
             ],
             "col_titles": [
@@ -487,33 +511,6 @@
             "col_titles": [],
             "col_widths": [],
             "diagram": null
-          },
-          {
-            "text": "항균제 선택의 첫 단계는 항균제의 스펙트럼을 외우는 것이다.",
-            "origin": "both",
-            "slide_refs": [
-              8,
-              10
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "check",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "X",
-            "explanations": [
-              "목적, 장기, 환자를 먼저 묻는다."
-            ],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
           }
         ]
       },
@@ -615,8 +612,8 @@
                 "특징",
                 "수술 전 예방",
                 "—",
-                "**가장 많이 쓴다**",
-                "균을 겨냥해 바꾼다"
+                "**가장 많이 사용**",
+                "균 겨냥, 약 변경"
               ]
             ],
             "col_titles": [
@@ -1278,32 +1275,6 @@
             "col_titles": [],
             "col_widths": [],
             "diagram": null
-          },
-          {
-            "text": "감수성 검사는 표적 치료로 바꾼 뒤에 검체를 채취해 시행한다.",
-            "origin": "both",
-            "slide_refs": [
-              19
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "check",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "X",
-            "explanations": [
-              "치료 전 검체로 경험적 치료와 동시에 한다."
-            ],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
           }
         ]
       },
@@ -1357,7 +1328,7 @@
               ],
               [
                 "치유는 누가",
-                "최종 치료는 숙주의 면역계에 기댄다",
+                "최종 치료는 숙주 면역계에 의존",
                 "면역저하 환자, 중증 감염에서\n주로 선택"
               ],
               [
@@ -1450,31 +1421,6 @@
             "col_titles": [],
             "col_widths": [],
             "diagram": null
-          },
-          {
-            "text": "면역억제 환자에서는 정균제보다 살균제를 사용해야 한다.",
-            "origin": "both",
-            "slide_refs": [
-              22,
-              24
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "check",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "O",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
           }
         ]
       },
@@ -1550,11 +1496,11 @@
             "rows": [
               [
                 "면역 상태",
-                "중증 당뇨, 악성 종양, 면역억제제 → 감염이 무거워짐 → 고용량이나 장기간 투여\n대가: 항균제 자체의 독성이 커지므로 용법을 주의해 정한다\n면역억제 환자는 정균제가 어렵고 살균제를 쓴다"
+                "중증 당뇨, 악성 종양, 면역억제제 → 감염이 무거워짐 → 고용량이나 장기간 투여\n대가: 항균제 자체의 독성이 커지므로 용법 설정에 주의\n면역억제 환자는 정균제 사용이 어렵고 살균제를 사용"
               ],
               [
                 "신기능, 간기능 저하",
-                "그 장기로 제거되는 약의 혈중 농도 ↑ → 독성 위험 ↑\n일부 약은 GFR이나 간기능에 따른 용법 제한 기준이 있다\n검사로도 확인하지만\n외래에서는 병력 청취가 중요하다"
+                "그 장기로 제거되는 약의 혈중 농도 ↑ → 독성 위험 ↑\n일부 약은 GFR, 간기능에 따른 용법 제한 기준이 있음\n검사로도 확인하지만\n외래에서는 병력 청취가 중요"
               ],
               [
                 "저관류",
@@ -1562,7 +1508,7 @@
               ],
               [
                 "연령",
-                "신생아와 노인은 용법이 크게 달라진다\n신생아는 대사 효소 기능이 미숙한 경우가 많다"
+                "신생아, 노인은 용법이 크게 달라짐\n신생아는 대사 효소 기능이 미숙한 경우가 많음"
               ]
             ],
             "col_titles": [],
@@ -1698,30 +1644,6 @@
             "col_titles": [],
             "col_widths": [],
             "diagram": null
-          },
-          {
-            "text": "항균제의 표준 용법은 표적 균주의 MIC와 PK/PD 자료, 임상시험을 근거로 정해졌다.",
-            "origin": "both",
-            "slide_refs": [
-              31
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "check",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "O",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
           }
         ]
       },
@@ -1798,7 +1720,7 @@
             "rows": [
               [
                 "CNS",
-                "BBB를 잘 통과하는 ceftriaxone, vancomycin을 CNS dose로\n드문 감염(cryptococcal meningitis 등)은 척수강 내 투여(intrathecal therapy)로 CSF에 바로 넣기도 한다"
+                "BBB를 잘 통과하는 ceftriaxone, vancomycin을 CNS dose로\n드문 감염(cryptococcal meningitis 등)은 척수강 내 투여(intrathecal therapy)로 CSF에 직접 주입하기도 함"
               ],
               [
                 "안구",
@@ -1810,11 +1732,11 @@
               ],
               [
                 "호흡기",
-                "흡입 치료(inhalation therapy): 입자가 large airway까지만 가는지, alveoli(폐포)까지 가는지가 문제다. 폐렴이면 alveoli까지 가야 한다\n일반 nebulizer와 aerosol generator 중에서 고른다"
+                "흡입 치료(inhalation therapy): 입자가 large airway까지만 가는지, alveoli(폐포)까지 가는지 고려\n폐렴이면 alveoli까지 도달해야 함\n일반 nebulizer와 aerosol generator 중 선택"
               ],
               [
                 "분포",
-                "tigecycline: 조직으로 잘 가지만 혈중 농도는 낮다\naminoglycoside: 혈중보다 요로(urinary tract)에서 훨씬 높다"
+                "tigecycline: 조직으로 잘 가지만 혈중 농도는 낮음\naminoglycoside: 혈중보다 요로(urinary tract)에서 훨씬 높음"
               ]
             ],
             "col_titles": [],
@@ -1922,23 +1844,23 @@
             "rows": [
               [
                 "외래 vs 입원",
-                "외래는 경구가 기본이다. 그래도 하루 한 번 주사실에서 IV를 맞는 경우가 있다\n입원 환자도 재원 기간을 줄이려 일찍 퇴원시키기도 한다"
+                "외래는 경구가 기본, 그래도 하루 한 번 주사실에서 IV를 맞는 경우가 있음\n입원 환자도 재원 기간 단축을 위해 일찍 퇴원시키기도 함"
               ],
               [
                 "혈관 상태",
-                "하루 3~4번 맞거나 sodium이 많은 nafcillin을 쓰면 정맥염(phlebitis)이 잘 생긴다\nnafcillin, vancomycin은 말초 정맥관으로 맞기 힘든 경우가 많다"
+                "하루 3~4번 맞거나 sodium이 많은 nafcillin을 쓰면 정맥염(phlebitis)이 잘 생길 수 있음\nnafcillin, vancomycin은 말초 정맥관으로 맞기 힘든 경우가 많음"
               ],
               [
                 "경구 섭취, 흡수",
-                "설사, GI bleeding이 있으면\n경구약의 효과를 기대하기 어렵다\n동반 질환도 함께 본다"
+                "설사, GI bleeding이 있으면\n경구약의 효과를 기대하기 어려움\n동반 질환도 함께 확인"
               ],
               [
                 "순응도",
-                "하루 3~4번 챙기기 힘든 바쁜 환자에게는 하루 1번 약이 낫다\n먹다 안 먹다 하면 치료 농도가 떨어진다"
+                "하루 3~4번 챙기기 힘든 바쁜 환자에게는 하루 1번 약이 유리\n먹다 안 먹다 하면 치료 농도가 떨어질 수 있음"
               ],
               [
                 "생활 패턴",
-                "밤낮이 바뀐 환자(예: 일부 HIV 감염인)는 하루 1번 약을 자기 전에 먹게 한다\n식후 복용이 꼭 필요한 약이 아닐 때 가능하다"
+                "밤낮이 바뀐 환자(예: 일부 HIV 감염인)는 하루 1번 약을 자기 전에 복용하도록 조정\n식후 복용이 꼭 필요한 약이 아니라면 가능"
               ]
             ],
             "col_titles": [],
@@ -2061,30 +1983,6 @@
             "left": [],
             "options": [],
             "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "CDI에서 경구 vancomycin은 흡수되지 않고 장관 안에서 작용한다.",
-            "origin": "both",
-            "slide_refs": [
-              39
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "check",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "O",
             "explanations": [],
             "effort": "",
             "rows": [],
@@ -2225,7 +2123,7 @@
               [
                 "PAE",
                 "{b|PAE(post-antibiotic effect): MIC 이하로 떨어진 뒤에도 항균 효과가 지속되는 것}\n그림: 작거나 중간",
-                "그림: 길다"
+                "그림: PAE가 김"
               ]
             ],
             "col_titles": [
@@ -2298,7 +2196,7 @@
               ],
               [
                 "AUC/MIC",
-                "곡선 아래 면적(area under the curve)을 MIC로 나눈 값\n‘시간 의존성이 섞인 농도 의존성’으로 따로 나누기도 한다",
+                "곡선 아래 면적(area under the curve)을 MIC로 나눈 값\n‘시간 의존성이 섞인 농도 의존성’으로 따로 나누기도 함",
                 "vancomycin, azithromycin, fluoroquinolone, aminoglycoside, tigecycline, linezolid"
               ]
             ],
@@ -2462,7 +2360,7 @@
             "rows": [
               [
                 "경구(PO)가 기본",
-                "가장 선호되는 경로다. 특히 외래에서 스스로 먹을 수 있다\n중증은 IV로 시작해도 가능하면 빨리 IV → PO switch"
+                "가장 선호되는 경로, 특히 외래에서 자가 복용 가능\n중증은 IV로 시작해도 가능하면 빨리 IV → PO switch"
               ],
               [
                 "주사가 필요할 때",
@@ -2557,7 +2455,7 @@
               ],
               [
                 "선택 기준",
-                "근거가 명확한 병용만 고른다\n‘예전에 써 보니 좋더라’ 식의 병용은 피한다"
+                "근거가 명확한 병용만 선택\n‘예전에 써 보니 좋더라’ 식의 병용은 지양"
               ]
             ],
             "col_titles": [],

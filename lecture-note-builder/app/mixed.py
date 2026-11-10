@@ -60,6 +60,27 @@ def _colour_mixed(text: str) -> bool:
     return plain >= 20 and side >= 20
 
 
+def table_style_issues(note: LectureNote) -> list[tuple[str, str, str]]:
+    """Table cells are 개조식 (user rule L19, learned from the human MOM): they end in a noun / '-음, -함, -됨' / '~할 수 있음',
+    not in a full '-다' sentence. Prose paragraphs and the 'A.' lines stay 한다체."""
+    out = []
+    for t in note.topics:
+        for sts in t.sections.values():
+            for st in sts:
+                if st.kind != "rows":
+                    continue
+                bad = []
+                for row in st.rows:
+                    for cell in row[1:]:  # the label column is a noun phrase anyway
+                        for line in cell.split("\n"):
+                            plain = _plain(line).strip().rstrip(".")
+                            if re.search(r"[가-힣]다$", plain):
+                                bad.append(plain)
+                if bad:
+                    out.append(("warning", "TABLE_CELL_STYLE", f"'{t.heading}': 표 칸 {len(bad)}줄이 ‘-다’ 문장이다 → 개조식(명사형, ‘-음/-함’)으로: '{bad[0][:26]}…'"))
+    return out
+
+
 def _cjk(c: str) -> bool:
     return ord(c) > 0x2E80
 
@@ -126,6 +147,10 @@ def mixed_issues(note: LectureNote) -> list[tuple[str, str, str]]:
                 out.append(("warning", "PARAGRAPH_TOO_LONG", f"'{t.heading}': 문단 {pl}자 — 3줄(약 140자) 이하로 나눈다: '{_plain(s.text)[:24]}…'"))
             if _colour_mixed(s.text):
                 out.append(("info", "COLOUR_IN_PARAGRAPH", f"'{t.heading}': 문단 중간에 회색·빨강 문장이 섞였다 → 별도 줄로 뺀다: '{_plain(s.text)[:24]}…'"))
+        n_checks = sum(1 for s in sts if s.kind == "check")
+        has_pad = any(r >= 1000 for s in sts for r in s.slide_refs) or any(r >= 1000 for r in t.basics_refs)
+        if n_checks and not has_pad:  # 개념 Check only where a past exam (PAD) item exists (user rule L20)
+            out.append(("warning", "CHECK_NO_PAD", f"'{t.heading}': 기출(PAD)이 없는 소절에는 개념 Check를 두지 않는다."))
         for b in t.basics:
             if len(_plain(b)) > 62:
                 out.append(("warning", "BASICS_TOO_LONG", f"'{t.heading}': 핵심 답이 {len(_plain(b))}자 — 한 줄(62자 이하)로: '{_plain(b)[:24]}…'"))

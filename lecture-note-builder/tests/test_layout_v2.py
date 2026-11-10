@@ -164,3 +164,17 @@ def test_heading_exam_mark(tmp_path):
     t.mark = "출제예고 · 기출"
     doc = _doc(tmp_path, [t], _tpl())
     assert any("획득 경로와 면역 상태" in p.text and "[출제예고 · 기출]" in p.text for p in doc.paragraphs)
+
+
+def test_checks_only_with_pad_and_table_cells_in_gaejosik():
+    from app.mixed import table_style_issues
+
+    plain = _topic("가", "장", [Statement(text="본문. 그럼 결론.", slide_refs=[1]), _check("문장이다.")])
+    pad = _topic("나", "장", [Statement(text="{b|PAD 문장}", slide_refs=[1, 1001]), _check("문장이다.")])
+    codes = [(c, m) for _, c, m in mixed_issues(LectureNote(title="t", topics=[plain, pad]))]
+    assert [m for c, m in codes if c == "CHECK_NO_PAD"] == ["'가': 기출(PAD)이 없는 소절에는 개념 Check를 두지 않는다."]  # only the section without a PAD item
+    sent = Statement(text="", kind="rows", slide_refs=[1], rows=[["라벨", "외래는 경구가 기본이다.\n주사 필요 시 고려\n효과를 기대하기 어려움"]])
+    got = table_style_issues(LectureNote(title="t", topics=[_topic("가", "장", [sent], style="list")]))
+    assert [c for _, c, _ in got] == ["TABLE_CELL_STYLE"] and "1줄" in got[0][2]  # '-다' sentence flagged, 개조식 lines are not
+    ok = Statement(text="", kind="rows", slide_refs=[1], rows=[["라벨 다", "외래는 경구가 기본\n사용 가능"]])
+    assert table_style_issues(LectureNote(title="t", topics=[_topic("가", "장", [ok], style="list")])) == []

@@ -1,6 +1,6 @@
 {
-  "store_version": 18,
-  "updated": "2026-11-10T13:57:22",
+  "store_version": 21,
+  "updated": "2026-11-10T15:12:18",
   "rules": [
     {
       "id": "L1",
@@ -642,6 +642,113 @@
       "approved_at": "2026-11-10T13:57:22",
       "history": [
         "v1 2026-11-10T13:57:22: 승인 (사용자 지시 '모두 적용해서 다시 써줘' (2026-11-10) — 제안 A–E 승인. 근거: outputs/abx/review_vs_MOM.md 8절 (사람 MOM과 쪽 단위 비교))"
+      ]
+    },
+    {
+      "id": "L19",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "style",
+      "rule": "표 칸은 개조식으로 쓴다: ‘-다’ 문장으로 끝내지 않고 명사형(사용, 투여, 고려, 가능)이나 ‘-음/-함/-됨’, ‘~할 수 있음’으로 마친다. 마침표 없이 한 줄에 조건 → 조치. 설명 문단과 ‘A.’ 줄은 한다체, 작성자 메모는 합니다체(L5).",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "외래는 경구가 기본이다. 그래도 하루 한 번 주사실에서 IV를 맞는 경우가 있다",
+          "after": "외래는 경구가 기본, 그래도 하루 한 번 주사실에서 IV를 맞는 경우가 있음",
+          "change_id": ""
+        },
+        {
+          "before": "경구약의 효과를 기대하기 어렵다",
+          "after": "경구약의 효과를 기대하기 어려움 (MOM: 설사, GI bleeding 등이 있을 땐 경구 항생제 섭취가 어려움)",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시 '말투, 문체도 학습해' · 'MOM에 근접' · '개념 check 기출문제 없는 파트에서는 빼' · '4분면 요약이라면 4분면 그림이 들어가는 게 맞아' (2026-11-10). 근거: 사람 MOM(항균제) 표 칸 문체 측정, outputs/abx/review_vs_MOM.md 13절",
+          "original": "항균제 노트 (프로그램)",
+          "edited": "사람 MOM",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-10T15:12:18"
+        }
+      ],
+      "signal": "table_cells_gaejosik",
+      "note": "",
+      "approved_at": "2026-11-10T15:12:18",
+      "history": [
+        "v1 2026-11-10T15:12:18: 승인 (사용자 지시 '말투, 문체도 학습해' · 'MOM에 근접' · '개념 check 기출문제 없는 파트에서는 빼' · '4분면 요약이라면 4분면 그림이 들어가는 게 맞아' (2026-11-10). 근거: 사람 MOM(항균제) 표 칸 문체 측정, outputs/abx/review_vs_MOM.md 13절)"
+      ]
+    },
+    {
+      "id": "L20",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "개념 Check는 기출(PAD)이 있는 소절에만 둔다. 기출이 없는 소절에는 두지 않는다(검사 CHECK_NO_PAD).",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "모든 소절 끝에 개념 Check (15개)",
+          "after": "4사분면, PK/PD 소절에만 (3개)",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시 '말투, 문체도 학습해' · 'MOM에 근접' · '개념 check 기출문제 없는 파트에서는 빼' · '4분면 요약이라면 4분면 그림이 들어가는 게 맞아' (2026-11-10). 근거: 사람 MOM(항균제) 표 칸 문체 측정, outputs/abx/review_vs_MOM.md 13절",
+          "original": "항균제 노트 (프로그램)",
+          "edited": "사람 MOM",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-10T15:12:18"
+        }
+      ],
+      "signal": "check_only_with_pad",
+      "note": "",
+      "approved_at": "2026-11-10T15:12:18",
+      "history": [
+        "v1 2026-11-10T15:12:18: 승인 (사용자 지시 '말투, 문체도 학습해' · 'MOM에 근접' · '개념 check 기출문제 없는 파트에서는 빼' · '4분면 요약이라면 4분면 그림이 들어가는 게 맞아' (2026-11-10). 근거: 사람 MOM(항균제) 표 칸 문체 측정, outputs/abx/review_vs_MOM.md 13절)"
+      ]
+    },
+    {
+      "id": "L21",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "요약 쪽은 그 요약이 다루는 주제의 슬라이드 그림을 포함한다(예: 4사분면 요약에 4사분면 그림 + 표).",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "요약 ①: 지도 + 4사분면 표",
+          "after": "요약 ①: 지도 + 4사분면 그림 + 4사분면 표",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시 '말투, 문체도 학습해' · 'MOM에 근접' · '개념 check 기출문제 없는 파트에서는 빼' · '4분면 요약이라면 4분면 그림이 들어가는 게 맞아' (2026-11-10). 근거: 사람 MOM(항균제) 표 칸 문체 측정, outputs/abx/review_vs_MOM.md 13절",
+          "original": "항균제 노트 (프로그램)",
+          "edited": "사람 MOM",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-10T15:12:18"
+        }
+      ],
+      "signal": "summary_has_its_figure",
+      "note": "",
+      "approved_at": "2026-11-10T15:12:18",
+      "history": [
+        "v1 2026-11-10T15:12:18: 승인 (사용자 지시 '말투, 문체도 학습해' · 'MOM에 근접' · '개념 check 기출문제 없는 파트에서는 빼' · '4분면 요약이라면 4분면 그림이 들어가는 게 맞아' (2026-11-10). 근거: 사람 MOM(항균제) 표 칸 문체 측정, outputs/abx/review_vs_MOM.md 13절)"
       ]
     }
   ]
