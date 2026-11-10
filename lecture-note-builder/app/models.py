@@ -130,6 +130,7 @@ class Topic(BaseModel):
     basics_title: str = ""  # 기본정석 box title
     basics: list[str] = Field(default_factory=list)  # 기본정석 box: 2-4 core points of the §
     basics_refs: list[int] = Field(default_factory=list)  # sources of the box; PAD units here allow BLUE inside it
+    mark: str = ""  # exam marker shown in red next to the heading, e.g. "출제예고 · 짤" / "중요언급" (the human MOM puts ⭐ markers there)
     new_page: bool = False  # start this § on a new page (a § built around one big figure / table: one anchor per page)
     tip: str = ""  # study-priority hint shown as a yellow-highlighted line under the 기본정석 box
     slide_numbers: list[int]

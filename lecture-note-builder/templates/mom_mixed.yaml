@@ -19,7 +19,7 @@ format:
   basics_label: 핵심 답
   basics_style: band         # 핵심 답 as one light line, not a red-ruled box (L16)
   checks_where: chapter      # 개념 Check boxes collected at the end of each chapter (L16)
-  chapter_page_break: true   # every chapter starts on a new page; a § with Topic.new_page starts one too
+  chapter_page_break: false  # chapters flow on (the human MOM does not start a page per chapter); only Topic.new_page forces a break
   mixed: true                # every body § has style explain|list (app/mixed.py)
   pad_tags: true             # [PAD 2021 Q1] after blue statements, [Only PAD …] when the lecture never said it
   topic_tips: false

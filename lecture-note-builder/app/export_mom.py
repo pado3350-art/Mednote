@@ -121,17 +121,17 @@ def numbering(note: LectureNote, roman: bool = False) -> list[dict]:
     out, ch_no, sec_no, last_ch, flat = [], 0, 0, None, int(note.meta.get("numbering_start", "1") or 1) - 1
     for t in note.topics:
         if t.role == "front":
-            out.append({"front": True, "section": t.heading, "chapter": "", "banner": t.heading, "toc": None})
+            out.append({"front": True, "section": t.heading, "chapter": "", "banner": t.heading, "toc": None, "mark": t.mark})
         elif t.chapter:
             if t.chapter != last_ch:
                 ch_no += 1; sec_no = 0; last_ch = t.chapter
             if t.heading.upper().startswith("QUIZ"):  # the quiz is not a numbered § of the chapter
                 out.append({"front": False, "chapter": f"{ch_no}. {t.chapter}", "section": t.heading,
-                            "banner": f"{ch_no}. {t.chapter}", "toc": t.heading, "no": 0})
+                            "banner": f"{ch_no}. {t.chapter}", "toc": t.heading, "no": 0, "mark": t.mark})
                 continue
             sec_no += 1
             out.append({"front": False, "chapter": f"{ch_no}. {t.chapter}", "section": f"§ {sec_no}. {t.heading}",
-                        "banner": f"{ch_no}. {t.chapter}", "toc": f"§ {sec_no}. {t.heading}", "no": sec_no})
+                        "banner": f"{ch_no}. {t.chapter}", "toc": f"§ {sec_no}. {t.heading}", "no": sec_no, "mark": t.mark})
         else:
             last_ch = None
             label = t.heading
@@ -554,13 +554,15 @@ def _answer_box(doc, checks: list[Statement], first_no: int, tpl: Template) -> N
     _gap(doc, 3)
 
 
-def _section_heading(doc, label: str, F: str, base: float, idx: int) -> None:
+def _section_heading(doc, label: str, F: str, base: float, idx: int, mark: str = "") -> None:
     """In-flow § heading used when topics do not start a new page (page_break: chapter)."""
     p = doc.add_paragraph()
     _fmt(p, before=10, after=5, line=1.15, left=0.0)
     p.paragraph_format.keep_with_next = True
     _shade_par(p, "DCEFEA")
     r = p.add_run(" " + label); _font(r, F, base + 2.5, bold=True, color=RGBColor(0x1F, 0x5F, 0x55))
+    if mark:  # exam marker right beside the heading (the human MOM: ⭐출제예고/짤⭐)
+        r = p.add_run(f"   [{mark}]"); _font(r, F, base, bold=True, color=COLOR["emphasis"])
     _bookmark(p, f"_Toc{idx}", idx + 1)
 
 
@@ -1002,7 +1004,7 @@ def export_mom(
         if not new_page:  # keep flowing on the current page
             if new_chapter:  # flow mode: the chapter banner goes into the body instead of a new page
                 _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=14, after=4).paragraph_format.keep_with_next = True
-            _section_heading(doc, n["section"], F, base, i)
+            _section_heading(doc, n["section"], F, base, i, n.get("mark", ""))
         else:
             s_ = doc.add_section(WD_SECTION.NEW_PAGE)
             s_.left_margin = s_.right_margin = Cm(1.8)
@@ -1014,7 +1016,7 @@ def export_mom(
             _page_header(s_.header, None, None, None, F, tpl)
             if prev is None or prev["front"] or new_chapter:  # the chapter banner only where a chapter starts
                 _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=0, after=4).paragraph_format.keep_with_next = True
-            _section_heading(doc, n["section"], F, base, i)
+            _section_heading(doc, n["section"], F, base, i, n.get("mark", ""))
         elif by_chapter and not n["front"] and n["chapter"]:  # chapter banner in the header, § heading in the body
             _page_header(s_.header, None, n["banner"], None, F, tpl)
             _section_heading(doc, n["section"], F, base, i)

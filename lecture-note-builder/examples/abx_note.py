@@ -61,10 +61,10 @@ def DFULL(caption, diagram, g=()):
     return Statement(text=caption, kind="diagram", slide_refs=list(g), diagram=diagram)
 
 
-def EX(heading, chapter, answer, body, refs=(), new_page=False):
+def EX(heading, chapter, answer, body, refs=(), new_page=False, mark=""):
     """explain §: question heading + (핵심 답 line | the lecturer's QA box) + connected paragraphs."""
     t = T(heading, chapter, [], body, basics_title="핵심 답", basics=[answer] if answer else [], style="explain")
-    t.basics_refs, t.new_page = list(refs), new_page
+    t.basics_refs, t.new_page, t.mark = list(refs), new_page, mark
     return t
 
 
@@ -95,8 +95,8 @@ def build():
     top = []
 
     # ================================================================ 앞쪽: 기출 두 유형 표 + 전체 지도
-    top.append(T("요약 정리 · 시험 정리", "", [], [
-        P("기출 6문항은 두 유형뿐이다. 아래 두 표가 그 두 유형이고, 본문에 같은 표가 근거와 함께 다시 나온다.", [2]),
+    top.append(T("요약 ① 4사분면 [출제예고]", "", [], [
+        P("기출 6문항은 두 유형뿐이다. 이 쪽과 다음 쪽의 표가 그 두 유형이고, 본문에 같은 표가 근거와 함께 다시 나온다.", [2]),
         DFULL("강의 전체 지도 — 항균제 선택에서 용법과 병용까지, 강의 순서대로", Diagram(
             kind="tree", root="항균제 처방", groups=[
                 Group(title="1. 항균제 선택 원칙", color="teal", items=["사용 목적 4가지", "감염 장기", "환자: 4사분면 (기출)"]),
@@ -105,7 +105,11 @@ def build():
                 Group(title="4. PK/PD, 경로 원칙, 병용", color="amber", items=["시간 vs 농도 의존 (기출)", "경구가 기본", "병용은 근거 있을 때만"]),
             ]), [7, 10, 18, 29, 40, 47]),
         QUAD,
+    ], role="front"))
+    top.append(T("요약 ② PK/PD [중요언급]", "", [], [
+        P("교수님이 ‘이 슬라이드가 중요하다’고 한 표다. 본문 4장에 같은 표와 슬라이드 그림이 다시 나온다.", [44]),
         PKPD,
+        FIG("f34_time_conc.png", "Time-dependent antibiotics (왼쪽) / Concentration-dependent antibiotics (오른쪽) (슬라이드)", [41, 42]),
     ], role="front"))
 
     # ================================================================ 1장 항균제 선택 원칙 (¶1-17)
@@ -151,7 +155,7 @@ def build():
         P("따라서 감염 장소(입원실, ICU, 개원 진료실)가 생각할 균을, 생각할 균이 약을 정한다.", [13, 15]),
         CHK("개두술 7일 뒤 뇌수막염 증상을 보이는 18세 남성은 community acquired / compromised로 평가한다.", "X", [14],
             why="nosocomial / competent이다."),
-    ], refs=PAD_QUAD))
+    ], refs=PAD_QUAD, mark="출제예고 · 기출"))
 
     # ================================================================ 2장 경험적 -> 표적 (¶18-27)
     top.append(EX("경험적 치료에서 표적 치료로", CH2, "감수성 검사로 균이 확인되면 표적 치료로 바꾼다.", [
@@ -250,7 +254,7 @@ def build():
         FIG("f5_pkpd_index.png", "PK/PD 지표별 약물: Cmax/MIC, AUC/MIC, T>MIC (슬라이드)", [43, 44]),
         CHK("Aminoglycoside는 time-dependent killing을 하는 대표 약물이다.", "X", [41], why="농도 의존성이다."),
         CHK("PAE는 항균제 농도가 MIC 이상일 때만 나타나는 효과이다.", "X", [42], why="MIC 아래로 떨어진 뒤에도 지속되는 효과다."),
-    ], refs=PAD_PKPD))
+    ], refs=PAD_PKPD, mark="중요언급 · 기출"))
     top.append(LS("투여 경로 원칙: 경구가 기본", CH4, [
         B("PK/PD로 간격과 용량을 정했으면 마지막으로 경로를 확인한다.", [45]),
         ROWS([

@@ -32,7 +32,7 @@ def _cells(doc):
 
 def test_mixed_template_is_layout_v2():
     f = load_template("templates/mom_mixed.yaml").format
-    assert f.font_size_pt == 10.5 and f.basics_style == "band" and f.checks_where == "chapter" and f.chapter_page_break
+    assert f.font_size_pt == 10.5 and f.basics_style == "band" and f.checks_where == "chapter" and not f.chapter_page_break
 
 
 def test_rows_table_and_qa_box(tmp_path):
@@ -157,3 +157,10 @@ def test_chapter_end_does_not_leave_an_empty_page(tmp_path):
     doc = _doc(tmp_path, [t1], _tpl())
     thin = [p for p in doc.paragraphs if hasattr(p.paragraph_format.line_spacing, "pt") and p.paragraph_format.line_spacing.pt <= 4]
     assert thin  # _gap() paragraphs exist after tables / boxes
+
+
+def test_heading_exam_mark(tmp_path):
+    t = _topic("획득 경로와 면역 상태", "장", [Statement(text="x", slide_refs=[1])])
+    t.mark = "출제예고 · 기출"
+    doc = _doc(tmp_path, [t], _tpl())
+    assert any("획득 경로와 면역 상태" in p.text and "[출제예고 · 기출]" in p.text for p in doc.paragraphs)

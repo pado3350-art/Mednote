@@ -1,12 +1,13 @@
 {
   "topics": [
     {
-      "heading": "요약 정리 · 시험 정리",
+      "heading": "요약 ① 4사분면 [출제예고]",
       "chapter": "",
       "role": "front",
-      "basics_title": "요약 정리 · 시험 정리",
+      "basics_title": "요약 ① 4사분면 [출제예고]",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -17,22 +18,15 @@
         18,
         29,
         40,
-        41,
-        42,
-        43,
-        44,
         47,
-        1001,
         1002,
         1003,
-        1004,
-        1005,
-        1006
+        1005
       ],
       "sections": {
         "body": [
           {
-            "text": "기출 6문항은 두 유형뿐이다. 아래 두 표가 그 두 유형이고, 본문에 같은 표가 근거와 함께 다시 나온다.",
+            "text": "기출 6문항은 두 유형뿐이다. 이 쪽과 다음 쪽의 표가 그 두 유형이고, 본문에 같은 표가 근거와 함께 다시 나온다.",
             "origin": "both",
             "slide_refs": [
               2
@@ -179,6 +173,58 @@
               10.9
             ],
             "diagram": null
+          }
+        ]
+      },
+      "tables": [],
+      "images": [],
+      "review_flags": [],
+      "style": ""
+    },
+    {
+      "heading": "요약 ② PK/PD [중요언급]",
+      "chapter": "",
+      "role": "front",
+      "basics_title": "요약 ② PK/PD [중요언급]",
+      "basics": [],
+      "basics_refs": [],
+      "mark": "",
+      "new_page": false,
+      "tip": "",
+      "slide_numbers": [
+        41,
+        42,
+        43,
+        44,
+        1001,
+        1004,
+        1006
+      ],
+      "sections": {
+        "body": [
+          {
+            "text": "교수님이 ‘이 슬라이드가 중요하다’고 한 표다. 본문 4장에 같은 표와 슬라이드 그림이 다시 나온다.",
+            "origin": "both",
+            "slide_refs": [
+              44
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
           },
           {
             "text": "",
@@ -243,6 +289,31 @@
               7.4
             ],
             "diagram": null
+          },
+          {
+            "text": "Time-dependent antibiotics (왼쪽) / Concentration-dependent antibiotics (오른쪽) (슬라이드)",
+            "origin": "slide",
+            "slide_refs": [
+              41,
+              42
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "figure",
+            "level": 0,
+            "image": "inputs/abx_figs/f34_time_conc.png",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
           }
         ]
       },
@@ -258,6 +329,7 @@
       "basics_title": "핵심 답",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -457,6 +529,7 @@
       "basics_title": "항균제 사용 목적 4가지",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -624,6 +697,7 @@
       "basics_title": "핵심 답",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -701,6 +775,7 @@
         1003,
         1005
       ],
+      "mark": "출제예고 · 기출",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -975,6 +1050,7 @@
         "감수성 검사로 균이 확인되면 표적 치료로 바꾼다."
       ],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -1243,6 +1319,7 @@
       "basics_title": "정균제와 살균제",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -1413,6 +1490,7 @@
       "basics_title": "용량을 바꾸는 환자 인자",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -1532,6 +1610,7 @@
       "basics_title": "핵심 답",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -1658,6 +1737,7 @@
       "basics_title": "감염 기관별 투여 경로",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -1780,6 +1860,7 @@
       "basics_title": "환자 사정별 투여 경로",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -1905,6 +1986,7 @@
       "basics_title": "핵심 답",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -2030,6 +2112,7 @@
         1004,
         1006
       ],
+      "mark": "중요언급 · 기출",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -2322,6 +2405,7 @@
       "basics_title": "투여 경로 원칙: 경구가 기본",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -2431,6 +2515,7 @@
         "단일 제제가 원칙이고, 근거가 뚜렷할 때만 병용한다."
       ],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -2541,6 +2626,7 @@
       "basics_title": "QUIZ",
       "basics": [],
       "basics_refs": [],
+      "mark": "",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
