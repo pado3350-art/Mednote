@@ -46,3 +46,4 @@ def test_page_budget():
     assert lecture_minutes(script) == 60
     assert page_budget(60, 6) == 12  # 10 body pages + cover/summary
     assert page_budget(0, 6) == 0
+    assert page_budget(60, 6, n_checks=9, n_quiz=2) == 10 + 2 + 2 + 1  # 9 checks -> 2 pages, quiz -> 1 page

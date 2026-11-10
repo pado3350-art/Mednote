@@ -17,6 +17,9 @@ The user rewrites generated sentences by hand. Those edits are the ground truth 
 ## Scope
 The story/narration rules apply to concept-chain lectures written as prose (`mom.yaml`). In compact notes (`mom_compact.yaml`, list-type lectures) the body is 개조식 bullets; rules 1 (no professor attribution), 4 (plain wording) and 8 (markup unchanged) still apply.
 
+## Techniques adopted from the nucleotide example (user-approved)
+Structure/technique rules in `readable-note-organizer` 0b (check boxes, effort tags, author-added parentheses, analogies, mechanism steps) are adopted; the example's voice (합니다체, colloquial, professor attribution) is NOT. Blue stays PAD-only.
+
 ## Rules (evidence: edit batch 1 = tcell_v2 §1 도입)
 1. **Narrate directly; do not attribute to the professor.** Delete "교수님은 ~라고 하셨다 / ~하라고 당부하셨다 / “…”라고 경고하셨다" framing and quoted professor lines. Write the content as the note's own flow. (Source ¶ citations stay in the refs, not in the prose.)
 2. **Inclusive, short guiding voice:** "~를 보았다. 그렇다면 그 다음 질문은 …", "~로 넘어가 보자", "~생각해 보자". Not "교수님은 한번 ~ 생각해 보라고 하셨다".

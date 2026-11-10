@@ -1,7 +1,7 @@
 # 검증 리포트
 
 - 슬라이드 커버리지: 100%
-- 오류 0 / 경고 66 / 참고 0
+- 오류 0 / 경고 71 / 참고 0
 
 - ⚠️ `TERM_LOST` [발화 ¶1] 용어 'KMLE'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶10] 용어 'Physician'이(가) 강의록에 없습니다.
@@ -15,6 +15,7 @@
 - ⚠️ `TERM_LOST` [발화 ¶19] 용어 'Antibody'이(가) 강의록에 없습니다.
 - ⚠️ `UNGROUNDED` [발화 ¶19] 원본과 유사도가 낮은 문장(근거 확인 필요): '유전학적 방법으로 찾은 약물 표적과 접근 방법…'
 - ⚠️ `TERM_LOST` [발화 ¶20] 용어 'COVID-19'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶21] 원본과 유사도가 낮은 문장(근거 확인 필요): '3세대 치료제는 항체 의약품이다.…'
 - ⚠️ `TERM_LOST` [발화 ¶23] 용어 'Cell therapy'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶23] 용어 'Gene therapy'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶24] 용어 'Nanoparticle'이(가) 강의록에 없습니다.
@@ -38,6 +39,7 @@
 - ⚠️ `TERM_LOST` [발화 ¶47] 용어 'Phosphorylation'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶47] 용어 'Substrate'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶48] 용어 'Epithelial cell'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶48] 원본과 유사도가 낮은 문장(근거 확인 필요): '…'
 - ⚠️ `TERM_LOST` [발화 ¶49] 용어 'Lining'이(가) 강의록에 없습니다.
 - ⚠️ `UNGROUNDED` [발화 ¶49] 원본과 유사도가 낮은 문장(근거 확인 필요): 'HER2 증폭 유방암…'
 - ⚠️ `TERM_LOST` [발화 ¶50] 용어 'Vascular endothelial'이(가) 강의록에 없습니다.
@@ -48,11 +50,13 @@
 - ⚠️ `TERM_LOST` [발화 ¶59] 용어 'Shifting'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶62] 용어 'Integration'이(가) 강의록에 없습니다.
 - ⚠️ `UNGROUNDED` [발화 ¶62] 원본과 유사도가 낮은 문장(근거 확인 필요): 'AI가 정밀의료를 바꾸는 방식…'
+- ⚠️ `UNGROUNDED` [발화 ¶63] 원본과 유사도가 낮은 문장(근거 확인 필요): 'AI는 해석을 직접 할 필요가 없도록 의사를 대체한다.…'
 - ⚠️ `TERM_LOST` [발화 ¶64] 용어 'Bioinformatician'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶64] 용어 'Bioinformatics'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶65] 용어 'Causal gene'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶65] 용어 'Heterogeneity'이(가) 강의록에 없습니다.
 - ⚠️ `UNGROUNDED` [발화 ¶67] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Whole genome · whole exome · targeted se…'
+- ⚠️ `UNGROUNDED` [발화 ¶67] 원본과 유사도가 낮은 문장(근거 확인 필요): 'NGS 세 방식의 구분은 참고로 알면 된다.…'
 - ⚠️ `TERM_LOST` [발화 ¶68] 용어 'Needle biopsy'이(가) 강의록에 없습니다.
 - ⚠️ `UNGROUNDED` [발화 ¶68] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Single-cell transcriptome…'
 - ⚠️ `TERM_LOST` [발화 ¶71] 용어 'Needs'이(가) 강의록에 없습니다.
@@ -62,6 +66,7 @@
 - ⚠️ `TERM_LOST` [발화 ¶76] 용어 'England'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶76] 용어 'Journal'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶77] 용어 'Risk score'이(가) 강의록에 없습니다.
+- ⚠️ `UNGROUNDED` [발화 ¶77] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Oncotype DX에서 RS 31 이상은 high risk이다.…'
 - ⚠️ `TERM_LOST` [발화 ¶78] 용어 'Gain'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶82] 용어 'Cytochrome'이(가) 강의록에 없습니다.
 - ⚠️ `TERM_LOST` [발화 ¶84] 용어 'RBC'이(가) 강의록에 없습니다.

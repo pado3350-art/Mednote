@@ -141,13 +141,14 @@ def lecture_minutes(text: str) -> float:
     return (max(ends) - min(starts)) / 60.0 if ends and starts else 0.0
 
 
-def page_budget(minutes: float, minutes_per_page: float) -> int:
-    """Target page count for a note: body pages from the lecture length plus 2 pages for cover / summary."""
+def page_budget(minutes: float, minutes_per_page: float, n_checks: int = 0, n_quiz: int = 0) -> int:
+    """Target page count for a note: body pages from the lecture length, 2 pages for cover / summary, plus the
+    active-recall layer (about 1 page per 8 개념 Check items and 1 page for the QUIZ) - the reference notes spend ~15% there."""
     import math
 
     if minutes <= 0 or minutes_per_page <= 0:
         return 0
-    return math.ceil(minutes / minutes_per_page) + 2
+    return math.ceil(minutes / minutes_per_page) + 2 + math.ceil(n_checks / 8) + (1 if n_quiz else 0)
 
 
 def is_structured(text: str) -> bool:

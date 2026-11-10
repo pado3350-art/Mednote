@@ -28,7 +28,7 @@ def _note_text(note: LectureNote) -> str:
         parts += [_strip_markup(t.tip)] + [_strip_markup(b) for b in t.basics]
         for sts in t.sections.values():
             for s in sts:  # row2 keeps the slide original in `left`, quiz keeps options / answer
-                parts += [_strip_markup(x) for x in (s.text, s.left_title, *s.left, *s.options, s.answer) if x]
+                parts += [_strip_markup(x) for x in (s.text, s.left_title, *s.left, *s.options, s.answer, *s.explanations) if x]
                 if s.kind == "columns" and s.diagram is not None:
                     for g in s.diagram.groups:
                         parts += [_strip_markup(x) for x in (g.title, *g.items) if x]
@@ -112,6 +112,15 @@ def validate(
             for st in sts:
                 if st.kind in ("figure", "diagram"):
                     continue
+                if st.kind == "check":
+                    if st.answer not in ("O", "X"):
+                        rep.issues.append(Issue(severity="error", code="CHECK_BAD_ANSWER", slide=None,
+                                                message=f"개념 Check의 정답은 O 또는 X여야 합니다: '{st.text[:30]}…'"))
+                    if st.slide_refs and t.slide_numbers and not set(st.slide_refs) <= set(t.slide_numbers):
+                        rep.issues.append(Issue(severity="warning", code="CHECK_NOT_GROUNDED", slide=st.slide_refs[0],
+                                                message=f"개념 Check는 같은 § 안의 내용으로 풀려야 합니다(출처 {st.slide_refs}가 § 범위 밖): '{st.text[:30]}…'"))
+                if st.origin == "author":  # the writer's own addition (analogy / tip): no source needed, still no blue without PAD
+                    continue
                 if st.kind != "star" and template.quality.require_source_traceability and not st.slide_refs and not st.segment_ids:
                     rep.issues.append(Issue(severity="error", code="NO_SOURCE", slide=None,
                                             message=f"출처 없는 문장: '{st.text[:40]}…'"))
@@ -138,7 +147,7 @@ def validate(
         return tag in PAD_TAGS or any(c in PAD_TAGS for _, c, _ in _runs(text))
 
     def _all_text(st) -> str:  # row2 / quiz keep text in several fields
-        return " ".join([st.text, *st.left, *st.options, st.answer])
+        return " ".join([st.text, *st.left, *st.options, st.answer, *st.explanations])
 
     two_blues = any(i.tag == "exam_other" for i in template.format.legend)  # template declares the 2nd blue
     cur_prof = (note.meta.get("professor") or "").replace("교수님", "").strip()

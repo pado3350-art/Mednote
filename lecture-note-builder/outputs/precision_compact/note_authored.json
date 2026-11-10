@@ -39,6 +39,8 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -63,6 +65,8 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": {
               "kind": "flow",
               "title": "",
@@ -320,6 +324,8 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -340,6 +346,8 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -395,6 +403,8 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -424,6 +434,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -444,6 +456,8 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": {
               "kind": "compare",
               "title": "",
@@ -492,6 +506,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -516,6 +532,32 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "정밀의료에서 의사에게 현실적으로 더 중요한 것은 새 약을 개발하는 측면이다.",
+            "origin": "both",
+            "slide_refs": [
+              10,
+              11
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "정밀의료 = 적합한 환자에게, 적절한 시점에, 적합한 치료. 의사에게는 ‘적용(선택)’이 더 중요하다.",
+            "left": [],
+            "options": [],
+            "answer": "X",
+            "explanations": [
+              "의사는 이미 있는 많은 약 중 환자에게 줄 것을 고른다(적용 측면)."
+            ],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -565,6 +607,29 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "Clinical marker에는 GOT·GPT, 공복혈당, 당화혈색소가 있다.",
+            "origin": "both",
+            "slide_refs": [
+              14
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "바이오마커 3단계: clinical → protein → genetic. 여기까지는 정밀의료에 필요한 수준에 도달하지 못했다.",
+            "left": [],
+            "options": [],
+            "answer": "O",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -609,6 +674,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -633,6 +700,30 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "표적을 찾은 뒤 막는 방법에는 small molecule, CRISPR, 항체, RNA block이 있다.",
+            "origin": "both",
+            "slide_refs": [
+              19,
+              20
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "시퀀싱 → genetic variant 이해 → 표적 발굴 → 막는 기술(약·편집·항체·RNA)",
+            "left": [],
+            "options": [],
+            "answer": "O",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -682,6 +773,54 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "CMC가 세포·유전자 치료에서 강점이라는 점은 참고로만 알면 된다.",
+            "origin": "both",
+            "slide_refs": [
+              24
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "참고",
+            "diagram": null
+          },
+          {
+            "text": "3세대 치료제는 항체 의약품이다.",
+            "origin": "both",
+            "slide_refs": [
+              21,
+              22,
+              23
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "1세대 small molecule → 2세대 항체·재조합 단백질 → 3세대 living drug(세포·유전자 치료)",
+            "left": [],
+            "options": [],
+            "answer": "X",
+            "explanations": [
+              "항체는 2세대이고, 3세대는 세포·유전자 치료(living drug)이다."
+            ],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -730,6 +869,8 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": {
               "kind": "compare",
               "title": "",
@@ -785,6 +926,69 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "임상시험 3종은 상식 차원에서 설명했다 — 개념 구분만 알면 된다.",
+            "origin": "both",
+            "slide_refs": [
+              25
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "참고",
+            "diagram": null
+          },
+          {
+            "text": "바구니(basket) = 약 하나에 여러 질병, 우산(umbrella) = 질병 하나에 여러 약, N-of-1 = 환자 한 명으로 외우면 편하다.",
+            "origin": "author",
+            "slide_refs": [],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "Basket trial은 하나의 약을 여러 질병의 환자에게 적용해 효과를 검증한다.",
+            "origin": "both",
+            "slide_refs": [
+              27
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "Basket = 약 중심 / Umbrella = 질병 중심 / N-of-1 = 환자 한 명",
+            "left": [],
+            "options": [],
+            "answer": "O",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -839,6 +1043,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -862,6 +1068,8 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": {
               "kind": "compare",
               "title": "",
@@ -899,6 +1107,29 @@
               "arrows": [],
               "row_labels": []
             }
+          },
+          {
+            "text": "UK Biobank는 약 100만 명 규모이고, 한국은 동아시아인 데이터가 부족해 국가 사업을 시작했다.",
+            "origin": "both",
+            "slide_refs": [
+              36,
+              39,
+              40
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "나라별 바이오 빅데이터: 영국 100만, 미국 50만(다인종), 한국 최대 100만(구축 중)",
+            "left": [],
+            "options": [],
+            "answer": "O",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
           }
         ]
       },
@@ -948,6 +1179,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -994,6 +1227,49 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "Gleevec은 기질이 앉을 자리를 먼저 차지해 버리는 ‘자리 선점’ 약으로 기억하면 쉽다.",
+            "origin": "author",
+            "slide_refs": [],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "필라델피아 염색체는 9번과 22번 염색체의 전좌로 BCR–ABL이 생긴 것이다.",
+            "origin": "both",
+            "slide_refs": [
+              46,
+              47
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "BCR–ABL 과활성 → CML → Gleevec(imatinib)이 첫 표적치료제",
+            "left": [],
+            "options": [],
+            "answer": "O",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -1045,6 +1321,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -1075,6 +1353,73 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "",
+            "origin": "both",
+            "slide_refs": [
+              48,
+              56
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "concept",
+            "level": 0,
+            "image": "",
+            "left_title": "Cetuximab vs Gefitinib·Erlotinib",
+            "left": [
+              "- **Cetuximab**: 세포 밖 EGFR에 붙는 항체(mAb) — 전이성 대장암",
+              "- **Gefitinib · Erlotinib**: 세포 안 EGFR kinase를 막는 TKI — 비소세포폐암"
+            ],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "수도꼭지(EGFR)를 잠가도 아래 배관(RAS·RAF)이 이미 터져 있으면 물은 계속 흐른다.",
+            "origin": "author",
+            "slide_refs": [],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "EGFR을 막아도 downstream(RAS, RAF)에 변이가 있으면 신호가 계속 전달되어 효과가 없다.",
+            "origin": "both",
+            "slide_refs": [
+              53
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "EGFR 차단제는 downstream이 정상(변이 없음)일 때만 듣는다",
+            "left": [],
+            "options": [],
+            "answer": "O",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -1120,6 +1465,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -1142,6 +1489,53 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "동반진단이 무엇을 뜻하는지 임상에서 듣고 알아볼 수 있으면 된다.",
+            "origin": "both",
+            "slide_refs": [
+              57
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "이해",
+            "diagram": null
+          },
+          {
+            "text": "동반진단은 치료제 처방이 끝난 뒤에 효과를 확인하는 검사이다.",
+            "origin": "both",
+            "slide_refs": [
+              57,
+              58
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "동반진단 = 처방과 동시에 시행해 처방 대상을 가려내는 검사. 예: RAS 변이 음성 → cetuximab",
+            "left": [],
+            "options": [],
+            "answer": "X",
+            "explanations": [
+              "처방과 동시에 시행해 효과가 있을 환자, 나중에 효과가 없어질 환자를 미리 가려낸다."
+            ],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -1184,6 +1578,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -1205,6 +1601,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -1251,6 +1649,48 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "CAR-T는 참고하는 수준으로 알면 된다.",
+            "origin": "both",
+            "slide_refs": [
+              60
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "참고",
+            "diagram": null
+          },
+          {
+            "text": "CAR-T는 환자의 T cell에 ‘표적 탐지기’(CAR)를 달아 되돌려 보내는 치료로 기억하면 된다.",
+            "origin": "author",
+            "slide_refs": [],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -1302,6 +1742,33 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "AI는 해석을 직접 할 필요가 없도록 의사를 대체한다.",
+            "origin": "both",
+            "slide_refs": [
+              63,
+              64,
+              66
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "AI는 방대한 데이터의 해석을 돕는 도구 — 잘 쓰는 판단은 의사의 몫",
+            "left": [],
+            "options": [],
+            "answer": "X",
+            "explanations": [
+              "AI가 해석을 돕지만, 이를 잘 쓰는 현명함이 의사에게 필요하다."
+            ],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -1344,6 +1811,50 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "NGS 세 방식의 구분은 참고로 알면 된다.",
+            "origin": "both",
+            "slide_refs": [
+              67
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "참고",
+            "diagram": null
+          },
+          {
+            "text": "요즘은 시퀀싱이 빨라져 엑솜만 골라내기보다 전체 게놈을 읽는 방식을 주로 쓴다.",
+            "origin": "both",
+            "slide_refs": [
+              67
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "O",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -1392,6 +1903,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -1414,6 +1927,53 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "Spatial transcriptomics는 이름을 알아보는 정도면 된다.",
+            "origin": "both",
+            "slide_refs": [
+              71
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "참고",
+            "diagram": null
+          },
+          {
+            "text": "Single-cell transcriptome는 세포가 조직의 어느 위치에 있는지도 알려 준다.",
+            "origin": "both",
+            "slide_refs": [
+              70,
+              71
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "single cell: 세포별 특성(평균값의 한계 극복) → spatial: 조직 안 위치까지",
+            "left": [],
+            "options": [],
+            "answer": "X",
+            "explanations": [
+              "위치 정보를 더한 것이 spatial transcriptomics이다."
+            ],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -1459,6 +2019,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -1481,6 +2043,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -1535,6 +2099,48 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "RS는 재발 위험 점수표 — 낮으면 약을 덜고, 높으면 더한다.",
+            "origin": "author",
+            "slide_refs": [],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "Oncotype DX에서 RS 31 이상은 high risk이다.",
+            "origin": "both",
+            "slide_refs": [
+              77
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "RS < 18 low · 18–30 intermediate · ≥ 31 high",
+            "left": [],
+            "options": [],
+            "answer": "O",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -1593,6 +2199,8 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -1615,6 +2223,49 @@
             ],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "＊3/＊3은 배수구가 느린 싱크대 — 같은 양을 부어도 물이 차오른다.",
+            "origin": "author",
+            "slide_refs": [],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "bullet",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "CYP2C9 ＊3/＊3형은 warfarin 대사가 느려 용량을 줄인다.",
+            "origin": "both",
+            "slide_refs": [
+              86,
+              87
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "check",
+            "level": 0,
+            "image": "",
+            "left_title": "같은 체중·같은 용량인데 반응이 다르다 → 유전형(CYP2C9)으로 용량을 정한다(geno-dosing)",
+            "left": [],
+            "options": [],
+            "answer": "O",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           }
         ]
@@ -1657,6 +2308,8 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -1676,6 +2329,8 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
             "diagram": null
           },
           {
@@ -1695,6 +2350,100 @@
             "left": [],
             "options": [],
             "answer": "",
+            "explanations": [],
+            "effort": "",
+            "diagram": null
+          }
+        ]
+      },
+      "tables": [],
+      "images": [],
+      "review_flags": []
+    },
+    {
+      "heading": "QUIZ",
+      "chapter": "임상 적용",
+      "role": "body",
+      "basics_title": "QUIZ",
+      "basics": [],
+      "basics_refs": [],
+      "tip": "",
+      "slide_numbers": [
+        56,
+        57,
+        58,
+        84,
+        85,
+        86,
+        87
+      ],
+      "sections": {
+        "body": [
+          {
+            "text": "전이성 대장암 환자에게 cetuximab을 처방하기 전에 시행하는 동반진단으로 가장 알맞은 것은?",
+            "origin": "both",
+            "slide_refs": [
+              56,
+              57,
+              58
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "quiz",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [
+              "① RAS 변이가 없는지 확인한다",
+              "② HER2 증폭을 확인한다",
+              "③ BCR–ABL 전좌를 확인한다",
+              "④ CYP2C9 유전형을 확인한다",
+              "⑤ Oncotype DX 재발 점수를 계산한다"
+            ],
+            "answer": "① RAS 변이가 없는지 확인한다",
+            "explanations": [
+              "① RAS 변이가 없어야 cetuximab이 듣는다 (정답)",
+              "② HER2 증폭은 유방암의 Herceptin 대상이다",
+              "③ BCR–ABL은 CML과 Gleevec이다",
+              "④ CYP2C9는 warfarin 용량 결정에 쓴다",
+              "⑤ Oncotype DX는 유방암의 재발 점수이다"
+            ],
+            "effort": "",
+            "diagram": null
+          },
+          {
+            "text": "warfarin을 체중에 맞춰 투여했는데 출혈이 멈추지 않는 환자의 CYP2C9 유전형으로 가장 알맞은 것은?",
+            "origin": "both",
+            "slide_refs": [
+              84,
+              85,
+              86,
+              87
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "quiz",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [
+              "① ＊1/＊1",
+              "② ＊3/＊3",
+              "③ 유전형과 무관하다"
+            ],
+            "answer": "② ＊3/＊3",
+            "explanations": [
+              "① ＊1/＊1은 대사가 빨라 체내에 남는 양이 적다",
+              "② ＊3/＊3은 대사가 느려 체내 농도가 높게 유지된다 (정답)",
+              "③ 같은 용량에도 반응이 다른 원인이 유전형이다"
+            ],
+            "effort": "",
             "diagram": null
           }
         ]

@@ -124,3 +124,22 @@
 ### 검증 방법
 1. 구현 후 `precision_compact`를 다시 만들어 **쪽당 check 수, 앞쪽 층 비율, effort 꼬리표 수**를 리포트에 찍는다.
 2. 사용자에게 한 섹션(예: Oncotype DX)을 예시 방식으로 쓴 시안을 보여 주고 **문체(한다체/합니다체)와 기법 채택 여부**를 먼저 확인받는다.
+
+---
+
+## 8. 반영 결과 (사용자 승인: “서술 기법을 반영해서 업데이트”)
+
+**⛔ 파랑 = 기출(PAD) 전용은 그대로.** 새 기능은 파랑을 쓰지 않고, 파랑이 들어가면 `BLUE_WITHOUT_PAD`로 막는다(`tests/test_techniques.py`). 어미는 한다체 유지.
+
+| 제안 | 구현 |
+|---|---|
+| A1 개념 Check | `Statement.kind="check"` (문장 + `answer` O/X + `left_title` 한 줄 요약 + `explanations[0]` 이유). 같은 §의 check는 한 상자로 묶이고, 정답은 § 끝 정답 상자에 한 줄로. 검증 `CHECK_BAD_ANSWER`, `CHECK_NOT_GROUNDED` |
+| A3 노력 단서 | `Statement.effort` 필수(빨강)/이해(검정)/참고(회색) 꼬리표. `prepare`가 `brief/effort_cues.md`로 교수 발언의 단서 후보를 뽑는다 |
+| A5 작성자 추가분 | `origin="author"` → 회색 괄호, 출처 없어도 통과(파랑은 여전히 PAD 필요) |
+| A4/B2/B1 비유·기전·그림 지시 | 스킬 `readable-note-organizer` 0b절 규칙 (작성자 추가분으로 표시, 기전 번호 단계 + 마무리 한 줄, 그림 지시 문장) |
+| B5 개념 정리 박스 | `kind="concept"` |
+| B6 퀴즈 해설 | `quiz.explanations` |
+| 쪽 예산 | `page_budget`이 check 8개당 1쪽 + QUIZ 1쪽을 추가로 허용 |
+| 미구현 | B3(시간 간 연결 자동 생성), B4(쪽 헤더 교시 라벨), C1(암기 팁 전용 서식) |
+
+적용: `examples/precision_compact_note.py` → `outputs/precision_compact/` (15쪽, 개념 Check 12개, QUIZ 2문항, 노력 꼬리표 7개, 작성자 비유 6개, 개념 정리 박스 1개; 검증 오류 0, `PAGE_BUDGET` 경고 없음).

@@ -22,3 +22,7 @@ You (Claude Code) do the AI part; the program does extraction, validation, layou
 6. Tell the user what is approximate (figure placement, anything flagged purple) and where the files are.
 
 No Claude Code either? `python -m app.cli build --script ... --exam-pdf ... --figures ... --template templates/mom.yaml` works fully offline (rule-based organiser; good first draft, review blue/figure placement).
+
+
+## 서술 기법 (모범 예시 반영)
+`brief/effort_cues.md`의 노력 단서로 `effort`(필수/이해/참고)를 붙이고, § 마다 `kind: check` 1–2개, 비유·암기 팁은 `origin: "author"`로 쓴다. 자세한 규칙: `readable-note-organizer` 0b절. ⛔ 파랑 = 기출 전용 — 이 기법들은 파랑을 쓰지 않는다.

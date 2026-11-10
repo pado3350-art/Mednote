@@ -55,3 +55,6 @@
 - **사용자가 승인하지 않은 규칙은 절대 적용·저장하지 않는다.** `feedback approve`는 사용자가 명시적으로 고른 후보에만 실행한다.
 - 생성은 `style_rules/approved_rules.json`의 `approved` 규칙만 읽는다. 의학적 사실 수정은 문체 규칙으로 일반화하지 않는다.
 - 원본·수정본 DOCX와 리포트는 `feedback/`(gitignore)에만 둔다. `*.docx`·`*.pptx`·음성은 커밋하지 않는다(force-add 금지).
+
+## 서술 기법 (Nucleotide 모범 예시 반영)
+`kind: check`(쪽마다 O/X + § 끝 정답 상자), `effort`(필수/이해/참고 꼬리표), `origin: "author"`(회색 괄호 — 비유·팁·정정), `kind: concept`(개념 정리 박스), `quiz.explanations`(해설). `prepare`가 `brief/effort_cues.md`를 만든다. 어미는 한다체 유지, **파랑은 기출(PAD) 전용 — 이 기능들은 파랑을 쓰지 않는다.** 규칙: 스킬 `readable-note-organizer` 0b, 분석: `docs/nucleotide_example_analysis.md`.

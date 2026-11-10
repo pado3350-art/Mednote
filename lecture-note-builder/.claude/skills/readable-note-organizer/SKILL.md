@@ -38,6 +38,19 @@ The reference is `references/excellent_example.md` (a high-rated MOM note for th
 8. 표를 담은 이미지는 “글자 위주”라고 버리지 말고 **표로 옮기고 원본 이미지도 싣는다**. 그림과 본문의 숫자가 다르면 그림 기준 + 보라 주석.
 9. 빌드 후 `PAGE_BUDGET` 경고(템플릿 `minutes_per_page`)가 없을 때까지 줄인다.
 
+## 0b. 모범 예시에서 체득한 서술 기법 (사용자 승인: “서술 기법을 반영해서 업데이트”)
+상세: `references/nucleotide_example_techniques.md`. **어미는 한다체 유지, 교수님 인용 없음. ⛔ 파랑은 기출(PAD) 전용 — 아래 기법 어디에도 파랑을 쓰지 않는다.**
+1. **3층**: 급한 사람용 앞쪽(요약 GUIDE + 시험 필수) → 본문 → QUIZ. 표지 코멘트에서 독자를 분기시킨다(“급하면 앞 2쪽만”).
+2. **개념 Check**: § 마다 1–2개 (`kind: check`, `answer` “O”/“X”, 첫 항목 `left_title`에 한 줄 요약, `explanations[0]`에 이유). 그 § 본문만으로 풀려야 하고(`CHECK_NOT_GROUNDED`), 정답은 자동으로 § 끝 정답 상자에 찍힌다.
+3. **노력 단서 `effort`**: 교수가 외우라/안 외워도 된다/참고만/시험에 나온다고 한 문장에 붙인다(`prepare`의 `brief/effort_cues.md` 참고). 필수 = 빨강 꼬리표, 참고 = 회색. 단서가 없는 문장에는 붙이지 않는다.
+4. **작성자 추가분 `origin: "author"`**: 비유·암기 팁·슬라이드 오류 정정만. 회색 괄호로 나온다. 의학적 사실 주장은 작성자 추가로 쓰지 않는다(출처 있는 문장으로).
+5. **비유**: 기전·약물마다 1개 이내, 작성자 추가분으로. 비유 뒤에 실제 용어를 꼭 다시 쓴다.
+6. **기전 표준형**: 번호 단계 목록 + 마무리 한 줄(무엇이 되었고 무엇이 남았나).
+7. **그림 지시 문장**: 그림 옆 문장이 그림 속 위치·색·화살표를 가리킨다. 그림과 본문 숫자가 다르면 그림 기준 + 괄호 정정(`{p|…}`).
+8. **개념 정리 박스(`kind: concept`)**: 헷갈리는 용어 대비 1–2개. 기본정석(요약)과 목적이 다르다.
+9. **QUIZ 해설**: `quiz.explanations`에 선지별 해설, 정답 선지에 `(정답)`.
+10. 이전 교시와의 연결 문장은 `meta`에 이전·다음 교시 정보가 있을 때만.
+
 ## 1. Keep everything, change the shape
 - Every concept, term, number, unit, drug/gene name, cutoff and example in the source must appear (the validator checks numbers, terms and paragraph coverage).
 - Remove only *speech noise*: fillers, "자, 그러면", repetitions, transitions like "다음으로 넘어가겠습니다", meta talk about the time/slide.

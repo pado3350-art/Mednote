@@ -24,15 +24,30 @@ CH5 = "임상 적용"
 
 
 def _st(kind, text, g, **kw):
-    return Statement(text=text, slide_refs=list(g), origin="both", kind=kind, **kw)
+    kw.setdefault("origin", "both")
+    return Statement(text=text, slide_refs=list(g), kind=kind, **kw)
 
 
-def P(text, g=()):
-    return _st("para", text, g)
+def P(text, g=(), effort=""):
+    return _st("para", text, g, effort=effort)
 
 
-def B(text, g=(), level=0):
-    return _st("bullet", text, g, level=level)
+def B(text, g=(), level=0, effort=""):
+    return _st("bullet", text, g, level=level, effort=effort)
+
+
+def AUTH(text):
+    """작성자 추가분(비유·암기 팁): 회색 괄호로 나온다. 사실 주장에는 쓰지 않는다."""
+    return Statement(text=text, origin="author", kind="bullet")
+
+
+def CHK(text, answer, g, summary="", why=""):
+    """개념 Check: 같은 §의 내용만으로 풀리는 O/X. 정답은 § 끝 정답 상자에 찍힌다."""
+    return _st("check", text, g, answer=answer, left_title=summary, explanations=[why] if why else [])
+
+
+def CONCEPT(title, lines, g):
+    return _st("concept", "", g, left_title=title, left=["- " + x for x in lines])
 
 
 def H(text, g=()):
@@ -127,6 +142,9 @@ def build():
             "이중나선 모형을 옆에 둔 발표 = 정책을 뒷받침할 **근거(evidence)** 가 이미 있었다는 뜻",
             "한국은 그때까지 쌓은 근거(EBM 기여)가 적어 같은 선언을 할 수 없었다",
         ], g=[41, 42]),
+        CHK("정밀의료에서 의사에게 현실적으로 더 중요한 것은 새 약을 개발하는 측면이다.", "X", [10, 11],
+            summary="정밀의료 = 적합한 환자에게, 적절한 시점에, 적합한 치료. 의사에게는 ‘적용(선택)’이 더 중요하다.",
+            why="의사는 이미 있는 많은 약 중 환자에게 줄 것을 고른다(적용 측면)."),
     ]))
     top.append(T("바이오마커", CH1, [], [
         FS("p04.png", "바이오마커 3가지", "Biomarker: 환자를 객관적으로 가려내는 지표", [
@@ -135,6 +153,8 @@ def build():
             "③ **Genetic marker**: CML의 염색체 전좌 → 서로 다른 염색체에 primer를 디자인한 **PCR**",
             "{r|여기까지는 정밀의료에 필요한 수준에 도달하지 못했다} → 시퀀싱이 혁명",
         ], g=[14, 15, 16, 17]),
+        CHK("Clinical marker에는 GOT·GPT, 공복혈당, 당화혈색소가 있다.", "O", [14],
+            summary="바이오마커 3단계: clinical → protein → genetic. 여기까지는 정밀의료에 필요한 수준에 도달하지 못했다."),
     ]))
 
     # ================================================================ 2. 발전과 연구 기반
@@ -148,6 +168,8 @@ def build():
             "RNA **전달 기술**도 필요 — 코로나19 **mRNA 백신**(모더나)이 예",
             "의사가 다 개발할 수는 없다 → 전문가들의 일을 알고 **협력하는 인사이트**",
         ], g=[19, 20]),
+        CHK("표적을 찾은 뒤 막는 방법에는 small molecule, CRISPR, 항체, RNA block이 있다.", "O", [19, 20],
+            summary="시퀀싱 → genetic variant 이해 → 표적 발굴 → 막는 기술(약·편집·항체·RNA)"),
     ]))
     top.append(T("치료제의 세 세대", CH2, [], [
         FS("p09.png", "치료제의 세대별 발전과 세포·유전자 치료 시대", "1세대 → 2세대 → 3세대", [
@@ -156,6 +178,10 @@ def build():
             "**3세대 living drug**: 세포 치료·유전자 치료 — 앞 세대는 정체기(plateau)",
             "{r|3세대는 한국이 해 볼 만하다} — CMC는 세포 치료, genome editing·mRNA 나노파티클 전달에서 리딩 그룹",
         ], g=[21, 22, 23, 24]),
+        B("CMC가 세포·유전자 치료에서 강점이라는 점은 참고로만 알면 된다.", g=[24], effort="참고"),
+        CHK("3세대 치료제는 항체 의약품이다.", "X", [21, 22, 23],
+            summary="1세대 small molecule → 2세대 항체·재조합 단백질 → 3세대 living drug(세포·유전자 치료)",
+            why="항체는 2세대이고, 3세대는 세포·유전자 치료(living drug)이다."),
     ]))
     top.append(T("정밀의료 임상시험", CH2, [], [
         COLS("Basket vs Umbrella vs N-of-1 trial (상식 차원)", [
@@ -164,6 +190,10 @@ def build():
             ("N-of-1 trial", "salmon", ["**희귀병 환자 한 명**", "환자를 모으기 힘들 때 한 사람에게 약 ↔ 위약을 번갈아 주어 비교", "자기 자신이 대조군"]),
         ], g=[25, 26, 27, 28, 29]),
         B("{g|이번 코스: 세포 치료(상용화·스핀오프), 나노 메디슨(RNA 전달), AI, 암 유전체, 임상 검사, 통계, 퇴행성 신경질환, AI 신약 개발·virtual screening, genome editing, ELSI.}", g=[30, 31]),
+        B("임상시험 3종은 상식 차원에서 설명했다 — 개념 구분만 알면 된다.", g=[25], effort="참고"),
+        AUTH("바구니(basket) = 약 하나에 여러 질병, 우산(umbrella) = 질병 하나에 여러 약, N-of-1 = 환자 한 명으로 외우면 편하다."),
+        CHK("Basket trial은 하나의 약을 여러 질병의 환자에게 적용해 효과를 검증한다.", "O", [27],
+            summary="Basket = 약 중심 / Umbrella = 질병 중심 / N-of-1 = 환자 한 명"),
     ]))
     top.append(T("인간 게놈 프로젝트와 바이오 빅데이터", CH2, [], [
         FS("p08.png", "99.9% 같고 일부가 다르다 — 개인별 차이와 정밀의료", "Human Genome Project (2003)", [
@@ -177,6 +207,8 @@ def build():
             ("All of Us (미국)", "blue", ["약 **50만 명**", "오믹스 + 라이프스타일 + 의무기록·환경", "**다인종(multi-race)**"]),
             ("국가통합 바이오 빅데이터 (한국)", "salmon", ["3~4년 전 시작, **최대 100만 명**", "이유: 영·미 자료에 **동아시아인 데이터가 부족**", "지금은 ‘곳간을 채우는 시기’, 앞으로 활용"]),
         ], g=[36, 37, 38, 39, 40]),
+        CHK("UK Biobank는 약 100만 명 규모이고, 한국은 동아시아인 데이터가 부족해 국가 사업을 시작했다.", "O", [36, 39, 40],
+            summary="나라별 바이오 빅데이터: 영국 100만, 미국 50만(다인종), 한국 최대 100만(구축 중)"),
     ]))
 
     # ================================================================ 3. 암 정밀의학과 표적치료
@@ -199,6 +231,9 @@ def build():
             "표적치료의 문을 연 **첫 breakthrough**",
             "{p|강의는 ‘기질이 붙는 자리와 경쟁’이라고 설명. 교과서에서 imatinib은 ATP 결합 부위를 막는 억제제 — 확인 필요}",
         ], g=[46, 47]),
+        AUTH("Gleevec은 기질이 앉을 자리를 먼저 차지해 버리는 ‘자리 선점’ 약으로 기억하면 쉽다."),
+        CHK("필라델피아 염색체는 9번과 22번 염색체의 전좌로 BCR–ABL이 생긴 것이다.", "O", [46, 47],
+            summary="BCR–ABL 과활성 → CML → Gleevec(imatinib)이 첫 표적치료제"),
     ]))
     top.append(T("3-2. EGFR → cetuximab, gefitinib · erlotinib", CH3, [], [
         FS("p17.png", "EGF·VEGF 신호와 downstream pathway(RAS, RAF …)", "EGFR과 두 종류의 약", [
@@ -214,6 +249,12 @@ def build():
             "실제로 진단검사의학과에서 **RAS·BRAF 변이**를 먼저 스크리닝 → indication이 되는 환자만 처방",
             "{p|강의는 cetuximab·gefitinib을 함께 말했지만, RAS 검사는 대장암 cetuximab의 조건이고 gefitinib은 폐암의 EGFR 변이가 조건(위 표 참고)}",
         ], g=[51, 52, 53, 54, 55, 56]),
+        CONCEPT("Cetuximab vs Gefitinib·Erlotinib", [
+            "**Cetuximab**: 세포 밖 EGFR에 붙는 항체(mAb) — 전이성 대장암",
+            "**Gefitinib · Erlotinib**: 세포 안 EGFR kinase를 막는 TKI — 비소세포폐암"], [48, 56]),
+        AUTH("수도꼭지(EGFR)를 잠가도 아래 배관(RAS·RAF)이 이미 터져 있으면 물은 계속 흐른다."),
+        CHK("EGFR을 막아도 downstream(RAS, RAF)에 변이가 있으면 신호가 계속 전달되어 효과가 없다.", "O", [53],
+            summary="EGFR 차단제는 downstream이 정상(변이 없음)일 때만 듣는다"),
     ]))
     top.append(T("동반진단 (Companion Diagnostics)", CH3, [], [
         FS("p16.png", "동반진단(CDx)과 약물 공동 개발", "Companion Diagnostics (CDx)", [
@@ -225,6 +266,10 @@ def build():
             "예전: chest PA, mammography, CT, endoscopy 중심",
             "지금: 여기에 **BCR-ABL, EGFR, HER2, BRAF, EML4-ALK** 등 유전자 검사를 더해 indication을 확인한 뒤 치료",
         ], g=[59]),
+        B("동반진단이 무엇을 뜻하는지 임상에서 듣고 알아볼 수 있으면 된다.", g=[57], effort="이해"),
+        CHK("동반진단은 치료제 처방이 끝난 뒤에 효과를 확인하는 검사이다.", "X", [57, 58],
+            summary="동반진단 = 처방과 동시에 시행해 처방 대상을 가려내는 검사. 예: RAS 변이 음성 → cetuximab",
+            why="처방과 동시에 시행해 효과가 있을 환자, 나중에 효과가 없어질 환자를 미리 가려낸다."),
     ]))
     top.append(T("3-3. HER2 → Herceptin · 3-4. VEGF → Bevacizumab", CH3, [], [
         FS("p18.png", "HER2 증폭 유방암", "HER2 → Herceptin(trastuzumab)", [
@@ -241,6 +286,8 @@ def build():
             "CAR는 인공 설계물 → genetic engineering, CRISPR, 전달 기술이 필요",
             "한국 현황: 환자 T cell을 **미국 회사로 air shipping** → 제작 후 받아서 주입. 번거로워서 국내 제작(construct 기술 도입)을 추진 중",
         ], g=[45, 60, 61]),
+        B("CAR-T는 참고하는 수준으로 알면 된다.", g=[60], effort="참고"),
+        AUTH("CAR-T는 환자의 T cell에 ‘표적 탐지기’(CAR)를 달아 되돌려 보내는 치료로 기억하면 된다."),
     ]))
 
     # ================================================================ 4. 주요 기술
@@ -251,6 +298,9 @@ def build():
             "쓰임: **약물 표적 탐색**, 환자 **모니터링**(혈압·혈당, 집 PC·의사 데스크탑에서), **조기 발견**, **원인 유전자**, **이질성**",
             "지금은 이행기 — 앞으로는 AI를 안 쓰면 이상한 시대, 잘 쓰는 현명함이 필요",
         ], g=[62, 63, 64, 65, 66]),
+        CHK("AI는 해석을 직접 할 필요가 없도록 의사를 대체한다.", "X", [63, 64, 66],
+            summary="AI는 방대한 데이터의 해석을 돕는 도구 — 잘 쓰는 판단은 의사의 몫",
+            why="AI가 해석을 돕지만, 이를 잘 쓰는 현명함이 의사에게 필요하다."),
     ]))
     top.append(T("NGS의 세 방식", CH4, [], [
         FS("p25.png", "Whole genome · whole exome · targeted sequencing", "얼마나 읽을 것인가", [
@@ -258,6 +308,8 @@ def build():
             "**WES**: 엑솜만 골라 읽기 (예전 연구에서 주로 사용)",
             "**Targeted(패널)**: 암 치료에 필요한 일부만, 엑솜의 약 1/1000",
         ], g=[67]),
+        B("NGS 세 방식의 구분은 참고로 알면 된다.", g=[67], effort="참고"),
+        CHK("요즘은 시퀀싱이 빨라져 엑솜만 골라내기보다 전체 게놈을 읽는 방식을 주로 쓴다.", "O", [67]),
     ]))
     top.append(T("Single cell → Spatial transcriptomics", CH4, [], [
         FS("p26.png", "Single-cell transcriptome", "Single cell — 평균값의 한계를 넘다", [
@@ -270,6 +322,10 @@ def build():
             "조직의 **2·3차원 상태를 유지**한 채 세포 하나하나를 본다",
             "각 세포가 조직의 어느 부위인지 알 수 있다 (세미나에 자주 나오는 이름)",
         ], g=[71]),
+        B("Spatial transcriptomics는 이름을 알아보는 정도면 된다.", g=[71], effort="참고"),
+        CHK("Single-cell transcriptome는 세포가 조직의 어느 위치에 있는지도 알려 준다.", "X", [70, 71],
+            summary="single cell: 세포별 특성(평균값의 한계 극복) → spatial: 조직 안 위치까지",
+            why="위치 정보를 더한 것이 spatial transcriptomics이다."),
     ]))
     top.append(T("Organoid · Liquid biopsy", CH4, [], [
         FS("p28.png", "Patient-derived organoid (3D culture)", "Organoid", [
@@ -292,6 +348,8 @@ def build():
             "검증(JCO): low RS는 tamoxifen 단독 ≈ tamoxifen + chemo(95% 이상 생존)",
             "high RS는 tamoxifen 단독이면 생존율 50% 이하 → **항암제 병용**의 이득이 큼",
         ], g=[75, 76, 77, 78, 79, 80]),
+        AUTH("RS는 재발 위험 점수표 — 낮으면 약을 덜고, 높으면 더한다."),
+        CHK("Oncotype DX에서 RS 31 이상은 high risk이다.", "O", [77], summary="RS < 18 low · 18–30 intermediate · ≥ 31 high"),
     ]))
     top.append(T("약물유전체학 — CYP450과 warfarin, tamoxifen", CH5, [], [
         FS("p32.png", "CYP2C9 유전형별 warfarin 하루 용량", "Warfarin과 CYP2C9 (geno-dosing)", [
@@ -306,11 +364,28 @@ def build():
             "Tamoxifen은 **CYP2D6**에 의해 활성형 **endoxifen**으로 바뀌어 작용 (그림)",
             "그래서 유전형에 따라 쓸지 말지가 정해질 수 있다(indication)",
         ], g=[88]),
+        AUTH("＊3/＊3은 배수구가 느린 싱크대 — 같은 양을 부어도 물이 차오른다."),
+        CHK("CYP2C9 ＊3/＊3형은 warfarin 대사가 느려 용량을 줄인다.", "O", [86, 87],
+            summary="같은 체중·같은 용량인데 반응이 다르다 → 유전형(CYP2C9)으로 용량을 정한다(geno-dosing)"),
     ]))
     top.append(T("참고자료", CH5, [], [
         B("**PMC 리포트**(Personalized Medicine Coalition, 무료 PDF): 현장에서 쓰는 제품과 indication 정리 — 앞쪽 표는 시험 정리에 옮김", g=[89, 90]),
         B("더 공부하려면 **EMM**(Experimental & Molecular Medicine) 스페셜 이슈", g=[91]),
         B("{g|마지막 출석 확인(개인정보라 생략), 질문은 따로.}", g=[92]),
+    ]))
+    top.append(T("QUIZ", CH5, [], [
+        _st("quiz", "전이성 대장암 환자에게 cetuximab을 처방하기 전에 시행하는 동반진단으로 가장 알맞은 것은?", [56, 57, 58],
+            options=["① RAS 변이가 없는지 확인한다", "② HER2 증폭을 확인한다", "③ BCR–ABL 전좌를 확인한다",
+                     "④ CYP2C9 유전형을 확인한다", "⑤ Oncotype DX 재발 점수를 계산한다"],
+            answer="① RAS 변이가 없는지 확인한다",
+            explanations=["① RAS 변이가 없어야 cetuximab이 듣는다 (정답)", "② HER2 증폭은 유방암의 Herceptin 대상이다",
+                          "③ BCR–ABL은 CML과 Gleevec이다", "④ CYP2C9는 warfarin 용량 결정에 쓴다",
+                          "⑤ Oncotype DX는 유방암의 재발 점수이다"]),
+        _st("quiz", "warfarin을 체중에 맞춰 투여했는데 출혈이 멈추지 않는 환자의 CYP2C9 유전형으로 가장 알맞은 것은?", [84, 85, 86, 87],
+            options=["① ＊1/＊1", "② ＊3/＊3", "③ 유전형과 무관하다"],
+            answer="② ＊3/＊3",
+            explanations=["① ＊1/＊1은 대사가 빨라 체내에 남는 양이 적다", "② ＊3/＊3은 대사가 느려 체내 농도가 높게 유지된다 (정답)",
+                          "③ 같은 용량에도 반응이 다른 원인이 유전형이다"]),
     ]))
     return top
 
@@ -324,6 +399,7 @@ def DIA_FLOW():
             Group(title="④ 기술", color="amber", items=["AI · NGS", "single cell · spatial", "organoid · liquid"]),
             Group(title="⑤ 임상 적용", color="violet", items=["Oncotype DX", "CYP2C9 · CYP2D6"]),
         ]))
+
 
 
 if __name__ == "__main__":

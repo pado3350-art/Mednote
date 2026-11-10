@@ -49,10 +49,13 @@ def _statement(doc: Document, st: Statement, tpl: Template, lecturer: bool, note
 
         _figure(doc, st, tpl)
         return
-    if st.kind in ("figure_side", "columns"):
-        from .export_mom import _columns_box, _figure_side
+    if st.kind in ("figure_side", "columns", "concept", "check"):
+        from .export_mom import _check_box, _columns_box, _concept_box, _figure_side
 
-        (_figure_side if st.kind == "figure_side" else _columns_box)(doc, st, tpl)
+        if st.kind == "check":
+            _check_box(doc, [st], tpl, answers_inline=True)
+        else:
+            {"figure_side": _figure_side, "columns": _columns_box, "concept": _concept_box}[st.kind](doc, st, tpl)
         return
     p = doc.add_paragraph(style="List Bullet")
     if lecturer:
@@ -173,6 +176,13 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
                         L.append(f"**{_md(st.left_title)}**")
                     L += [f"- {_md(x.removeprefix('- '))}" for x in st.left]
                     continue
+                if st.kind == "check":
+                    L.append(f"- **개념 Check** {_md(st.text)} (O, X) → {st.answer}" + (f" — {_md(st.explanations[0])}" if st.explanations else ""))
+                    continue
+                if st.kind == "concept":
+                    L.append(f"> **개념 정리** {_md(st.left_title)}")
+                    L += [f"> - {_md(x.removeprefix('- '))}" for x in st.left]
+                    continue
                 if st.kind == "columns" and st.diagram is not None:
                     gs = st.diagram.groups
                     L.append("| " + " | ".join(_md(g.title) for g in gs) + " |")
@@ -181,6 +191,10 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
                     continue
                 pre = "▶ **교수님:** " if st.origin == "lecturer" else ""
                 body = f"**{_md(st.text)}**" if st.emphasis else _md(st.text)
+                if st.origin == "author" and not body.lstrip().startswith("("):
+                    body = f"({body})"
+                if st.effort:
+                    body += f" [{st.effort}]"
                 tag = source_tag(st, note)
                 L.append(f"- {pre}{body}" + (f" `[{tag}]`" if tag and tpl.format.include_source_references else ""))
             L.append("")

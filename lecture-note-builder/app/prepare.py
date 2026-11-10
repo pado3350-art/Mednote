@@ -18,6 +18,31 @@ from .pipeline import _units_from_segments
 from .transcript import parse_flow_script, read_script_text
 
 
+# Lecturer cues about how much effort a passage deserves -> suggested `effort` tag (a human/Claude decides).
+EFFORT_CUES: list[tuple[str, str]] = [
+    (r"외울\s*필요\s*(?:는\s*)?없|외우(?:지|실)\s*(?:않아도|필요\s*없)|몰라도|안\s*외워|들어만|가볍게|넘어가|그렇다\s*수준|이름\s*정도만|참고(?:로|만)|상식\s*(?:차원|수준)|굳이", "참고"),
+    (r"꼭\s*(?:외|기억|보)|반드시|맨날\s*나|시험에\s*(?:도\s*)?(?:많이\s*)?나|출제|무조건|중요(?:합니다|한 것|해요)|핵심(?:이다|입니다)|기억해\s*(?:두|놓)", "필수"),
+    (r"이해(?:해|하)(?:\s*(?:보|두)|야)|원리|왜\s", "이해"),
+]
+
+
+def effort_cues(segs) -> list[tuple[int, str, str, str]]:
+    """-> [(paragraph id, suggested effort, matched cue, sentence)] for paragraphs where the lecturer signals importance."""
+    import re
+
+    out = []
+    for g in segs:
+        if g.kind != "speech":
+            continue
+        for sent in re.split(r"(?<=[.?!])\s+", g.text):
+            for pat, eff in EFFORT_CUES:
+                m = re.search(pat, sent)
+                if m:
+                    out.append((g.id, eff, m.group(0).strip(), sent.strip()[:160]))
+                    break
+    return out
+
+
 def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path, exam_pdf: str | Path | None = None,
                   figures: list[str | Path] | None = None, extra_args: str = "") -> Path:
     out = Path(out_dir)
@@ -61,6 +86,14 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
     (brief / "note_skeleton.json").write_text(json.dumps(skel, ensure_ascii=False, indent=2), encoding="utf-8")
     (brief / "note_schema.json").write_text(json.dumps(Topic.model_json_schema(), ensure_ascii=False, indent=2), encoding="utf-8")
 
+    # effort cues (필수 / 이해 / 참고) found in the lecturer's own words
+    cues = effort_cues(segs)
+    EC = [f"# 노력 수준 단서 {len(cues)}개 (제안일 뿐 — 문맥을 보고 `effort`를 정한다)", "",
+          "교수 발언에서 ‘외워라/안 외워도 된다/참고만/시험에 나온다’ 같은 신호가 있는 문장. 노트에는 해당 문장 끝에 `effort`(필수/이해/참고)로 표시한다. "
+          "⛔ 파랑은 기출(PAD) 전용이므로 노력 수준을 파랑으로 표시하지 않는다.", ""]
+    EC += [f"- ¶{i} [{e}] “{cue}” — {sent}" for i, e, cue, sent in cues]
+    (brief / "effort_cues.md").write_text("\n".join(EC) + "\n", encoding="utf-8")
+
     # rules the user approved from their own edits (none approved -> short notice)
     from .feedback import approved_rules_markdown
 
@@ -85,7 +118,7 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
 ## 순서
 0. `brief/learned_rules.md`(사용자가 승인한 학습 규칙)를 읽고 따른다. 강의 유형에 맞는 규칙만 적용한다.
 1. `.claude/skills/readable-note-organizer/SKILL.md`를 읽는다. **맨 위 ⛔ 파랑 = PAD 기출 ONLY 규칙은 무조건 지킨다.**
-2. `brief/paragraphs.md`(모든 발화), `brief/exam_items.md`(기출), `brief/figures.md`(그림; 이미지는 Read로 직접 본다)를 읽는다.
+2. `brief/effort_cues.md`(교수가 말한 노력 수준 단서)도 읽는다. `brief/paragraphs.md`(모든 발화), `brief/exam_items.md`(기출), `brief/figures.md`(그림; 이미지는 Read로 직접 본다)를 읽는다.
 3. 목차를 판단한다: 챕터 2~4개 × § 소절 2~4개. `outline_proposal.json`은 기계적 초안일 뿐이다. 모든 발화 단락(검증참고 제외)이 정확히 한 소절에 들어가야 하고, 검증참고는 마지막 `부록 & 검증 참고`.
 4. `{out}/note_authored.json`을 작성한다 (스키마: `brief/note_schema.json`, 예: `examples/limbic_note.py` 의 헬퍼 P·B·STAR·ADV·REF·T 로 Python 스크립트를 쓰는 방식 권장).
    - 소절마다 기본정석 박스(`basics`, `basics_refs`), 설명 순서로 재구성한 본문, Advice/Reference, 비교표.

@@ -182,6 +182,12 @@ def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
     if st.kind == "columns":
         _columns_box(doc, st, tpl)
         return
+    if st.kind == "concept":
+        _concept_box(doc, st, tpl)
+        return
+    if st.kind == "check":
+        _check_box(doc, [st], tpl, answers_inline=True)
+        return
     F = tpl.format.font_korean
     base = tpl.format.font_size_pt
     p = doc.add_paragraph()
@@ -210,9 +216,17 @@ def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
     else:
         _fmt(p, after=6, line=1.35, left=ind)
         size = base
-    for text, col, bold in runs(st.text):
+    author = st.origin == "author"  # the writer's own addition (analogy, tip): grey, in ( )
+    if author:
+        base_color = COLOR["minor"]
+    body_runs = runs(st.text)
+    if author and st.kind not in ("star",) and body_runs and not st.text.lstrip().startswith("("):
+        body_runs = [("(", None, False), *body_runs, (")", None, False)]
+    for text, col, bold in body_runs:
         r = p.add_run(text)
         _run_style(r, col, F, size, bold=True if (bold or base_bold) else None, base_color=base_color)
+    if st.kind != "star":
+        _effort_tag(p, st, F, size)
     if tpl.format.include_source_references and st.kind == "para":
         tag = source_tag(st, note)
         if tag:
@@ -298,6 +312,81 @@ def _columns_box(doc, st: Statement, tpl: Template) -> None:
     for row in t.rows:
         cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); row._tr.get_or_add_trPr().append(cs)
     _fmt(doc.add_paragraph(), after=3, line=0.8)
+
+
+EFFORT_COLOR = {"필수": "emphasis", "이해": None, "참고": "minor"}
+
+
+def _effort_tag(p, st: Statement, F: str, size: float) -> None:
+    """Small bracket tag at the end of a sentence: [필수] red / [이해] black / [참고] gray. Never blue (blue = PAD only)."""
+    if not st.effort:
+        return
+    tag = EFFORT_COLOR[st.effort]
+    r = p.add_run(f"  [{st.effort}]")
+    _font(r, F, max(size - 1.5, 7), bold=st.effort == "필수", color=COLOR[tag] if tag else BLACK)
+
+
+def _concept_box(doc, st: Statement, tpl: Template) -> None:
+    """Grey '개념 정리' box (term contrast / definition repeated after the prose)."""
+    F, base = tpl.format.font_korean, tpl.format.font_size_pt
+    t = doc.add_table(rows=1, cols=1)
+    t.alignment = WD_TABLE_ALIGNMENT.CENTER
+    c = t.cell(0, 0)
+    _box(c, sz=4, color="BFBFBF")
+    _cell_fill(c, "F2F2F2")
+    p = c.paragraphs[0]; _fmt(p, before=3, after=3, line=1.2)
+    r = p.add_run(" 개념 정리 "); _font(r, F, base - 1, bold=True, color=RGBColor(255, 255, 255)); _shade_run(r, "7F7F7F")
+    if st.left_title:
+        r = p.add_run("  " + _strip(st.left_title)); _font(r, F, base, bold=True)
+    _lines_into(c, list(st.left) if st.left else ([st.text] if st.text else []), F, base - 0.5, tpl, bullet="-", tight=True)
+    _fmt(doc.add_paragraph(), after=3, line=0.7)
+
+
+def _check_box(doc, checks: list[Statement], tpl: Template, answers_inline: bool = False) -> None:
+    """'개념 Check!' box: one-line summary + numbered O/X statements. The answers go to _answer_box at the end of the
+    topic (the reference notes print them in a box at the foot of the page), or inline when answers_inline."""
+    F, base = tpl.format.font_korean, tpl.format.font_size_pt
+    t = doc.add_table(rows=1, cols=1)
+    t.alignment = WD_TABLE_ALIGNMENT.CENTER
+    c = t.cell(0, 0)
+    _box(c, sz=6, color="1F8A7A")
+    p = c.paragraphs[0]; _fmt(p, before=3, after=2, line=1.15)
+    r = p.add_run(" 개념 Check! "); _font(r, F, base, bold=True, color=RGBColor(255, 255, 255)); _shade_run(r, "1F8A7A")
+    summary = next((x.left_title for x in checks if x.left_title), "")
+    if summary:
+        q = c.add_paragraph(); _fmt(q, after=3, line=1.2, left=0.2)
+        for text, col, bold in runs(summary):
+            r = q.add_run(text); _run_style(r, col, F, base - 0.5, bold=True if bold else None, base_color=COLOR["minor"])
+    for st in checks:
+        n = getattr(doc, "_check_n", 0) + 1
+        doc._check_n = n
+        q = c.add_paragraph(); _fmt(q, after=2, line=1.2, left=0.8, first=-0.6)
+        q.paragraph_format.tab_stops.add_tab_stop(Cm(16.8), WD_TAB_ALIGNMENT.RIGHT)
+        r = q.add_run(f"{n}. "); _font(r, F, base - 0.5, bold=True)
+        for text, col, bold in runs(st.text):
+            r = q.add_run(text); _run_style(r, col, F, base - 0.5, bold=True if bold else None)
+        r = q.add_run("\t(O, X)" + (f"  → {st.answer}" if answers_inline else "")); _font(r, F, base - 0.5, bold=True)
+    _fmt(c.add_paragraph(), after=0, line=0.5)
+    _fmt(doc.add_paragraph(), after=2, line=0.7)
+
+
+def _answer_box(doc, checks: list[Statement], first_no: int, tpl: Template) -> None:
+    """정답 box at the end of the topic, ONE compact paragraph that never splits across pages:
+    '정답  1. X (이유)  ·  2. O'. Numbers match the check box above."""
+    F, base = tpl.format.font_korean, tpl.format.font_size_pt
+    t = doc.add_table(rows=1, cols=1)
+    t.alignment = WD_TABLE_ALIGNMENT.RIGHT
+    c = t.cell(0, 0)
+    _box(c, sz=4, color="BFBFBF")
+    _cell_fill(c, "EDEDED")
+    cs = OxmlElement("w:cantSplit"); cs.set(qn("w:val"), "true"); t.rows[0]._tr.get_or_add_trPr().append(cs)
+    p = c.paragraphs[0]; _fmt(p, before=2, after=2, line=1.15)
+    r = p.add_run(" 정답 "); _font(r, F, base - 1.5, bold=True, color=RGBColor(255, 255, 255)); _shade_run(r, "1F8A7A")
+    for i, st in enumerate(checks):
+        r = p.add_run(f"   {first_no + i}. {st.answer}"); _font(r, F, base - 1, bold=True)
+        if st.explanations:
+            r = p.add_run(f" ({_strip(st.explanations[0])})"); _font(r, F, base - 1.5, color=COLOR["minor"])
+    _fmt(doc.add_paragraph(), after=3, line=0.6)
 
 
 def _section_heading(doc, label: str, F: str, base: float, idx: int) -> None:
@@ -510,6 +599,14 @@ def _quiz_box(doc, st: Statement, tpl: Template) -> None:
         r = a.add_run("→ 정답: "); _font(r, F, base, bold=True, color=COLOR["emphasis"])
         for text, col, bold in runs(st.answer):
             r = a.add_run(text); _run_style(r, col, F, base, bold=True)
+    if st.explanations:
+        h = doc.add_paragraph(); _fmt(h, before=2, after=2, line=1.2, left=0.2)
+        r = h.add_run("해설"); _font(r, F, base, bold=True)
+        for line in st.explanations:
+            q = doc.add_paragraph(); _fmt(q, after=2, line=1.25, left=0.8, first=-0.5)
+            for text, col, bold in runs(line):
+                r = q.add_run(text); _run_style(r, col, F, base - 0.5, bold=True if bold else None)
+        _fmt(doc.add_paragraph(), after=4, line=0.7)
 
 
 def _tip_line(doc, t: Topic, F: str, base: float) -> None:
@@ -749,6 +846,8 @@ def export_mom(
             _basics_box(doc, t, (n.get("no") or 1), F, base)
         if t.tip and tpl.format.topic_tips:
             _tip_line(doc, t, F, base)
+        topic_checks: list[Statement] = []
+        doc._check_n = 0  # check numbers restart in every topic
         for sc in tpl.sections:
             sts = t.sections.get(sc.key)
             if not sts:
@@ -766,11 +865,21 @@ def export_mom(
                     _row2_table(doc, sts[k:j], tpl)
                     k = j
                     continue
+                if st.kind == "check":  # consecutive checks form one box; answers are printed at the end of the topic
+                    j = k
+                    while j < len(sts) and sts[j].kind == "check":
+                        j += 1
+                    topic_checks += sts[k:j]
+                    _check_box(doc, sts[k:j], tpl)
+                    k = j
+                    continue
                 if st.kind == "quiz":
                     _quiz_box(doc, st, tpl)
                 else:
                     _statement(doc, st, note, tpl)
                 k += 1
+        if topic_checks:
+            _answer_box(doc, topic_checks, 1, tpl)
         for tb_ in t.tables:
             if tb_.rows:
                 _table(doc, tb_, tpl)

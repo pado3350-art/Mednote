@@ -214,7 +214,9 @@ def run_pipeline(
         from .pdf_render import page_texts
         from .transcript import lecture_minutes, page_budget
 
-        budget = page_budget(lecture_minutes(read_script_text(script)), tpl.format.minutes_per_page)
+        sts = [st for t in note.topics for v in t.sections.values() for st in v]
+        budget = page_budget(lecture_minutes(read_script_text(script)), tpl.format.minutes_per_page,
+                             sum(st.kind == "check" for st in sts), sum(st.kind == "quiz" for st in sts))
         pages = page_texts(pdf_path)
         n_pages = len(pages) - (1 if pages and not pages[-1].strip() else 0)  # pdftotext ends with a form feed
         note.meta["page_budget"], note.meta["pages"] = str(budget), str(n_pages)
