@@ -47,3 +47,17 @@ def test_page_budget():
     assert page_budget(60, 6) == 12  # 10 body pages + cover/summary
     assert page_budget(0, 6) == 0
     assert page_budget(60, 6, n_checks=9, n_quiz=2) == 10 + 2 + 2 + 1  # 9 checks -> 2 pages, quiz -> 1 page
+
+
+def test_explain_template_question_answer_box(tmp_path):
+    """Explanatory (textbook) mode: question heading + one-line '핵심 답' box + paragraphs, flow layout."""
+    tpl = load_template("templates/mom_explain.yaml")
+    assert tpl.format.basics_box and tpl.format.basics_label == "핵심 답" and tpl.format.page_break == "flow"
+    assert load_template("templates/mom.yaml").format.basics_label == "기본정석"  # default unchanged
+    t = Topic(heading="왜 MSC로는 부족한가?", chapter="장1", slide_numbers=[1], basics_title="핵심 답",
+              basics=["분화능이 제한되기 때문이다."],
+              sections={"body": [Statement(text="MSC는 multipotent다. 그래서 iPSC로 바꾼다.", slide_refs=[1])]})
+    doc = Document(str(export_mom(LectureNote(title="t", topics=[t], ref_style="para"), tpl, tmp_path / "e.docx")))
+    cells = " ".join(c.text for tb in doc.tables for r in tb.rows for c in r.cells)
+    assert "핵심 답" in cells and "분화능이 제한" in cells and "기본정석" not in cells
+    assert "왜 MSC로는 부족한가?" in "\n".join(p.text for p in doc.paragraphs)

@@ -58,6 +58,15 @@ The reference is `references/excellent_example.md` (a high-rated MOM note for th
 14. **연결 문장**: 표·목록 뒤에 결론으로 이어지는 한 줄(“따라서 각각의 한계 때문에 …”)을 작성자 추가분(`origin: "author"`)으로 쓴다. 사실을 새로 주장하지 않고 위 내용을 잇기만 한다.
 15. **수업에서 다루지 않은 기출**(해설에 ‘배우지 않았다’): 기본은 파랑 Reference 한 줄. 사용자가 `--uncovered-pad omit`을 주면 생략해도 경고가 없다.
 
+## 0c. 설명식(교과서식) 모드 — 실험 단계 (`templates/mom_explain.yaml`)
+"Claude에게 물어보면 답해 주는" 하나의 흐름 위주 정리. 비교: `outputs/stemcell_explain/compare_list_vs_explain.md`.
+- § 제목은 **질문**으로 쓴다("왜 MSC로는 부족한가?"). 다음 § 제목은 앞 § 결론에서 생긴 질문이 되게 이어 붙인다.
+- `basics`는 한 줄 **핵심 답**(`basics_title: 핵심 답`). 시험 직전에는 이 줄만 읽어도 되게 쓴다.
+- 본문은 bullet이 아니라 짧은 문단(`para`) 2~4개: 정의 → 왜 → 어떻게 → 한계 → 그래서/즉(결론). 문장 길이는 개조식과 같게(평균 40자 내외), 늘리는 것은 연결어뿐이다.
+- 연결어(그래서·즉·그런데·반면·때문)는 **스크립트에 있는 인과만** 잇는다. 작성자가 만든 인과·비유는 `origin: author`(회색 괄호).
+- 숫자·사례·제품 목록·비교는 문단에 녹이지 말고 bullet/`columns`/표로 남긴다(혼합형). 그림 상자 제목은 "그림에서 볼 것".
+- 파랑(PAD)·L1–L9 규칙은 그대로. 혼합형을 기본으로 할지는 사용자 승인 후 결정한다.
+
 ## 1. Keep everything, change the shape
 - Every concept, term, number, unit, drug/gene name, cutoff and example in the source must appear (the validator checks numbers, terms and paragraph coverage).
 - Remove only *speech noise*: fillers, "자, 그러면", repetitions, transitions like "다음으로 넘어가겠습니다", meta talk about the time/slide.

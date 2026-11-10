@@ -1,0 +1,46 @@
+# "MOM" EXPLANATORY style: textbook-like single storyline. Every § = a question heading, a one-line answer box
+# ("핵심 답"), then short paragraphs that build the answer step by step (정의 → 왜 → 어떻게 → 한계 → 그래서).
+# Same layout machinery as mom_compact (flow pages, figure_side, checks, PAD tags). About 5 lecture minutes per page.
+# Base: "MOM" COMPACT style for low-weight / list-type lectures (intro, overview): exam layer first,
+# no per-§ page breaks, no 기본정석 / 공부 팁 boxes, hidden source tags, chapter-level TOC,
+# figure + text side by side. Page budget: about 6 lecture minutes per page.
+# Base: "MOM" lecture-note style (modelled on the reference MOM.pdf):
+# boxed cover, 작성자 코멘트 + colour legend, dotted TOC, roman-numbered topics,
+# colour-coded inline emphasis, source tags in tiny gray at paragraph ends.
+template_name: mom_explain_v1
+language: ko
+detail_level: comprehensive
+
+sections:
+  - {key: body, label: ""}          # free-flow body (no sub-heading)
+
+format:
+  layout: mom
+  page_break_per_topic: true
+  page_break: flow           # new page only after the front pages; chapters flow on with an in-body banner
+  basics_box: true
+  basics_label: 핵심 답
+  pad_tags: true             # [PAD 2021 Q1] after blue statements, [Only PAD …] when the lecture never said it
+  topic_tips: false
+  toc_level: chapter
+  minutes_per_page: 5
+  roman_headings: false
+  exam_section: false              # 기출문제는 별도 PAD 문서; 파랑 글씨로만 본문에 표시
+  preserve_original_images: true
+  tables_for_comparisons: true
+  include_source_references: false  # sources stay in note.json / validation report
+  numbered_headings: true
+  font_korean: 맑은 고딕
+  font_size_pt: 9
+  legend:
+    - {tag: emphasis, word: 빨강, meaning: "교수님 강조 / 시험 언급 / 꼭 외울 부분"}
+    - {tag: exam,     word: 파랑, meaning: "기출된 내용 (PAD 기출문제에 나온 부분에만 사용)"}
+    - {tag: minor,    word: 회색, meaning: "중요도 낮은 부분 (이해용 부연)"}
+    - {tag: verify,   word: 보라, meaning: "원자료와 대조 필요 / 불확실"}
+    - {tag: highlight, word: 노랑, meaning: "공부 전략 · 꼭 봐야 할 부분"}
+
+quality:
+  preserve_all_key_concepts: true
+  flag_uncertain_facts: true
+  require_source_traceability: true
+  min_alignment_confidence: 0.15

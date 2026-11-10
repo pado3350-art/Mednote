@@ -515,7 +515,7 @@ def _page_header(header, note_text: str | None, banner: str | None, section: str
         r = p.add_run(section); _font(r, F, 15, bold=False)
 
 
-def _basics_box(doc, t: Topic, n: int, F: str, base: float):
+def _basics_box(doc, t: Topic, n: int, F: str, base: float, label: str = "기본정석"):
     box = doc.add_table(rows=1, cols=1)
     box.alignment = WD_TABLE_ALIGNMENT.CENTER
     c = box.cell(0, 0)
@@ -531,7 +531,7 @@ def _basics_box(doc, t: Topic, n: int, F: str, base: float):
     r = p.add_run(f" {n} "); _font(r, F, base, bold=True); r.font.color.rgb = BLACK
     r = p.add_run("  " + (t.basics_title or t.heading)); _font(r, F, base + 1, bold=True)
     r = p.add_run("\t"); _font(r, F, base)
-    r = p.add_run(" 기본정석 "); _font(r, F, base - 1, bold=True, color=RGBColor(255, 255, 255)); _shade_run(r, "D9242B")
+    r = p.add_run(f" {label} "); _font(r, F, base - 1, bold=True, color=RGBColor(255, 255, 255)); _shade_run(r, "D9242B")
     for i, line in enumerate(t.basics, start=1):
         q = c.add_paragraph(); _fmt(q, after=2, line=1.25, left=1.5, first=-0.7)
         r = q.add_run(f"{i})  "); _font(r, F, base + 0.5)
@@ -864,7 +864,7 @@ def export_mom(
                 r.font.highlight_color = WD_COLOR_INDEX.YELLOW
             _bookmark(p, f"_Toc{i}", i + 1)
         if t.basics and tpl.format.basics_box:
-            _basics_box(doc, t, (n.get("no") or 1), F, base)
+            _basics_box(doc, t, (n.get("no") or 1), F, base, tpl.format.basics_label)
         if t.tip and tpl.format.topic_tips:
             _tip_line(doc, t, F, base)
         topic_checks: list[Statement] = []

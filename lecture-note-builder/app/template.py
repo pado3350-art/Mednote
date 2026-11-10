@@ -35,6 +35,7 @@ class FormatOptions(BaseModel):
     roman_headings: bool = False
     page_break: str = "topic"  # "topic" (every § on a new page) | "chapter" (new page per chapter) | "flow" (only after front pages)
     basics_box: bool = True  # draw the 기본정석 box when a topic has `basics`
+    basics_label: str = "기본정석"  # label on that box (the explanatory template uses "핵심 답")
     topic_tips: bool = True  # draw the yellow 공부 팁 line when a topic has `tip`
     pad_tags: bool = False  # print a small [PAD 2021 Q1] / [Only PAD …] tag after statements that cite PAD units
     toc_level: str = "section"  # "section" (every §) | "chapter" (chapter titles only)
