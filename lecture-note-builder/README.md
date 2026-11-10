@@ -90,6 +90,9 @@ python -m app.cli feedback rules --retire L2 --reason "잘못 승인"
 - Claude Code에서는 `/learn-mednote-style 원본.docx 수정본.docx`.
 - 원본·수정본·리포트는 `feedback/`(gitignore)에 둔다. `*.docx`, `*.pptx`, 음성 파일도 커밋되지 않는다.
 
+## PAD(기출)를 Word로 받을 때
+`--exam-pdf`에는 PDF뿐 아니라 **DOCX**도 줄 수 있다(`app/exam.py: parse_exam_docx`): `2025년 ○○○ 교수님` 머리글, `27. 문제`, `답 | 1`, `해설 | …`. PAD는 **파랑 표시의 근거로만** 쓰고 별도 기출 섹션은 만들지 않는다.
+
 ## 예시
 | 예시 | 입력 | 노트 작성 코드 | 결과 |
 |---|---|---|---|
@@ -97,6 +100,7 @@ python -m app.cli feedback rules --retire L2 --reason "잘못 승인"
 | Limbic system (신경과학1) | 스크립트 DOCX + 기출 PAD PDF + 그림(해부 사진·도식 PDF) | `examples/limbic_note.py` + `examples/limbic_figures.json` | `outputs/limbic/` (파랑 = 기출, 그림 12개) |
 | T림프구 항원제시 v2 (강의자료 DOCX + 스크립트, PAD 없음) | 강의자료 DOCX + 스크립트 DOCX | `examples/tcell_v2_note.py` (`examples/authoring.py` 헬퍼) | `outputs/tcell_v2/` |
 | 유전체 정밀의학 Introduction (맞춤의학) | 스크립트 TXT + 정리본 화면 캡처 이미지 | `examples/precision_note.py`(상세형) / `examples/precision_compact_note.py`(압축형, 실제 정리본과 비교 후 재구성) | `outputs/precision/`(38쪽, 리뷰 `review_vs_MOM.md`) / `outputs/precision_compact/`(12쪽) |
+| 줄기세포 맞춤의학 (주지현 교수님) | 스크립트 TXT + 정리본 DOCX의 슬라이드 이미지 + PAD DOCX(파랑 근거) | `examples/stemcell_note.py` (압축형) | `outputs/stemcell/` (11쪽) |
 
 두 스크립트는 구간 헤더 표기가 달라도(`[00:00–02:00] 제목 | 원본 2쪽` / `00:00–02:00 | 제목` + `자료 기준: 3쪽`) 같은 파서가 읽고,
 시간 구간 구조는 버린 뒤 전체 흐름으로 목차를 새로 만든다.
