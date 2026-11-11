@@ -581,6 +581,111 @@
             "diagram": null
           },
           {
+            "text": "시신경의 구성: 망막 신경절 세포의 축삭이 LGN까지",
+            "origin": "slide",
+            "slide_refs": [
+              6
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "diagram",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": {
+              "kind": "flow",
+              "size": "full",
+              "title": "",
+              "root": "",
+              "groups": [
+                {
+                  "title": "시각 자극",
+                  "items": [
+                    "망막에 도달"
+                  ],
+                  "color": "gray"
+                },
+                {
+                  "title": "retinal ganglion cell",
+                  "items": [
+                    "망막의 가장 안쪽"
+                  ],
+                  "color": "teal"
+                },
+                {
+                  "title": "축삭 다발 = optic nerve",
+                  "items": [
+                    "안구를 나감",
+                    "경로가 김"
+                  ],
+                  "color": "blue"
+                },
+                {
+                  "title": "LGN (시상)",
+                  "items": [
+                    "첫 번째 시냅스"
+                  ],
+                  "color": "amber"
+                }
+              ],
+              "arrows": [
+                {
+                  "src": 0,
+                  "dst": 1,
+                  "label": "",
+                  "both": false
+                },
+                {
+                  "src": 1,
+                  "dst": 2,
+                  "label": "",
+                  "both": false
+                },
+                {
+                  "src": 2,
+                  "dst": 3,
+                  "label": "",
+                  "both": false
+                }
+              ],
+              "row_labels": []
+            }
+          },
+          {
+            "text": "그림은 왼쪽에서 오른쪽으로 읽습니다. 망막의 가장 안쪽 세포에서 시작한 축삭이 한 다발의 optic nerve가 되어, 시상의 LGN에서 처음 시냅스를 이룹니다.",
+            "origin": "both",
+            "slide_refs": [
+              6
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "",
             "origin": "slide",
             "slide_refs": [
@@ -1647,6 +1752,126 @@
             "diagram": null
           },
           {
+            "text": "시각 경로와 병변 위치별 시야 결손",
+            "origin": "slide",
+            "slide_refs": [
+              31
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "diagram",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": {
+              "kind": "flow",
+              "size": "full",
+              "title": "",
+              "root": "",
+              "groups": [
+                {
+                  "title": "retina",
+                  "items": [
+                    "nasal(코쪽): 교차",
+                    "temporal(귀쪽): 교차 안 함"
+                  ],
+                  "color": "gray"
+                },
+                {
+                  "title": "optic nerve",
+                  "items": [
+                    "병변: 그쪽 눈 시야 전체 소실"
+                  ],
+                  "color": "blue"
+                },
+                {
+                  "title": "optic chiasm",
+                  "items": [
+                    "병변: 양이측 반맹"
+                  ],
+                  "color": "teal"
+                },
+                {
+                  "title": "optic tract → optic radiation",
+                  "items": [
+                    "병변: 반대쪽 동측 반맹",
+                    "더 뒤로 갈수록 사분맹"
+                  ],
+                  "color": "salmon"
+                },
+                {
+                  "title": "visual cortex",
+                  "items": [
+                    "병변: 중심 시야 보존",
+                    "(macular sparing)"
+                  ],
+                  "color": "amber"
+                }
+              ],
+              "arrows": [
+                {
+                  "src": 0,
+                  "dst": 1,
+                  "label": "",
+                  "both": false
+                },
+                {
+                  "src": 1,
+                  "dst": 2,
+                  "label": "",
+                  "both": false
+                },
+                {
+                  "src": 2,
+                  "dst": 3,
+                  "label": "",
+                  "both": false
+                },
+                {
+                  "src": 3,
+                  "dst": 4,
+                  "label": "",
+                  "both": false
+                }
+              ],
+              "row_labels": []
+            }
+          },
+          {
+            "text": "그림의 칸을 앞에서 뒤로 따라가면, 병변이 chiasm에 있으면 양이측 반맹, optic tract 이후면 반대쪽 동측 반맹, visual cortex면 중심 시야가 남습니다.",
+            "origin": "both",
+            "slide_refs": [
+              31
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "",
             "origin": "slide",
             "slide_refs": [
@@ -2048,6 +2273,117 @@
           },
           {
             "text": "CN 3, 4, 6은 핵에서 나와 cavernous sinus와 안와를 지나 각 근육에 닿습니다. 이 긴 경로 가운데 어디에 이상이 있느냐에 따라 다양한 눈 운동 이상이 생깁니다.",
+            "origin": "both",
+            "slide_refs": [
+              43
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "눈 운동 신경의 경로: 핵 → cavernous sinus → 안와 → 외안근",
+            "origin": "slide",
+            "slide_refs": [
+              40,
+              41,
+              42,
+              43
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "diagram",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": {
+              "kind": "flow",
+              "size": "full",
+              "title": "",
+              "root": "",
+              "groups": [
+                {
+                  "title": "brainstem의 핵",
+                  "items": [
+                    "CN 3: midbrain",
+                    "CN 4, 6: pons 뒤쪽"
+                  ],
+                  "color": "teal"
+                },
+                {
+                  "title": "cavernous sinus",
+                  "items": [
+                    "세 신경이 지남"
+                  ],
+                  "color": "salmon"
+                },
+                {
+                  "title": "안와(orbit)",
+                  "items": [
+                    "각 근육으로"
+                  ],
+                  "color": "amber"
+                },
+                {
+                  "title": "외안근 6개",
+                  "items": [
+                    "CN 6: 외직근",
+                    "CN 4: 상사근",
+                    "CN 3: 나머지",
+                    "+ 동공, 눈꺼풀"
+                  ],
+                  "color": "blue"
+                }
+              ],
+              "arrows": [
+                {
+                  "src": 0,
+                  "dst": 1,
+                  "label": "",
+                  "both": false
+                },
+                {
+                  "src": 1,
+                  "dst": 2,
+                  "label": "",
+                  "both": false
+                },
+                {
+                  "src": 2,
+                  "dst": 3,
+                  "label": "",
+                  "both": false
+                }
+              ],
+              "row_labels": []
+            }
+          },
+          {
+            "text": "그림의 어느 칸에서든 병변이 생기면 복시가 나타나므로, 동반 소견으로 핵, cavernous sinus, 안와 중 어디인지를 좁혀 갑니다.",
             "origin": "both",
             "slide_refs": [
               43
@@ -2534,6 +2870,115 @@
             "text": "특히 Edinger-Westphal nucleus에서 sphincter pupillae로 가는 nerve fiber가 매우 인접해 있어, CN 3 마비에 동공 확대가 함께 나타납니다.",
             "origin": "both",
             "slide_refs": [
+              52
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "P-comm aneurysm과 CN 3: 가까이 지나서 함께 눌림",
+            "origin": "slide",
+            "slide_refs": [
+              50,
+              52
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "diagram",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": {
+              "kind": "flow",
+              "size": "full",
+              "title": "",
+              "root": "",
+              "groups": [
+                {
+                  "title": "P-comm aneurysm",
+                  "items": [
+                    "뒤교통동맥에서 생김"
+                  ],
+                  "color": "salmon"
+                },
+                {
+                  "title": "바로 옆의 CN 3",
+                  "items": [
+                    "해부학적으로",
+                    "가장 가까움"
+                  ],
+                  "color": "teal"
+                },
+                {
+                  "title": "동공 섬유",
+                  "items": [
+                    "EW → sphincter pupillae",
+                    "→ 동공 확대"
+                  ],
+                  "color": "amber"
+                },
+                {
+                  "title": "외안근·눈꺼풀 섬유",
+                  "items": [
+                    "내전·상전 안 됨",
+                    "눈꺼풀 처짐"
+                  ],
+                  "color": "blue"
+                }
+              ],
+              "arrows": [
+                {
+                  "src": 0,
+                  "dst": 1,
+                  "label": "압박",
+                  "both": false
+                },
+                {
+                  "src": 1,
+                  "dst": 2,
+                  "label": "",
+                  "both": false
+                },
+                {
+                  "src": 1,
+                  "dst": 3,
+                  "label": "",
+                  "both": false
+                }
+              ],
+              "row_labels": []
+            }
+          },
+          {
+            "text": "그림처럼 P-comm artery에서 생긴 aneurysm에 가장 근접하게 지나가는 것이 3번 뇌신경이고, 동공으로 가는 nerve fiber도 인접해 있어 증례에서 동공 확대와 눈꺼풀 처짐, 내전·상전 장애가 함께 나타났습니다.",
+            "origin": "both",
+            "slide_refs": [
+              50,
               52
             ],
             "segment_ids": [],

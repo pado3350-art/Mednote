@@ -80,6 +80,13 @@ def build():
     top.append(EX("시신경의 구조와 평가", CH1, "망막 신경절 세포의 축삭이 시신경이 되고, 안저만으로는 평가가 부족합니다.", [
         P("망막에 도달한 시각 자극은 망막 신경절 세포(retinal ganglion cell)에 전달됩니다. 망막의 가장 안쪽에 있는 이 세포의 축삭 다발이 모여 안구를 나가는 것이 시신경이고, "
           "시상의 lateral geniculate nucleus(LGN, 가쪽무릎체)까지 길게 이어져 첫 번째 시냅스를 이룹니다.", [6]),
+        DFULL("시신경의 구성: 망막 신경절 세포의 축삭이 LGN까지", Diagram(kind="flow", size="full", groups=[
+            Group(title="시각 자극", color="gray", items=["망막에 도달"]),
+            Group(title="retinal ganglion cell", color="teal", items=["망막의 가장 안쪽"]),
+            Group(title="축삭 다발 = optic nerve", color="blue", items=["안구를 나감", "경로가 김"]),
+            Group(title="LGN (시상)", color="amber", items=["첫 번째 시냅스"]),
+        ], arrows=[Arrow(src=i, dst=i + 1, label="") for i in range(3)]), [6]),
+        P("그림은 왼쪽에서 오른쪽으로 읽습니다. 망막의 가장 안쪽 세포에서 시작한 축삭이 한 다발의 optic nerve가 되어, 시상의 LGN에서 처음 시냅스를 이룹니다.", [6]),
         ROWS([
             ["평가 항목", "시력, 시야, 동공 반응, 색각 검사\n안과 의사가 안저(fundus)로 시신경을 직접 관찰"],
             ["시신경 앞쪽 병변", "안저에서 시신경이 붓거나, 주변에 출혈이 있거나, 매우 창백해 보일 수 있음"],
@@ -158,6 +165,8 @@ def build():
         P("시력은 주로 중심와(fovea)의 기능을 반영하는 데 반해, 시야는 중심뿐 아니라 주변부의 이상까지 정량적으로 측정해 시각계 병변의 위치와 종류를 감별하는 데 도움을 줍니다.", [30]),
         P("왼쪽 시야는 오른쪽 눈의 temporal 망막과 왼쪽 눈의 nasal 망막에서 인지됩니다. temporal 망막의 신호는 교차하지 않고, nasal 망막의 신호는 교차해서 optic chiasm을 지나 "
           "optic tract, optic radiation을 거쳐 visual cortex에 이릅니다.", [31]),
+        DFULL("시각 경로와 병변 위치별 시야 결손", VPATH, [31]),
+        P("그림의 칸을 앞에서 뒤로 따라가면, 병변이 chiasm에 있으면 양이측 반맹, optic tract 이후면 반대쪽 동측 반맹, visual cortex면 중심 시야가 남습니다.", [31]),
         FIELD,
         _st("callout", "", [31], left_title="작성자가 헷갈려서 정리",
             left=["nasal(코쪽) 망막 = 교차 / temporal(귀쪽) 망막 = 교차 안 함", "- 그래서 chiasm 병변은 교차하는 nasal 섬유만 끊겨 양쪽 이측(귀쪽) 시야가 사라집니다(bitemporal hemianopia).",
@@ -182,6 +191,13 @@ def build():
         CN_TABLE,
         P("CN 3은 핵이 매우 커서 oculomotor nuclear complex라고 부릅니다. 이 안에 동공 반사에서 본 Edinger-Westphal nucleus도 있고, 눈꺼풀을 들어 올리는 levator palpebrae(눈꺼풀올림근)도 CN 3의 지배를 받습니다.", [41, 42]),
         P("CN 3, 4, 6은 핵에서 나와 cavernous sinus와 안와를 지나 각 근육에 닿습니다. 이 긴 경로 가운데 어디에 이상이 있느냐에 따라 다양한 눈 운동 이상이 생깁니다.", [43]),
+        DFULL("눈 운동 신경의 경로: 핵 → cavernous sinus → 안와 → 외안근", Diagram(kind="flow", size="full", groups=[
+            Group(title="brainstem의 핵", color="teal", items=["CN 3: midbrain", "CN 4, 6: pons 뒤쪽"]),
+            Group(title="cavernous sinus", color="salmon", items=["세 신경이 지남"]),
+            Group(title="안와(orbit)", color="amber", items=["각 근육으로"]),
+            Group(title="외안근 6개", color="blue", items=["CN 6: 외직근", "CN 4: 상사근", "CN 3: 나머지", "+ 동공, 눈꺼풀"]),
+        ], arrows=[Arrow(src=i, dst=i + 1, label="") for i in range(3)]), [40, 41, 42, 43]),
+        P("그림의 어느 칸에서든 병변이 생기면 복시가 나타나므로, 동반 소견으로 핵, cavernous sinus, 안와 중 어디인지를 좁혀 갑니다.", [43]),
     ]))
     top.append(EX("주시(gaze)와 MLF", CH3, "동측 CN 6 핵에서 반대쪽 MLF를 거쳐 반대쪽 CN 3 핵으로 신호가 갑니다.", [
         P("좌측을 볼 때 좌안은 CN 6의 신호를 받고, 우안은 CN 3의 지배를 받는 내직근이 짝이 되어 같은 힘으로 작용해야 합니다. 동측 CN 6과 반대쪽 CN 3을 연결하는 internuclear connection이 정상이어야 두 눈이 함께 보는 gaze(주시)가 성립합니다.", [44]),
@@ -205,6 +221,13 @@ def build():
         ], col_titles=["환자", "소견", "원인과 경과"], col_widths=[4.2, 8.0, 5.2], g=[49, 50, 51]),
         P("CN 3 마비의 원인은 여러 가지이지만, P-comm artery(뒤교통동맥)에서 생긴 aneurysm이 있으면 해부학적으로 가장 가까이 지나가는 CN 3이 쉽게 손상됩니다.", [52]),
         P("특히 Edinger-Westphal nucleus에서 sphincter pupillae로 가는 nerve fiber가 매우 인접해 있어, CN 3 마비에 동공 확대가 함께 나타납니다.", [52]),
+        DFULL("P-comm aneurysm과 CN 3: 가까이 지나서 함께 눌림", Diagram(kind="flow", size="full", groups=[
+            Group(title="P-comm aneurysm", color="salmon", items=["뒤교통동맥에서 생김"]),
+            Group(title="바로 옆의 CN 3", color="teal", items=["해부학적으로", "가장 가까움"]),
+            Group(title="동공 섬유", color="amber", items=["EW → sphincter pupillae", "→ 동공 확대"]),
+            Group(title="외안근·눈꺼풀 섬유", color="blue", items=["내전·상전 안 됨", "눈꺼풀 처짐"]),
+        ], arrows=[Arrow(src=0, dst=1, label="압박"), Arrow(src=1, dst=2, label=""), Arrow(src=1, dst=3, label="")]), [50, 52]),
+        P("그림처럼 P-comm artery에서 생긴 aneurysm에 가장 근접하게 지나가는 것이 3번 뇌신경이고, 동공으로 가는 nerve fiber도 인접해 있어 증례에서 동공 확대와 눈꺼풀 처짐, 내전·상전 장애가 함께 나타났습니다.", [50, 52]),
         P("{r|CN 3 마비에 동공 확대가 동반되면 반드시 MRA나 CTA 같은 뇌혈관 영상 검사를 시행하도록 되어 있다고 강조하셨습니다.}", [52]),
         _st("callout", "", [52, 53], left_title="잠깐 정리하고 가기 - 복시 환자의 접근",
             left=["1. 복시 = CN 3, 4, 6 또는 gaze 연결(MLF)의 이상★", "2. CN 3 마비 + 동공 확대 = 뇌혈관 영상(MRA/CTA)★", "3. 성인에서 갑자기 생긴 복시 = 뇌종양, 뇌동맥류 가능성을 두고 신경학적 워크업"]),

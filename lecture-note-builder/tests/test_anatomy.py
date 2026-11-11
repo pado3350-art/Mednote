@@ -23,9 +23,11 @@ def test_opt_out_and_non_anatomy():
     assert anatomy_issues(LectureNote(title="t", topics=[t])) == []
 
 
-def test_only_when_main_topic_is_anatomy():
+def test_fires_per_paragraph_in_any_lecture():
     anat = _note().topics[0]
     other = [Topic(heading=f"약 {i}", slide_numbers=[1], sections={"body": [Statement(text="항생제는 균에 따라 고른다.", kind="para", slide_refs=[1])]}) for i in range(3)]
-    assert anatomy_issues(LectureNote(title="t", topics=[anat, *other])) == []  # one anatomy § in a drug lecture: no trigger
-    assert anatomy_issues(LectureNote(title="t", topics=[anat, *other], meta={"anatomy_main": "true"}))
-    assert anatomy_issues(LectureNote(title="t", topics=[anat], meta={"anatomy_main": "false"})) == []
+    issues = anatomy_issues(LectureNote(title="t", topics=[anat, *other]))  # a drug lecture with one anatomy paragraph still fires
+    assert len(issues) == 1 and "변연계의 연결" in issues[0][2]
+    # the terms must sit in one paragraph: scattered single mentions do not make an anatomy paragraph
+    spread = Topic(heading="증상", slide_numbers=[1], sections={"body": [Statement(text=x, kind="para", slide_refs=[1]) for x in ("시상 병변", "해마 위축", "편도체 활성")]})
+    assert anatomy_issues(LectureNote(title="t", topics=[spread])) == []

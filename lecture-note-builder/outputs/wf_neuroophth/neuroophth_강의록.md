@@ -141,6 +141,12 @@
 망막에 도달한 시각 자극은 망막 신경절 세포(retinal ganglion cell)에 전달됩니다. 망막의 가장 안쪽에 있는 이 세포의 축삭 다발이 모여 안구를 나가는 것이 시신경이고, 시상의 lateral geniculate nucleus(LGN, 가쪽무릎체)까지 길게 이어져 첫 번째 시냅스를 이룹니다.
 
 
+![시신경의 구성: 망막 신경절 세포의 축삭이 LGN까지](diagrams/diagram_04.png)
+
+
+그림은 왼쪽에서 오른쪽으로 읽습니다. 망막의 가장 안쪽 세포에서 시작한 축삭이 한 다발의 optic nerve가 되어, 시상의 LGN에서 처음 시냅스를 이룹니다.
+
+
 시신경은 경로가 길어서 안저 검사에만 의존할 수 없고, 다른 검사 소견을 종합해서 평가해야 합니다.
 
 
@@ -166,7 +172,7 @@
 동공 반사는 눈에 빛을 비추었을 때 즉시 동공이 수축하는 반응입니다. 빛은 망막의 nasal(코쪽)과 temporal(귀쪽) 신경절 세포로 받아들이고, nasal 쪽 자극은 optic chiasm에서 반대편으로, temporal 쪽 자극은 교차하지 않고 같은 쪽으로 전달됩니다.
 
 
-![동공 반사의 경로: afferent는 CN 2, efferent는 CN 3](diagrams/diagram_04.png)
+![동공 반사의 경로: afferent는 CN 2, efferent는 CN 3](diagrams/diagram_05.png)
 
 
 > **[작성자 추가설명]**
@@ -212,7 +218,7 @@ RAPD는 ‘RAPD’로 검색해 영상으로 꼭 확인해 보라고 강조하�
 시력 저하와 관계되는 대표적인 질환이 시신경병증(optic neuropathy)이고, 원인이 다양합니다. 특징적인 증상과 검사 소견으로 가장 가능성 있는 원인을 찾고, 그에 맞는 워크업(work-up)을 하는 것이 중요합니다.
 
 
-![시신경병증의 원인과 이번 강의의 증례](diagrams/diagram_05.png)
+![시신경병증의 원인과 이번 강의의 증례](diagrams/diagram_06.png)
 
 
 염증이 원인일 때는 시신경뿐 아니라 다른 신경계를 침범하는 자가면역 질환, 즉 multiple sclerosis(다발성 경화증)나 neuromyelitis optica(시신경척수염)가 동반되는지 반드시 진단 과정을 거칩니다.
@@ -266,6 +272,12 @@ papilledema에서는 우선 뇌 안에 space-occupying lesion, 즉 brain tumor �
 왼쪽 시야는 오른쪽 눈의 temporal 망막과 왼쪽 눈의 nasal 망막에서 인지됩니다. temporal 망막의 신호는 교차하지 않고, nasal 망막의 신호는 교차해서 optic chiasm을 지나 optic tract, optic radiation을 거쳐 visual cortex에 이릅니다.
 
 
+![시각 경로와 병변 위치별 시야 결손](diagrams/diagram_07.png)
+
+
+그림의 칸을 앞에서 뒤로 따라가면, 병변이 chiasm에 있으면 양이측 반맹, optic tract 이후면 반대쪽 동측 반맹, visual cortex면 중심 시야가 남습니다.
+
+
 > **[작성자가 헷갈려서 정리]**
 > nasal(코쪽) 망막 = 교차 / temporal(귀쪽) 망막 = 교차 안 함
 > - 그래서 chiasm 병변은 교차하는 nasal 섬유만 끊겨 양쪽 이측(귀쪽) 시야가 사라집니다(bitemporal hemianopia).
@@ -312,6 +324,12 @@ CN 3은 핵이 매우 커서 oculomotor nuclear complex라고 부릅니다. 이 
 CN 3, 4, 6은 핵에서 나와 cavernous sinus와 안와를 지나 각 근육에 닿습니다. 이 긴 경로 가운데 어디에 이상이 있느냐에 따라 다양한 눈 운동 이상이 생깁니다.
 
 
+![눈 운동 신경의 경로: 핵 → cavernous sinus → 안와 → 외안근](diagrams/diagram_08.png)
+
+
+그림의 어느 칸에서든 병변이 생기면 복시가 나타나므로, 동반 소견으로 핵, cavernous sinus, 안와 중 어디인지를 좁혀 갑니다.
+
+
 
 <a name="topic-11"></a>
 
@@ -325,7 +343,7 @@ CN 3, 4, 6은 핵에서 나와 cavernous sinus와 안와를 지나 각 근육에
 좌측을 볼 때 좌안은 CN 6의 신호를 받고, 우안은 CN 3의 지배를 받는 내직근이 짝이 되어 같은 힘으로 작용해야 합니다. 동측 CN 6과 반대쪽 CN 3을 연결하는 internuclear connection이 정상이어야 두 눈이 함께 보는 gaze(주시)가 성립합니다.
 
 
-![좌측 주시의 경로](diagrams/diagram_06.png)
+![좌측 주시의 경로](diagrams/diagram_09.png)
 
 
 그 연결 통로가 MLF(medial longitudinal fasciculus, 안쪽세로다발)입니다. 왼쪽 CN 6 핵에서 오른쪽 MLF를 지나 오른쪽 CN 3 핵으로 가는 경로가 반대쪽 내직근을 자극합니다.
@@ -356,6 +374,12 @@ CN 3 마비의 원인은 여러 가지이지만, P-comm artery(뒤교통동맥)�
 
 
 특히 Edinger-Westphal nucleus에서 sphincter pupillae로 가는 nerve fiber가 매우 인접해 있어, CN 3 마비에 동공 확대가 함께 나타납니다.
+
+
+![P-comm aneurysm과 CN 3: 가까이 지나서 함께 눌림](diagrams/diagram_10.png)
+
+
+그림처럼 P-comm artery에서 생긴 aneurysm에 가장 근접하게 지나가는 것이 3번 뇌신경이고, 동공으로 가는 nerve fiber도 인접해 있어 증례에서 동공 확대와 눈꺼풀 처짐, 내전·상전 장애가 함께 나타났습니다.
 
 
 CN 3 마비에 동공 확대가 동반되면 반드시 MRA나 CTA 같은 뇌혈관 영상 검사를 시행하도록 되어 있다고 강조하셨습니다.
