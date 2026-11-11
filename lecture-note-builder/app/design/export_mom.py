@@ -1027,7 +1027,11 @@ def export_mom(
         p = doc.add_paragraph(); _fmt(p, before=10, after=6)
         r = p.add_run("목차"); _font(r, F, 11, bold=True, underline=True)
     else:
-        _banner(doc, "차 례", F, fill=TEAL_DARK, size=20, before=10, after=6)
+        if tpl.format.heading_system == "mom":
+            p = doc.add_paragraph(); _fmt(p, before=10, after=6)
+            r = p.add_run("목차"); _font(r, F, 13, bold=True)
+        else:
+            _banner(doc, "차 례", F, fill=TEAL_DARK, size=20, before=10, after=6)
     last_ch = None
     chapter_toc = tpl.format.toc_level == "chapter"
     for i, t in enumerate(note.topics):
@@ -1141,6 +1145,13 @@ def export_mom(
         elif by_chapter and not n["front"] and n["chapter"]:  # chapter banner in the header, § heading in the body
             _page_header(s_.header, None, n["banner"], None, F, tpl)
             _section_heading(doc, n["section"], F, base, i, "", hsys, inline)
+        elif hsys == "mom":  # no coloured title bands anywhere (L27): a plain bold title in the body, header = page number only
+            _page_header(s_.header, None, None, None, F, tpl)
+            p = doc.add_paragraph()
+            _fmt(p, before=2, after=8, line=1.15, left=0.0)
+            p.paragraph_format.keep_with_next = True
+            r = p.add_run(n["banner"] if n["front"] else n["section"]); _font(r, F, 15, bold=True, color=BLACK)
+            _bookmark(p, f"_Toc{i}", i + 1)
         elif hs == "banner":
             _page_header(s_.header, None, n["banner"], None if n["front"] else n["section"], F, tpl)
             p = doc.add_paragraph()

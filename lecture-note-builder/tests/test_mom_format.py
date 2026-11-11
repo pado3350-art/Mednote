@@ -39,3 +39,23 @@ def test_format_checks():
     bad.topics[0].sections["body"].append(Statement(text="x", kind="callout", left_title="아무 상자", left=["a"], slide_refs=[1]))
     codes = {c for _, c, _ in format_issues(bad)}
     assert {"SUB_LINE_FORMAT", "CALLOUT_TITLE_UNKNOWN"} <= codes and "POINTS_MISSING" not in codes
+
+
+def test_mom_heading_system_has_no_coloured_title_bands(tmp_path):
+    """L27: front titles, chapter, [n] headings and (1) lines are plain bold text - no green / teal shading in the body."""
+    import zipfile
+
+    note = _note(points="a\n- b")
+    note.topics.insert(0, Topic(heading="요약 ① 시각 경로", role="front", slide_numbers=[1], sections={"body": [Statement(text="x", slide_refs=[1])]}))
+    for tpl in (_tpl(), load_template("templates/mom_compact.yaml")):
+        if tpl.format.heading_system != "mom":
+            tpl.format = tpl.format.model_copy(update={"heading_system": "mom"})
+        out = export_mom(note, tpl, tmp_path / f"n_{tpl.template_name}.docx")
+        xml = zipfile.ZipFile(out).read("word/document.xml").decode("utf-8")
+        for fill in ("1F8A7A", "C6E0B4", "DCEFEA", "8FBFB8"):
+            # table header rows may be teal; paragraph/run shading (titles) must not be
+            import re
+            bad = re.findall(r"<w:(?:pPr|rPr)>(?:(?!</w:pPr>|</w:rPr>).)*?<w:shd [^>]*w:fill=\"%s\"" % fill, xml)
+            assert not bad, (tpl.template_name, fill)
+        hdr = [zipfile.ZipFile(out).read(n).decode("utf-8") for n in zipfile.ZipFile(out).namelist() if n.startswith("word/header")]
+        assert not any("1F8A7A" in h for h in hdr)
