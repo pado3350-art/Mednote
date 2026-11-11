@@ -78,12 +78,12 @@ def build():
         FIG("f_nuclei.png", "편도체의 핵 구분과 uncus 안쪽 위치 (슬라이드)", [3]),
         P("group을 나누는 방식은 책마다 조금 다릅니다. 이번 수업은 basolateral nuclei와 cortical(medial) nuclei 두 그룹으로 정리하고, "
           "central nucleus를 따로 떼어 세 그룹으로 보는 경우는 cortical-medial group에 묶습니다.", [4]),
-        P("{r|교수님 강조: 시험을 위해 큰 분류 두 개를 먼저 가져가야 하고, 이 분류가 뒤의 연결 경로를 이해하는 기준입니다.}", [4]),
+        P("{r|시험을 위해서는 큰 분류 두 개를 먼저 가져가야 하고, 이 분류가 뒤의 연결 경로를 이해하는 기준이라고 강조하셨습니다.}", [4]),
     ]))
     top.append(LS("basolateral·corticomedial group은 무엇과 연결되나?", CH1, [
         AMY,
         P("편도체 전체의 기능은 fear, endocrine activity, sexual behavior, 음식물 섭취, emotion-related learning 등이고, 이 가운데 가장 기본인 것이 fear(공포)입니다.", [6]),
-        P("{r|교수님 강조: 편도체와 공포의 연결은 졸업 뒤에도 기억해야 합니다.}", [6]),
+        P("{r|편도체와 공포의 연결은 졸업 뒤에도 기억해야 할 정도라고 강조하셨습니다.}", [6]),
         P("{b|기출: amygdaloid nucleus 이상과 관련된 질환으로 docility, hyperorality, hypersexuality가 나왔고, anterograde amnesia는 해마(hippocampus) 이상이라 해당하지 않습니다.}{g| 이번 강의에서는 직접 다루지 않았습니다.}", [Q19_31]),
         CHK("편도체와 고위 감각 피질 영역의 연결이 비정상이면 일차적으로 central nucleus에 문제가 생긴다.", "X", [5],
             why="higher-order 입력을 받는 것은 basolateral nuclei이다."),
@@ -95,7 +95,7 @@ def build():
             ["corticomedial", "{b|olfactory bulb (direct olfactory pathway), primary olfactory cortex}\ndorsal thalamus\nhypothalamus (ventromedial nucleus, lateral hypothalamic area)"],
             ["central", "parabrachial nuclei, solitary nucleus, periaqueductal gray (내장 기능, 통증 조절)"],
         ], col_titles=["group", "들어오는 곳"], col_widths=[3.6, 13.8], g=[7, 8, 9, 10, Q20_53, Q19_29, Q12_1, Q12_3]),
-        P("{r|교수님 강조: ‘후각’이라는 말을 들으면 바로 corticomedial group이라고 답할 수 있어야 합니다.}", [9]),
+        P("{r|‘후각’이라는 말을 들으면 바로 corticomedial group이라고 답할 수 있어야 한다고 강조하셨습니다.}", [9]),
         FIG("f_aff.png", "편도체로 들어오는 afferent 경로: 파랑 = basolateral, 빨강 = corticomedial (슬라이드)", [11]),
         P("파란 경로는 basolateral group으로, 붉은 경로는 corticomedial group으로 들어옵니다. 대뇌피질에서 뻗는 화살표는 basolateral, "
           "olfactory bulb에서 오는 경로는 corticomedial로 이어집니다. 색깔보다 어디서 출발한 정보가 어느 group에 닿는지를 봅니다.", [11, 12]),
@@ -104,7 +104,7 @@ def build():
     top.append(EX("어디로 나가나(efferent)?", CH1, "stria terminalis와 ventral amygdalofugal pathway 두 경로입니다.", [
         P("fugal은 밖으로 나간다는 뜻입니다. ventral amygdalofugal pathway가 주요 efferent pathway이고, stria terminalis는 위치와 연결 대상을 특히 기억해야 합니다.", [13]),
         EFF,
-        P("{r|교수님 강조: stria terminalis의 표적(septal nuclei, hypothalamus, nucleus accumbens)은 외워 둡니다. 경로 하나를 따로 외우지 말고 연결망으로 기억합니다.}", [16]),
+        P("{r|stria terminalis의 표적(septal nuclei, hypothalamus, nucleus accumbens)은 외워 두고, 경로 하나를 따로 외우지 말고 연결망으로 기억하라고 강조하셨습니다.}", [16]),
         P("central nucleus는 brainstem과 연결되어 자율신경 반응과 관련됩니다. ventral amygdalofugal pathway는 연결 범위가 넓다는 점을 먼저 기억하고, 두 경로의 출발점과 표적을 비교합니다.", [18]),
         FIG("f_eff1.png", "stria terminalis와 ventral amygdalofugal pathway (슬라이드)", [19]),
         P("왼쪽 모식도에서 stria terminalis는 caudate nucleus와 dorsal thalamus 사이를 따라 길게 휘어 지나가고, ventral amygdalofugal pathway는 다른 방향과 위치로 주행합니다. 모든 화살표를 외우는 것이 아니라 두 경로가 다르게 주행한다는 점을 확인합니다.", [19]),
@@ -121,7 +121,7 @@ def build():
     ]))
     top.append(LS("연결되는 네 곳과 경로는?", CH2, [
         SEPTAL,
-        P("{r|교수님 강조: 이 표가 오늘 septal nuclei에서 가장 중요한 부분이므로 네 곳과 경로를 짝지어 외웁니다.}", [24]),
+        P("{r|이 표가 오늘 septal nuclei에서 가장 중요한 부분이니 네 곳과 경로를 짝지어 외우라고 강조하셨습니다.}", [24]),
         FIG("f_septal.png", "septal nuclei의 위치와 연결 경로 (슬라이드)", [23, 26]),
         CHK("Retroflex fasciculus는 septal nuclei와 연결되는 신경섬유이다.", "X", [23, 24], why="fornix, stria terminalis, medial forebrain bundle, stria medullaris thalami가 해당한다."),
         CHK("Septal nuclei와 hypothalamus를 연결하는 구조는 medial forebrain bundle이다.", "O", [24], why="VTA와 hypothalamus 연결에 medial forebrain bundle이 관여한다."),
@@ -137,7 +137,7 @@ def build():
         P("nucleus accumbens septi(사이막곁핵)는 basal ganglia에서도 이름이 나왔고, 오늘은 limbic system의 구성 요소로 다시 나옵니다. 위치는 caudate nucleus의 head와 putamen이 이어지는 부위로, 뇌의 비교적 앞쪽입니다.", [27]),
         FIG("f_acc_loc.png", "nucleus accumbens의 위치: caudate head와 putamen 사이 (슬라이드)", [27]),
         P("그림에서 caudate head와 putamen을 먼저 찾고, 그 사이 아래쪽으로 이어지는 부분이 nucleus accumbens입니다.", [27]),
-        P("{r|교수님 강조: amygdala는 fear, nucleus accumbens는 addiction으로 연결해 반드시 가져갑니다.}", [28]),
+        P("{r|amygdala는 fear, nucleus accumbens는 addiction으로 연결해 반드시 가져가라고 강조하셨습니다.}", [28]),
     ]))
     top.append(LS("nucleus accumbens의 afferent와 efferent는?", CH3, [
         ROWS([

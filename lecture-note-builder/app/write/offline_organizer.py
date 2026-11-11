@@ -148,7 +148,7 @@ def organize_section(units: list[Slide], heading: str, chapter: str, allowed: se
     if emph:  # the most salient emphasised sentence becomes the section's study tip
         _, _, best = sorted(emph, key=lambda e: (-e[0], e[1]))[0]
         plain = re.sub(r"[{}*]|\b[rbgpcyu]\|", "", best)
-        tip = "교수님 강조 — " + (plain if len(plain) <= 110 else plain[:107].rstrip() + "…")
+        tip = (plain if len(plain) <= 110 else plain[:107].rstrip() + "…") + " (교수님이 강조하신 내용입니다)"
     top = sorted(cand, key=lambda c: (-c[0], c[1]))[:3]
     top = sorted(top, key=lambda c: c[1])
     basics, brefs = [], []

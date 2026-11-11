@@ -134,7 +134,7 @@
 
 ## 2. 요약 ② PK/PD [중요언급]
 
-- 교수님이 ‘이 슬라이드가 중요하다’고 한 표입니다.
+- 교수님이 ‘이 슬라이드가 중요하다’고 강조하신 표입니다.
 
 ![Time-dependent antibiotics (왼쪽) / Concentration-dependent antibiotics (오른쪽) (슬라이드)](../../inputs/abx_figs/f34_time_conc.png)
 
@@ -166,7 +166,7 @@
 ### 3. 감염 장기와 항균제 선택
 
 
-교수님 강조: 어느 장기에 어떤 균이 흔한지가 가장 중요합니다.
+어느 장기에 어떤 균이 흔한지가 가장 중요하다고 강조하셨습니다.
 
 
 같은 장기의 감염이라도 환자가 다르면 약이 달라집니다.
@@ -178,7 +178,7 @@
 ### 4. 획득 경로와 면역 상태: 4사분면
 
 
-교수님 강조: 이 4사분면 슬라이드에서 시험 문제가 나왔습니다.
+이 4사분면 슬라이드에서 시험 문제가 나왔다고 알려 주셨습니다.
 
 
 ![생각해야 될 원인균? 획득 경로 × 면역 4사분면 (슬라이드)](../../inputs/abx_figs/f1_quadrant.png)
@@ -245,7 +245,7 @@
 ### 1. 정해진 용법의 근거
 
 
-교수님 강조: 영상의 두 번째 질문(질문2)에서 실제 중요한 내용이 많이 나왔습니다.
+영상의 두 번째 질문(질문2)에서 실제로 중요한 내용이 많이 나왔다고 강조하셨습니다.
 
 
 
@@ -253,7 +253,7 @@
 
 ### 2. 감염 기관별 투여 경로
 
-- 교수님 강조: ‘어떤 기관의 감염인가’는 질문1에 이어 계속 중요합니다.
+- ‘어떤 기관의 감염인가’는 질문1에 이어 계속 중요하다고 강조하셨습니다.
 
 
 <a name="topic-12"></a>
@@ -273,7 +273,7 @@ IV는 100% 들어가지만, 맞는 경로는 감염이 어디에 있느냐에 �
 Clostridium difficile 감염(CDI)과 amebic colitis에는 흡수되지 않고 장관 안에 고농도로 머무는 luminal agent를 쓰고, 경구 vancomycin이 그런 약입니다. 그래서 CDI에는 IV vancomycin이 아니라 경구 vancomycin이 맞습니다.
 
 
-교수님 강조: 경구 vancomycin과 IV vancomycin의 차이를 이해하는 것이 중요합니다.
+경구 vancomycin과 IV vancomycin의 차이를 이해하는 것이 중요하다고 강조하셨습니다.
 
 
 
@@ -293,7 +293,7 @@ Clostridium difficile 감염(CDI)과 amebic colitis에는 흡수되지 않고 �
 간격과 용량은 혈중 농도 곡선을 MIC와 견주어 정합니다.
 
 
-교수님 강조: 이 PK/PD 슬라이드가 중요합니다.
+이 PK/PD 슬라이드가 중요하다고 강조하셨습니다.
 
 
 ![Time-dependent antibiotics (왼쪽) / Concentration-dependent antibiotics (오른쪽) (슬라이드)](../../inputs/abx_figs/f34_time_conc.png)

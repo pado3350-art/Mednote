@@ -1,7 +1,7 @@
 # 검증 리포트
 
 - 슬라이드 커버리지: 100%
-- 오류 0 / 경고 9 / 참고 31
+- 오류 0 / 경고 10 / 참고 31
 
 - ⚠️ `UNGROUNDED` [발화 ¶2] 원본과 유사도가 낮은 문장(근거 확인 필요): '기출 6문항은 4사분면(이 쪽)과 PK/PD(다음 쪽), 두 유형에서 나…'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶5] 수치 '2주'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
@@ -29,12 +29,13 @@
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶36] 용어 'Efficacy'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶37] 용어 'Compliance'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ⚠️ `UNGROUNDED` [발화 ¶39] 원본과 유사도가 낮은 문장(근거 확인 필요): 'IV는 100% 들어가지만, 맞는 경로는 감염이 어디에 있느냐에 따라 다…'
-- ⚠️ `UNGROUNDED` [발화 ¶40] 원본과 유사도가 낮은 문장(근거 확인 필요): '교수님 강조: ‘어떤 기관의 감염인가’는 질문1에 이어 계속 중요합니다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶40] 원본과 유사도가 낮은 문장(근거 확인 필요): '‘어떤 기관의 감염인가’는 질문1에 이어 계속 중요하다고 강조하셨습니다.…'
 - ⚠️ `UNGROUNDED` [발화 ¶40] 원본과 유사도가 낮은 문장(근거 확인 필요): '간격과 용량은 혈중 농도 곡선을 MIC와 견주어 정합니다.…'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶41] 용어 'Beta'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶41] 용어 'Dosing regimen'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ⚠️ `UNGROUNDED` [발화 ¶41] 원본과 유사도가 낮은 문장(근거 확인 필요): 'Aminoglycoside는 time-dependent killing을 …'
-- ⚠️ `UNGROUNDED` [발화 ¶47] 원본과 유사도가 낮은 문장(근거 확인 필요): '교수님 강조: 경구 vancomycin과 IV vancomycin의 차이…'
+- ⚠️ `UNGROUNDED` [발화 ¶44] 원본과 유사도가 낮은 문장(근거 확인 필요): '이 PK/PD 슬라이드가 중요하다고 강조하셨습니다.…'
+- ⚠️ `UNGROUNDED` [발화 ¶47] 원본과 유사도가 낮은 문장(근거 확인 필요): '경구 vancomycin과 IV vancomycin의 차이를 이해하는 것…'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶51] 수치 '10분'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶51] 수치 '11'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶51] 수치 '30분'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).

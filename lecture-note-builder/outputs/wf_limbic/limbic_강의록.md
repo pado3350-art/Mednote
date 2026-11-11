@@ -110,7 +110,7 @@
 group을 나누는 방식은 책마다 조금 다릅니다. 이번 수업은 basolateral nuclei와 cortical(medial) nuclei 두 그룹으로 정리하고, central nucleus를 따로 떼어 세 그룹으로 보는 경우는 cortical-medial group에 묶습니다.
 
 
-교수님 강조: 시험을 위해 큰 분류 두 개를 먼저 가져가야 하고, 이 분류가 뒤의 연결 경로를 이해하는 기준입니다.
+시험을 위해서는 큰 분류 두 개를 먼저 가져가야 하고, 이 분류가 뒤의 연결 경로를 이해하는 기준이라고 강조하셨습니다.
 
 
 
@@ -119,7 +119,7 @@ group을 나누는 방식은 책마다 조금 다릅니다. 이번 수업은 bas
 ### 2. basolateral·corticomedial group은 무엇과 연결되나?
 
 - 편도체 전체의 기능은 fear, endocrine activity, sexual behavior, 음식물 섭취, emotion-related learning 등이고, 이 가운데 가장 기본인 것이 fear(공포)입니다.
-- 교수님 강조: 편도체와 공포의 연결은 졸업 뒤에도 기억해야 합니다.
+- 편도체와 공포의 연결은 졸업 뒤에도 기억해야 할 정도라고 강조하셨습니다.
 - **[기출]** 기출: amygdaloid nucleus 이상과 관련된 질환으로 docility, hyperorality, hypersexuality가 나왔고, anterograde amnesia는 해마(hippocampus) 이상이라 해당하지 않습니다. 이번 강의에서는 직접 다루지 않았습니다.
 - **개념 Check** 편도체와 고위 감각 피질 영역의 연결이 비정상이면 일차적으로 central nucleus에 문제가 생긴다. (O, X) → X — higher-order 입력을 받는 것은 basolateral nuclei이다.
 
@@ -136,7 +136,7 @@ group을 나누는 방식은 책마다 조금 다릅니다. 이번 수업은 bas
 afferent는 들어오는 것, efferent는 나가는 것이므로 두 방향을 뒤집으면 안 됩니다.
 
 
-교수님 강조: ‘후각’이라는 말을 들으면 바로 corticomedial group이라고 답할 수 있어야 합니다.
+‘후각’이라는 말을 들으면 바로 corticomedial group이라고 답할 수 있어야 한다고 강조하셨습니다.
 
 
 ![편도체로 들어오는 afferent 경로: 파랑 = basolateral, 빨강 = corticomedial (슬라이드)](../../inputs/limbic_figs/f_aff.png)
@@ -161,7 +161,7 @@ brainstem, 시상하부, 시상, 해마에서 들어오는 연결은 efferent에
 fugal은 밖으로 나간다는 뜻입니다. ventral amygdalofugal pathway가 주요 efferent pathway이고, stria terminalis는 위치와 연결 대상을 특히 기억해야 합니다.
 
 
-교수님 강조: stria terminalis의 표적(septal nuclei, hypothalamus, nucleus accumbens)은 외워 둡니다. 경로 하나를 따로 외우지 말고 연결망으로 기억합니다.
+stria terminalis의 표적(septal nuclei, hypothalamus, nucleus accumbens)은 외워 두고, 경로 하나를 따로 외우지 말고 연결망으로 기억하라고 강조하셨습니다.
 
 
 central nucleus는 brainstem과 연결되어 자율신경 반응과 관련됩니다. ventral amygdalofugal pathway는 연결 범위가 넓다는 점을 먼저 기억하고, 두 경로의 출발점과 표적을 비교합니다.
@@ -208,7 +208,7 @@ septal nuclei(사이막핵)는 육안으로 관찰하기 어렵지만 limbic sys
 
 ### 2. 연결되는 네 곳과 경로는?
 
-- 교수님 강조: 이 표가 오늘 septal nuclei에서 가장 중요한 부분이므로 네 곳과 경로를 짝지어 외웁니다.
+- 이 표가 오늘 septal nuclei에서 가장 중요한 부분이니 네 곳과 경로를 짝지어 외우라고 강조하셨습니다.
 
 ![septal nuclei의 위치와 연결 경로 (슬라이드)](../../inputs/limbic_figs/f_septal.png)
 
@@ -257,7 +257,7 @@ nucleus accumbens septi(사이막곁핵)는 basal ganglia에서도 이름이 나
 그림에서 caudate head와 putamen을 먼저 찾고, 그 사이 아래쪽으로 이어지는 부분이 nucleus accumbens입니다.
 
 
-교수님 강조: amygdala는 fear, nucleus accumbens는 addiction으로 연결해 반드시 가져갑니다.
+amygdala는 fear, nucleus accumbens는 addiction으로 연결해 반드시 가져가라고 강조하셨습니다.
 
 
 

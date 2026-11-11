@@ -185,12 +185,13 @@ The author is a classmate, not a textbook. Pick the ending by **what the sentenc
 | The sentence ... | ending | example |
 |---|---|---|
 | states a fact / definition / translates a slide | ~한다 / ~이다 / ~할 수 있다 | "TIMI 점수가 높을수록 … 발생 확률이 높아진다." |
-| reports what the lecturer said or stressed | ~하셨다 / ~라고 합니다 / ~라고 하심 | "~해야 한다고 합니다." / "특히 stria terminalis를 강조하셨습니다." |
+| reports what the lecturer stressed or said is on the exam (L6 v2) | the sentence first, then **~라고 강조하셨습니다 / ~라고 알려 주셨습니다** at its end, in red | "편도체와 공포의 연결은 졸업 뒤에도 기억해야 할 정도라고 강조하셨습니다." (NOT "교수님 강조: 편도체와 공포의 연결은 …합니다.") |
 | advises the reader how to study | ~하시면 됩니다 / ~해두시면 좋습니다 / ~하자 | "이걸 다 외울 필요는 없을 것 같습니다. 다음 쪽이 훨씬 중요합니다." |
 | is the author's own opinion / unsure | in parentheses, honest | "(…정확하게는 classical class 2가 아니라고 받아들이는 것이 맞을 것 같습니다.)" |
 | encourages | short and light | "화이팅입니다", "푸실 수 있을 거라고 생각합니다!" |
 
 Rules of voice:
+- **No label in front.** Never write "교수님 강조: …" / "교수님 말씀: …"; say the content, then close the sentence with the attribution (검증 `EMPHASIS_LABEL`). Other facts are narrated directly, without "교수님은 ~라고 하셨다" openers.
 - Never present the author's guess as the lecturer's words; never present the lecturer's words as fact without attribution when it matters ("교수님은 ~라고 하셨는데").
 - Always tell the reader the **priority**: "제일 중요!", "가볍게 읽어보아도 좋다", "이건 다 외울 필요는 없을 것 같습니다", "→ 결국 시험 정답은 이걸 기반으로 고릅니다."
 - Order of explanation: intuition first ("감염원 입장에서 보면 …"), then the term, then the number (with its meaning: "5.1%로 약 3배 높다").

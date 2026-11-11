@@ -141,3 +141,9 @@ def test_rare_korean_terms_need_english_and_keyword_list_titles():
     ok = _t("septal nuclei(사이막핵)는 어디에 있나?", "explain", [Statement(text="사이막핵(septal nuclei)은 깊은 층에 있습니다.", kind="para", slide_refs=[1])], ["brainstem과 연결됩니다."])
     ok.chapter = "Septal nuclei(사이막핵)의 위치와 연결"
     assert not [c for _, c, _ in term_issues(LectureNote(title="t", topics=[ok]))]
+
+
+def test_emphasis_label_is_flagged_but_natural_ending_is_not():
+    bad = _t("왜?", "explain", [Statement(text="{r|교수님 강조: 공포의 연결을 기억해야 합니다.}", kind="para", slide_refs=[1])], ["a입니다."])
+    good = _t("왜?", "explain", [Statement(text="{r|공포의 연결은 졸업 뒤에도 기억해야 할 정도라고 강조하셨습니다.}", kind="para", slide_refs=[1])], ["a입니다."])
+    assert "EMPHASIS_LABEL" in _codes([bad]) and "EMPHASIS_LABEL" not in _codes([good])

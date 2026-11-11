@@ -28,6 +28,8 @@ LIST_CUES = re.compile(
 # sentences that announce what comes next instead of saying it (MOM style: start with the content)
 ANNOUNCE = re.compile(r"(아래|다음)\s*(세|네|두|다섯)?\s*소절|한 번 더 정리한다|살펴보(자|겠다|도록)|살펴본다|이제 .{0,20}(본다|보자)\.?$|"
                       r"(이 쪽|다음 쪽).{0,12}(표|그림)|다시 나온다|보자\.?$|설명한다\.?$")
+# '교수님 강조: …' as a label in front of a sentence - write the sentence and end it with '~라고 강조하셨습니다' instead
+EMPHASIS_LABEL = re.compile(r"^\s*교수님\s*(?:강조|언급|말씀)\s*[:：—-]")
 QUESTION_END = re.compile(r"(\?|까|나|가|는가|인가|일까|을까|ㄹ까)\s*$")
 SUMMARY_START = re.compile(r"^\s*(?:\{[a-z]\|)?\s*(?:\*\*)?\s*(즉|따라서|결국|정리하면|요약하면)")
 
@@ -156,6 +158,8 @@ def mixed_issues(note: LectureNote) -> list[tuple[str, str, str]]:
         if plain_ends:  # approved rule L5 v2: explanation paragraphs and 'A.' lines are 합니다체
             out.append(("info", "TONE_NOT_FORMAL", f"'{t.heading}': 설명 문단·A. 줄 {len(plain_ends)}문장이 ‘-다’로 끝난다 → 합니다체(L5): '{plain_ends[0][:24]}…'"))
         for x in texts:
+            if EMPHASIS_LABEL.search(x):
+                out.append(("warning", "EMPHASIS_LABEL", f"'{t.heading}': ‘교수님 강조:’ 라벨 대신 문장 끝에 자연스럽게 붙인다(‘~해야 할 정도라고 강조하셨습니다’, L6 v2): '{x[:28]}…'"))
             if ANNOUNCE.search(x):
                 out.append(("warning", "ANNOUNCE_SENTENCE", f"'{t.heading}': 내용 없이 앞을 여는 문장 → 빼고 핵심부터: '{x[:28]}…'"))
         if t.style == "explain" and t.basics and paras:

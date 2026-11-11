@@ -46,6 +46,9 @@
 ## Top-down 작성 (흐름 먼저, 문장은 나중)
 노트 문장을 쓰기 전에 `{out}/storyline.md`를 먼저 쓴다: 강의 스스로의 뼈대(교수의 질문, 첫째/둘째, Part — 있으면 그것이 목차) → 한 문장 요지 → 장 요지 → 소절의 질문과 한 줄 답 → 다리 → 반복되는 축 → 시험 축(앞쪽 요약 = PAD 유형 표 + 지도 1장) → 그림 인벤토리. 장·소절 제목에는 대상과 의학 용어를 넣는다(‘질문1: 무엇을 고를까’ 같은 제목 금지 — `HEADING_TOO_VAGUE`). 장은 내용의 위계로, 소절 순서는 스크립트 ¶ 순서로. `prepare`가 `brief/storyline_template.md`(구조 신호·PAD·그림 미리 채움)를 만들고, 빌드는 `STORYLINE_MISSING`/`STORYLINE_DRIFT`/`HEADING_TOO_VAGUE`를 띄운다(`app/write/storyline.py`). 문장은 스킬 00b절 ‘한 번 읽고 이해되는 문장’. 근거 `outputs/abx/review_vs_MOM.md`, 예시 `references/top_down_storyline.md`.
 
+## 교수님 강조 문장 (L6 v2)
+‘교수님 강조: …’ 라벨을 앞에 붙이지 않고, 문장을 쓴 뒤 끝에 붙인다: ‘편도체와 공포의 연결은 졸업 뒤에도 기억해야 할 정도라고 강조하셨습니다.’ (빨강, 검증 `EMPHASIS_LABEL`, 스킬 `readable-note-organizer` 3절·`my-writing-style`).
+
 ## 용어·제목 (L25, L26)
 잘 안 쓰는 한글 전문용어(핵군, 사이막핵, 뇌줄기, 후각계, 겉질 …)는 영어로 쓰거나 병기한다: `septal nuclei(사이막핵)`, `brainstem` (검증 `KOREAN_TERM_NO_ENGLISH`, 목록 `app/write/terms.py`, 강의별 추가 `meta.rare_terms`). 장·소절 제목은 쉼표로 키워드를 나열하거나 새로 압축한 말(‘입력·출력 경로’)을 쓰지 않고, 강의 속 표현으로 ‘~의 ~와 ~’ 명사구를 쓴다(`HEADING_KEYWORD_LIST`, 예: ‘편도체(amygdala)의 구조와 연결’).
 
