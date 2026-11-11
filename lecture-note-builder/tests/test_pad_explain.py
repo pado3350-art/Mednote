@@ -31,3 +31,25 @@ def test_load_authored(tmp_path):
     f = tmp_path / "p.json"
     f.write_text(json.dumps({"1001": {"answer": "② b"}}), encoding="utf-8")
     assert load_authored(f) == {1001: {"answer": "② b"}} and load_authored(None) == {}
+
+
+def test_same_type_questions_share_one_commentary():
+    from app.pad.explain import group_items
+
+    note = _note()
+    items = [_item(1001), _item(1002), _item(1003, ["미수업"])]
+    note.topics[0].sections["body"][1].slide_refs = [1001, 1002]  # 1001 and 1002 cite the same table
+    note.topics[0].sections["body"][0].slide_refs = [1001, 1002]
+    g = group_items(items, note)
+    assert [[i.number for i in x] for x in g] == [[1001, 1002], [1003]]
+    md = pad_commentary(items, note, {1001: {"explanation": "한 번"}, 1002: {"explanation": "한 번"}})
+    assert md.count("한 번\n") == 1 and "2개 유형" in md
+
+
+def test_old_import_paths_still_work():
+    import app.exam
+    import app.mom_compare
+    import app.pad.exam
+    import app.design.mom_compare
+
+    assert app.exam is app.pad.exam and app.mom_compare is app.design.mom_compare

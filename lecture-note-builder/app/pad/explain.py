@@ -50,29 +50,71 @@ def load_authored(path: str | Path | None) -> dict[int, dict]:
     return {int(k): v for k, v in raw.items()}
 
 
-def pad_commentary(items: list[ExamItem], note: LectureNote, authored: dict[int, dict] | None = None) -> str:
-    """Markdown of the new PAD file."""
-    authored = authored or {}
-    L = [f"# {note.title} — 기출(PAD) 해설", "",
-         "문제와 정답은 PAD 파일 그대로이고(파랑 = PAD 내용), ‘이번 강의 기준 해설’은 이번 스크립트로 쓴 노트의 근거 문장입니다.", ""]
+def _short(it: ExamItem) -> str:
+    return (f"{it.cohort} Q{it.q_no}" if it.cohort else f"{it.year}년 Q{it.q_no}") if (it.cohort or it.year) else f"Q{it.q_no}"
+
+
+def group_items(items: list[ExamItem], note: LectureNote) -> list[list[ExamItem]]:
+    """Past questions that the SAME part of this lecture answers (identical evidence) form one type: the lecture-based
+    commentary is written once per type. Items without evidence stay alone. Order = first appearance."""
+    groups: list[list[ExamItem]] = []
+    keyed: dict[frozenset, list[ExamItem]] = {}
     for it in items:
-        ev = evidence(note, it.number)
-        au = authored.get(it.number, {})
-        L += [f"## {it.title}", ""]
-        if it.signals:
-            L += [f"- 출제 신호: {', '.join(it.signals)}"]
-        L += [f"- 문제: {it.question.strip()}", f"- 정답: {au.get('answer') or it.answer.strip() or '(PAD에 없음)'}"]
-        if it.commentary.strip():
-            L += [f"- PAD 해설: {it.commentary.strip()}"]
-        L += ["", "**이번 강의 기준 해설**", ""]
-        if au.get("explanation"):
-            L += [au["explanation"].strip(), ""]
+        ev = frozenset(evidence(note, it.number))
+        if not ev:
+            groups.append([it])
+        elif ev in keyed:
+            keyed[ev].append(it)
+        else:
+            keyed[ev] = [it]
+            groups.append(keyed[ev])
+    return groups
+
+
+def _explanations(group: list[ExamItem], authored: dict[int, dict]) -> list[str]:
+    seen: list[str] = []
+    for it in group:
+        e = (authored.get(it.number, {}).get("explanation") or "").strip()
+        if e and e not in seen:
+            seen.append(e)
+    return seen
+
+
+def pad_commentary(items: list[ExamItem], note: LectureNote, authored: dict[int, dict] | None = None) -> str:
+    """Markdown of the new PAD file: one block per question TYPE (repeated questions merged), the lecture-based commentary once."""
+    authored = authored or {}
+    groups = group_items(items, note)
+    L = [f"# {note.title} — 기출(PAD) 해설", "",
+         f"기출 {len(items)}문항을 {len(groups)}개 유형으로 묶었습니다. 문제·정답·PAD 해설은 PAD 파일 그대로이고(파랑 = PAD 내용), "
+         "‘이번 강의 기준 해설’은 이번 스크립트로 쓴 노트의 근거 문장과 직접 쓴 해설이며 유형마다 한 번만 씁니다.", ""]
+    covered = 0
+    for gi, g in enumerate(groups, start=1):
+        ev = evidence(note, g[0].number)
+        heads = list(dict.fromkeys(h for h, _ in ev))
+        title = " · ".join(heads) if heads else "이번 강의 범위 밖"
+        L += [f"## 유형 {gi}. {title} ({len(g)}문항: {', '.join(_short(i) for i in g)})", ""]
+        for it in g:
+            au = authored.get(it.number, {})
+            L += [f"### {it.title}", ""]
+            if it.signals:
+                L += [f"- 출제 신호: {', '.join(it.signals)}"]
+            L += [f"- 문제: {it.question.strip()}", f"- 정답: {au.get('answer') or it.answer.strip() or '(PAD에 없음)'}"]
+            if it.commentary.strip():
+                L += [f"- PAD 해설: {it.commentary.strip()}"]
+            if au.get("answer_note"):
+                L += [f"- 이번 강의로 보면: {au['answer_note'].strip()}"]
+            L += [""]
+        L += ["**이번 강의 기준 해설**", ""]
+        exps = _explanations(g, authored)
+        for e in exps:
+            L += [e, ""]
         if ev:
             L += [f"- [{h}] {t}" for h, t in ev]
-        elif not au.get("explanation"):
-            L += ["- 이번 시간 범위 밖(미수업)입니다." if "미수업" in it.signals else "- 이번 스크립트에서 직접 다루지 않았습니다."]
+        elif not exps:
+            L += ["- 이번 시간 범위 밖(미수업)입니다." if any("미수업" in i.signals for i in g) else "- 이번 스크립트에서 직접 다루지 않았습니다."]
+        if ev or exps:
+            covered += len(g)
         L += [""]
-    covered = sum(1 for it in items if evidence(note, it.number) or authored.get(it.number, {}).get("explanation"))
     L += ["---", f"이번 강의에서 다룬 기출 {covered}/{len(items)}문항"]
     return "\n".join(L) + "\n"
 
@@ -86,26 +128,35 @@ def write_pad_commentary(items: list[ExamItem], note: LectureNote, out_md: str |
     out_md.parent.mkdir(parents=True, exist_ok=True)
     out_md.write_text(pad_commentary(items, note, authored), encoding="utf-8")
     authored = authored or {}
+    groups = group_items(items, note)
     doc = Document()
     doc.add_heading(f"{note.title} — 기출(PAD) 해설", 0)
+    doc.add_paragraph(f"기출 {len(items)}문항을 {len(groups)}개 유형으로 묶었습니다. 파랑 = PAD 내용, 검정 = 이번 강의 기준 해설(유형마다 한 번).")
     blue = RGBColor(0x1F, 0x4E, 0xC8)
-    for it in items:
-        doc.add_heading(it.title, 2)
-        for label, text in (("문제", it.question.strip()), ("정답", authored.get(it.number, {}).get("answer") or it.answer.strip()),
-                            ("PAD 해설", it.commentary.strip())):
-            if text:
+    for gi, g in enumerate(groups, start=1):
+        ev = evidence(note, g[0].number)
+        heads = " · ".join(dict.fromkeys(h for h, _ in ev)) or "이번 강의 범위 밖"
+        doc.add_heading(f"유형 {gi}. {heads} ({len(g)}문항: {', '.join(_short(i) for i in g)})", 1)
+        for it in g:
+            au = authored.get(it.number, {})
+            doc.add_heading(it.title, 3)
+            for label, text in (("문제", it.question.strip()), ("정답", au.get("answer") or it.answer.strip()), ("PAD 해설", it.commentary.strip())):
+                if text:
+                    p = doc.add_paragraph()
+                    p.add_run(f"{label}: ").bold = True
+                    p.add_run(text).font.color.rgb = blue
+            if au.get("answer_note"):
                 p = doc.add_paragraph()
-                p.add_run(f"{label}: ").bold = True
-                p.add_run(text).font.color.rgb = blue
+                p.add_run("이번 강의로 보면: ").bold = True
+                p.add_run(au["answer_note"].strip())
         doc.add_paragraph().add_run("이번 강의 기준 해설").bold = True
-        au = authored.get(it.number, {}).get("explanation")
-        ev = evidence(note, it.number)
-        if au:
-            doc.add_paragraph(au.strip())
+        exps = _explanations(g, authored)
+        for e in exps:
+            doc.add_paragraph(e)
         for h, t in ev:
             doc.add_paragraph(f"[{h}] {t}", style="List Bullet")
-        if not ev and not au:
-            doc.add_paragraph("이번 시간 범위 밖(미수업)입니다." if "미수업" in it.signals else "이번 스크립트에서 직접 다루지 않았습니다.")
+        if not ev and not exps:
+            doc.add_paragraph("이번 시간 범위 밖(미수업)입니다." if any("미수업" in i.signals for i in g) else "이번 스크립트에서 직접 다루지 않았습니다.")
     out_docx = out_md.with_suffix(".docx")
     doc.save(out_docx)
     return out_md, out_docx
