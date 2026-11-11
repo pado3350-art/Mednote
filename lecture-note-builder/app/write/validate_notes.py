@@ -244,6 +244,13 @@ def validate(
         for sev, code, msg in mixed_issues(note) + table_orphan_issues(note) + table_style_issues(note):
             rep.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
 
+    # 4c-3b. Uncommon Korean terms need English (approved rule L25)
+    from .storyline import keyword_heading_issues
+    from .terms import term_issues
+
+    for sev, code, msg in term_issues(note) + keyword_heading_issues(note):
+        rep.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
+
     # 4c-4. Concept boxes are drawn, not only written (L15): slide picture first, else a program schematic
     if template.format.mixed:
         for t in note.topics:

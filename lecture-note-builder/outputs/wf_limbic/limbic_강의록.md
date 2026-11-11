@@ -2,18 +2,18 @@
 
 **작성자 코멘트**
 
-- 신경과학1 ‘Limbic system’(편도체복합체, 사이막핵, nucleus accumbens)입니다. 스크립트 ¶1–40을 4장으로 정리했고, 슬라이드 그림은 정리본 PDF에서 이미지만 가져왔습니다. 파랑 글씨 = 기출(PAD)에 나온 내용입니다.
+- 신경과학1 ‘Limbic system’(편도체복합체, septal nuclei, nucleus accumbens)입니다. 스크립트 ¶1–40을 4장으로 정리했고, 슬라이드 그림은 정리본 PDF에서 이미지만 가져왔습니다. 파랑 글씨 = 기출(PAD)에 나온 내용입니다.
 - 마지막 진로 안내(¶39–40)는 신경해부학 내용이 아니어서 생략했습니다.
 
 **먼저 볼 내용**
 
-- 기출 13문항(12~20학번)은 편도체의 핵군별 연결·경로와 사이막핵의 연결에서 나왔습니다. 앞쪽 두 표를 먼저 보세요.
+- 기출 13문항(12~20학번)은 편도체의 group별 연결·경로와 septal nuclei의 연결에서 나왔습니다. 앞쪽 두 표를 먼저 보세요.
 - 교수님이 반드시 가져가라고 한 연결어는 amygdala—fear, nucleus accumbens—addiction입니다.
 
-| 핵군 | 연결과 단서 |
+| group | 연결과 단서 |
 |---|---|
-| **[기출]** basolateral | **[기출]** 대뇌와 광범위하게 연결 (고위 연합 입력)<br>여러 감각 정보와 대뇌피질 정보를 통합 |
-| **[기출]** corticomedial | **[기출]** 후각계와 밀접: olfactory bulb, primary olfactory cortex |
+| **[기출]** basolateral | **[기출]** 대뇌와 광범위하게 연결 (higher-order, 고위 연합 입력)<br>여러 감각 정보와 대뇌피질 정보를 통합 |
+| **[기출]** corticomedial | **[기출]** olfactory system와 밀접: olfactory bulb, primary olfactory cortex |
 | **[기출]** central | **[기출]** brainstem과 연결 (부교감 신경핵)<br>hypothalamus와도 연결 → 자율신경·내장 반응 |
 | 경로 | 출발, 위치, 표적 |
 |---|---|
@@ -25,12 +25,12 @@
 | **[기출]** habenular nuclei | **[기출]** stria medullaris thalami |
 | **[기출]** amygdala | **[기출]** stria terminalis, ventral amygdalofugal pathway |
 | **[기출]** ventral tegmental area, hypothalamus | **[기출]** medial forebrain bundle<br>dopamine-containing fibers 포함 → 쾌락, 충동 |
-| 핵군 | 연결과 단서 |
+| group | 연결과 단서 |
 |---|---|
-| **[기출]** basolateral | **[기출]** 대뇌와 광범위하게 연결 (고위 연합 입력)<br>여러 감각 정보와 대뇌피질 정보를 통합 |
-| **[기출]** corticomedial | **[기출]** 후각계와 밀접: olfactory bulb, primary olfactory cortex |
+| **[기출]** basolateral | **[기출]** 대뇌와 광범위하게 연결 (higher-order, 고위 연합 입력)<br>여러 감각 정보와 대뇌피질 정보를 통합 |
+| **[기출]** corticomedial | **[기출]** olfactory system와 밀접: olfactory bulb, primary olfactory cortex |
 | **[기출]** central | **[기출]** brainstem과 연결 (부교감 신경핵)<br>hypothalamus와도 연결 → 자율신경·내장 반응 |
-| 핵군 | 들어오는 곳 |
+| group | 들어오는 곳 |
 |---|---|
 | basolateral | 여러 감각 정보(somatosensory, visual, visceral)가 들어옴<br>**[기출]** cortical input: prefrontal, cingulate, parahippocampal gyrus, temporal region, insular cortex<br>dorsal thalamus<br>subiculum (hippocampus) |
 | corticomedial | **[기출]** olfactory bulb (direct olfactory pathway), primary olfactory cortex<br>dorsal thalamus<br>hypothalamus (ventromedial nucleus, lateral hypothalamic area) |
@@ -58,18 +58,18 @@
 | lamina terminalis | 위치를 함께 확인 |
 ## 목차
 
-- [1. 요약 ① 편도체 핵군 [기출]](#topic-1)
-- [2. 요약 ② 편도체 출력과 사이막핵 [기출]](#topic-2)
-- [1장. 편도체복합체: 핵군, 입력·출력 경로, 공포](#chapter-1)
-- [2장. 사이막핵: 위치, 네 가지 연결, 기능](#chapter-2)
-- [3장. Nucleus accumbens: 위치, 경로, 중독](#chapter-3)
-- [4장. 실습 사진: uncus, fimbria, fornix](#chapter-4)
+- [1. 요약 ① 편도체 group [기출]](#topic-1)
+- [2. 요약 ② 편도체 출력과 septal nuclei [기출]](#topic-2)
+- [1장. 편도체(amygdala)의 구조와 연결](#chapter-1)
+- [2장. Septal nuclei(사이막핵)의 위치와 연결](#chapter-2)
+- [3장. Nucleus accumbens의 위치와 연결](#chapter-3)
+- [4장. 해부 실습 사진으로 보는 구조](#chapter-4)
 
 <a name="topic-1"></a>
 
-## 1. 요약 ① 편도체 핵군 [기출]
+## 1. 요약 ① 편도체 group [기출]
 
-- 변연계(limbic system) 강의는 편도체복합체, septal region, nucleus accumbens 세 구조를 다루고, 기능보다 어디서 정보를 받아 어디로 보내는지(afferent, efferent)를 구분하는 것이 핵심입니다. 세 구조는 서로 연결되어 있습니다.
+- 변연계(limbic system) 강의는 편도체복합체(amygdaloid complex), septal region, nucleus accumbens 세 구조를 다루고, 기능보다 어디서 정보를 받아 어디로 보내는지(afferent, efferent)를 구분하는 것이 핵심입니다. 세 구조는 서로 연결되어 있습니다.
 
 ![강의 전체 지도: 세 구조와 대표 연결어](diagrams/diagram_01.png)
 
@@ -80,9 +80,9 @@
 
 <a name="topic-2"></a>
 
-## 2. 요약 ② 편도체 출력과 사이막핵 [기출]
+## 2. 요약 ② 편도체 출력과 septal nuclei [기출]
 
-- 기출은 편도체에서 나가는 경로와, 사이막핵(septal nuclei)과 연결되는 곳·경로를 짝지어 묻습니다.
+- 기출은 편도체에서 나가는 경로와, septal nuclei(septal nuclei)과 연결되는 곳·경로를 짝지어 묻습니다.
 
 ![septal nuclei의 위치와 연결 경로 (슬라이드)](../../inputs/limbic_figs/f_septal.png)
 
@@ -90,7 +90,7 @@
 
 <a name="chapter-1"></a>
 
-## 1장. 편도체복합체: 핵군, 입력·출력 경로, 공포
+## 1장. 편도체(amygdala)의 구조와 연결
 
 <a name="topic-3"></a>
 
@@ -98,7 +98,7 @@
 
 **핵심 답**
 
-- uncus 안쪽에 있고, 두 핵군(basolateral, corticomedial)으로 나눕니다.
+- uncus 안쪽에 있고, 두 그룹(basolateral, corticomedial group)으로 나눕니다.
 
 
 편도체(amygdala)는 uncus 안쪽에 있고, 하나의 핵이 아니라 여러 핵으로 이루어진 복합체(complex)입니다. 그림에서 uncus를 먼저 찾으면 그 안쪽에 핵들이 모여 있습니다.
@@ -107,7 +107,7 @@
 ![편도체의 핵 구분과 uncus 안쪽 위치 (슬라이드)](../../inputs/limbic_figs/f_nuclei.png)
 
 
-핵군을 나누는 방식은 책마다 조금 다릅니다. 이번 수업은 basolateral nuclei와 cortical(medial) nuclei 두 그룹으로 정리하고, central nucleus를 따로 떼어 세 그룹으로 보는 경우는 cortical-medial group에 묶습니다.
+group을 나누는 방식은 책마다 조금 다릅니다. 이번 수업은 basolateral nuclei와 cortical(medial) nuclei 두 그룹으로 정리하고, central nucleus를 따로 떼어 세 그룹으로 보는 경우는 cortical-medial group에 묶습니다.
 
 
 교수님 강조: 시험을 위해 큰 분류 두 개를 먼저 가져가야 하고, 이 분류가 뒤의 연결 경로를 이해하는 기준입니다.
@@ -116,12 +116,12 @@
 
 <a name="topic-4"></a>
 
-### 2. 핵군별 연결과 기능은?
+### 2. basolateral·corticomedial group은 무엇과 연결되나?
 
 - 편도체 전체의 기능은 fear, endocrine activity, sexual behavior, 음식물 섭취, emotion-related learning 등이고, 이 가운데 가장 기본인 것이 fear(공포)입니다.
 - 교수님 강조: 편도체와 공포의 연결은 졸업 뒤에도 기억해야 합니다.
 - **[기출]** 기출: amygdaloid nucleus 이상과 관련된 질환으로 docility, hyperorality, hypersexuality가 나왔고, anterograde amnesia는 해마(hippocampus) 이상이라 해당하지 않습니다. 이번 강의에서는 직접 다루지 않았습니다.
-- **개념 Check** 편도체와 고위 감각 겉질 영역의 연결이 비정상이면 일차적으로 central nucleus에 문제가 생긴다. (O, X) → X — 고위 연합 입력을 받는 것은 basolateral nuclei이다.
+- **개념 Check** 편도체와 고위 감각 피질 영역의 연결이 비정상이면 일차적으로 central nucleus에 문제가 생긴다. (O, X) → X — higher-order 입력을 받는 것은 basolateral nuclei이다.
 
 
 <a name="topic-5"></a>
@@ -142,10 +142,10 @@ afferent는 들어오는 것, efferent는 나가는 것이므로 두 방향을 �
 ![편도체로 들어오는 afferent 경로: 파랑 = basolateral, 빨강 = corticomedial (슬라이드)](../../inputs/limbic_figs/f_aff.png)
 
 
-파란 경로는 basolateral group으로, 붉은 경로는 corticomedial group으로 들어옵니다. 대뇌피질에서 뻗는 화살표는 basolateral, olfactory bulb에서 오는 경로는 corticomedial로 이어집니다. 색깔보다 어디서 출발한 정보가 어느 핵군에 닿는지를 봅니다.
+파란 경로는 basolateral group으로, 붉은 경로는 corticomedial group으로 들어옵니다. 대뇌피질에서 뻗는 화살표는 basolateral, olfactory bulb에서 오는 경로는 corticomedial로 이어집니다. 색깔보다 어디서 출발한 정보가 어느 group에 닿는지를 봅니다.
 
 
-뇌줄기, 시상하부, 시상, 해마에서 들어오는 연결은 efferent에서도 다시 나옵니다. 핵이 입력만 받는 것이 아니라 다른 구조와 회로를 이루기 때문입니다.
+brainstem, 시상하부, 시상, 해마에서 들어오는 연결은 efferent에서도 다시 나옵니다. 핵이 입력만 받는 것이 아니라 다른 구조와 회로를 이루기 때문입니다.
 
 
 
@@ -183,11 +183,11 @@ central nucleus는 brainstem과 연결되어 자율신경 반응과 관련됩니
 
 <a name="chapter-2"></a>
 
-## 2장. 사이막핵: 위치, 네 가지 연결, 기능
+## 2장. Septal nuclei(사이막핵)의 위치와 연결
 
 <a name="topic-7"></a>
 
-### 1. 사이막핵은 어디에 있나?
+### 1. septal nuclei는 어디에 있나?
 
 **핵심 답**
 
@@ -218,7 +218,7 @@ septal nuclei(사이막핵)는 육안으로 관찰하기 어렵지만 limbic sys
 
 <a name="topic-9"></a>
 
-### 3. 사이막핵은 무슨 일을 하나?
+### 3. septal nuclei는 무슨 일을 하나?
 
 **핵심 답**
 
@@ -237,7 +237,7 @@ septal region은 eating, drinking, sexual behavior, reproduction, aggression 같
 
 <a name="chapter-3"></a>
 
-## 3장. Nucleus accumbens: 위치, 경로, 중독
+## 3장. Nucleus accumbens의 위치와 연결
 
 <a name="topic-10"></a>
 
@@ -263,7 +263,7 @@ nucleus accumbens septi(사이막곁핵)는 basal ganglia에서도 이름이 나
 
 <a name="topic-11"></a>
 
-### 2. accumbens의 입력과 출력은?
+### 2. nucleus accumbens의 afferent와 efferent는?
 
 - 출력은 원문 자료에서 간단히 다루어, 위에 나열한 경로를 연결하는 데 집중했습니다.
 
@@ -285,7 +285,7 @@ nucleus accumbens septi(사이막곁핵)는 basal ganglia에서도 이름이 나
 
 <a name="chapter-4"></a>
 
-## 4장. 실습 사진: uncus, fimbria, fornix
+## 4장. 해부 실습 사진으로 보는 구조
 
 <a name="topic-13"></a>
 

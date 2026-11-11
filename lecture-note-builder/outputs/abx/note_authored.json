@@ -348,7 +348,7 @@
     },
     {
       "heading": "항균제 선택은 무엇에서 시작하나?",
-      "chapter": "항균제 선택 원칙: 목적, 장기, 환자",
+      "chapter": "항균제 선택의 세 가지 원칙",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [],
@@ -470,7 +470,7 @@
     },
     {
       "heading": "항균제 사용 목적 4가지",
-      "chapter": "항균제 선택 원칙: 목적, 장기, 환자",
+      "chapter": "항균제 선택의 세 가지 원칙",
       "role": "body",
       "basics_title": "항균제 사용 목적 4가지",
       "basics": [],
@@ -614,7 +614,7 @@
     },
     {
       "heading": "감염 장기와 항균제 선택",
-      "chapter": "항균제 선택 원칙: 목적, 장기, 환자",
+      "chapter": "항균제 선택의 세 가지 원칙",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [],
@@ -712,7 +712,7 @@
     },
     {
       "heading": "획득 경로와 면역 상태: 4사분면",
-      "chapter": "항균제 선택 원칙: 목적, 장기, 환자",
+      "chapter": "항균제 선택의 세 가지 원칙",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [],
@@ -751,7 +751,7 @@
             "image": "",
             "left_title": "역질문3",
             "left": [
-              "같은 감염, 같은 증상이라도 환자를 만나는 맥락에 따라 치료 전략이 달라집니다. 획득 경로 × 면역 상태의 4사분면으로 나눕니다."
+              "같은 감염, 같은 증상이라도 환자를 만나는 맥락(입원실, ICU, 개원 진료실)에 따라 치료 전략이 달라집니다. 획득 경로 × 면역 상태의 4사분면으로 나눕니다."
             ],
             "options": [],
             "answer": "",
@@ -964,7 +964,7 @@
     },
     {
       "heading": "경험적 치료에서 표적 치료로",
-      "chapter": "경험적 → 표적 치료: 과정, 정균·살균, 환자 인자",
+      "chapter": "경험적 치료에서 표적 치료로의 전환",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -1209,7 +1209,7 @@
     },
     {
       "heading": "정균제와 살균제",
-      "chapter": "경험적 → 표적 치료: 과정, 정균·살균, 환자 인자",
+      "chapter": "경험적 치료에서 표적 치료로의 전환",
       "role": "body",
       "basics_title": "정균제와 살균제",
       "basics": [],
@@ -1348,7 +1348,7 @@
     },
     {
       "heading": "용량을 바꾸는 환자 인자",
-      "chapter": "경험적 → 표적 치료: 과정, 정균·살균, 환자 인자",
+      "chapter": "경험적 치료에서 표적 치료로의 전환",
       "role": "body",
       "basics_title": "용량을 바꾸는 환자 인자",
       "basics": [],
@@ -1417,7 +1417,7 @@
     },
     {
       "heading": "정해진 용법의 근거",
-      "chapter": "항균제 용량, 용법, 투여 경로의 결정",
+      "chapter": "항균제 용량·용법·투여 경로의 결정",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [],
@@ -1495,7 +1495,7 @@
     },
     {
       "heading": "감염 기관별 투여 경로",
-      "chapter": "항균제 용량, 용법, 투여 경로의 결정",
+      "chapter": "항균제 용량·용법·투여 경로의 결정",
       "role": "body",
       "basics_title": "감염 기관별 투여 경로",
       "basics": [],
@@ -1618,7 +1618,7 @@
     },
     {
       "heading": "환자 사정별 투여 경로",
-      "chapter": "항균제 용량, 용법, 투여 경로의 결정",
+      "chapter": "항균제 용량·용법·투여 경로의 결정",
       "role": "body",
       "basics_title": "환자 사정별 투여 경로",
       "basics": [],
@@ -1717,7 +1717,7 @@
     },
     {
       "heading": "주사(IV)는 항상 경구(PO)보다 나은가?",
-      "chapter": "항균제 용량, 용법, 투여 경로의 결정",
+      "chapter": "항균제 용량·용법·투여 경로의 결정",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [],
@@ -1838,7 +1838,7 @@
     },
     {
       "heading": "시간 의존성과 농도 의존성(PK/PD)",
-      "chapter": "PK/PD, 투여 경로 원칙, 병용요법",
+      "chapter": "PK/PD와 투여 경로, 병용요법",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -2137,7 +2137,7 @@
     },
     {
       "heading": "투여 경로 원칙: 경구가 기본",
-      "chapter": "PK/PD, 투여 경로 원칙, 병용요법",
+      "chapter": "PK/PD와 투여 경로, 병용요법",
       "role": "body",
       "basics_title": "투여 경로 원칙: 경구가 기본",
       "basics": [],
@@ -2194,7 +2194,7 @@
     },
     {
       "heading": "항균제 병용요법",
-      "chapter": "PK/PD, 투여 경로 원칙, 병용요법",
+      "chapter": "PK/PD와 투여 경로, 병용요법",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -2307,7 +2307,7 @@
     },
     {
       "heading": "QUIZ",
-      "chapter": "PK/PD, 투여 경로 원칙, 병용요법",
+      "chapter": "PK/PD와 투여 경로, 병용요법",
       "role": "body",
       "basics_title": "QUIZ",
       "basics": [],

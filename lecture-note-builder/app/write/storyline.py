@@ -106,3 +106,15 @@ def heading_issues(note: LectureNote, min_chars: int = 5, max_heading: int = 44,
                 out.append(("warning", "HEADING_TOO_LONG",
                             f"{label} 제목 '{text[:30]}…'이 {len(text)}자입니다(한 줄 {limit}자 이하). 세부 용어는 질문 상자와 표에 맡깁니다."))
     return out
+
+
+def keyword_heading_issues(note: LectureNote) -> list[tuple[str, str, str]]:
+    """A chapter title that lists keywords after commas ('구조, 연결, fear') is not a title a reader can follow (approved rule L26):
+    use a noun phrase in the lecture's own words ('편도체(amygdala)의 구조와 연결')."""
+    out, seen = [], set()
+    for t in note.topics:
+        text = t.chapter
+        if t.role == "body" and text and text not in seen and re.sub(r"\([^)]*\)", "", text).count(",") >= 2:
+            seen.add(text)
+            out.append(("info", "HEADING_KEYWORD_LIST", f"장 제목 '{text}'은 키워드를 쉼표로 나열했습니다. ‘~의 ~와 ~’ 명사구로, 강의 속 표현으로 씁니다(L26)."))
+    return out

@@ -1,7 +1,7 @@
 # 검증 리포트
 
 - 슬라이드 커버리지: 100%
-- 오류 0 / 경고 10 / 참고 31
+- 오류 0 / 경고 9 / 참고 31
 
 - ⚠️ `UNGROUNDED` [발화 ¶2] 원본과 유사도가 낮은 문장(근거 확인 필요): '기출 6문항은 4사분면(이 쪽)과 PK/PD(다음 쪽), 두 유형에서 나…'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶5] 수치 '2주'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
@@ -23,7 +23,6 @@
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶26] 용어 'Hypoperfusion'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶32] 용어 'Critically ill'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶32] 용어 'Organ'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
-- ⚠️ `TERM_LOST` [발화 ¶32] 용어 'ICU'이(가) 강의록에 없습니다.
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶33] 용어 'Organ'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶34] 용어 'Bronchiole'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶34] 용어 'Distribution'은(는) 사소한 영어 병기라 의도적으로 뺐습니다(meta.omitted_terms).

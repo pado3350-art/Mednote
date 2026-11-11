@@ -46,6 +46,9 @@
 ## Top-down 작성 (흐름 먼저, 문장은 나중)
 노트 문장을 쓰기 전에 `{out}/storyline.md`를 먼저 쓴다: 강의 스스로의 뼈대(교수의 질문, 첫째/둘째, Part — 있으면 그것이 목차) → 한 문장 요지 → 장 요지 → 소절의 질문과 한 줄 답 → 다리 → 반복되는 축 → 시험 축(앞쪽 요약 = PAD 유형 표 + 지도 1장) → 그림 인벤토리. 장·소절 제목에는 대상과 의학 용어를 넣는다(‘질문1: 무엇을 고를까’ 같은 제목 금지 — `HEADING_TOO_VAGUE`). 장은 내용의 위계로, 소절 순서는 스크립트 ¶ 순서로. `prepare`가 `brief/storyline_template.md`(구조 신호·PAD·그림 미리 채움)를 만들고, 빌드는 `STORYLINE_MISSING`/`STORYLINE_DRIFT`/`HEADING_TOO_VAGUE`를 띄운다(`app/write/storyline.py`). 문장은 스킬 00b절 ‘한 번 읽고 이해되는 문장’. 근거 `outputs/abx/review_vs_MOM.md`, 예시 `references/top_down_storyline.md`.
 
+## 용어·제목 (L25, L26)
+잘 안 쓰는 한글 전문용어(핵군, 사이막핵, 뇌줄기, 후각계, 겉질 …)는 영어로 쓰거나 병기한다: `septal nuclei(사이막핵)`, `brainstem` (검증 `KOREAN_TERM_NO_ENGLISH`, 목록 `app/write/terms.py`, 강의별 추가 `meta.rare_terms`). 장·소절 제목은 쉼표로 키워드를 나열하거나 새로 압축한 말(‘입력·출력 경로’)을 쓰지 않고, 강의 속 표현으로 ‘~의 ~와 ~’ 명사구를 쓴다(`HEADING_KEYWORD_LIST`, 예: ‘편도체(amygdala)의 구조와 연결’).
+
 ## 레이아웃 v2 (L16–L18: 표 우선, 강의의 질문 단위, 한 쪽 한 앵커)
 `mom_mixed.yaml` 기본: 본문 10.5pt, 핵심 답 한 줄 띠(`basics_style: band`), 개념 Check는 장 끝에 모음(`checks_where: chapter`), 장마다 새 쪽(`chapter_page_break`) + 그림 중심 소절 새 쪽(`Topic.new_page`). 새 문장 종류 `rows`(라벨 | 한 줄 → 결론 표; 작은 표는 한 쪽에 붙음), `qa`(강의의 질문 노란 상자 + A. 한 줄). 나열형은 표로(`LIST_NOT_TABLE`), 큰 슬라이드 그림은 `figure`로 쪽 첫머리에. 근거 `outputs/abx/review_vs_MOM.md` 8절, 예 `examples/abx_note.py`, 스킬 0e. 사소한 녹취 영어는 `meta.omitted_terms`로 뺀다(괄호를 끼워 넣지 않는다). **v2.1**(review 10절): 상자형 표지(`cover_style: box`), 장 29자·소절 44자 제목, 문단 3줄, 핵심 답 62자, 장당 Check 2개, 소절은 새 쪽 없이 이어 붙임(장 시작만 새 쪽). 검사 `HEADING_TOO_LONG`·`PARAGRAPH_TOO_LONG`·`COLOUR_IN_PARAGRAPH`·`BASICS_TOO_LONG`·`TABLE_ORPHAN`·`CHECK_TOO_MANY`. **문체(L19–L21)**: 표 칸은 개조식(명사형, ‘-음/-함’), 개념 Check는 기출이 있는 소절에만, 요약 쪽은 그 주제의 그림 포함(`TABLE_CELL_STYLE`, `CHECK_NO_PAD`). 알려진 한계: 샌드박스 PDF에는 한글 굵은 글꼴이 없어 한글 굵게가 안 보인다(Word 파일은 정상).
 
@@ -73,7 +76,7 @@
 - 원본·수정본 DOCX와 리포트는 `feedback/`(gitignore)에만 둔다. `*.docx`·`*.pptx`·음성은 커밋하지 않는다(force-add 금지).
 
 ## 서술 기법 (Nucleotide 모범 예시 반영)
-`kind: check`(쪽마다 O/X + § 끝 정답 상자), `effort`(필수/이해/참고 꼬리표), `origin: "author"`(회색 괄호 — 비유·팁·정정), `kind: concept`(개념 정리 박스), `quiz.explanations`(해설). `prepare`가 `brief/effort_cues.md`를 만든다. 어미는 한다체 유지, **파랑은 기출(PAD) 전용 — 이 기능들은 파랑을 쓰지 않는다.** 규칙: 스킬 `readable-note-organizer` 0b, 분석: `docs/nucleotide_example_analysis.md`.
+`kind: check`(쪽마다 O/X + § 끝 정답 상자), `effort`(필수/이해/참고 꼬리표), `origin: "author"`(회색 괄호 — 비유·팁·정정), `kind: concept`(개념 정리 박스), `quiz.explanations`(해설). `prepare`가 `brief/effort_cues.md`를 만든다. 어미는 합니다체(L5 v2), **파랑은 기출(PAD) 전용 — 이 기능들은 파랑을 쓰지 않는다.** 규칙: 스킬 `readable-note-organizer` 0b, 분석: `docs/nucleotide_example_analysis.md`.
 
 ## 시험 신호·PAD 꼬리표 (사람 정리본 비교에서 얻은 규칙)
 `--exam-pdf`는 PDF/DOCX 모두 가능. 기출 해설의 단서(출제예고·강조 안 함·‘배우지 않았다’·이전 기출 반복)를 `ExamItem.signals`로 모아 표지에 **기출 이력(PAD 집계)** 을 자동 표시하고(`meta.exam_history`, 사실만) `prepare`가 `brief/exam_signals.md`를 만든다. 템플릿 `pad_tags: true`(mom_compact)면 PAD 인용 문장에 `[PAD …]`, PAD에만 있는 사실에 `[Only PAD …]` 회색 꼬리표. `--uncovered-pad omit`은 수업에서 안 다룬 기출의 생략을 허용한다. **파랑은 PAD 내용 전용이며 꼬리표·신호는 파랑을 쓰지 않는다.**

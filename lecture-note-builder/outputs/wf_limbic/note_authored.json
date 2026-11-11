@@ -1,10 +1,10 @@
 {
   "topics": [
     {
-      "heading": "요약 ① 편도체 핵군 [기출]",
+      "heading": "요약 ① 편도체 group [기출]",
       "chapter": "",
       "role": "front",
-      "basics_title": "요약 ① 편도체 핵군 [기출]",
+      "basics_title": "요약 ① 편도체 group [기출]",
       "basics": [],
       "basics_refs": [],
       "mark": "",
@@ -29,7 +29,7 @@
       "sections": {
         "body": [
           {
-            "text": "변연계(limbic system) 강의는 편도체복합체, septal region, nucleus accumbens 세 구조를 다루고, 기능보다 어디서 정보를 받아 어디로 보내는지(afferent, efferent)를 구분하는 것이 핵심입니다. 세 구조는 서로 연결되어 있습니다.",
+            "text": "변연계(limbic system) 강의는 편도체복합체(amygdaloid complex), septal region, nucleus accumbens 세 구조를 다루고, 기능보다 어디서 정보를 받아 어디로 보내는지(afferent, efferent)를 구분하는 것이 핵심입니다. 세 구조는 서로 연결되어 있습니다.",
             "origin": "both",
             "slide_refs": [
               1,
@@ -85,16 +85,16 @@
               "root": "변연계",
               "groups": [
                 {
-                  "title": "1. 편도체복합체",
+                  "title": "1. 편도체(amygdala)",
                   "items": [
-                    "uncus 안쪽, 두 핵군",
+                    "uncus 안쪽, 두 그룹",
                     "afferent / efferent",
                     "대표 기능: fear"
                   ],
                   "color": "teal"
                 },
                 {
-                  "title": "2. 사이막핵",
+                  "title": "2. septal nuclei",
                   "items": [
                     "anterior commissure 앞",
                     "네 곳과 연결 (기출)",
@@ -178,11 +178,11 @@
             "rows": [
               [
                 "{b|basolateral}",
-                "{b|대뇌와 광범위하게 연결 (고위 연합 입력)}\n여러 감각 정보와 대뇌피질 정보를 통합"
+                "{b|대뇌와 광범위하게 연결 (higher-order, 고위 연합 입력)}\n여러 감각 정보와 대뇌피질 정보를 통합"
               ],
               [
                 "{b|corticomedial}",
-                "{b|후각계와 밀접: olfactory bulb, primary olfactory cortex}"
+                "{b|olfactory system와 밀접: olfactory bulb, primary olfactory cortex}"
               ],
               [
                 "{b|central}",
@@ -190,7 +190,7 @@
               ]
             ],
             "col_titles": [
-              "핵군",
+              "group",
               "연결과 단서"
             ],
             "col_widths": [
@@ -207,10 +207,10 @@
       "style": ""
     },
     {
-      "heading": "요약 ② 편도체 출력과 사이막핵 [기출]",
+      "heading": "요약 ② 편도체 출력과 septal nuclei [기출]",
       "chapter": "",
       "role": "front",
-      "basics_title": "요약 ② 편도체 출력과 사이막핵 [기출]",
+      "basics_title": "요약 ② 편도체 출력과 septal nuclei [기출]",
       "basics": [],
       "basics_refs": [],
       "mark": "",
@@ -238,7 +238,7 @@
       "sections": {
         "body": [
           {
-            "text": "기출은 편도체에서 나가는 경로와, 사이막핵(septal nuclei)과 연결되는 곳·경로를 짝지어 묻습니다.",
+            "text": "기출은 편도체에서 나가는 경로와, septal nuclei(septal nuclei)과 연결되는 곳·경로를 짝지어 묻습니다.",
             "origin": "both",
             "slide_refs": [
               13,
@@ -397,11 +397,11 @@
     },
     {
       "heading": "편도체는 어디에 있고 어떻게 나뉘나?",
-      "chapter": "편도체복합체: 핵군, 입력·출력 경로, 공포",
+      "chapter": "편도체(amygdala)의 구조와 연결",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
-        "uncus 안쪽에 있고, 두 핵군(basolateral, corticomedial)으로 나눕니다."
+        "uncus 안쪽에 있고, 두 그룹(basolateral, corticomedial group)으로 나눕니다."
       ],
       "basics_refs": [],
       "mark": "",
@@ -462,7 +462,7 @@
             "diagram": null
           },
           {
-            "text": "핵군을 나누는 방식은 책마다 조금 다릅니다. 이번 수업은 basolateral nuclei와 cortical(medial) nuclei 두 그룹으로 정리하고, central nucleus를 따로 떼어 세 그룹으로 보는 경우는 cortical-medial group에 묶습니다.",
+            "text": "group을 나누는 방식은 책마다 조금 다릅니다. 이번 수업은 basolateral nuclei와 cortical(medial) nuclei 두 그룹으로 정리하고, central nucleus를 따로 떼어 세 그룹으로 보는 경우는 cortical-medial group에 묶습니다.",
             "origin": "both",
             "slide_refs": [
               4
@@ -517,10 +517,10 @@
       "style": "explain"
     },
     {
-      "heading": "핵군별 연결과 기능은?",
-      "chapter": "편도체복합체: 핵군, 입력·출력 경로, 공포",
+      "heading": "basolateral·corticomedial group은 무엇과 연결되나?",
+      "chapter": "편도체(amygdala)의 구조와 연결",
       "role": "body",
-      "basics_title": "핵군별 연결과 기능은?",
+      "basics_title": "basolateral·corticomedial group은 무엇과 연결되나?",
       "basics": [],
       "basics_refs": [],
       "mark": "",
@@ -568,11 +568,11 @@
             "rows": [
               [
                 "{b|basolateral}",
-                "{b|대뇌와 광범위하게 연결 (고위 연합 입력)}\n여러 감각 정보와 대뇌피질 정보를 통합"
+                "{b|대뇌와 광범위하게 연결 (higher-order, 고위 연합 입력)}\n여러 감각 정보와 대뇌피질 정보를 통합"
               ],
               [
                 "{b|corticomedial}",
-                "{b|후각계와 밀접: olfactory bulb, primary olfactory cortex}"
+                "{b|olfactory system와 밀접: olfactory bulb, primary olfactory cortex}"
               ],
               [
                 "{b|central}",
@@ -580,7 +580,7 @@
               ]
             ],
             "col_titles": [
-              "핵군",
+              "group",
               "연결과 단서"
             ],
             "col_widths": [
@@ -662,7 +662,7 @@
             "diagram": null
           },
           {
-            "text": "편도체와 고위 감각 겉질 영역의 연결이 비정상이면 일차적으로 central nucleus에 문제가 생긴다.",
+            "text": "편도체와 고위 감각 피질 영역의 연결이 비정상이면 일차적으로 central nucleus에 문제가 생긴다.",
             "origin": "both",
             "slide_refs": [
               5
@@ -679,7 +679,7 @@
             "options": [],
             "answer": "X",
             "explanations": [
-              "고위 연합 입력을 받는 것은 basolateral nuclei이다."
+              "higher-order 입력을 받는 것은 basolateral nuclei이다."
             ],
             "effort": "",
             "rows": [],
@@ -696,7 +696,7 @@
     },
     {
       "heading": "어디서 정보가 들어오나(afferent)?",
-      "chapter": "편도체복합체: 핵군, 입력·출력 경로, 공포",
+      "chapter": "편도체(amygdala)의 구조와 연결",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -790,7 +790,7 @@
               ]
             ],
             "col_titles": [
-              "핵군",
+              "group",
               "들어오는 곳"
             ],
             "col_widths": [
@@ -848,7 +848,7 @@
             "diagram": null
           },
           {
-            "text": "파란 경로는 basolateral group으로, 붉은 경로는 corticomedial group으로 들어옵니다. 대뇌피질에서 뻗는 화살표는 basolateral, olfactory bulb에서 오는 경로는 corticomedial로 이어집니다. 색깔보다 어디서 출발한 정보가 어느 핵군에 닿는지를 봅니다.",
+            "text": "파란 경로는 basolateral group으로, 붉은 경로는 corticomedial group으로 들어옵니다. 대뇌피질에서 뻗는 화살표는 basolateral, olfactory bulb에서 오는 경로는 corticomedial로 이어집니다. 색깔보다 어디서 출발한 정보가 어느 group에 닿는지를 봅니다.",
             "origin": "both",
             "slide_refs": [
               11,
@@ -873,7 +873,7 @@
             "diagram": null
           },
           {
-            "text": "뇌줄기, 시상하부, 시상, 해마에서 들어오는 연결은 efferent에서도 다시 나옵니다. 핵이 입력만 받는 것이 아니라 다른 구조와 회로를 이루기 때문입니다.",
+            "text": "brainstem, 시상하부, 시상, 해마에서 들어오는 연결은 efferent에서도 다시 나옵니다. 핵이 입력만 받는 것이 아니라 다른 구조와 회로를 이루기 때문입니다.",
             "origin": "both",
             "slide_refs": [
               12
@@ -905,7 +905,7 @@
     },
     {
       "heading": "어디로 나가나(efferent)?",
-      "chapter": "편도체복합체: 핵군, 입력·출력 경로, 공포",
+      "chapter": "편도체(amygdala)의 구조와 연결",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -1183,8 +1183,8 @@
       "style": "explain"
     },
     {
-      "heading": "사이막핵은 어디에 있나?",
-      "chapter": "사이막핵: 위치, 네 가지 연결, 기능",
+      "heading": "septal nuclei는 어디에 있나?",
+      "chapter": "Septal nuclei(사이막핵)의 위치와 연결",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -1281,7 +1281,7 @@
     },
     {
       "heading": "연결되는 네 곳과 경로는?",
-      "chapter": "사이막핵: 위치, 네 가지 연결, 기능",
+      "chapter": "Septal nuclei(사이막핵)의 위치와 연결",
       "role": "body",
       "basics_title": "연결되는 네 곳과 경로는?",
       "basics": [],
@@ -1467,8 +1467,8 @@
       "style": "list"
     },
     {
-      "heading": "사이막핵은 무슨 일을 하나?",
-      "chapter": "사이막핵: 위치, 네 가지 연결, 기능",
+      "heading": "septal nuclei는 무슨 일을 하나?",
+      "chapter": "Septal nuclei(사이막핵)의 위치와 연결",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -1565,7 +1565,7 @@
     },
     {
       "heading": "nucleus accumbens는 어디에 있고 무슨 일을 하나?",
-      "chapter": "Nucleus accumbens: 위치, 경로, 중독",
+      "chapter": "Nucleus accumbens의 위치와 연결",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -1685,10 +1685,10 @@
       "style": "explain"
     },
     {
-      "heading": "accumbens의 입력과 출력은?",
-      "chapter": "Nucleus accumbens: 위치, 경로, 중독",
+      "heading": "nucleus accumbens의 afferent와 efferent는?",
+      "chapter": "Nucleus accumbens의 위치와 연결",
       "role": "body",
-      "basics_title": "accumbens의 입력과 출력은?",
+      "basics_title": "nucleus accumbens의 afferent와 efferent는?",
       "basics": [],
       "basics_refs": [],
       "mark": "",
@@ -1822,7 +1822,7 @@
     },
     {
       "heading": "amygdala와 어떻게 다른가?",
-      "chapter": "Nucleus accumbens: 위치, 경로, 중독",
+      "chapter": "Nucleus accumbens의 위치와 연결",
       "role": "body",
       "basics_title": "amygdala와 어떻게 다른가?",
       "basics": [],
@@ -1916,7 +1916,7 @@
     },
     {
       "heading": "사진에서 stria terminalis와 uncus는?",
-      "chapter": "실습 사진: uncus, fimbria, fornix",
+      "chapter": "해부 실습 사진으로 보는 구조",
       "role": "body",
       "basics_title": "사진에서 stria terminalis와 uncus는?",
       "basics": [],
@@ -2012,7 +2012,7 @@
     },
     {
       "heading": "fimbria에서 dentate gyrus까지는?",
-      "chapter": "실습 사진: uncus, fimbria, fornix",
+      "chapter": "해부 실습 사진으로 보는 구조",
       "role": "body",
       "basics_title": "fimbria에서 dentate gyrus까지는?",
       "basics": [],

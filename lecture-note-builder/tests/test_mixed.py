@@ -126,3 +126,18 @@ def test_answer_repeated_in_first_paragraph():
 def test_tone_not_formal_flagged():
     ex = _t("왜?", "explain", [Statement(text="분화능이 제한된다. 그래서 덩어리로 넣는다.", kind="para", slide_refs=[1])], ["a"])
     assert "TONE_NOT_FORMAL" in _codes([ex])
+
+
+def test_rare_korean_terms_need_english_and_keyword_list_titles():
+    from app.write.storyline import keyword_heading_issues
+    from app.write.terms import term_issues
+
+    bad = _t("사이막핵은 어디에 있나?", "explain", [Statement(text="핵군을 나눕니다.", kind="para", slide_refs=[1])], ["뇌줄기와 연결됩니다."])
+    bad.chapter = "편도체: 구조, 연결, 기능"
+    note = LectureNote(title="t", topics=[bad])
+    codes = [c for _, c, _ in term_issues(note)]
+    assert codes.count("KOREAN_TERM_NO_ENGLISH") >= 3
+    assert "HEADING_KEYWORD_LIST" in [c for _, c, _ in keyword_heading_issues(note)]
+    ok = _t("septal nuclei(사이막핵)는 어디에 있나?", "explain", [Statement(text="사이막핵(septal nuclei)은 깊은 층에 있습니다.", kind="para", slide_refs=[1])], ["brainstem과 연결됩니다."])
+    ok.chapter = "Septal nuclei(사이막핵)의 위치와 연결"
+    assert not [c for _, c, _ in term_issues(LectureNote(title="t", topics=[ok]))]

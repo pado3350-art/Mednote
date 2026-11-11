@@ -2,14 +2,14 @@
 
 기출 13문항을 4개 유형으로 묶었습니다. 문제·정답·PAD 해설은 PAD 파일 그대로이고(파랑 = PAD 내용), ‘이번 강의 기준 해설’은 이번 스크립트로 쓴 노트의 근거 문장과 직접 쓴 해설이며 유형마다 한 번만 씁니다.
 
-## 유형 1. 편도체 핵군별 연결 (basolateral, corticomedial, central) (6문항: 20학번 Q53, 19학번 Q29, 18학번 Q25, 14학번 Q2, 12학번 Q1, 12학번 Q3)
+## 유형 1. 편도체 group별 연결 (basolateral, corticomedial, central) (6문항: 20학번 Q53, 19학번 Q29, 18학번 Q25, 14학번 Q2, 12학번 Q1, 12학번 Q3)
 
 ### 기출 20학번 김인범 교수님 Q53
 
 - 문제: 편도핵(amygdala)과 고위감각겉질영역 사이의 신경 연결이 비정상적인 환자에서 일차적인 문제 가 발생할 확 률이 높은 곳은? ① 중심핵(Central nuclei) ② 겉질가쪽편도핵(corticolateral nuclei of amygdala) ③ 겉질안쪽편도핵(corticomedial nuclei of amygdala) ④ 종말줄침대핵(bed nuclei of the striae terminalis) ⑤ 바닥가쪽핵(basolateral nuclei)
 - 정답: 5
 - PAD 해설: 해설: amygdala의 구성 3가지 basolateral-고위 연합 입력을 받음 (대뇌뇌와 광범위한 연결) – 배우진 않았는데 고위 연합이라고 합니다.. corticomedial-후각 정보를 받음 (olfactory bulb로부터 받고 primary olfactory cortex의 일부 입니다 central – brainstem과 연결되어 있습니다 (Afferent – 통증, Efferent – 부교감 신경핵)
-- 이번 강의로 보면: 정답 ⑤ basolateral nuclei: 고위 연합(대뇌피질) 입력을 받는 핵군입니다.
+- 이번 강의로 보면: 정답 ⑤ basolateral nuclei: 고위 연합(대뇌피질) 입력을 받는 group입니다.
 
 ### 기출 19학번 김인범 교수님 Q29
 
@@ -23,14 +23,14 @@
 - 문제: 뇌줄기와 뇌하수체의 자율신경 조절핵과 관련이 있는 limbic system의 구조물은 무엇인가요? 1. Anterior nuclei of thalamus 2. Entorhinal cortex 3. Frontoorbital cortex 4. Central amygdala 5. Basolateral amygdala
 - 정답: 4
 - PAD 해설: 해설 corticomedial nuclei 중 Central nuclei가 관련 있습니다. 애플에서 발췌했습니다. central nucleus: visceral function과 관련된 뇌줄기핵           p.4 Central Nucleus는 Brainstem과 연결 (부교감 신경핵 – 작야) p.6 동
-- 이번 강의로 보면: 정답 ④ central amygdala: 뇌줄기(brainstem), 자율신경 조절과 연결된 핵입니다.
+- 이번 강의로 보면: 정답 ④ central amygdala: brainstem(brainstem), 자율신경 조절과 연결된 핵입니다.
 
 ### 기출 14학번 이문용 교수님 Q2
 
 - 문제: 가장자리계통(limbic system)에 속하는 여러 구조물들은 서로 연결되어있다. 다음 limbic system 에 대하여 기술 한 것 중 가장 옳은 것을 고르시오. 1) 속후각영역(entorhinal cortex)에서 해마로 들어오는 주요 신경로는 뇌활(fornix)이다. 2) hippocampal formation의 투사신경세포(projection neuron)는 dentate gyrus의 granule cell이다. 3) 편도체복합체(amygdaloid nucleus complex)의 central nucleus는 뇌줄기 부교감 신경핵과 연결 된다. 4) Septal nuclei와 habenula nucleus를 연결하는 섬유로는 stria medullaris이다. 5) 회색층(indusium griesum)은 해마에서 시작하는 투사섬유이다.
 - 정답: 3)
 - PAD 해설: 모든 선지를 배운 건 아니지만 3 4번은 해결 할 수 있습니다. 1)속후각영역(entorhinal cortex)에서 해마로 들어오는 주된 경로는 performant path이다. 2)해마의 투사신경세포는 subiculum과 hippocampus proper의 pyramidal cell이다. 4)septal nuclei와 habenular nucleus를 연결하는 섬유로는 stria medullaris thalami이다. 5)회색층(indusium griseum)은 corpus callosum 위의 얇은 겉질 구조이다
-- 이번 강의로 보면: 정답 ③: central nucleus는 뇌줄기 부교감 신경핵과 연결됩니다. ④의 septal nuclei와 habenula 사이 섬유(stria medullaris thalami)는 사이막핵 유형 표에 있습니다. 해마(hippocampal formation) 관련 선지는 이번 강의에서 다루지 않았습니다.
+- 이번 강의로 보면: 정답 ③: central nucleus는 brainstem 부교감 신경핵과 연결됩니다. ④의 septal nuclei와 habenula 사이 섬유(stria medullaris thalami)는 septal nuclei 유형 표에 있습니다. 해마(hippocampal formation) 관련 선지는 이번 강의에서 다루지 않았습니다.
 
 ### 기출 12학번 이문용 교수님 Q1
 
@@ -48,9 +48,9 @@
 
 **이번 강의 기준 해설**
 
-이번 수업은 편도체복합체를 basolateral nuclei와 cortical(medial) nuclei 두 그룹으로 나누고, central nucleus는 cortical-medial group에 묶어 설명합니다. basolateral은 대뇌의 광범위한 부분과 연결되어 somatosensory, visual, visceral 같은 여러 감각 정보와 대뇌피질 정보가 들어옵니다(cortical input, dorsal thalamus, subiculum). cortical-medial은 후각계와 밀접해 olfactory bulb(direct olfactory pathway)와 primary olfactory cortex에서 입력을 받습니다. central nucleus는 hypothalamus, brainstem과 연결되어 자율신경과 내장 기능에 관여합니다. 그래서 고위 감각 겉질과의 연결은 basolateral, 후각 입력은 corticomedial, 뇌줄기·자율신경 조절은 central로 답합니다.
+이번 수업은 편도체복합체를 basolateral nuclei와 cortical(medial) nuclei 두 그룹으로 나누고, central nucleus는 cortical-medial group에 묶어 설명합니다. basolateral은 대뇌의 광범위한 부분과 연결되어 somatosensory, visual, visceral 같은 여러 감각 정보와 대뇌피질 정보가 들어옵니다(cortical input, dorsal thalamus, subiculum). cortical-medial은 olfactory system와 밀접해 olfactory bulb(direct olfactory pathway)와 primary olfactory cortex에서 입력을 받습니다. central nucleus는 hypothalamus, brainstem과 연결되어 자율신경과 내장 기능에 관여합니다. 그래서 고위 감각 피질과의 연결은 basolateral, 후각 입력은 corticomedial, brainstem·자율신경 조절은 central로 답합니다.
 
-- [핵군별 연결과 기능은?] 표: basolateral · 대뇌와 광범위하게 연결 (고위 연합 입력), 여러 감각 정보와 대뇌피질 정보를 통합 / corticomedial · 후각계와 밀접: olfactory bulb, primary olfactory cortex / central · brainstem과 연결 (부교감 신경핵), hypothalamus와도 연결 → 자율신경·내장 반응
+- [basolateral·corticomedial group은 무엇과 연결되나?] 표: basolateral · 대뇌와 광범위하게 연결 (higher-order, 고위 연합 입력), 여러 감각 정보와 대뇌피질 정보를 통합 / corticomedial · olfactory system와 밀접: olfactory bulb, primary olfactory cortex / central · brainstem과 연결 (부교감 신경핵), hypothalamus와도 연결 → 자율신경·내장 반응
 - [어디서 정보가 들어오나(afferent)?] 표: basolateral · 여러 감각 정보(somatosensory, visual, visceral)가 들어옴, cortical input: prefrontal, cingulate, parahippocampal gyrus, temporal region, insular cortex, dorsal thalamus, subiculum (hippocampus) / corticomedial · olfactory bulb (direct olfactory pathway), primary olfactory cortex, dorsal thalamus, hypothalamus (ventromedial nucleus, lateral hypothalamic area) / central · parabrachial nuclei, solitary nucleus, periaqueductal gray (내장 기능, 통증 조절)
 - [어디서 정보가 들어오나(afferent)?] basolateral은 대뇌 광범위한 입력, corticomedial은 후각 입력
 - [연결되는 네 곳과 경로는?] 표: hippocampus · fornix, precommissural fibers / habenular nuclei · stria medullaris thalami / amygdala · stria terminalis, ventral amygdalofugal pathway / ventral tegmental area, hypothalamus · medial forebrain bundle, dopamine-containing fibers 포함 → 쾌락, 충동
@@ -93,9 +93,9 @@
 
 이번 스크립트는 편도체의 기능을 fear, endocrine activity, sexual behavior, 음식물 섭취, emotion-related learning으로 나열했고, docility, hyperorality, visual agnosia 같은 병변 소견은 직접 다루지 않았습니다. 해마의 기능도 이번 강의에서 다루지 않았습니다.
 
-- [핵군별 연결과 기능은?] 기출: amygdaloid nucleus 이상과 관련된 질환으로 docility, hyperorality, hypersexuality가 나왔고, anterograde amnesia는 해마(hippocampus) 이상이라 해당하지 않습니다. 이번 강의에서는 직접 다루지 않았습니다.
+- [basolateral·corticomedial group은 무엇과 연결되나?] 기출: amygdaloid nucleus 이상과 관련된 질환으로 docility, hyperorality, hypersexuality가 나왔고, anterograde amnesia는 해마(hippocampus) 이상이라 해당하지 않습니다. 이번 강의에서는 직접 다루지 않았습니다.
 
-## 유형 4. 사이막핵과 연결되는 곳과 경로 (4문항: 18학번 Q21, 17학번 Q4, 17학번 Q3, 12학번 Q4)
+## 유형 4. septal nuclei과 연결되는 곳과 경로 (4문항: 18학번 Q21, 17학번 Q4, 17학번 Q3, 12학번 Q4)
 
 ### 기출 18학번 김인범 교수님 Q21
 
