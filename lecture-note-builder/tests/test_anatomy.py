@@ -21,3 +21,11 @@ def test_opt_out_and_non_anatomy():
     assert anatomy_issues(_note(meta={"anatomy_text_only": "변연계의 연결"})) == []
     t = Topic(heading="약 선택", slide_numbers=[1], sections={"body": [Statement(text="항생제는 균에 따라 고른다.", kind="para", slide_refs=[1])]})
     assert anatomy_issues(LectureNote(title="t", topics=[t])) == []
+
+
+def test_only_when_main_topic_is_anatomy():
+    anat = _note().topics[0]
+    other = [Topic(heading=f"약 {i}", slide_numbers=[1], sections={"body": [Statement(text="항생제는 균에 따라 고른다.", kind="para", slide_refs=[1])]}) for i in range(3)]
+    assert anatomy_issues(LectureNote(title="t", topics=[anat, *other])) == []  # one anatomy § in a drug lecture: no trigger
+    assert anatomy_issues(LectureNote(title="t", topics=[anat, *other], meta={"anatomy_main": "true"}))
+    assert anatomy_issues(LectureNote(title="t", topics=[anat], meta={"anatomy_main": "false"})) == []

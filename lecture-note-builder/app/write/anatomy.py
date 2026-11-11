@@ -2,6 +2,7 @@
 
 A § that talks about anatomical structures (nuclei, tracts, nerves, vessels, lobes ...) must show them: a slide figure first, a schematic otherwise.
 `anatomy_issues` warns (ANATOMY_NO_VISUAL) when a body § names 3+ distinct anatomical terms but has no figure / figure_side / diagram / concept picture.
+Only when the lecture's MAIN topic is anatomy (`is_anatomy_lecture`: meta.anatomy_main true/false, else >= half of the body § are anatomy-dense).
 A lecture can add terms with `meta.anatomy_terms` ("a|b|c") or switch a § off with `meta.anatomy_text_only` ("§ heading|...").
 """
 from __future__ import annotations
@@ -44,8 +45,23 @@ def anatomy_terms_in(text: str, extra: set[str] | None = None) -> set[str]:
     return found | {k for k in (extra or set()) if k and k in text}
 
 
+def is_anatomy_lecture(note: LectureNote, min_terms: int = 3, extra: set[str] | None = None) -> bool:
+    """The skill fires only when the MAIN topic is anatomical structure.
+    meta.anatomy_main = "true"/"false" decides explicitly; otherwise at least half of the body § must be dense with anatomy terms."""
+    flag = str(note.meta.get("anatomy_main") or "").strip().lower()
+    if flag in ("true", "yes", "1", "o"):
+        return True
+    if flag in ("false", "no", "0", "x"):
+        return False
+    body = [t for t in note.topics if t.role == "body"]
+    dense = [t for t in body if len(anatomy_terms_in(_topic_text(t), extra)) >= min_terms]
+    return bool(body) and len(dense) * 2 >= len(body)
+
+
 def anatomy_issues(note: LectureNote, min_terms: int = 3) -> list[tuple[str, str, str]]:
     extra = {x.strip() for x in (note.meta.get("anatomy_terms") or "").split("|") if x.strip()}
+    if not is_anatomy_lecture(note, min_terms, extra):
+        return []
     off = {x.strip() for x in (note.meta.get("anatomy_text_only") or "").split("|") if x.strip()}
     out: list[tuple[str, str, str]] = []
     for t in note.topics:
