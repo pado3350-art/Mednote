@@ -1,6 +1,6 @@
 # "MOM" MIXED style (혼합형) - DEFAULT for new notes (approved rule L10).
 # Each body § picks a shape (Topic.style): explain = question heading + one-line "핵심 답" box + reasoning
-# paragraphs; list = bullets / columns / tables + a "즉 …" line (no box). Checked by app/mixed.py
+# paragraphs; list = bullets / columns / tables + a "즉 …" line (no box). Checked by app/write/mixed.py
 # (MIXED_STYLE_MISSING, EXPLAIN_NO_ANSWER, EXPLAIN_TOO_LISTY, LIST_NO_SUMMARY ...).
 # Learned from 3 human MOM notes (docs/mixed_style_analysis.md). Same layout machinery as mom_compact.
 template_name: mom_mixed_v1
@@ -20,7 +20,7 @@ format:
   basics_style: band         # 핵심 답 as one light line, not a red-ruled box (L16)
   checks_where: chapter      # 개념 Check boxes collected at the end of each chapter (L16)
   chapter_page_break: false  # chapters flow on (the human MOM does not start a page per chapter); only Topic.new_page forces a break
-  mixed: true                # every body § has style explain|list (app/mixed.py)
+  mixed: true                # every body § has style explain|list (app/write/mixed.py)
   pad_tags: true             # [PAD 2021 Q1] after blue statements, [Only PAD …] when the lecture never said it
   topic_tips: false
   toc_level: chapter

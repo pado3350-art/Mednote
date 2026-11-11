@@ -1,8 +1,8 @@
 """Layout v2 (rule L16): rows tables, the lecturer's QA box, 핵심 답 band, checks at chapter end, page breaks."""
 from docx import Document
 
-from app.export_mom import export_mom
-from app.mixed import mixed_issues
+from app.design.export_mom import export_mom
+from app.write.mixed import mixed_issues
 from app.models import LectureNote, Statement, Topic
 from app.template import load_template
 
@@ -98,7 +98,7 @@ def test_mixed_checks_know_qa_and_tables():
 
 
 def test_markdown_export_has_tables_and_qa(tmp_path):
-    from app.export_docx import export_markdown
+    from app.design.export_docx import export_markdown
 
     rows = Statement(text="", kind="rows", slide_refs=[1], col_titles=["", "A", "B"], rows=[["x", "1\n2", "3"]])
     qa = Statement(text="질문입니까?", kind="qa", left_title="질문1", left=["답입니다."], slide_refs=[1])
@@ -110,7 +110,7 @@ def test_markdown_export_has_tables_and_qa(tmp_path):
 
 def test_readability_checks():
     """Findings of review_vs_MOM.md section 10 become checks: long headings / paragraphs / bands, colour inside a paragraph."""
-    from app.storyline import heading_issues
+    from app.write.storyline import heading_issues
 
     long_h = _topic("항균제 선택에서 획득 경로(community acquired, nosocomial)와 면역 상태(competent, compromised)는 어떻게 작용하나?",
                     "경험적 치료에서 표적 치료로: 치료 과정, 정균제와 살균제, 환자 인자", [Statement(text="x", slide_refs=[1])])
@@ -137,7 +137,7 @@ def test_quiz_is_not_a_numbered_section_and_box_cover(tmp_path):
 
 
 def test_table_orphan_check_and_thin_gap(tmp_path):
-    from app.mixed import table_orphan_issues
+    from app.write.mixed import table_orphan_issues
 
     # 3.8 cm column holds ~9 Korean characters: 11 characters overflow by 2 -> a lone character would wrap
     bad = Statement(text="", kind="rows", slide_refs=[1], col_widths=[3.8, 13.6], rows=[["수술 전 예방적 항균제", "ok"]])
@@ -147,7 +147,7 @@ def test_table_orphan_check_and_thin_gap(tmp_path):
     note = lambda st: LectureNote(title="t", topics=[_topic("가", "장", [st], style="list")])
     assert [c for _, c, _ in table_orphan_issues(note(bad))] == ["TABLE_ORPHAN"]
     assert table_orphan_issues(note(fine)) == [] and table_orphan_issues(note(latin)) == []
-    from app.export_mom import rows_widths
+    from app.design.export_mom import rows_widths
     assert rows_widths(wide)[0] == 4.4 and abs(sum(rows_widths(wide)) - 17.4) < 1e-6
 
 
@@ -167,7 +167,7 @@ def test_heading_exam_mark(tmp_path):
 
 
 def test_checks_only_with_pad_and_table_cells_in_gaejosik():
-    from app.mixed import table_style_issues
+    from app.write.mixed import table_style_issues
 
     plain = _topic("가", "장", [Statement(text="본문. 그럼 결론.", slide_refs=[1]), _check("문장이다.")])
     pad = _topic("나", "장", [Statement(text="{b|PAD 문장}", slide_refs=[1, 1001]), _check("문장이다.")])

@@ -19,7 +19,7 @@ from pydantic import BaseModel, Field
 
 from .docx_diff import Change, diff_docs, extract_docx
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parents[2]
 RULE_STORE = ROOT / "style_rules" / "approved_rules.json"
 
 CATEGORIES = {

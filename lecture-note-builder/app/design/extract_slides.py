@@ -6,7 +6,7 @@ from pathlib import Path
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE_TYPE
 
-from .models import BodyLine, Slide, SlideTable
+from ..models import BodyLine, Slide, SlideTable
 
 
 def _walk(shapes):

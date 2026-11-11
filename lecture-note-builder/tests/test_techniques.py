@@ -1,12 +1,12 @@
 from docx import Document
 from PIL import Image
 
-from app.export_mom import export_mom
+from app.design.export_mom import export_mom
 from app.markup import runs
 from app.models import AlignedSlide, LectureNote, Segment, Slide, Statement, Topic
-from app.prepare import effort_cues
+from app.write.prepare import effort_cues
 from app.template import load_template
-from app.validate_notes import validate
+from app.write.validate_notes import validate
 
 
 def _tpl():
@@ -86,14 +86,14 @@ def test_effort_cues_from_lecture_speech():
 
 
 def test_markdown_keeps_new_fields(tmp_path):
-    from app.export_docx import export_markdown
+    from app.design.export_docx import export_markdown
 
     md = export_markdown(_note(), _tpl(), tmp_path / "n.md").read_text(encoding="utf-8")
     assert "[필수]" in md and "(항암제 5-FU" in md and "개념 Check" in md and "개념 정리" in md
 
 
 def test_markdown_mom_structure_and_assets(tmp_path):
-    from app.export_docx import export_markdown
+    from app.design.export_docx import export_markdown
     from app.models import SlideTable
     from app.template import load_template
 
@@ -131,7 +131,7 @@ def test_markdown_mom_structure_and_assets(tmp_path):
 
 
 def test_parse_pad_docx(tmp_path):
-    from app.exam import EXAM_BASE, parse_exam_pdf
+    from app.pad.exam import EXAM_BASE, parse_exam_pdf
 
     d = Document()
     for line in ["2025년 주지현 교수님", "(세포치료) 줄기세포 – 주지현 교수님", "27. 임상시험용으로 받는 허가는?", "IND 허가", "NDA 승인",
@@ -148,7 +148,7 @@ def test_parse_pad_docx(tmp_path):
 
 
 def test_pad_title_year_is_not_a_lost_number():
-    from app.exam import ExamItem
+    from app.pad.exam import ExamItem
     from app.models import BodyLine
 
     it = ExamItem(number=1001, cohort="", year=2022, professor="주지현 교수님", course="", q_no=1, question="q", answer="3", commentary="")
@@ -160,7 +160,7 @@ def test_pad_title_year_is_not_a_lost_number():
 
 
 def test_exam_signals_and_history():
-    from app.exam import ExamItem, exam_history, exam_signals
+    from app.pad.exam import ExamItem, exam_history, exam_signals
 
     assert exam_signals("작년 출제예고, 이번에 강조한 부분은 아닙니다.") == ["출제예고", "강조안함"]
     assert exam_signals("작년과 올해 모두 강조한 내용 아닙니다.") == ["강조안함"]

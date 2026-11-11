@@ -327,7 +327,7 @@ def build(unit_ids, exam_items=()):
 
 
 if __name__ == "__main__":
-    from app.exam import parse_exam_pdf
+    from app.pad.exam import parse_exam_pdf
 
     json.dump({"topics": [t.model_dump() for t in build(unit_ids_from_script(sys.argv[1]), parse_exam_pdf(sys.argv[2]))]},
               sys.stdout, ensure_ascii=False, indent=2)

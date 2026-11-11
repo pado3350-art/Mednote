@@ -37,7 +37,7 @@ TXT/DOCX ─ transcript ─▶ segments    ├─ align_content ─▶ alignment
 - Anthropic 백엔드는 가짜 클라이언트로만 테스트됨(실 API 미검증).
 
 ## PAD(기출문제) 입력과 색상 규칙
-`--exam-pdf`로 기출 PDF를 넣으면 `app/exam.py`가 문항을 파싱해 *기출 유닛*(번호 101~)으로 추가한다.
+`--exam-pdf`로 기출 PDF를 넣으면 `app/pad/exam.py`가 문항을 파싱해 *기출 유닛*(번호 101~)으로 추가한다.
 유닛은 강의 구간과 동일하게 커버리지·출처 추적 대상이다(모든 문항이 어떤 Topic에 반영되어야 함).
 파랑 글씨는 기출 내용 전용이며, 검증기가 `BLUE_WITHOUT_PAD`(error) / `PAD_NOT_BLUE`(warning)로 확인한다.
 섹션 0에는 MOM의 '땡시 기출' 표처럼 기출 빈도(heat 색칠)·문항 목록 표를 둔다.
@@ -45,7 +45,7 @@ TXT/DOCX ─ transcript ─▶ segments    ├─ align_content ─▶ alignment
 ## 스크립트 단독 모드: AI 목차 (시간 구간 분해 안 함)
 `parse_flow_script`는 스크립트를 **하나의 연속된 발화 단락 흐름**(¶1, ¶2, …)으로 읽는다. `[00:00–02:00] 제목 | 원본 N쪽` 같은
 시간 구간 헤더는 구성 정보로 쓰지 않고 버린다(끝의 '검증 참고' 문단만 `kind=note`로 남아 부록이 된다).
-목차는 `app/outline.py`가 만든다:
+목차는 `app/write/outline.py`가 만든다:
 - `--backend anthropic`: Claude가 전체 단락을 읽고 주제 흐름으로 섹션을 나눔(forced tool call) → 섹션마다 1회씩 노트 생성.
 - 오프라인: 어휘 유사도 기반 주제 전환 탐지 + tf-idf 키워드 제목(휴리스틱, 품질은 AI보다 낮음).
 - `outline.json`이 저장되며, 직접 고쳐서 `--outline-json`으로 다시 적용 가능. `normalize_outline`이 모든 단락이 정확히 한 번, 순서대로 포함되도록 보정.
@@ -59,7 +59,7 @@ PPTX 모드는 기본이 슬라이드별(`--toc unit`)이고 `--toc ai|heuristic
 기출 섹션은 만들지 않는다(`exam_section: false`); PAD 문항은 파랑 글씨 근거로만 쓰며 본문에서 인용되지 않은 문항은 `PAD_UNUSED`(info).
 AI 백엔드: 목차(outline, chapter 포함) → 섹션별 노트(기본정석 포함) → 핵심 어휘·요약 정리 순으로 호출하고, 시스템 프롬프트에 `readable-note-organizer` 스킬을 붙인다.
 
-## 그림 파이프라인 (`app/figures.py`)
+## 그림 파이프라인 (`app/design/figures.py`)
 추출(PyMuPDF: 이미지 영역 병합 → 클립 렌더, 캡션·주변 글 수집, 장식/중복/글자 이미지 필터) → 배치(섹션: bigram 코사인 + 페이지 순서 DP,
 같은 섹션 안에서는 페이지 순서 유지 / 위치: 가장 관련 있는 ★ 블록 시작) → `Statement(kind="figure")` 삽입 → `figures.json`(수정·재적용).
 슬라이드 그림은 `Figure.unit`으로 해당 슬라이드를 인용한 섹션에 바로 붙는다. 한계: 어휘 유사도 기반이라 한 페이지에 여러 주제가 섞이면 틀릴 수 있어
@@ -69,7 +69,7 @@ AI 백엔드: 목차(outline, chapter 포함) → 섹션별 노트(기본정석 
 `OfflineBackend`(기본)는 `offline_organizer`(군말 제거, 한다체, 강조/저중요 단서, 용어 굵게, 기본정석, 핵심 어휘·요약 정리)와 `pad_match`(PAD 자동 파랑)로
 초안을 만든다. `prepare`는 Claude Code가 직접 쓰기 위한 작업 패킷(brief/)을 만든다.
 
-## 도식 (`app/diagrams.py`)
+## 도식 (`app/design/diagrams.py`)
 `Statement(kind="diagram", diagram=Diagram)` → 파이프라인이 PIL로 PNG 렌더(tree: 루트+카드, flow: 단계 카드+화살표(라벨·양방향·건너뛰기), compare: 열 카드+행 라벨)
 → 본문 그림과 같은 경로로 DOCX/PDF에 `도식 n.` 캡션과 함께 삽입. 박스 글은 본문 마크업을 그대로 지원하므로 색 규칙이 동일하다.
 요약 정리 쪽에는 `add_summary_figures`가 섹션별 최고 점수 그림을 `핵심 그림` 썸네일로 추가한다.

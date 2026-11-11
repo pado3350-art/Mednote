@@ -5,15 +5,15 @@
 ## 회차별 개선
 | 회차 | 한 일 | 규칙 / 코드 |
 |---|---|---|
-| 1 | 사람 MOM 3건에서 서술 배우기: 소절마다 모양을 고른다(개념·기전 = 설명형, 수치·사례 = 나열형) | L10–L14, `Topic.style`, `app/mixed.py`, `mom_mixed.yaml` |
+| 1 | 사람 MOM 3건에서 서술 배우기: 소절마다 모양을 고른다(개념·기전 = 설명형, 수치·사례 = 나열형) | L10–L14, `Topic.style`, `app/write/mixed.py`, `mom_mixed.yaml` |
 | 2 | 개념 정리는 그림으로: 강의 슬라이드 그림 우선, 없으면 도식 | L15, `pyramid`·`cycle` 도식 |
-| 3 | top-down: 문장 전에 `storyline.md`(뼈대 → 요지 → 장 → 소절의 질문과 한 줄 답), 제목에 대상과 용어 | `app/storyline.py` (`STORYLINE_*`, `HEADING_TOO_VAGUE`) |
+| 3 | top-down: 문장 전에 `storyline.md`(뼈대 → 요지 → 장 → 소절의 질문과 한 줄 답), 제목에 대상과 용어 | `app/write/storyline.py` (`STORYLINE_*`, `HEADING_TOO_VAGUE`) |
 | 4 | 끊기는 문장을 연결, 검증기가 강요한 영어 괄호 제거 | `meta.omitted_terms` |
 | 5 | MOM의 쪽 구성: 나열형 = 표, 강의의 질문 = 노란 상자 + A., 큰 그림 한 쪽 한 앵커, 장치 줄이기, 10.5pt | L16–L18, `rows`·`qa`, `basics_style`, `checks_where` |
 | 6 | 쪽 이미지 비교로 15개 가독성 문제를 찾아 14개 수정(6번 제외) | L19 이전의 v2.1: `HEADING_TOO_LONG`, `PARAGRAPH_TOO_LONG`, `COLOUR_IN_PARAGRAPH`, `BASICS_TOO_LONG`, `TABLE_ORPHAN`, `CHECK_TOO_MANY`, 표 여백, `_gap`, 상자형 표지 |
 | 7 | 루프 1: 쪽 채움을 숫자로 재고, 요약을 두 쪽으로, 시험 표시 `[출제예고]`, 장 새 쪽 해제 | `Topic.mark`, `chapter_page_break: false` |
 | 8 | 루프 2: 문체 학습(표 칸 개조식), 개념 Check는 기출 소절에만, 요약 ①에 4사분면 그림 | L19–L21, `TABLE_CELL_STYLE`, `CHECK_NO_PAD` |
-| 9 | 이 스킬과 `compare-mom` | `app/mom_compare.py` |
+| 9 | 이 스킬과 `compare-mom` | `app/design/mom_compare.py` |
 
 ## 수치 변화 (MOM = 11쪽, 쪽당 609자, 글자 12.0pt, 평균 채움 0.83)
 | 버전 | 쪽수 | 쪽당 글자 | 평균 채움 | 비고 |

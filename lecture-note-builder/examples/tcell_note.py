@@ -34,7 +34,7 @@ def B(text, *refs, **kw):
 
 
 def DIA(spec, caption, *refs):
-    """A schematic drawn by the program (app/diagrams.py). Blue text inside needs PAD refs."""
+    """A schematic drawn by the program (app/design/diagrams.py). Blue text inside needs PAD refs."""
     return Statement(text=caption, kind="diagram", diagram=spec, slide_refs=list(refs), origin="both")
 
 
@@ -396,7 +396,7 @@ def _remap(topics, unit_ids, EX):
 
 def unit_ids_from_script(path):
     """Old block no. -> paragraph ids, numbered exactly like parse_flow_script (all paragraphs, 1-based)."""
-    from app.transcript import parse_structured_script, read_script_text
+    from app.write.transcript import parse_structured_script, read_script_text
 
     _, units = parse_structured_script(read_script_text(path))
     ids, n = {}, 0
@@ -408,7 +408,7 @@ def unit_ids_from_script(path):
 
 if __name__ == "__main__":
     # usage: python -m examples.tcell_note <script.docx> <pad.pdf> > note_authored.json
-    from app.exam import parse_exam_pdf
+    from app.pad.exam import parse_exam_pdf
     ids = unit_ids_from_script(sys.argv[1])
     items = parse_exam_pdf(sys.argv[2])
     json.dump({"topics": [t.model_dump() for t in build(ids, items)]}, sys.stdout, ensure_ascii=False, indent=2)

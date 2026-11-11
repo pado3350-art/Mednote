@@ -1,10 +1,10 @@
 from docx import Document
 from PIL import Image
 
-from app.export_mom import export_mom
+from app.design.export_mom import export_mom
 from app.models import Diagram, Group, LectureNote, Statement, Topic
 from app.template import load_template
-from app.transcript import lecture_minutes, page_budget
+from app.write.transcript import lecture_minutes, page_budget
 
 
 def _note(tmp_path):

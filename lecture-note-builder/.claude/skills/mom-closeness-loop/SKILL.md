@@ -73,7 +73,7 @@ python3 -m examples.abx_note > outputs/abx/note_authored.json
 python3 -m app.cli build --script inputs/abx_script.txt --template templates/mom_mixed.yaml \
   --note-json outputs/abx/note_authored.json --exam-pdf inputs/abx_pad.pdf --out outputs/abx --name abx \
   --title "Clinical Therapeutics: 중환자와 항균제" --subject 임상약리 --date 2026-08-19 --period 2교시 \
-  --professor 한성필 --meta-json examples/abx_meta.json --summary-figures 0
+  --professor 한성필 --meta-json examples/abx_meta.json --pad-notes examples/abx_pad_notes.json --summary-figures 0
 python3 -m app.cli compare-mom <MOM.pdf> outputs/abx/abx_강의록.pdf --note outputs/abx/note.json
 ```
 재현 확인(새 폴더에서 실행): 노트 JSON 동일, 검증 항목 46개 동일(스토리라인을 복사한 경우), 그림 6개 바이트 동일.

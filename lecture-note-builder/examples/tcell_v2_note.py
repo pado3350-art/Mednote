@@ -8,7 +8,7 @@ Run:  python -m examples.tcell_v2_note inputs/tcell_v2_material.docx > outputs/t
 """
 import sys
 
-from app.material import extract_docx_material
+from app.write.material import extract_docx_material
 from examples.authoring import (ADV, B, DIA, P, QUIZ, REF, ROW, STAR, TERM, Arrow, Diagram, Group, SlideTable, T, dump,
                                 slide_lines)
 

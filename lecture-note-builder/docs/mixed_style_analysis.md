@@ -22,7 +22,7 @@
 | 비교 | 표 (영상 \| 특징 \| 소견) | high grade 특징 4가지 (영상 2) |
 | 단계 구분 | 표 | alert / drowsy / stupor / coma |
 
-프로그램 구현: `Topic.style`(explain | list), `templates/mom_mixed.yaml`(`mixed: true`), `app/mixed.py`(제안과 검사), `prepare`가 만드는 `brief/style_plan.md`.
+프로그램 구현: `Topic.style`(explain | list), `templates/mom_mixed.yaml`(`mixed: true`), `app/write/mixed.py`(제안과 검사), `prepare`가 만드는 `brief/style_plan.md`.
 
 ## 2. 세부 서술 기법 (L11–L14)
 

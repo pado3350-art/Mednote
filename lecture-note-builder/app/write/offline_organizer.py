@@ -12,9 +12,9 @@ import math
 import re
 from collections import Counter
 
-from .models import Slide, Statement, Topic
+from ..models import Slide, Statement, Topic
 from .outline import _label
-from .pad_match import PadMatcher
+from ..pad.pad_match import PadMatcher
 
 EMPH = ("중요", "반드시", "꼭 ", "꼭", "외워", "외우", "기억", "시험", "핵심", "특히", "강조", "국가시험", "구별", "구분", "혼동", "절대")
 LOW = ("가볍게", "참고로", "굳이", "외울 필요는", "넘어가", "여담", "세부사항을 따라갈 필요는", "몰라도", "지엽")
@@ -164,7 +164,7 @@ def organize_section(units: list[Slide], heading: str, chapter: str, allowed: se
 
 def _concept_map(body: list[Topic], key: str) -> list[Statement]:
     """Automatic schematic for 요약 정리: root + one card per chapter (or per section) with its key terms."""
-    from .models import Diagram, Group
+    from ..models import Diagram, Group
 
     if not body:
         return []

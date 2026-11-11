@@ -5,7 +5,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from .generate_notes import AnthropicBackend, OfflineBackend, PrecomputedBackend
+from .write.generate_notes import AnthropicBackend, OfflineBackend, PrecomputedBackend
 from .pipeline import run_pipeline
 
 DEFAULT_TEMPLATE = Path(__file__).resolve().parent.parent / "templates" / "medical.yaml"
@@ -13,7 +13,7 @@ DEFAULT_TEMPLATE_MOM = Path(__file__).resolve().parent.parent / "templates" / "m
 
 
 def _feedback(a) -> int:
-    from . import feedback as fbk
+    from .write import feedback as fbk
 
     if a.fcmd == "diff":
         rep = fbk.build_report(a.original, a.edited, a.lecture_type)
@@ -83,6 +83,7 @@ def main(argv: list[str] | None = None) -> int:
     b.add_argument("--summary-figures", type=int, default=4, help="요약 정리 쪽에 넣을 핵심 그림 썸네일 수 (0 = 끔)")
     b.add_argument("--keep-text-images", action="store_true", help="글자뿐인 슬라이드 이미지도 그림으로 사용")
     b.add_argument("--no-auto-blue", action="store_true", help="오프라인 모드에서 PAD 자동 대조(파랑 표시)를 끈다")
+    b.add_argument("--pad-notes", help="새 PAD 파일에 넣을 직접 쓴 해설 JSON: {\"1001\": {\"answer\": \"...\", \"explanation\": \"...\"}}")
     b.add_argument("--meta-json", help="표지 정보 JSON: comment, tips(공부 전략), objectives(학습목표) … (목록은 줄바꿈 문자열 또는 배열)")
     b.add_argument("--name", help="출력 파일 기본 이름 (기본: 입력 파일 이름)")
     b.add_argument("--uncovered-pad", choices=["reference", "omit"], default="reference",
@@ -127,7 +128,7 @@ def main(argv: list[str] | None = None) -> int:
     cm.add_argument("--out", help="리포트를 저장할 Markdown 경로")
     a = ap.parse_args(argv)
     if a.cmd == "compare-mom":
-        from .mom_compare import compare, format_report
+        from .design.mom_compare import compare, format_report
 
         report = format_report(compare(a.mom, a.ours, a.note))
         print(report)
@@ -138,7 +139,7 @@ def main(argv: list[str] | None = None) -> int:
     if a.cmd == "feedback":
         return _feedback(a)
     if a.cmd == "prepare":
-        from .prepare import prepare_brief
+        from .write.prepare import prepare_brief
 
         brief = prepare_brief(a.script, a.out, a.template, a.exam_pdf, a.figures)
         print(f"작업 패킷: {brief}  → Claude Code에서 `/make-lecture-note` 를 실행하거나 {brief / 'TASK.md'} 를 따르세요.")
@@ -162,7 +163,7 @@ def main(argv: list[str] | None = None) -> int:
                                  figures=a.figures, figures_json=a.figures_json,
                                  max_figures_per_topic=a.max_figures_per_topic,
                                  keep_text_images=a.keep_text_images,
-                                 summary_figures=a.summary_figures, name=a.name)
+                                 summary_figures=a.summary_figures, name=a.name, pad_notes=a.pad_notes)
     for k, v in paths.items():
         print(f"{k:12s} {v}")
     print(f"coverage {report.slide_coverage:.0%}  errors {len(report.errors)}")

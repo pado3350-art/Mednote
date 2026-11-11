@@ -24,10 +24,10 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
-from .refs import format_refs
-from .markup import runs, strip as _strip
-from .models import LectureNote, Statement, Topic
-from .template import Template
+from ..refs import format_refs
+from ..markup import runs, strip as _strip
+from ..models import LectureNote, Statement, Topic
+from ..template import Template
 
 COLOR = {
     "emphasis": RGBColor(0xC0, 0x00, 0x00),
@@ -806,7 +806,7 @@ def _tip_line(doc, t: Topic, F: str, base: float) -> None:
 # ------------------------------------------------------------------- export
 def _used_tags(note: LectureNote) -> set[str]:
     used = {s.tag for t in note.topics for sts in t.sections.values() for s in sts}
-    from .markup import COLORS
+    from ..markup import COLORS
 
     def scan(text: str) -> None:
         for m in re.finditer(r"\{([rbgpcyu])\|", text):

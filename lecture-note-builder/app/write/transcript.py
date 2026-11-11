@@ -10,7 +10,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from .models import Segment
+from ..models import Segment
 
 _MARKER = re.compile(r"^\s*(?:\[|#)\s*(?:슬라이드|slide)\s*(\d+)\s*(?:\])?\s*(.*)$", re.I)
 _TS = re.compile(

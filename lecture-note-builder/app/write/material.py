@@ -14,7 +14,7 @@ from pathlib import Path
 from docx import Document
 from docx.oxml.ns import qn
 
-from .models import BodyLine, Slide
+from ..models import BodyLine, Slide
 
 TITLE_RES = [
     re.compile(r"^\d+\s*[-–]\s*\d+\s+\S"),

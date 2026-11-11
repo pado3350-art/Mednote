@@ -17,7 +17,7 @@ from collections import Counter
 from pathlib import Path
 
 from .align_content import _bigrams, _cosine
-from .models import Outline, OutlineItem, Slide
+from ..models import Outline, OutlineItem, Slide
 
 APPENDIX = "부록 & 검증 참고"
 _TERM = re.compile(r"[A-Za-z][A-Za-z0-9\-]{2,}")

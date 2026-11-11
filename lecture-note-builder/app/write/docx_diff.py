@@ -6,7 +6,7 @@ Diff:
   modified / inserted / deleted / moved (order change) / format (same text, different bold or colour) /
   table_shape (rows or columns of a table changed)
 
-Nothing here judges or applies anything - see app/feedback.py for classification and the approval gate.
+Nothing here judges or applies anything - see app/write/feedback.py for classification and the approval gate.
 """
 from __future__ import annotations
 
@@ -76,7 +76,7 @@ class Change(BaseModel):
     from_index: Optional[int] = None
     to_index: Optional[int] = None
     similarity: float = 0.0
-    # filled by app/feedback.py
+    # filled by app/write/feedback.py
     category: str = ""
     categories: list[str] = Field(default_factory=list)
     signals: list[str] = Field(default_factory=list)

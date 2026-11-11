@@ -1,7 +1,7 @@
 """Human-readable source references for statements."""
 from __future__ import annotations
 
-from .exam import EXAM_BASE
+from .pad.exam import EXAM_BASE
 from .models import LectureNote
 
 

@@ -4,14 +4,14 @@ from types import SimpleNamespace
 
 from docx import Document
 
-from app.align_content import align
+from app.write.align_content import align
 from app.cli import main
-from app.export_docx import export_docx
-from app.extract_slides import extract_pptx
-from app.generate_notes import AnthropicBackend, generate_note
+from app.design.export_docx import export_docx
+from app.design.extract_slides import extract_pptx
+from app.write.generate_notes import AnthropicBackend, generate_note
 from app.template import load_template
-from app.transcript import parse_script
-from app.validate_notes import validate
+from app.write.transcript import parse_script
+from app.write.validate_notes import validate
 
 TPL = Path(__file__).resolve().parent.parent / "templates" / "medical.yaml"
 
@@ -157,7 +157,7 @@ MOM = Path(__file__).resolve().parent.parent / "templates" / "mom.yaml"
 
 
 def test_flow_script_drops_time_blocks():
-    from app.transcript import is_structured, parse_flow_script
+    from app.write.transcript import is_structured, parse_flow_script
 
     assert is_structured(STRUCT)
     meta, segs = parse_flow_script(STRUCT)
@@ -170,7 +170,7 @@ def test_flow_script_drops_time_blocks():
 
 def test_normalize_outline_covers_everything_once():
     from app.models import Outline, OutlineItem
-    from app.outline import APPENDIX, normalize_outline
+    from app.write.outline import APPENDIX, normalize_outline
 
     raw = Outline(items=[OutlineItem(heading="A", unit_numbers=[1, 2, 99]),
                          OutlineItem(heading="B", unit_numbers=[2, 4])])  # 99 unknown, 2 dup, 3 & 5 skipped
@@ -182,7 +182,7 @@ def test_normalize_outline_covers_everything_once():
 
 def test_heuristic_outline_splits_on_topic_shift():
     from app.models import BodyLine, Slide
-    from app.outline import heuristic_outline
+    from app.write.outline import heuristic_outline
 
     a = "항원 처리 proteasome TAP peptide loading 과정"
     b = "이식 거부반응 allograft MLR alloreactive 림프구 증식"
@@ -240,7 +240,7 @@ class _FakeOutlineClient:
 
 
 def test_ai_outline_then_one_topic_per_section(tmp_path):
-    from app.generate_notes import AnthropicBackend
+    from app.write.generate_notes import AnthropicBackend
     from app.pipeline import run_pipeline
 
     fake = _FakeOutlineClient()
@@ -285,7 +285,7 @@ BODY = "MHC는 6번 염색체. Polygenic polymorphic 1~10% CD1 lipid"
 
 
 def test_exam_parse():
-    from app.exam import EXAM_BASE, parse_exam_text
+    from app.pad.exam import EXAM_BASE, parse_exam_text
 
     items = parse_exam_text(PAD)
     assert [i.number for i in items] == [EXAM_BASE + k for k in range(1, 5)]
@@ -302,8 +302,8 @@ def _exam_tpl(tmp_path):
 
 
 def _exam_run(tmp_path, monkeypatch, topics=None, backend=None, tpl=None):
-    import app.exam as exam
-    from app.generate_notes import PrecomputedBackend
+    import app.pad.exam as exam
+    from app.write.generate_notes import PrecomputedBackend
     from app.pipeline import run_pipeline
 
     monkeypatch.setattr(exam, "pdf_text", lambda p: PAD)
@@ -313,7 +313,7 @@ def _exam_run(tmp_path, monkeypatch, topics=None, backend=None, tpl=None):
 
 
 def test_blue_only_for_exam(tmp_path, monkeypatch):
-    from app.exam import EXAM_BASE as X
+    from app.pad.exam import EXAM_BASE as X
     from app.models import Statement, Topic
 
     base = Statement(text=BODY, slide_refs=[1, 2, 3, 4])
@@ -329,7 +329,7 @@ def test_blue_only_for_exam(tmp_path, monkeypatch):
 
 
 def test_exam_units_must_be_covered(tmp_path, monkeypatch):
-    from app.exam import EXAM_BASE as X
+    from app.pad.exam import EXAM_BASE as X
     from app.models import Statement, Topic
 
     t = Topic(heading="0. t", slide_numbers=[1, 2, 3, 4, X + 1],
@@ -340,7 +340,7 @@ def test_exam_units_must_be_covered(tmp_path, monkeypatch):
 
 
 def test_offline_backend_builds_blue_exam_section(tmp_path, monkeypatch):
-    from app.generate_notes import OfflineBackend
+    from app.write.generate_notes import OfflineBackend
 
     rep, paths = _exam_run(tmp_path, monkeypatch, backend=OfflineBackend())
     assert not [i for i in rep.errors], rep.errors
@@ -352,7 +352,7 @@ def test_offline_backend_builds_blue_exam_section(tmp_path, monkeypatch):
 
 
 def test_heat_table_and_col_widths(tmp_path):
-    from app.export_mom import export_mom
+    from app.design.export_mom import export_mom
     from app.models import LectureNote, SlideTable, Topic
 
     tpl = load_template(MOM)
@@ -363,8 +363,8 @@ def test_heat_table_and_col_widths(tmp_path):
 
 
 def test_no_exam_section_by_default_but_blue_still_checked(tmp_path, monkeypatch):
-    from app.generate_notes import OfflineBackend
-    from app.exam import EXAM_BASE as X
+    from app.write.generate_notes import OfflineBackend
+    from app.pad.exam import EXAM_BASE as X
     from app.models import Statement, Topic
 
     rep, paths = _exam_run(tmp_path, monkeypatch, backend=OfflineBackend(), tpl=MOM)  # mom.yaml: exam_section false
@@ -380,7 +380,7 @@ def test_no_exam_section_by_default_but_blue_still_checked(tmp_path, monkeypatch
 
 
 def test_numbering_chapters_and_front():
-    from app.export_mom import numbering
+    from app.design.export_mom import numbering
     from app.models import LectureNote, Topic
 
     note = LectureNote(title="t", topics=[
@@ -395,7 +395,7 @@ def test_numbering_chapters_and_front():
 
 
 def test_mom_layout_banner_toc_basics_callouts(tmp_path):
-    from app.export_mom import export_mom
+    from app.design.export_mom import export_mom
     from app.models import LectureNote, Statement, Topic
 
     tpl = load_template(MOM)
@@ -419,7 +419,7 @@ def test_mom_layout_banner_toc_basics_callouts(tmp_path):
 
 
 def test_style_guide_skill_is_loadable():
-    from app.generate_notes import load_style_guide
+    from app.write.generate_notes import load_style_guide
 
     g = load_style_guide()
     assert "기본정석" in g and "dictation" in g and "{b|" in g
@@ -444,7 +444,7 @@ STRUCT2 = """Limbic 테스트 — 40분 강의 스크립트 역구성
 
 
 def test_second_header_format_without_brackets():
-    from app.transcript import is_structured, parse_flow_script, parse_structured_script
+    from app.write.transcript import is_structured, parse_flow_script, parse_structured_script
 
     assert is_structured(STRUCT2)
     meta, segs = parse_flow_script(STRUCT2)
@@ -456,14 +456,14 @@ def test_second_header_format_without_brackets():
 
 
 def test_long_speech_line_with_time_range_is_not_a_header():
-    from app.transcript import is_structured
+    from app.write.transcript import is_structured
 
     speech = "\n".join(f"[0{i}:00–0{i}:30] " + "아주 긴 발화 문장입니다 " * 12 for i in range(1, 5))
     assert not is_structured(speech)
 
 
 def test_markup_leak_warning(tmp_path):
-    from app.generate_notes import PrecomputedBackend
+    from app.write.generate_notes import PrecomputedBackend
     from app.models import Statement, Topic
     from app.pipeline import run_pipeline
 
@@ -483,7 +483,7 @@ def test_example_notes_have_no_markup_leaks():
 
 
 def test_pad_cited_statement_must_be_blue_and_box_rule(tmp_path, monkeypatch):
-    from app.exam import EXAM_BASE as X
+    from app.pad.exam import EXAM_BASE as X
     from app.models import Statement, Topic
 
     units = [1, 2, 3, 4, X + 1, X + 2, X + 3, X + 4]
@@ -511,7 +511,7 @@ def test_skill_has_non_negotiable_blue_rule():
 
 
 def test_exam_parser_limbic_style():
-    from app.exam import EXAM_BASE, parse_exam_text
+    from app.pad.exam import EXAM_BASE, parse_exam_text
 
     txt = """- 1 -
  20학번 김인범교수님
@@ -569,7 +569,7 @@ def _make_pdf(path, pages):
 
 def test_pdf_figures_extracted_with_decoration_filter(tmp_path):
     pytest = __import__("pytest"); pytest.importorskip("pymupdf")
-    from app.figures import extract_pdf_figures
+    from app.design.figures import extract_pdf_figures
 
     pdf = tmp_path / "h.pdf"
     logo = ((200, 30, 30), (10, 10, 40, 30))  # tiny logo on every page -> decoration
@@ -584,7 +584,7 @@ def test_pdf_figures_extracted_with_decoration_filter(tmp_path):
 def test_text_like_image_detection(tmp_path):
     from PIL import Image, ImageDraw
 
-    from app.figures import looks_like_text_image
+    from app.design.figures import looks_like_text_image
 
     t = Image.new("RGB", (400, 300), "white"); d = ImageDraw.Draw(t)
     for y in range(20, 280, 18):
@@ -609,7 +609,7 @@ def _note_for_figures():
 
 def test_figures_placed_by_text_and_order_and_overrides(tmp_path):
     pytest = __import__("pytest"); pytest.importorskip("pymupdf")
-    from app.figures import apply_overrides, extract_pdf_figures, place_figures
+    from app.design.figures import apply_overrides, extract_pdf_figures, place_figures
 
     pdf = tmp_path / "h.pdf"
     _make_pdf(pdf, [("MHC class I HLA-A HLA-B HLA-C chromosome structure", [((30, 90, 200), (60, 200, 360, 420))]),
@@ -638,7 +638,7 @@ def test_figures_placed_by_text_and_order_and_overrides(tmp_path):
 def test_figure_rendered_in_docx_with_caption(tmp_path):
     from PIL import Image
 
-    from app.export_mom import export_mom
+    from app.design.export_mom import export_mom
     from app.models import LectureNote, Statement, Topic
 
     Image.new("RGB", (300, 200), (40, 90, 200)).save(tmp_path / "x.png")
@@ -666,7 +666,7 @@ def test_slide_pdf_input_places_images_with_their_slide(tmp_path):
 
 
 def test_study_voice_conversion():
-    from app.offline_organizer import clean_sentences, to_study_voice
+    from app.write.offline_organizer import clean_sentences, to_study_voice
 
     assert [to_study_voice(x) for x in ("합니다.", "봅니다.", "됩니다.", "입니다.", "있습니다.", "보세요.", "배웠죠.", "할 겁니다.")] == \
         ["합니다.", "봅니다.", "됩니다.", "입니다.", "있습니다.", "보시기 바랍니다.", "배웠습니다.", "할 것입니다."]
@@ -675,8 +675,8 @@ def test_study_voice_conversion():
 
 
 def test_pad_matcher_blue_only_on_real_overlap():
-    from app.exam import parse_exam_text
-    from app.pad_match import PadMatcher
+    from app.pad.exam import parse_exam_text
+    from app.pad.pad_match import PadMatcher
 
     m = PadMatcher(parse_exam_text(PAD))
     assert m.match("Class I의 polymorphism은 HLA-B > HLA-A > HLA-C 순서이다 B>A>C")  # shares informative terms
@@ -685,8 +685,8 @@ def test_pad_matcher_blue_only_on_real_overlap():
 
 
 def test_offline_backend_organizes_flow_and_colours_pad(tmp_path, monkeypatch):
-    import app.exam as exam
-    from app.generate_notes import OfflineBackend
+    import app.pad.exam as exam
+    from app.write.generate_notes import OfflineBackend
     from app.pipeline import run_pipeline
 
     monkeypatch.setattr(exam, "pdf_text", lambda p: PAD)
@@ -718,8 +718,8 @@ CD1c는 lipid 항원을 제시하고 NKT cell을 활성화합니다. 이제 다�
 
 
 def test_prepare_writes_work_packet(tmp_path, monkeypatch):
-    import app.exam as exam
-    from app.prepare import prepare_brief
+    import app.pad.exam as exam
+    from app.write.prepare import prepare_brief
 
     monkeypatch.setattr(exam, "pdf_text", lambda p: PAD)
     brief = prepare_brief(_write(tmp_path, STRUCT2), tmp_path / "w", MOM, exam_pdf=tmp_path / "pad.pdf")
@@ -746,7 +746,7 @@ def _specs():
 def test_diagrams_render_with_note_colours(tmp_path):
     from PIL import Image
 
-    from app.diagrams import diagram_has_exam, render_diagram
+    from app.design.diagrams import diagram_has_exam, render_diagram
 
     for i, spec in enumerate(_specs()):
         p = render_diagram(spec, tmp_path / f"d{i}.png")
@@ -760,8 +760,8 @@ def test_diagrams_render_with_note_colours(tmp_path):
 
 
 def test_diagram_blue_requires_pad_and_summary_needs_visual(tmp_path, monkeypatch):
-    from app.exam import EXAM_BASE as X
-    from app.generate_notes import PrecomputedBackend
+    from app.pad.exam import EXAM_BASE as X
+    from app.write.generate_notes import PrecomputedBackend
     from app.models import Statement, Topic
 
     tree, _, comp = _specs()
@@ -781,7 +781,7 @@ def test_diagram_blue_requires_pad_and_summary_needs_visual(tmp_path, monkeypatc
 
 
 def test_pipeline_renders_diagrams_into_docx(tmp_path):
-    from app.generate_notes import PrecomputedBackend
+    from app.write.generate_notes import PrecomputedBackend
     from app.models import Statement, Topic
     from app.pipeline import run_pipeline
 
@@ -804,7 +804,7 @@ def test_pipeline_renders_diagrams_into_docx(tmp_path):
 def test_summary_page_gets_best_figure_thumbnails(tmp_path):
     from PIL import Image
 
-    from app.figures import add_summary_figures
+    from app.design.figures import add_summary_figures
     from app.models import Figure, LectureNote, Statement, Topic
 
     for n, col in (("a", (200, 40, 40)), ("b", (40, 40, 200))):
@@ -826,7 +826,7 @@ def test_summary_page_gets_best_figure_thumbnails(tmp_path):
 
 
 def test_offline_summary_has_auto_concept_map(tmp_path):
-    from app.generate_notes import OfflineBackend
+    from app.write.generate_notes import OfflineBackend
     from app.pipeline import run_pipeline
 
     script = tmp_path / "s.txt"
@@ -871,7 +871,7 @@ def _meta_note(**kw):
 
 
 def test_clinical_layout_row2_quiz_tip_cover_and_roman_numbering(tmp_path):
-    from app.export_mom import export_mom, numbering
+    from app.design.export_mom import export_mom, numbering
 
     note = _meta_note()
     assert numbering(note, roman=True)[0]["section"] == "IV. Risk Stratification"  # continues from the previous period
@@ -892,16 +892,16 @@ def test_clinical_layout_row2_quiz_tip_cover_and_roman_numbering(tmp_path):
 
 
 def test_two_blues_follow_the_professor(tmp_path, monkeypatch):
-    from app.exam import EXAM_BASE as X
+    from app.pad.exam import EXAM_BASE as X
     from app.models import Statement, Topic
 
     cl = tmp_path / "clin.yaml"
     cl.write_text(CLIN.read_text(encoding="utf-8"), encoding="utf-8")
     pad_prof = PAD.replace("김태규", "허성호")  # PAD 2021 + 2022 + 2009 by the lecturer in charge
-    import app.exam as exam
+    import app.pad.exam as exam
 
     monkeypatch.setattr(exam, "pdf_text", lambda p: pad_prof)
-    from app.generate_notes import PrecomputedBackend
+    from app.write.generate_notes import PrecomputedBackend
     from app.pipeline import run_pipeline
 
     def run(topics, sub="r"):
@@ -927,7 +927,7 @@ def test_two_blues_follow_the_professor(tmp_path, monkeypatch):
 
 
 def test_pad_colour_rule_covers_row2_and_quiz_fields(tmp_path, monkeypatch):
-    from app.exam import EXAM_BASE as X
+    from app.pad.exam import EXAM_BASE as X
     from app.models import Statement, Topic
 
     base = Statement(text=BODY, slide_refs=[1, 2, 3, 4])
@@ -995,7 +995,7 @@ PAD_COHORT = """1
 
 def test_exam_parse_bare_answers_and_cohort_history():
     """'답 5' without a colon splits questions; page numbers are dropped; cohorts replace missing exam years."""
-    from app.exam import exam_history, parse_exam_text
+    from app.pad.exam import exam_history, parse_exam_text
 
     items = parse_exam_text(PAD_COHORT)
     assert [(i.cohort, i.q_no, i.answer) for i in items] == [("20학번", 1, "5"), ("20학번", 2, "4"), ("19학번", 1, "3")]

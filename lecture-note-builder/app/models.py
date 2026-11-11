@@ -111,7 +111,7 @@ class Statement(BaseModel):
     rows: list[list[str]] = Field(default_factory=list)
     col_titles: list[str] = Field(default_factory=list)
     col_widths: list[float] = Field(default_factory=list)
-    diagram: Optional["Diagram"] = None  # kind == "diagram": spec rendered to a picture by app/diagrams.py
+    diagram: Optional["Diagram"] = None  # kind == "diagram": spec rendered to a picture by app/design/diagrams.py
     # kind == "check": `text` = statement to judge, `answer` = "O"/"X", `left_title` = one-line summary of the page/§
     #   (shown once above the group), `explanations[0]` = why (shown in the answer box). Answers are printed at the end of the topic.
     # kind == "concept": grey "개념 정리" box: `left_title` = title, `left` = lines

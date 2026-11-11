@@ -13,9 +13,9 @@ import os
 import re
 from typing import Protocol
 
-from .exam import EXAM_BASE, ExamItem
-from .models import AlignedSlide, LectureNote, Outline, SlideTable, Slide, Statement, Topic
-from .template import Template
+from ..pad.exam import EXAM_BASE, ExamItem
+from ..models import AlignedSlide, LectureNote, Outline, SlideTable, Slide, Statement, Topic
+from ..template import Template
 from .transcript import time_range
 
 EMPHASIS_CUES = ("중요", "시험", "꼭 ", "반드시", "강조", "기억", "출제", "must", "important")
@@ -24,7 +24,7 @@ def load_style_guide() -> str:
     """Rules of the `readable-note-organizer` skill (single source of truth for the writing style)."""
     from pathlib import Path
 
-    p = Path(__file__).resolve().parent.parent / ".claude" / "skills" / "readable-note-organizer" / "SKILL.md"
+    p = Path(__file__).resolve().parents[2] / ".claude" / "skills" / "readable-note-organizer" / "SKILL.md"
     try:
         text = p.read_text(encoding="utf-8")
     except OSError:
@@ -34,7 +34,7 @@ def load_style_guide() -> str:
 
 
 def learned_rules(lecture_type: str = "") -> str:
-    """Rules the USER APPROVED from their own edits (app/feedback.py). Empty when none are approved, so the
+    """Rules the USER APPROVED from their own edits (app/write/feedback.py). Empty when none are approved, so the
     generator is unchanged until the user approves something; pending candidates are never read."""
     try:
         from .feedback import approved_rules_markdown
@@ -96,7 +96,7 @@ def _is_emphasis(text: str) -> bool:
 
 class OfflineBackend:
     """No API needed. With an outline (script-only mode) the text is *organised* by rules
-    (app/offline_organizer.py); `organize=False` keeps the verbatim paragraphs."""
+    (app/write/offline_organizer.py); `organize=False` keeps the verbatim paragraphs."""
 
     def __init__(self, organize: bool = True, auto_blue: bool = True):
         self.organize = organize
@@ -115,7 +115,7 @@ class OfflineBackend:
             key = _key(template, "core_concepts")
             if self.organize:
                 from .offline_organizer import organize_section, term_allowlist
-                from .pad_match import PadMatcher
+                from ..pad.pad_match import PadMatcher
 
                 sections = [[by[n] for n in it.unit_numbers if n in by] for it in outline.items]
                 allowed = term_allowlist(sections)

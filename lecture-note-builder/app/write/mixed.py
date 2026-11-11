@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import re
 
-from .models import LectureNote
+from ..models import LectureNote
 
 # signals that a block explains a mechanism / reason / principle -> explain
 EXPLAIN_CUES = re.compile(
@@ -48,7 +48,7 @@ def suggest_style(text: str) -> str:
 
 def _is_blue_para(text: str) -> bool:
     """A whole PAD sentence in blue is one unit - it may be long."""
-    from .markup import PAD_TAGS, runs
+    from ..markup import PAD_TAGS, runs
 
     rs = [r for r in runs(text) if r[0].strip()]
     return bool(rs) and all(c in PAD_TAGS for _, c, _ in rs)
@@ -56,7 +56,7 @@ def _is_blue_para(text: str) -> bool:
 
 def _colour_mixed(text: str) -> bool:
     """Plain text AND a grey / red sentence in the same paragraph (>=20 chars each)."""
-    from .markup import runs
+    from ..markup import runs
 
     plain = sum(len(t) for t, c, _ in runs(text) if c is None)
     side = sum(len(t) for t, c, _ in runs(text) if c in ("minor", "emphasis"))
@@ -103,7 +103,7 @@ def _orphan_tail(line: str, cap: float) -> int:
 def table_orphan_issues(note: LectureNote) -> list[tuple[str, str, str]]:
     """A Korean cell line whose last 1-2 characters wrap onto a line of their own ('항균\n제') reads badly (review 10, item 11).
     Estimated at 10.5 pt: one Korean character = 0.37 cm, cell padding 0.42 cm. Reword, split the line, or widen the column."""
-    from .export_mom import rows_widths
+    from ..design.export_mom import rows_widths
 
     out = []
     for t in note.topics:

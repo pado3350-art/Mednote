@@ -1,6 +1,6 @@
 from docx import Document
 
-from app.material import extract_docx_material
+from app.write.material import extract_docx_material
 
 
 def test_docx_material_splits_slides_and_drops_footer(tmp_path):

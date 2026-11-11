@@ -10,11 +10,11 @@ import json
 import shlex
 from pathlib import Path
 
-from .exam import EXAM_BASE, parse_exam_pdf
-from .figures import collect_figures, save_figures
-from .models import Topic
+from ..pad.exam import EXAM_BASE, parse_exam_pdf
+from ..design.figures import collect_figures, save_figures
+from ..models import Topic
 from .outline import heuristic_outline, normalize_outline
-from .pipeline import _units_from_segments
+from ..pipeline import _units_from_segments
 from .transcript import parse_flow_script, read_script_text
 
 
@@ -68,7 +68,7 @@ def prepare_brief(script: str | Path, out_dir: str | Path, template: str | Path,
     (brief / "exam_items.md").write_text("\n".join(E) if items else "# 기출(PAD) 없음\n\n파랑 글씨를 쓰지 않는다.\n", encoding="utf-8")
 
     # exam signals: what the handout writer's commentary says about each question (facts only)
-    from .exam import exam_history, signal_label
+    from ..pad.exam import exam_history, signal_label
 
     X = [f"# 기출(PAD) 신호 — 표지 코멘트·노력 꼬리표의 근거", "",
          "사실만 적는다(추측·예상 금지). 해설에 적힌 단서를 문항별로 모았다. 표지 코멘트에 인용하거나 `effort`를 정할 때 쓴다.", "",

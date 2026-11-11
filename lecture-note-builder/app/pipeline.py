@@ -4,24 +4,24 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from .align_content import align
-from .export_docx import export_docx, export_markdown
-from .extract_slides import extract_pptx
-from .generate_notes import Backend, generate_note
+from .write.align_content import align
+from .design.export_docx import export_docx, export_markdown
+from .design.extract_slides import extract_pptx
+from .write.generate_notes import Backend, generate_note
 from .models import Issue, AlignedSlide, ValidationReport
 from .template import load_template
-from .pdf_render import heading_pages, render_pdf
-from .diagrams import render_diagram
-from .exam import EXAM_BASE
-from .generate_notes import OfflineBackend
-from .figures import (apply_overrides, collect_figures, extract_pdf_slides, place_figures, save_figures,
+from .design.pdf_render import heading_pages, render_pdf
+from .design.diagrams import render_diagram
+from .pad.exam import EXAM_BASE
+from .write.generate_notes import OfflineBackend
+from .design.figures import (apply_overrides, collect_figures, extract_pdf_slides, place_figures, save_figures,
                       slide_figures)
 from .models import Outline, OutlineItem
-from .outline import heuristic_outline, load_outline, normalize_outline, save_outline
-from .material import extract_docx_material
+from .write.outline import heuristic_outline, load_outline, normalize_outline, save_outline
+from .write.material import extract_docx_material
 from .models import AlignedSlide
-from .transcript import is_structured, parse_flow_script, parse_script, read_script_text
-from .validate_notes import report_markdown, validate
+from .write.transcript import is_structured, parse_flow_script, parse_script, read_script_text
+from .write.validate_notes import report_markdown, validate
 
 
 def _units_from_segments(segments):
@@ -32,7 +32,7 @@ def _units_from_segments(segments):
 
 
 def _outline_from_topics(topics) -> Outline:
-    from .exam import EXAM_BASE
+    from .pad.exam import EXAM_BASE
 
     return Outline(items=[OutlineItem(heading=t.heading, chapter=t.chapter,
                                       unit_numbers=[n for n in t.slide_numbers if n < EXAM_BASE])
@@ -75,6 +75,7 @@ def run_pipeline(
     keep_text_images: bool = False,
     summary_figures: int = 4,
     name: str | None = None,
+    pad_notes: str | Path | None = None,  # hand-written PAD commentary {"1001": {"answer": ..., "explanation": ...}}
 ) -> tuple[ValidationReport, dict[str, Path]]:
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -125,11 +126,11 @@ def run_pipeline(
 
     exam_items = []
     if exam_pdf:  # PAD (기출문제) units: citable sources, blue-text justification
-        from .exam import parse_exam_pdf
+        from .pad.exam import parse_exam_pdf
         from .models import BodyLine, Slide
 
         exam_items = parse_exam_pdf(exam_pdf)
-        from .exam import exam_history
+        from .pad.exam import exam_history
 
         meta.setdefault("exam_history", exam_history(exam_items, meta.get("professor", "")))
         meta["pad_uncovered_units"] = ",".join(str(i.number) for i in exam_items if "미수업" in i.signals)
@@ -207,7 +208,7 @@ def run_pipeline(
         # two passes: render, read where each heading landed, refill the TOC numbers
         first = render_pdf(docx_path, out)
         if first:
-            from .export_mom import numbering
+            from .design.export_mom import numbering
 
             pm = heading_pages(first, [n["section"] for n in numbering(note, tpl.format.roman_headings)])
             export_docx(note, tpl, docx_path, report, page_map=pm)
@@ -217,8 +218,8 @@ def run_pipeline(
 
     # ---- page budget: a note should not be much longer than the lecture deserves (MOM handouts: ~6 min / page)
     if pdf_path and script and tpl.format.minutes_per_page > 0:
-        from .pdf_render import page_texts
-        from .transcript import lecture_minutes, page_budget
+        from .design.pdf_render import page_texts
+        from .write.transcript import lecture_minutes, page_budget
 
         sts = [st for t in note.topics for v in t.sections.values() for st in v]
         budget = page_budget(lecture_minutes(read_script_text(script)), tpl.format.minutes_per_page,
@@ -232,8 +233,8 @@ def run_pipeline(
                                                "반복(기본정석·요약·본문)과 쪽 나눔을 줄이거나 mom_compact 템플릿을 쓰세요."))
 
     # ---- top-down authoring: a note written by Claude Code (precomputed) must follow <out>/storyline.md
-    from .generate_notes import PrecomputedBackend
-    from .storyline import heading_issues, storyline_issues
+    from .write.generate_notes import PrecomputedBackend
+    from .write.storyline import heading_issues, storyline_issues
 
     if isinstance(backend, PrecomputedBackend):
         for sev, code, msg in storyline_issues(note, out / "storyline.md") + heading_issues(note):
@@ -251,6 +252,10 @@ def run_pipeline(
     }
     if pdf_path:
         paths["pdf"] = pdf_path
+    if exam_items:  # ③ PAD section: a separate new PAD file (question, answer, commentary from THIS lecture)
+        from .pad.explain import load_authored, write_pad_commentary
+
+        paths["pad_md"], paths["pad_docx"] = write_pad_commentary(exam_items, note, out / f"{stem}_PAD해설.md", load_authored(pad_notes))
     rp = out / "validation_report.md"
     rp.write_text(report_markdown(report), encoding="utf-8")
     paths["report"] = rp

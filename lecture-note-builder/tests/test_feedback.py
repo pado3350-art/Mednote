@@ -6,10 +6,10 @@ import pytest
 from docx import Document
 from docx.shared import RGBColor
 
-from app import feedback as fb
+from app.write import feedback as fb
 from app.cli import main
-from app.docx_diff import diff_docs, extract_docx
-from app.generate_notes import learned_rules, load_style_guide
+from app.write.docx_diff import diff_docs, extract_docx
+from app.write.generate_notes import learned_rules, load_style_guide
 
 ROOT = Path(__file__).resolve().parent.parent
 

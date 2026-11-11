@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 from pathlib import Path
 
-from .models import LectureNote
+from ..models import LectureNote
 
 # phrases with which a lecturer announces the structure of the talk
 SKELETON_CUES = re.compile(

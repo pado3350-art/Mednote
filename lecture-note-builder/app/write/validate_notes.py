@@ -4,11 +4,11 @@ from __future__ import annotations
 import re
 
 from .align_content import _bigrams, _cosine
-from .diagrams import diagram_has_exam, diagram_texts
-from .exam import EXAM_BASE
-from .markup import LEAK, PAD_TAGS, runs as _runs, strip as _strip_markup
-from .models import AlignedSlide, Issue, LectureNote, Slide, ValidationReport
-from .template import Template
+from ..design.diagrams import diagram_has_exam, diagram_texts
+from ..pad.exam import EXAM_BASE
+from ..markup import LEAK, PAD_TAGS, runs as _runs, strip as _strip_markup
+from ..models import AlignedSlide, Issue, LectureNote, Slide, ValidationReport
+from ..template import Template
 
 # number with optional unit, e.g. 5.5 mg/dL, 40%, 2 mm, 1.5x
 _NUM = re.compile(r"(?<![A-Za-z0-9])\d+(?:[.,]\d+)?\s*(?:%|mg/dL|mg/kg|mg|mcg|μg|µg|g/dL|g|kg|mL|L|mm|cm|mmHg|mEq/L|IU|U|°C|bpm|x|배|일|주|개월|년|세|시간|분)?")

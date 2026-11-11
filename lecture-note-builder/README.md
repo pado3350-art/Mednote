@@ -55,7 +55,7 @@ API 키는 **필수가 아니다.** 세 가지 방법이 있다.
 슬라이드 원문 ↔ 교수님 설명 2단 표가 자동 구성된다. `--meta-json 파일`로 표지 정보를 준다 (오프라인 모드는 비어 있으면 학습목표·공부 전략을 규칙으로 채움).
 
 ## 강의자료 DOCX + 스크립트 DOCX
-슬라이드를 Word로 옮긴 강의자료(`6-10 제목` / `Chapter 6` 형태의 제목 줄, 그림 포함)도 입력으로 받는다(`app/material.py`): 슬라이드 단위로 쪼개고 그림은 해당 슬라이드·`Fig.` 캡션과 묶는다.
+슬라이드를 Word로 옮긴 강의자료(`6-10 제목` / `Chapter 6` 형태의 제목 줄, 그림 포함)도 입력으로 받는다(`app/write/material.py`): 슬라이드 단위로 쪼개고 그림은 해당 슬라이드·`Fig.` 캡션과 묶는다.
 스크립트의 문단(¶)이 슬라이드에 정렬되어 `PPT p.3 · 발화 ¶5–7`처럼 인용된다. 결과 파일 이름은 `--name`으로 정한다.
 ```bash
 python -m app.cli build inputs/material.docx --script inputs/script.docx --template templates/mom.yaml \
@@ -91,7 +91,7 @@ python -m app.cli feedback rules --retire L2 --reason "잘못 승인"
 - 원본·수정본·리포트는 `feedback/`(gitignore)에 둔다. `*.docx`, `*.pptx`, 음성 파일도 커밋되지 않는다.
 
 ## PAD(기출)를 Word로 받을 때
-`--exam-pdf`에는 PDF뿐 아니라 **DOCX**도 줄 수 있다(`app/exam.py: parse_exam_docx`): `2025년 ○○○ 교수님` 머리글, `27. 문제`, `답 | 1`, `해설 | …`. PAD는 **파랑 표시의 근거로만** 쓰고 별도 기출 섹션은 만들지 않는다.
+`--exam-pdf`에는 PDF뿐 아니라 **DOCX**도 줄 수 있다(`app/pad/exam.py: parse_exam_docx`): `2025년 ○○○ 교수님` 머리글, `27. 문제`, `답 | 1`, `해설 | …`. PAD는 **파랑 표시의 근거로만** 쓰고 별도 기출 섹션은 만들지 않는다.
 
 ## 예시
 | 예시 | 입력 | 노트 작성 코드 | 결과 |

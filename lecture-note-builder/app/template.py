@@ -39,7 +39,7 @@ class FormatOptions(BaseModel):
     basics_style: str = "box"  # "box" (red-ruled box, numbered lines) | "band" (one light line: 핵심 답 + text)
     checks_where: str = "topic"  # 개념 Check boxes: "topic" (under each §) | "chapter" (one box at the end of the chapter) | "off"
     chapter_page_break: bool = False  # page_break: flow only - every chapter starts on a new page
-    mixed: bool = False  # mixed style (L10): every body § has style explain|list, checked by app/mixed.py
+    mixed: bool = False  # mixed style (L10): every body § has style explain|list, checked by app/write/mixed.py
     topic_tips: bool = True  # draw the yellow 공부 팁 line when a topic has `tip`
     pad_tags: bool = False  # print a small [PAD 2021 Q1] / [Only PAD …] tag after statements that cite PAD units
     toc_level: str = "section"  # "section" (every §) | "chapter" (chapter titles only)

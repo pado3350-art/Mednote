@@ -5,7 +5,7 @@ import shutil
 import pytest
 from PIL import Image, ImageDraw
 
-from app import mom_compare as mc
+from app.design import mom_compare as mc
 
 
 def _pdf(path, blocks):
@@ -88,7 +88,7 @@ def test_abx_figs_side_by_side(tmp_path):
 
 
 def test_picture_led_mom_skips_density_findings():
-    from app.mom_compare import assess
+    from app.design.mom_compare import assess
 
     mom = {"pages": 30, "chars_per_page": 259, "glyph_pt": 9.3, "max_ink": 35.0, "img_per_page": 4.1}
     ours = {"pages": 12, "chars_per_page": 600, "glyph_pt": 13.2, "avg_fill": 0.8, "half_empty": [], "max_ink": 14.0, "inks": [14.0], "img_per_page": 0.6}
@@ -100,7 +100,7 @@ def test_picture_led_mom_skips_density_findings():
 def test_prose_style_counts(tmp_path):
     import json
 
-    from app.mom_compare import prose_style
+    from app.design.mom_compare import prose_style
 
     note = {"topics": [{"sections": {"body": [
         {"kind": "figure", "text": "그림"},

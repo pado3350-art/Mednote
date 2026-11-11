@@ -10,8 +10,8 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
 
-from .markup import runs
-from .models import Diagram
+from ..markup import runs
+from ..models import Diagram
 
 W = 1700  # canvas width in px (placed at ~16.5 cm -> ~260 dpi); "side" diagrams use SIDE_W
 SIDE_W = 900  # narrow canvas for diagrams placed beside text (~7 cm wide)

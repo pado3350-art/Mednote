@@ -13,10 +13,10 @@ import json
 import re
 from pathlib import Path
 
-from .align_content import _bigrams, _cosine
-from .markup import strip as _strip
-from .models import Figure, LectureNote, Statement, Topic
-from .template import Template
+from ..write.align_content import _bigrams, _cosine
+from ..markup import strip as _strip
+from ..models import Figure, LectureNote, Statement, Topic
+from ..template import Template
 
 IMG_EXT = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
 _CAP_START = re.compile(r"^\s*(Figure|Fig\.?|그림|Table|표|Source|출처)\b", re.I)
@@ -151,7 +151,7 @@ def extract_pdf_slides(pdf: str | Path, image_dir: str | Path):
     """Slide PDF -> (slides, figures): one unit per page (text) + its pictures as figures with unit=page."""
     import pymupdf
 
-    from .models import BodyLine, Slide
+    from ..models import BodyLine, Slide
 
     figs = extract_pdf_figures(pdf, image_dir, as_units=True)
     by_page: dict[int, list[Figure]] = {}

@@ -10,7 +10,7 @@ import math
 import re
 from collections import Counter
 
-from .models import AlignedSlide, Segment, Slide
+from ..models import AlignedSlide, Segment, Slide
 
 _STRIP = re.compile(r"[\s\W_]+", re.UNICODE)
 

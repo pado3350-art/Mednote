@@ -10,10 +10,10 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
-from .refs import format_refs
-from .markup import runs as _runs, strip as _strip
-from .models import LectureNote, Statement, ValidationReport
-from .template import Template
+from ..refs import format_refs
+from ..markup import runs as _runs, strip as _strip
+from ..models import LectureNote, Statement, ValidationReport
+from ..template import Template
 
 GRAY = RGBColor(0x6B, 0x72, 0x80)
 BLUE = RGBColor(0x1D, 0x4E, 0xD8)

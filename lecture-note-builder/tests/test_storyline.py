@@ -1,7 +1,7 @@
 """Top-down authoring: storyline template from prepare, STORYLINE_MISSING / STORYLINE_DRIFT after the build."""
 from app.models import LectureNote, Statement, Topic
-from app.storyline import skeleton_cues, storyline_issues, storyline_template
-from app.transcript import parse_flow_script
+from app.write.storyline import skeleton_cues, storyline_issues, storyline_template
+from app.write.transcript import parse_flow_script
 
 SCRIPT = ("[00:00 - 05:00] 도입\n질문1. 항균제는 어떻게 고르나요? 첫 번째는 목적, 두 번째는 장기입니다.\n"
           "[05:00 - 10:00] 본론\n그냥 이야기입니다.\n")
@@ -32,7 +32,7 @@ def test_storyline_missing_and_drift(tmp_path):
 
 def test_prepare_writes_storyline_template_and_task_step(tmp_path):
     from app.cli import DEFAULT_TEMPLATE_MOM
-    from app.prepare import prepare_brief
+    from app.write.prepare import prepare_brief
 
     sc = tmp_path / "s.txt"
     sc.write_text(SCRIPT, encoding="utf-8")
@@ -45,7 +45,7 @@ def test_prepare_writes_storyline_template_and_task_step(tmp_path):
 
 def test_vague_headings_are_flagged():
     """'질문1: 무엇을 고를까' says nothing about the lecture; subject + terms make a heading informative."""
-    from app.storyline import heading_content, heading_issues
+    from app.write.storyline import heading_content, heading_issues
 
     assert heading_content("질문1: 무엇을 고를까") == "" and heading_content("질문2: 어떻게 줄까") == ""
     vague = LectureNote(title="t", topics=[

@@ -1,5 +1,5 @@
 """Mixed style (혼합형) = default (approved rule L10): explain § vs list § conventions."""
-from app.mixed import mixed_issues, suggest_style
+from app.write.mixed import mixed_issues, suggest_style
 from app.models import LectureNote, Statement, Topic
 from app.template import load_template
 
@@ -53,7 +53,7 @@ def test_summary_line_may_start_with_markup():
 
 
 def test_prepare_writes_style_plan(tmp_path):
-    from app.prepare import prepare_brief
+    from app.write.prepare import prepare_brief
 
     sc = tmp_path / "s.txt"
     sc.write_text("[00:00 ~ 10:00] 도입\n왜 이렇게 될까? 기질이 없기 때문이다. 그래서 덩어리로 넣는다.\n"
@@ -69,7 +69,7 @@ def test_prepare_writes_style_plan(tmp_path):
 def test_pyramid_and_cycle_diagrams_render(tmp_path):
     from PIL import Image
 
-    from app.diagrams import SIDE_W, render_diagram
+    from app.design.diagrams import SIDE_W, render_diagram
     from app.models import Arrow, Diagram, Group
 
     pyr = Diagram(kind="pyramid", size="side", root="분화능",
@@ -86,10 +86,10 @@ def test_pyramid_and_cycle_diagrams_render(tmp_path):
 def test_concept_box_gets_picture_and_missing_visual_is_flagged(tmp_path):
     from docx import Document
 
-    from app.diagrams import render_diagram
-    from app.export_mom import export_mom
+    from app.design.diagrams import render_diagram
+    from app.design.export_mom import export_mom
     from app.models import Diagram, Group
-    from app.validate_notes import validate
+    from app.write.validate_notes import validate
 
     dia = Diagram(kind="pyramid", size="side", groups=[Group(title="상위"), Group(title="하위")])
     with_pic = Statement(text="위계", kind="concept", left_title="위계", left=["- 상위 > 하위"], slide_refs=[1], diagram=dia)
