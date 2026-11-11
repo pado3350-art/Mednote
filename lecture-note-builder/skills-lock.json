@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "skills": {
+    "grammar-checker": {
+      "source": "daleseo/korean-skills",
+      "sourceType": "github",
+      "skillPath": "skills/grammar-checker/SKILL.md",
+      "computedHash": "f06b5fcb37793ba584402b745a84cb7df240dabd70d93470a64a7c263823e48c"
+    },
+    "humanizer": {
+      "source": "daleseo/korean-skills",
+      "sourceType": "github",
+      "skillPath": "skills/humanizer/SKILL.md",
+      "computedHash": "3029a544b30a786c07af5ac0a6e12b013fbe5317e46b24850137be6123ee751a"
+    },
+    "style-guide": {
+      "source": "daleseo/korean-skills",
+      "sourceType": "github",
+      "skillPath": "skills/style-guide/SKILL.md",
+      "computedHash": "24a7e6941e86296fa60d630c87b996ea2f43c85b4c2d3f1e27599474b1c75495"
+    }
+  }
+}
