@@ -75,7 +75,7 @@ KEY_PER_TOPIC = 8
 
 
 def emphasis_issues(note: LectureNote) -> list[tuple[str, str, str]]:
-    """L40: red + 강조점 ({k|..}) is rationed; L35: a red whole sentence that only says '강조하셨습니다' is for exam scope, not for every emphasis."""
+    """L40: red + bold ({k|..}) is rationed; L35: a red whole sentence that only says '강조하셨습니다' is for exam scope, not for every emphasis."""
     from ..markup import runs
 
     out: list[tuple[str, str, str]] = []
@@ -85,5 +85,5 @@ def emphasis_issues(note: LectureNote) -> list[tuple[str, str, str]]:
             for st in sts:
                 n += sum(1 for _, c, _ in runs(st.text) if c == "key")
         if n > KEY_PER_TOPIC:
-            out.append(("info", "KEY_EMPHASIS_TOO_MANY", f"'{t.heading}': 빨강+강조점 {{k|…}}이 {n}개입니다(소절당 {KEY_PER_TOPIC}개 이하) → 정말 외워야 할 단어만(L40)."))
+            out.append(("info", "KEY_EMPHASIS_TOO_MANY", f"'{t.heading}': 빨강+굵게 {{k|…}}이 {n}개입니다(소절당 {KEY_PER_TOPIC}개 이하) → 정말 외워야 할 단어만(L40)."))
     return out

@@ -6,8 +6,8 @@ like the MOM notes do:
   {c|cyan}    appeared in a PAD of ANOTHER professor (only when the template declares `exam_other`)
   {g|gray}    low importance          {p|purple}  needs checking
   {y|...}     yellow highlight (study tip / "this matters")      {u|...}  underline
-  {e|...}     강조점 (emphasis dots above each letter) on an important word          [L40]
-  {k|...}     key word/concept: red + 강조점 (judged by the author, a few per page)    [L40]
+  {k|...}     key word/concept: red + bold (judged by the author, a few per page)       [L40]
+  {e|...}     old alias of **bold** (no dots above letters are drawn)
   **bold**    the main word of a sentence in its context
 """
 from __future__ import annotations

@@ -62,7 +62,7 @@ def test_mom_heading_system_has_no_coloured_title_bands(tmp_path):
 
 
 def test_emphasis_dots_and_key_words_render(tmp_path):
-    """L40: {e|..} = 강조점, {k|..} = red + 강조점, **x** = bold."""
+    """L40: **x** = bold, {k|..} = red + bold; no 강조점 dots."""
     from app.markup import runs
 
     assert [(t, c) for t, c, _ in runs("가 {e|나} {k|다} **라**")][:4] == [("가 ", None), ("나", "dots"), (" ", None), ("다", "key")]
@@ -71,7 +71,7 @@ def test_emphasis_dots_and_key_words_render(tmp_path):
     note = LectureNote(title="t", topics=[t], ref_style="para", meta={"points": "a"})
     doc = Document(str(export_mom(note, _tpl(), tmp_path / "e.docx")))
     xml = "".join(p._p.xml for p in doc.paragraphs)
-    assert xml.count('<w:em w:val="dot"/>') == 2 and "C00000" in xml
+    assert '<w:em ' not in xml and "C00000" in xml  # no dots above letters
 
 
 def test_rhythm_and_key_ration_checks():
