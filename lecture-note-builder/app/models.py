@@ -63,6 +63,7 @@ class Group(BaseModel):
     title: str
     items: list[str] = Field(default_factory=list)
     color: str = ""  # teal | blue | salmon | amber | violet | gray (default: cycle)
+    image: str = ""  # original picture path for a `columns` panel
 
 
 class Arrow(BaseModel):
@@ -116,7 +117,7 @@ class Statement(BaseModel):
     #   (shown once above the group), `explanations[0]` = why (shown in the answer box). Answers are printed at the end of the topic.
     # kind == "concept": grey "개념 정리" box: `left_title` = title, `left` = lines
     # kind == "figure_side": picture (`image`, caption = `text`) beside a bullet box (`left_title`, `left` lines)
-    # kind == "columns": parallel items side by side; `diagram.groups` = one column each (title + lines)
+    # kind == "columns": `diagram.groups` holds ordered panels (title, optional image, observations in items)
     # kind == "rows": a table (L16): `rows` = [[label, cell, ...], ...] (cell text: markup, "\n" = new line, "- " = bullet,
     #   "→ x" lines are plain), `col_titles` = optional header row, `col_widths` = optional widths in cm
     # kind == "callout" (L33): a thin-ruled box with a bracketed title - `left_title` = "작성자 추가설명" / "작성자가 헷갈려서 정리" /

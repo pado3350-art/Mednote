@@ -293,7 +293,19 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
                     continue
                 if st.kind == "columns" and st.diagram is not None:
                     gs = st.diagram.groups
-                    body_lines += _md_table([[g.title for g in gs], ["<br>".join(g.items) for g in gs]])
+                    if any(g.image for g in gs):
+                        from .export_mom import _photo_rows
+
+                        if st.text:
+                            body_lines += ["", f"**{_md(st.text)}**"]
+                        for panels in _photo_rows(gs):
+                            cells = []
+                            for panel in panels:
+                                parts = [_md_image(panel.image, panel.title, out.parent)] if panel.image else []
+                                cells.append("<br>".join([*parts, *panel.items]))
+                            body_lines += _md_table([[panel.title for panel in panels], cells])
+                    else:
+                        body_lines += _md_table([[g.title for g in gs], ["<br>".join(g.items) for g in gs]])
                     continue
                 pre = "▶ **교수님:** " if st.origin == "lecturer" else ""
                 body = f"**{_md(st.text)}**" if st.emphasis else _md(st.text)

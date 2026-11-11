@@ -23,14 +23,14 @@ python -m app.cli prepare --script inputs/x_script.txt --exam-pdf inputs/x_pad.p
 4. **근거 검증**: 모든 문장이 `slide_refs`(¶ 번호)를 가진다. 숫자·용어가 스크립트와 같은지, 빠진 문단이 없는지(커버리지 100%).
 
 ## ② 디자인 — 정리글 + 이미지 → 문서 (`app/design`)
-4. **빌드**
+4. **빌드**: 표지 강조점은 `meta.points`, 마지막 요약은 `Topic.role="closing"`으로 넘긴다. 사진 비교·검사·수술 전후의 입력과 배치는 [사시 MOM 디자인 규칙](design_mom_format.md#사진-비교와-검사수술-사례)을 따른다.
 ```bash
 python -m examples.x_note > outputs/x/note_authored.json
 python -m app.cli build --script inputs/x_script.txt --template templates/mom_mixed.yaml \
   --note-json outputs/x/note_authored.json --exam-pdf inputs/x_pad.pdf --pad-notes examples/x_pad_notes.json \
   --out outputs/x --name x --title "…" --subject … --date … --professor … --meta-json examples/x_meta.json
 ```
-5. **쪽 확인**: PDF를 쪽 이미지로 보고 빈 쪽, 표 쪼개짐, 그림 위치를 점검. 그림 중심 개념 목록은 도식으로(슬라이드 그림 우선, 없으면 새로 그림). 요약 쪽에는 그 주제의 그림을 넣는다(L21). ★ 어긋난 그림은 `figures.json`에서 고친다.
+5. **쪽 확인**: 표지·비교 페이지·마지막 요약을 렌더링해 목차 쪽번호, 그림과 설명의 대응, 잘림, 빈 쪽과 표 쪼개짐을 점검. 그림 중심 개념 목록은 도식으로(슬라이드 그림 우선, 없으면 새로 그림). 요약 쪽에는 그 주제의 그림을 넣는다(L21). ★ 어긋난 그림은 `figures.json`에서 고친다.
 6. **MOM 근접 루프(선택)**: `python -m app.cli compare-mom <MOM.pdf> outputs/x/x_강의록.pdf --note outputs/x/note.json` → 남은 차이를 고치고 재빌드(스킬 `mom-closeness-loop`, 4회 등 횟수 지정). 다른 강의의 MOM은 문체만 비교(L24).
 
 ## ③ PAD — 파랑과 새 PAD 해설 (`app/pad`)

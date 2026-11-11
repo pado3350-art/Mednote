@@ -270,6 +270,24 @@ def place_figures(note: LectureNote, figures: list[Figure], tpl: Template, max_p
     if not body_idx or not figures:
         return figures
     tvec = {i: _bigrams(_topic_text(note.topics[i])) for i in body_idx}
+    panel_locations = {}
+    for topic_index in body_idx:
+        topic = note.topics[topic_index]
+        body_key = _body_key(topic, tpl)
+        for key, statements in topic.sections.items():
+            for position, st in enumerate(statements):
+                if st.kind == "columns" and st.diagram is not None:
+                    for group in st.diagram.groups:
+                        if group.image:
+                            location = (topic_index, position if key == body_key else None)
+                            panel_locations.setdefault(Path(group.image).resolve(), location)
+    panel_figures = set()
+    for f in figures:
+        path = Path(f.path).resolve()
+        if path in panel_locations:
+            panel_figures.add(path)
+            f.topic, f.after = panel_locations[path]
+            f.score = 1.0
 
     def topic_scores(f: Figure) -> dict[int, float]:
         """Plain bigram cosine (stable for long section texts): whole page + the text right next to the figure."""
@@ -324,7 +342,7 @@ def place_figures(note: LectureNote, figures: list[Figure], tpl: Template, max_p
     # 2. per-topic cap (keep the best matches)
     per: dict[int, list[Figure]] = {}
     for f in figures:
-        if f.topic is not None and not f.skip and f.unit is None:
+        if f.topic is not None and not f.skip and f.unit is None and Path(f.path).resolve() not in panel_figures:
             per.setdefault(f.topic, []).append(f)
     count = {i: len(per.get(i, [])) for i in body_idx}
     for t_idx, fs in per.items():
@@ -342,7 +360,7 @@ def place_figures(note: LectureNote, figures: list[Figure], tpl: Template, max_p
     inserts: dict[int, list[tuple[int, Figure]]] = {}
     last_after: dict[int, int] = {}
     for f in sorted(figures, key=lambda x: (x.source, x.page, x.id)):
-        if f.skip or f.topic is None or (f.text_like and not keep_text_images):
+        if f.skip or f.topic is None or (f.text_like and not keep_text_images) or Path(f.path).resolve() in panel_figures:
             continue
         t = note.topics[f.topic]
         key = _body_key(t, tpl)

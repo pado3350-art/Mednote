@@ -178,3 +178,49 @@ def test_checks_only_with_pad_and_table_cells_in_gaejosik():
     assert [c for _, c, _ in got] == ["TABLE_CELL_STYLE"] and "1줄" in got[0][2]  # '-다' sentence flagged, 개조식 lines are not
     ok = Statement(text="", kind="rows", slide_refs=[1], rows=[["라벨 다", "외래는 경구가 기본\n사용 가능"]])
     assert table_style_issues(LectureNote(title="t", topics=[_topic("가", "장", [ok], style="list")])) == []
+
+
+def test_photo_columns_keep_pictures_with_observations_and_split_five_panels(tmp_path):
+    from PIL import Image
+
+    from app.design.export_docx import export_markdown
+    from app.design.figures import place_figures
+    from app.models import Diagram, Figure, Group, Slide
+    from app.write.validate_notes import validate
+
+    groups = []
+    for index in range(5):
+        path = tmp_path / f"panel-{index}.png"
+        Image.new("RGB", (80, 40), (index * 40, 0, 0)).save(path)
+        groups.append(Group(title=f"자세 {index}", image=str(path), items=[f"관찰 {index}"]))
+    comparison = Statement(text="자세 비교", kind="columns", slide_refs=[1],
+                           diagram=Diagram(kind="compare", groups=groups))
+    topic = _topic("비교", "장", [comparison])
+    note = LectureNote(title="t", topics=[topic])
+    tpl = _tpl()
+    figures = [Figure(id=i, path=g.image, unit=1) for i, g in enumerate(groups, 1)]
+    place_figures(note, figures, tpl)
+    assert topic.sections["body"] == [comparison]
+    assert all(f.topic == 0 for f in figures)
+
+    doc = _doc(tmp_path, [topic], tpl)
+    tables = doc.tables[-2:]
+    assert [len(table.rows[0].cells) for table in tables] == [3, 2]
+    assert len(doc.inline_shapes) == 5
+    cells = [cell for table in tables for cell in table.rows[0].cells]
+    assert [cell.paragraphs[0].text for cell in cells] == [g.title for g in groups]
+    assert [cell.paragraphs[-1].text for cell in cells] == [g.items[0] for g in groups]
+    assert all("w:cantSplit" in table.rows[0]._tr.xml for table in tables)
+    assert len({cell.width for cell in cells}) == 1
+
+    md_path = export_markdown(note, tpl, tmp_path / "n.md")
+    md = md_path.read_text(encoding="utf-8")
+    assert "| 자세 0 | 자세 1 | 자세 2 |" in md and "| 자세 3 | 자세 4 |" in md
+    assert "![자세 4](panel-4.png)<br>관찰 4" in md
+
+    slides = [Slide(number=1, images=[g.image for g in groups])]
+    assert not {"IMAGE_LOST", "FIGURE_FILE_MISSING"} & {i.code for i in validate(note, slides, [], tpl).errors}
+    comparison.diagram.groups[0].items = ["{b|근거 없는 파랑}"]
+    (tmp_path / "panel-0.png").unlink()
+    codes = {i.code for i in validate(note, slides, [], tpl).errors}
+    assert {"BLUE_WITHOUT_PAD", "FIGURE_FILE_MISSING"} <= codes

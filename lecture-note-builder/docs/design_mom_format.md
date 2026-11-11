@@ -16,6 +16,27 @@
 - **그림 자리표시자**(`[IMAGE: … | layout: left-column]`): 그림 배치는 `figures.json`/도식 스펙이 이미 담당한다.
 - **작성자 추가설명의 비유**: 작성자의 말임을 상자 제목으로 밝히고, 원문에 없는 사실은 만들지 않는다.
 
+## 사진 비교와 검사·수술 사례
+
+- **유형·자세 비교(4·8쪽)**: 같은 시야의 원본 이미지를 `kind="columns"`의 `diagram.groups`에 비교 순서대로 넣는다. 각 그룹은 `title`, `image`(강의록 빌드 작업 폴더 기준 경로), `items`(관찰 포인트)를 받는다. DOCX/PDF는 줄마다 최대 3개 패널을 동일 너비로 놓고 원본 비율을 보존한다. Markdown에도 순서와 이미지 링크가 남는다.
+- **검사·증례(6쪽)**: 한 장과 해석을 `kind="figure_side"`의 `image`·`left`로 묶는다. 수술 전후(10쪽)는 동일 사례의 사진을 `columns`의 `수술 전`, `수술 후`로 표시하고 한 블록에 모은다.
+- **표지·요약(1·11쪽)**: `meta.points`에 실제 강조점을 넣고 `Topic.role="closing"`으로 마지막 요약을 둔다. 11쪽은 참고본 분량이다. 렌더링 후 목차 쪽번호, 사진과 캡션, 페이지 경계의 잘림을 확인한다.
+
+```json
+{
+  "kind": "columns",
+  "text": "수술 전후 안구 정렬",
+  "slide_refs": [12],
+  "diagram": {
+    "kind": "compare",
+    "groups": [
+      {"title": "수술 전", "image": "inputs/before.png", "items": ["수술 전 관찰 소견"]},
+      {"title": "수술 후", "image": "inputs/after.png", "items": ["수술 후 관찰 소견"]}
+    ]
+  }
+}
+```
+
 ## 검사 (`app/write/mom_format.py`)
 `POINTS_MISSING`(info), `CLOSING_MISSING`(info), `CALLOUT_TITLE_UNKNOWN`(info), `CALLOUT_EMPTY`, `SUB_LINE_FORMAT`. 요약 장(closing)과 콜아웃은 `UNGROUNDED` 검사에서 제외한다.
 

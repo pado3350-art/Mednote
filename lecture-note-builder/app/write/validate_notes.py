@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+from pathlib import Path
 
 from .align_content import _bigrams, _cosine
 from ..design.diagrams import diagram_has_exam, diagram_texts
@@ -58,6 +59,17 @@ def validate(
     by_slide = {s.number: s for s in slides}
     amap = {a.slide_number: a for a in aligned}
     seg_text = {g.id: g.text for a in aligned for g in a.segments}
+
+    panel_images = {
+        Path(group.image).resolve()
+        for topic in note.topics for statements in topic.sections.values() for statement in statements
+        if statement.kind == "columns" and statement.diagram is not None
+        for group in statement.diagram.groups if group.image
+    }
+    for image in sorted(panel_images):
+        if not image.is_file():
+            rep.issues.append(Issue(severity="error", code="FIGURE_FILE_MISSING",
+                                    message=f"비교 패널의 이미지 파일이 없습니다: {image.name}"))
 
     # 1. Slide coverage
     covered = {n for t in note.topics for n in t.slide_numbers}
@@ -120,7 +132,7 @@ def validate(
         if template.format.preserve_original_images and s.images:
             placed = {img for t in note.topics for img in t.images} | {
                 st.image for t in note.topics for sts in t.sections.values() for st in sts if st.kind == "figure"}
-            if any(img not in placed for img in s.images):
+            if any(img not in placed and Path(img).resolve() not in panel_images for img in s.images):
                 rep.issues.append(Issue(severity="error", code="IMAGE_LOST", slide=n,
                                         message="슬라이드의 이미지가 강의록에서 누락되었습니다."))
 
@@ -170,7 +182,15 @@ def validate(
         return tag in PAD_TAGS or any(c in PAD_TAGS for _, c, _ in _runs(text))
 
     def _all_text(st) -> str:  # row2 / quiz keep text in several fields
-        return " ".join([st.text, *st.left, *st.options, st.answer, *st.explanations, *st.col_titles, *[c for r in st.rows for c in r]])
+        texts = [st.text, *st.left, *st.options, st.answer, *st.explanations, *st.col_titles,
+                 *[c for r in st.rows for c in r]]
+        if st.kind == "columns" and st.diagram is not None:
+            photo_columns = any(group.image for group in st.diagram.groups)
+            for group in st.diagram.groups:
+                if photo_columns:
+                    texts.append(group.title)
+                texts.extend(group.items)
+        return " ".join(texts)
 
     two_blues = any(i.tag == "exam_other" for i in template.format.legend)  # template declares the 2nd blue
     cur_prof = (note.meta.get("professor") or "").replace("교수님", "").strip()

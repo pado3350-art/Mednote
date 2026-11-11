@@ -37,7 +37,12 @@ def _topic_text(t: Topic) -> str:
 
 
 def has_visual(t: Topic) -> bool:
-    return any(st.kind in _VISUAL or (st.kind == "concept" and (st.image or st.diagram is not None)) for sts in t.sections.values() for st in sts)
+    return any(
+        st.kind in _VISUAL
+        or (st.kind == "concept" and (st.image or st.diagram is not None))
+        or (st.kind == "columns" and st.diagram is not None and any(group.image for group in st.diagram.groups))
+        for sts in t.sections.values() for st in sts
+    )
 
 
 def anatomy_terms_in(text: str, extra: set[str] | None = None) -> set[str]:

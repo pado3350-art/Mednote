@@ -26,7 +26,7 @@ from docx.shared import Cm, Pt, RGBColor
 
 from ..refs import format_refs
 from ..markup import runs, strip as _strip
-from ..models import LectureNote, Statement, Topic
+from ..models import Group, LectureNote, Statement, Topic
 from ..template import Template
 
 COLOR = {
@@ -323,6 +323,50 @@ def _figure_side(doc, st: Statement, tpl: Template) -> None:
     _fmt(doc.add_paragraph(), after=3, line=0.8)
 
 
+def _photo_rows(groups: list[Group]) -> list[list[Group]]:
+    rows = []
+    while groups:
+        size = 2 if len(groups) == 4 else 3
+        rows.append(groups[:size])
+        groups = groups[size:]
+    return rows
+
+
+def _photo_columns(doc, groups: list[Group], tpl: Template) -> None:
+    from PIL import Image
+
+    font, base = tpl.format.font_korean, tpl.format.font_size_pt
+    section = doc.sections[-1]
+    available_cm = (section.page_width - section.left_margin - section.right_margin) / Cm(1)
+    rows = _photo_rows(groups)
+    width_cm = min(17.4, available_cm) / len(rows[0])
+    for panels in rows:
+        table = doc.add_table(rows=1, cols=len(panels))
+        table.style = "Table Grid"
+        table.alignment = WD_TABLE_ALIGNMENT.CENTER
+        table.autofit = False
+        row = table.rows[0]
+        row._tr.get_or_add_trPr().append(OxmlElement("w:cantSplit"))
+        for index, (cell, panel) in enumerate(zip(row.cells, panels)):
+            table.columns[index].width = cell.width = Cm(width_cm)
+            title = cell.paragraphs[0]
+            _fmt(title, before=3, after=3, line=1.1, align=WD_ALIGN_PARAGRAPH.CENTER)
+            for text, color, _ in runs(panel.title):
+                _run_style(title.add_run(text), color, font, base, bold=True)
+            if panel.image:
+                path = Path(panel.image)
+                picture = cell.add_paragraph()
+                _fmt(picture, after=3, line=1.0, align=WD_ALIGN_PARAGRAPH.CENTER)
+                if path.is_file():
+                    with Image.open(path) as im:
+                        w, h = im.size
+                    picture.add_run().add_picture(str(path), width=Cm(min(width_cm - 0.5, 5.5 * w / h)))
+                else:
+                    _font(picture.add_run("그림 파일 없음"), font, base - 0.5, color=COLOR["minor"])
+            _lines_into(cell, panel.items, font, base - 0.5, tpl, tight=True)
+        _gap(doc)
+
+
 def _columns_box(doc, st: Statement, tpl: Template) -> None:
     """Parallel items side by side (e.g. UK Biobank | All of Us | 국가 사업): one column per diagram group."""
     from .diagrams import CYCLE, PALETTE
@@ -336,6 +380,9 @@ def _columns_box(doc, st: Statement, tpl: Template) -> None:
         p.paragraph_format.keep_with_next = True
         for text, col, bold in runs(st.text):
             r = p.add_run(text); _run_style(r, col, F, base + 0.5, bold=True)
+    if any(g.image for g in groups):
+        _photo_columns(doc, groups, tpl)
+        return
     t = doc.add_table(rows=2, cols=len(groups))
     t.style = "Table Grid"
     t.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -900,6 +947,13 @@ def _used_tags(note: LectureNote) -> set[str]:
                     used.add("emphasis")
                 for x in (s.text, *s.left, *s.options, s.answer):
                     scan(x)
+                if s.kind == "columns" and s.diagram is not None:
+                    photo_columns = any(group.image for group in s.diagram.groups)
+                    for group in s.diagram.groups:
+                        if photo_columns:
+                            scan(group.title)
+                        for item in group.items:
+                            scan(item)
         for line in (*t.basics, t.tip):
             scan(line)
     return used
