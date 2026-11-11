@@ -26,7 +26,7 @@ format:
   toc_level: chapter
   minutes_per_page: 4.5
   roman_headings: false
-  heading_system: mom        # "Ⅰ. 장"(노란 표시) / "[1] 소절"(초록 표시), noun-phrase headings, about ten § (L27, L28)
+  heading_system: mom        # "Ⅰ. 장"(노란 표시) / "[1] 소절"(굵은 일반 제목), noun-phrase headings, about ten § (L27, L28)
   exam_section: false              # 기출문제는 별도 PAD 문서; 파랑 글씨로만 본문에 표시
   preserve_original_images: true
   tables_for_comparisons: true

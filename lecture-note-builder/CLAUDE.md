@@ -50,7 +50,7 @@
 ‘교수님 강조: …’ 라벨을 앞에 붙이지 않고, 문장을 쓴 뒤 끝에 붙인다: ‘편도체와 공포의 연결은 졸업 뒤에도 기억해야 할 정도라고 강조하셨습니다.’ (빨강, 검증 `EMPHASIS_LABEL`, 스킬 `readable-note-organizer` 3절·`my-writing-style`).
 
 ## 제목 체계 (L27–L29, 디자인 섹션)
-사람 정리본처럼 장 `Ⅰ.`(노란 표시, 강의의 큰 부분 3–5개) → 소절 `[1]`(초록 표시, 장당 6개·전체 12개 이하, **짧은 명사구**) → 세부는 본문 굵은 라벨 줄(`1.`/`(1)`/`①`). 질문형·문장형 소절 제목 금지(질문은 본문 질문 상자로). 핵심 한 줄은 제목 뒤 `[n] 제목 : 핵심 한 줄`, 강조 소절은 ★. 템플릿 `heading_system: mom`, `basics_style: inline`; 검사 `HEADING_QUESTION`·`HEADING_SENTENCE`·`SECTION_TOO_MANY`·`THIN_SECTION`. 근거 `docs/design_headings.md`.
+사람 정리본처럼 장 `Ⅰ.`(노란 표시, 강의의 큰 부분 3–5개) → 소절 `[1]`(굵은 일반 제목, 배경 없음, 장당 6개·전체 12개 이하, **짧은 명사구**) → 세부는 본문 굵은 라벨 줄(`1.`/`(1)`/`①`). 질문형·문장형 소절 제목 금지(질문은 본문 질문 상자로). 핵심 한 줄은 제목 뒤 `[n] 제목 : 핵심 한 줄`, 강조 소절은 ★. 템플릿 `heading_system: mom`, `basics_style: inline`; 검사 `HEADING_QUESTION`·`HEADING_SENTENCE`·`SECTION_TOO_MANY`·`THIN_SECTION`. 근거 `docs/design_headings.md`.
 
 ## 정리본 형식 (L30–L34, 디자인 섹션, `docs/design_mom_format.md`)
 표지 `작성자 코멘트 → 목차 → [강조점 세가지]`(`meta.points`), 마지막 장 `Take home messages`(`Topic.role="closing"`), 번호 `Ⅰ. → [1] → (1)줄(kind=sub) → ①`, 콜아웃 상자(kind=callout: [작성자 추가설명] 일상 비유 / [작성자가 헷갈려서 정리] / [잠깐 정리하고 가기], 퀴즈는 qa `막간 퀴즈`), PPT가 있을 때만 `(PPT, 언급X)`·`[ppt에는 없는 여담 - …]`·`[Ppt 내용 추가]`, 정의·인과는 `=`/`→` + 핵심어 `★`. 파랑은 여전히 PAD 전용. 검사 `app/write/mom_format.py`(POINTS_MISSING, CLOSING_MISSING, CALLOUT_*, SUB_LINE_FORMAT).

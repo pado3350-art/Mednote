@@ -543,7 +543,7 @@ def _callout_box(doc, st: Statement, tpl: Template) -> None:
 
 
 def _sub_line(doc, st: Statement, tpl: Template) -> None:
-    """(1) / (2) sub-heading line (L31): the label before ' = ' / ' : ' is green-marked, the rest bold; ★ stays with the text."""
+    """(1) / (2) sub-heading line (L31): bold plain text (no background shading, L27); ★ stays with the text."""
     F, base = tpl.format.font_korean, tpl.format.font_size_pt
     p = doc.add_paragraph()
     _fmt(p, before=9, after=4, line=1.25, left=0.0)
@@ -551,7 +551,7 @@ def _sub_line(doc, st: Statement, tpl: Template) -> None:
     m = re.search(r"\s(=|:)\s", st.text)
     label, rest = (st.text[:m.start()], st.text[m.start():]) if m else (st.text, "")
     for text, col, bold in runs(label):
-        r = p.add_run(text); _run_style(r, col, F, base + 0.5, bold=True); _shade_run(r, "C6E0B4")
+        r = p.add_run(text); _run_style(r, col, F, base + 0.5, bold=True)
     for text, col, bold in runs(rest):
         r = p.add_run(text); _run_style(r, col, F, base + 0.5, bold=True)
 
@@ -613,13 +613,13 @@ def _shade_run(r, fill: str) -> None:
 def _section_heading(doc, label: str, F: str, base: float, idx: int, mark: str = "", system: str = "plain",
                      answer: list[str] | None = None) -> None:
     """In-flow § heading used when topics do not start a new page (page_break: chapter).
-    system="mom" (L27-L29): only the "[1] 명사구" label is marked green like the human MOM, an important § gets ★, and the
+    system="mom" (L27-L29): the "[1] 명사구" label is a plain bold heading (no background shading), an important § gets ★, and the
     key line follows on the same line after " : " (basics_style: inline)."""
     p = doc.add_paragraph()
     _fmt(p, before=10, after=5, line=1.15, left=0.0)
     p.paragraph_format.keep_with_next = True
     if system == "mom":
-        r = p.add_run(label + ("★" if mark else "")); _font(r, F, base + 1.5, bold=True, color=BLACK); _shade_run(r, "C6E0B4")
+        r = p.add_run(label + ("★" if mark else "")); _font(r, F, base + 2, bold=True, color=BLACK)
         if answer:
             r = p.add_run(" : "); _font(r, F, base + 0.5, bold=True)
             for k, line in enumerate(answer):
@@ -1081,9 +1081,9 @@ def export_mom(
             else:
                 k += 1
                 q = pc.add_paragraph(); _fmt(q, before=6, after=3, line=1.3, left=0.1)
-                r0 = q.add_run(f"{k}. "); _font(r0, F, 10.5, bold=True); _shade_run(r0, "C6E0B4")
+                r0 = q.add_run(f"{k}. "); _font(r0, F, 10.5, bold=True)
                 for text, col, bold in runs(line.strip()):
-                    r = q.add_run(text); _run_style(r, col, F, 10.5, bold=True); _shade_run(r, "C6E0B4")
+                    r = q.add_run(text); _run_style(r, col, F, 10.5, bold=True)
         _fmt(pc.add_paragraph(), after=2, line=0.6)
 
     # ---------------- learning objectives (학습목표)

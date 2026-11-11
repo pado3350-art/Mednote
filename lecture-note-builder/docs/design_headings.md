@@ -6,7 +6,7 @@
 | 수준 | 표시 | 개수 | 형태 | 예 |
 |---|---|---|---|---|
 | 장 | `Ⅰ.` 굵게 + 노란 형광 | 3 (강의의 큰 부분) | 명사구 | Ⅰ. 정상 시각 발달 · Ⅱ. 사시 · Ⅲ. Take home message |
-| 소절 | `[1]` 굵게 + 초록 표시 | 장당 2–6, 전체 약 10 | 짧은 명사구, 필요하면 영어 병기 | [2] 양안시(Binocular Vision) · [4] 사시 진단 · [6] 사시 수술 |
+| 소절 | `[1]` 굵게(초록 배경은 쓰지 않는다) | 장당 2–6, 전체 약 10 | 짧은 명사구, 필요하면 영어 병기 | [2] 양안시(Binocular Vision) · [4] 사시 진단 · [6] 사시 수술 |
 | 소절 핵심 | 제목 뒤 ` : ` 한 줄 | — | 정의나 결론 한 줄, 중요하면 ★ | [1] 정의 : 두 눈의 정렬이 똑바르지 않은 상태★ |
 | 그 아래 | `1.` / `(1)` / `1)` / `①` | 자유 | 본문 안 굵은 라벨 줄(제목 블록 아님) | 1. 내사시★ : 눈이 너무 몰려있어요. |
 질문형·문장형 제목은 0개. 질문은 본문의 ‘[깜짝 퀴즈]’로만 쓴다.
@@ -17,7 +17,7 @@
 - **L29 핵심 한 줄은 제목 뒤에**: `[n] 제목 : 핵심 한 줄`을 한 줄에 쓴다(별도 띠 없음). 교수님이 강조한 소절은 제목에 ★, 정보가 있는 표시(‘국시 출제’)만 꼬리표로 남긴다.
 
 ## 프로그램
-- 템플릿 `mom_mixed.yaml`: `heading_system: mom`(Ⅰ. 노란 표시 / [1] 초록 표시), `basics_style: inline`(제목 뒤 ‘ : 핵심 한 줄’). 이전 방식은 `heading_system: plain`, `basics_style: band`.
+- 템플릿 `mom_mixed.yaml`: `heading_system: mom`(Ⅰ. 노란 표시 / [1] 굵은 일반 제목), `basics_style: inline`(제목 뒤 ‘ : 핵심 한 줄’). 이전 방식은 `heading_system: plain`, `basics_style: band`.
 - 렌더링 `app/design/export_mom.py`: `numbering(..., system)`, `_section_heading(..., system, answer)`, `_chapter_marker`.
 - 검사 `app/write/storyline.py` → `heading_form_issues`: `HEADING_QUESTION`, `HEADING_SENTENCE`, `SECTION_TOO_MANY`, `THIN_SECTION`.
 - 적용 예: `examples/neuroophth_note.py`(6장 17소절 → 3장 11소절).
