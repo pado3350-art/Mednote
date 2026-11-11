@@ -84,3 +84,17 @@ def test_noun_headings_ending_like_questions_are_not_flagged():
     note = LectureNote(title="t", topics=ts)
     assert [c for _, c, _ in heading_form_issues(note)] == ["HEADING_QUESTION"]
     assert not [m for _, c, m in heading_issues(note) if c == "HEADING_TOO_VAGUE" and ("동공" in m or "평가" in m)]
+
+
+def test_long_lecture_widens_section_limits():
+    from app.models import LectureNote, Statement, Topic
+    from app.write.storyline import heading_form_issues
+
+    def note(n, chapters, **meta):
+        ts = [Topic(heading=f"항목 {i}의 정리", chapter=f"장 {i % chapters}", slide_numbers=[i],
+                    sections={"body": [Statement(text="x", kind="rows", rows=[["a", "b"]], slide_refs=[i, i + 100])]}) for i in range(n)]
+        return LectureNote(title="t", topics=ts, meta=meta)
+
+    assert "SECTION_TOO_MANY" in {c for _, c, _ in heading_form_issues(note(16, 4))}
+    assert "SECTION_TOO_MANY" not in {c for _, c, _ in heading_form_issues(note(16, 4, long_lecture="true"))}
+    assert "CHAPTER_TOO_MANY" in {c for _, c, _ in heading_form_issues(note(14, 7, long_lecture="true"))}

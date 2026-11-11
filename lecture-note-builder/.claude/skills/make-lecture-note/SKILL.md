@@ -33,3 +33,6 @@ No Claude Code either? `python -m app.cli build --script ... --exam-pdf ... --fi
 
 ## 서술 기법 (모범 예시 반영)
 `brief/effort_cues.md`의 노력 단서로 `effort`(필수/이해/참고)를 붙이고, § 마다 `kind: check` 1–2개, 비유·암기 팁은 `origin: "author"`로 쓴다. 자세한 규칙: `readable-note-organizer` 0b절. ⛔ 파랑 = 기출 전용 — 이 기법들은 파랑을 쓰지 않는다.
+
+## 긴 강의(슬라이드 80장 이상 · 발화 25¶ 이상)
+`docs/long_lecture.md`를 먼저 읽는다: 장 6개 이하 · 소절 20개 이하(`meta.long_lecture: "true"`), 장 단위로 쓰고 빌드, 같은 틀은 표, 반복되는 축은 한 번만, 목표 쪽수 ≈ 슬라이드/6. 예 `examples/geri_note.py`. 스크립트의 `[슬라이드 n]` 꼬리표는 지우고 문단을 빈 줄로 나눈다.

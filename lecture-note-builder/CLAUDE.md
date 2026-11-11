@@ -92,3 +92,6 @@
 
 ## 해부 구조는 그림으로 (anatomy-visual-explainer)
 강의 전체가 아니라 **문단 단위로**: 한 문단(본문·표·콜아웃) 안에서 해부 구조(핵·경로·신경·혈관·엽 등)를 3개 이상 설명하면 그 소절은 강의자료 그림 → 없으면 도식으로 시각화하고, 그림 읽기 줄(L22)을 붙인다. 검증 `ANATOMY_NO_VISUAL`(경고). 상세: `.claude/skills/anatomy-visual-explainer/SKILL.md`.
+
+## 긴 강의 (docs/long_lecture.md)
+슬라이드 80장 이상·발화 25¶ 이상이면 `meta.long_lecture: "true"`: 장 ≤6, 소절 ≤20(장당 ≤8), 장 단위로 쓰고 빌드, 같은 틀은 표 하나, 반복되는 비교축은 요약 표 + 상자 하나, 목표 쪽수 ≈ 슬라이드/6, Take home messages ≤7. 검사 `SECTION_TOO_MANY`(한도 확대)·`CHAPTER_TOO_MANY`. 예 `examples/geri_note.py`.

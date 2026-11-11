@@ -125,6 +125,7 @@ _Q_END = re.compile(r"(\?|？|는가|인가|일까|을까|할까|[있없되하�
 _S_END = re.compile(r"[가-힣](다|요|니다|습니다|세요)\s*[.!]?\s*$")
 MAX_SECTIONS = 12  # the human MOM (사시, 11쪽): 3 chapters, about 10 [n] sections
 MAX_PER_CHAPTER = 6
+LONG_MAX_SECTIONS, LONG_MAX_PER_CHAPTER, LONG_MAX_CHAPTERS = 20, 8, 6  # long lecture (docs/long_lecture.md)
 
 
 def heading_form_issues(note: LectureNote, max_sections: int = MAX_SECTIONS, max_per_chapter: int = MAX_PER_CHAPTER) -> list[tuple[str, str, str]]:
@@ -142,6 +143,11 @@ def heading_form_issues(note: LectureNote, max_sections: int = MAX_SECTIONS, max
         has_anchor = any(s.kind in ("rows", "figure", "diagram", "figure_side", "columns", "qa") for v in t.sections.values() for s in v)
         if len(refs) <= 1 and not has_anchor:
             out.append(("info", "THIN_SECTION", f"소절 '{h}'은 발화 1개뿐이고 표·그림도 없습니다 → 앞뒤 소절과 합칩니다(L27)."))
+    if str(note.meta.get("long_lecture") or "").lower() in ("true", "yes", "1"):  # docs/long_lecture.md
+        max_sections, max_per_chapter = max(max_sections, LONG_MAX_SECTIONS), max(max_per_chapter, LONG_MAX_PER_CHAPTER)
+        chapters = list(dict.fromkeys(t.chapter for t in body if t.chapter))
+        if len(chapters) > LONG_MAX_CHAPTERS:
+            out.append(("warning", "CHAPTER_TOO_MANY", f"장이 {len(chapters)}개입니다(긴 강의 한도 {LONG_MAX_CHAPTERS}) → 강의 자체의 목차 단위로 합칩니다."))
     if len(body) > max_sections:
         out.append(("warning", "SECTION_TOO_MANY", f"소절이 {len(body)}개입니다(한도 {max_sections}) → 같은 주제는 한 소절로 합치고, 세부 항목은 본문의 1. / (1) / ① 라벨 줄로(L27)."))
     per: dict[str, int] = {}
