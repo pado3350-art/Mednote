@@ -88,7 +88,7 @@ def heading_content(heading: str) -> str:
     return "".join(c for c in s if c not in _PARTICLES)
 
 
-def heading_issues(note: LectureNote, min_chars: int = 5, max_heading: int = 44, max_chapter: int = 34) -> list[tuple[str, str, str]]:
+def heading_issues(note: LectureNote, min_chars: int = 4, max_heading: int = 44, max_chapter: int = 34) -> list[tuple[str, str, str]]:
     """Chapter and § headings made only of question words ('질문1: 무엇을 고를까') tell the reader nothing."""
     out, seen = [], set()
     for t in note.topics:
@@ -117,4 +117,37 @@ def keyword_heading_issues(note: LectureNote) -> list[tuple[str, str, str]]:
         if t.role == "body" and text and text not in seen and re.sub(r"\([^)]*\)", "", text).count(",") >= 2:
             seen.add(text)
             out.append(("info", "HEADING_KEYWORD_LIST", f"장 제목 '{text}'은 키워드를 쉼표로 나열했습니다. ‘~의 ~와 ~’ 명사구로, 강의 속 표현으로 씁니다(L26)."))
+    return out
+
+
+# ---- heading system of the human MOM (L27-L29): few sections, noun-phrase headings, the key line after " : "
+_Q_END = re.compile(r"(\?|？|는가|인가|일까|을까|할까|[있없되하뉘르드]나)\s*\)?\s*$")  # real question endings only ("평가" is a noun)
+_S_END = re.compile(r"[가-힣](다|요|니다|습니다|세요)\s*[.!]?\s*$")
+MAX_SECTIONS = 12  # the human MOM (사시, 11쪽): 3 chapters, about 10 [n] sections
+MAX_PER_CHAPTER = 6
+
+
+def heading_form_issues(note: LectureNote, max_sections: int = MAX_SECTIONS, max_per_chapter: int = MAX_PER_CHAPTER) -> list[tuple[str, str, str]]:
+    """§ headings are short noun phrases ('[2] 동공 반사', '[3] 사시 진단'), never questions or sentences; a lecture has about ten §.
+    A question the lecturer actually asked goes into the body as a qa box, not into the heading."""
+    out: list[tuple[str, str, str]] = []
+    body = [t for t in note.topics if t.role == "body" and not t.heading.upper().startswith("QUIZ")]
+    for t in body:
+        h = re.sub(r"\{[a-z]\|([^}]*)\}", r"\1", t.heading).replace("**", "").strip()
+        if _Q_END.search(h):
+            out.append(("warning", "HEADING_QUESTION", f"소절 제목 '{h}'이 질문형입니다 → 명사구로(예: ‘동공 반사의 경로’), 질문은 본문의 질문 상자로(L28)."))
+        elif _S_END.search(h):
+            out.append(("warning", "HEADING_SENTENCE", f"소절 제목 '{h}'이 문장형입니다 → 명사구로, 핵심 한 줄은 제목 뒤 ‘ : ’에(L28, L29)."))
+        refs = {r for v in t.sections.values() for s in v for r in s.slide_refs if r < 1000}
+        has_anchor = any(s.kind in ("rows", "figure", "diagram", "figure_side", "columns", "qa") for v in t.sections.values() for s in v)
+        if len(refs) <= 1 and not has_anchor:
+            out.append(("info", "THIN_SECTION", f"소절 '{h}'은 발화 1개뿐이고 표·그림도 없습니다 → 앞뒤 소절과 합칩니다(L27)."))
+    if len(body) > max_sections:
+        out.append(("warning", "SECTION_TOO_MANY", f"소절이 {len(body)}개입니다(한도 {max_sections}) → 같은 주제는 한 소절로 합치고, 세부 항목은 본문의 1. / (1) / ① 라벨 줄로(L27)."))
+    per: dict[str, int] = {}
+    for t in body:
+        per[t.chapter] = per.get(t.chapter, 0) + 1
+    for ch, k in per.items():
+        if k > max_per_chapter:
+            out.append(("warning", "SECTION_TOO_MANY", f"장 '{ch[:24]}'에 소절 {k}개(한도 {max_per_chapter}) → 합칩니다(L27)."))
     return out

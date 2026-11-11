@@ -49,11 +49,14 @@
 ## 교수님 강조 문장 (L6 v2)
 ‘교수님 강조: …’ 라벨을 앞에 붙이지 않고, 문장을 쓴 뒤 끝에 붙인다: ‘편도체와 공포의 연결은 졸업 뒤에도 기억해야 할 정도라고 강조하셨습니다.’ (빨강, 검증 `EMPHASIS_LABEL`, 스킬 `readable-note-organizer` 3절·`my-writing-style`).
 
+## 제목 체계 (L27–L29, 디자인 섹션)
+사람 정리본처럼 장 `Ⅰ.`(노란 표시, 강의의 큰 부분 3–5개) → 소절 `[1]`(초록 표시, 장당 6개·전체 12개 이하, **짧은 명사구**) → 세부는 본문 굵은 라벨 줄(`1.`/`(1)`/`①`). 질문형·문장형 소절 제목 금지(질문은 본문 질문 상자로). 핵심 한 줄은 제목 뒤 `[n] 제목 : 핵심 한 줄`, 강조 소절은 ★. 템플릿 `heading_system: mom`, `basics_style: inline`; 검사 `HEADING_QUESTION`·`HEADING_SENTENCE`·`SECTION_TOO_MANY`·`THIN_SECTION`. 근거 `docs/design_headings.md`.
+
 ## 용어·제목 (L25, L26)
 잘 안 쓰는 한글 전문용어(핵군, 사이막핵, 뇌줄기, 후각계, 겉질 …)는 영어로 쓰거나 병기한다: `septal nuclei(사이막핵)`, `brainstem` (검증 `KOREAN_TERM_NO_ENGLISH`, 목록 `app/write/terms.py`, 강의별 추가 `meta.rare_terms`). 장·소절 제목은 쉼표로 키워드를 나열하거나 새로 압축한 말(‘입력·출력 경로’)을 쓰지 않고, 강의 속 표현으로 ‘~의 ~와 ~’ 명사구를 쓴다(`HEADING_KEYWORD_LIST`, 예: ‘편도체(amygdala)의 구조와 연결’).
 
 ## 레이아웃 v2 (L16–L18: 표 우선, 강의의 질문 단위, 한 쪽 한 앵커)
-`mom_mixed.yaml` 기본: 본문 10.5pt, 핵심 답 한 줄 띠(`basics_style: band`), 개념 Check는 장 끝에 모음(`checks_where: chapter`), 장마다 새 쪽(`chapter_page_break`) + 그림 중심 소절 새 쪽(`Topic.new_page`). 새 문장 종류 `rows`(라벨 | 한 줄 → 결론 표; 작은 표는 한 쪽에 붙음), `qa`(강의의 질문 노란 상자 + A. 한 줄). 나열형은 표로(`LIST_NOT_TABLE`), 큰 슬라이드 그림은 `figure`로 쪽 첫머리에. 근거 `outputs/abx/review_vs_MOM.md` 8절, 예 `examples/abx_note.py`, 스킬 0e. 사소한 녹취 영어는 `meta.omitted_terms`로 뺀다(괄호를 끼워 넣지 않는다). **v2.1**(review 10절): 상자형 표지(`cover_style: box`), 장 29자·소절 44자 제목, 문단 3줄, 핵심 답 62자, 장당 Check 2개, 소절은 새 쪽 없이 이어 붙임(장 시작만 새 쪽). 검사 `HEADING_TOO_LONG`·`PARAGRAPH_TOO_LONG`·`COLOUR_IN_PARAGRAPH`·`BASICS_TOO_LONG`·`TABLE_ORPHAN`·`CHECK_TOO_MANY`. **문체(L19–L21)**: 표 칸은 개조식(명사형, ‘-음/-함’), 개념 Check는 기출이 있는 소절에만, 요약 쪽은 그 주제의 그림 포함(`TABLE_CELL_STYLE`, `CHECK_NO_PAD`). 알려진 한계: 샌드박스 PDF에는 한글 굵은 글꼴이 없어 한글 굵게가 안 보인다(Word 파일은 정상).
+`mom_mixed.yaml` 기본: 본문 10.5pt, 핵심 한 줄은 소절 제목 뒤(`basics_style: inline`, L29; 예전 `band`), 개념 Check는 장 끝에 모음(`checks_where: chapter`), 장마다 새 쪽(`chapter_page_break`) + 그림 중심 소절 새 쪽(`Topic.new_page`). 새 문장 종류 `rows`(라벨 | 한 줄 → 결론 표; 작은 표는 한 쪽에 붙음), `qa`(강의의 질문 노란 상자 + A. 한 줄). 나열형은 표로(`LIST_NOT_TABLE`), 큰 슬라이드 그림은 `figure`로 쪽 첫머리에. 근거 `outputs/abx/review_vs_MOM.md` 8절, 예 `examples/abx_note.py`, 스킬 0e. 사소한 녹취 영어는 `meta.omitted_terms`로 뺀다(괄호를 끼워 넣지 않는다). **v2.1**(review 10절): 상자형 표지(`cover_style: box`), 장 29자·소절 44자 제목, 문단 3줄, 핵심 답 62자, 장당 Check 2개, 소절은 새 쪽 없이 이어 붙임(장 시작만 새 쪽). 검사 `HEADING_TOO_LONG`·`PARAGRAPH_TOO_LONG`·`COLOUR_IN_PARAGRAPH`·`BASICS_TOO_LONG`·`TABLE_ORPHAN`·`CHECK_TOO_MANY`. **문체(L19–L21)**: 표 칸은 개조식(명사형, ‘-음/-함’), 개념 Check는 기출이 있는 소절에만, 요약 쪽은 그 주제의 그림 포함(`TABLE_CELL_STYLE`, `CHECK_NO_PAD`). 알려진 한계: 샌드박스 PDF에는 한글 굵은 글꼴이 없어 한글 굵게가 안 보인다(Word 파일은 정상).
 
 ## MOM 근접 루프 (스킬 `mom-closeness-loop`, 명령 `/mom-loop`)
 사람 MOM과 같은 쪽 단위로 비교하며 반복 개선한다. 측정 `python -m app.cli compare-mom <MOM.pdf> <노트.pdf> --note note.json`(쪽 채움, 쪽당 글자, 글자 크기, 잉크, 표 칸 문체, 제목 길이, 기출 없는 Check → 남은 차이 목록, `app/design/mom_compare.py`). 절차·점검표·멈춤 조건·재현 방법·함정은 스킬과 `references/loop_findings.md`. MOM 글은 비교 전용(생성엔 이미지만), 승인 없는 규칙은 저장하지 않고, 푸시는 종료 코드로 확인한다.
@@ -70,7 +73,7 @@
 
 ## 강의 유형 → 템플릿 (실제 정리본 비교에서 얻은 규칙)
 개념 연쇄형은 `mom.yaml`(스토리), 나열형·인트로는 `mom_compact.yaml`(시험 정리 2–3쪽 + 개조식 본문, `figure_side`/`columns`, `page_break: flow`). 같은 사실은 최대 2번, 빌드 후 `PAGE_BUDGET` 경고가 없게. 근거: `outputs/precision/review_vs_MOM.md`.
-**기본 = 혼합형 `mom_mixed.yaml` (승인 규칙 L10–L14)**: 개념·기전 소절은 설명형(`Topic.style: explain` — 질문형 제목 + 핵심 답 + 추론 문단: 정의→그럼, 기전 사슬→따라서, 원리→사례), 수치·사례·결과 소절은 나열형(`style: list` — `**라벨**: 내용` + ‘즉 …’). `prepare` 기본 템플릿이며 `brief/style_plan.md`가 ¶별 제안, 검증은 `app/write/mixed.py`(MIXED_*/EXPLAIN_*/LIST_*). 근거 `docs/mixed_style_analysis.md`(사람 MOM 3건), 스킬 0c. 순수 설명식 `mom_explain.yaml`·나열식 `mom_compact.yaml`은 비교용.
+**기본 = 혼합형 `mom_mixed.yaml` (승인 규칙 L10–L14)**: 개념·기전 소절은 설명형(`Topic.style: explain` — 명사구 제목 + 제목 뒤 핵심 한 줄(L27–L29) + 추론 문단: 정의→그럼, 기전 사슬→따라서, 원리→사례), 수치·사례·결과 소절은 나열형(`style: list` — `**라벨**: 내용` + ‘즉 …’). `prepare` 기본 템플릿이며 `brief/style_plan.md`가 ¶별 제안, 검증은 `app/write/mixed.py`(MIXED_*/EXPLAIN_*/LIST_*). 근거 `docs/mixed_style_analysis.md`(사람 MOM 3건), 스킬 0c. 순수 설명식 `mom_explain.yaml`·나열식 `mom_compact.yaml`은 비교용.
 
 ## 피드백 학습 (사용자 수정본 → 승인 규칙)
 `app/write/docx_diff.py`(DOCX 비교) + `app/write/feedback.py`(6분류, 규칙 후보, 승인 저장소), CLI `feedback diff|approve|reject|rules|export`, 스킬 `/learn-mednote-style`.

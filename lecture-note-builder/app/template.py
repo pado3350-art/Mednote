@@ -33,10 +33,11 @@ class FormatOptions(BaseModel):
     star_style: str = "star"  # sub-headings: "star" (★ title) | "band" (light-blue band)
     exam_section: bool = True  # build a standalone 기출(PAD) section (mom.yaml: false)
     roman_headings: bool = False
+    heading_system: str = "plain"  # "plain": "1. 장" / "§ 1. 소절" | "mom": "Ⅰ. 장"(노란 표시) / "[1] 소절"(초록 표시), like the human MOM (L27)
     page_break: str = "topic"  # "topic" (every § on a new page) | "chapter" (new page per chapter) | "flow" (only after front pages)
     basics_box: bool = True  # draw the 기본정석 box when a topic has `basics`
     basics_label: str = "기본정석"  # label on that box (the explanatory / mixed templates use "핵심 답")
-    basics_style: str = "box"  # "box" (red-ruled box, numbered lines) | "band" (one light line: 핵심 답 + text)
+    basics_style: str = "box"  # "box" (red-ruled box, numbered lines) | "band" (one light line: 핵심 답 + text) | "inline" ("[1] 제목 : 핵심 한 줄", L29)
     checks_where: str = "topic"  # 개념 Check boxes: "topic" (under each §) | "chapter" (one box at the end of the chapter) | "off"
     chapter_page_break: bool = False  # page_break: flow only - every chapter starts on a new page
     mixed: bool = False  # mixed style (L10): every body § has style explain|list, checked by app/write/mixed.py

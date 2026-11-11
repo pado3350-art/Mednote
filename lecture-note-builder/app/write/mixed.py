@@ -1,7 +1,7 @@
 """Mixed (혼합형) note style - the DEFAULT body style (approved rule L10).
 
 One lecture, two shapes:
-  * explain § (개념·기전·원리·"왜"): question heading + one-line 핵심 답 box + short reasoning paragraphs
+  * explain § (개념·기전·원리·"왜"): noun-phrase heading + key line after " : " (L27-L29) + short reasoning paragraphs
     (정의 → 그럼/왜 → 기전 사슬 → 따라서 한 줄 → 사례에 원리 적용).
   * list §    (수치·사례·제품·실험 결과·절차·분류): bullets / columns / tables, a one-line lead-in before a table
     and a "즉 …" line at the end.

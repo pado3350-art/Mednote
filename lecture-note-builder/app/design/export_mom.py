@@ -39,6 +39,7 @@ COLOR = {
 BLACK = RGBColor(0, 0, 0)
 GRAY_TAG = RGBColor(0x9A, 0x9A, 0x9A)
 ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"]
+ROMAN_U = ["Ⅰ", "Ⅱ", "Ⅲ", "Ⅳ", "Ⅴ", "Ⅵ", "Ⅶ", "Ⅷ", "Ⅸ", "Ⅹ"]
 _PREFIXED = re.compile(r"^\s*(\d+|[IVX]+)\.\s")
 WEEKDAY = "월화수목금토일"
 
@@ -115,7 +116,7 @@ def _bookmark(p, name: str, bid: int):
     p._p.append(e)
 
 
-def numbering(note: LectureNote, roman: bool = False) -> list[dict]:
+def numbering(note: LectureNote, roman: bool = False, system: str = "plain") -> list[dict]:
     """Per topic: chapter no/title and § no -> display strings (shared by TOC, banners, page lookup).
     roman=True: flat (chapter-less) topics get "I. / II. ..." starting at meta['numbering_start'] (default 1)."""
     out, ch_no, sec_no, last_ch, flat = [], 0, 0, None, int(note.meta.get("numbering_start", "1") or 1) - 1
@@ -125,13 +126,15 @@ def numbering(note: LectureNote, roman: bool = False) -> list[dict]:
         elif t.chapter:
             if t.chapter != last_ch:
                 ch_no += 1; sec_no = 0; last_ch = t.chapter
+            chap = f"{ROMAN_U[(ch_no - 1) % len(ROMAN_U)]}. {t.chapter}" if system == "mom" else f"{ch_no}. {t.chapter}"
             if t.heading.upper().startswith("QUIZ"):  # the quiz is not a numbered § of the chapter
-                out.append({"front": False, "chapter": f"{ch_no}. {t.chapter}", "section": t.heading,
-                            "banner": f"{ch_no}. {t.chapter}", "toc": t.heading, "no": 0, "mark": t.mark})
+                out.append({"front": False, "chapter": chap, "section": t.heading,
+                            "banner": chap, "toc": t.heading, "no": 0, "mark": t.mark})
                 continue
             sec_no += 1
-            out.append({"front": False, "chapter": f"{ch_no}. {t.chapter}", "section": f"§ {sec_no}. {t.heading}",
-                        "banner": f"{ch_no}. {t.chapter}", "toc": f"§ {sec_no}. {t.heading}", "no": sec_no, "mark": t.mark})
+            sec = f"[{sec_no}] {t.heading}" if system == "mom" else f"§ {sec_no}. {t.heading}"
+            out.append({"front": False, "chapter": chap, "section": sec,
+                        "banner": chap, "toc": sec, "no": sec_no, "mark": t.mark})
         else:
             last_ch = None
             label = t.heading
@@ -554,16 +557,47 @@ def _answer_box(doc, checks: list[Statement], first_no: int, tpl: Template) -> N
     _gap(doc, 3)
 
 
-def _section_heading(doc, label: str, F: str, base: float, idx: int, mark: str = "") -> None:
-    """In-flow § heading used when topics do not start a new page (page_break: chapter)."""
+def _shade_run(r, fill: str) -> None:
+    rPr = r._r.get_or_add_rPr()
+    sh = OxmlElement("w:shd"); sh.set(qn("w:val"), "clear"); sh.set(qn("w:color"), "auto"); sh.set(qn("w:fill"), fill)
+    rPr.append(sh)
+
+
+def _section_heading(doc, label: str, F: str, base: float, idx: int, mark: str = "", system: str = "plain",
+                     answer: list[str] | None = None) -> None:
+    """In-flow § heading used when topics do not start a new page (page_break: chapter).
+    system="mom" (L27-L29): only the "[1] 명사구" label is marked green like the human MOM, an important § gets ★, and the
+    key line follows on the same line after " : " (basics_style: inline)."""
     p = doc.add_paragraph()
     _fmt(p, before=10, after=5, line=1.15, left=0.0)
     p.paragraph_format.keep_with_next = True
+    if system == "mom":
+        r = p.add_run(label + ("★" if mark else "")); _font(r, F, base + 1.5, bold=True, color=BLACK); _shade_run(r, "C6E0B4")
+        if answer:
+            r = p.add_run(" : "); _font(r, F, base + 0.5, bold=True)
+            for k, line in enumerate(answer):
+                if k:
+                    p.add_run("  ")
+                for text, col, bold in runs(line):
+                    r = p.add_run(text); _run_style(r, col, F, base + 0.5, bold=True)
+        if mark and mark not in ("★", "중요", "강조"):  # generic importance = the ★ alone; informative marks stay ("국시 출제")
+            r = p.add_run(f"  [{mark}]"); _font(r, F, base - 0.5, bold=True, color=COLOR["emphasis"])
+        _bookmark(p, f"_Toc{idx}", idx + 1)
+        return
     _shade_par(p, "DCEFEA")
     r = p.add_run(" " + label); _font(r, F, base + 2.5, bold=True, color=RGBColor(0x1F, 0x5F, 0x55))
     if mark:  # exam marker right beside the heading (the human MOM: ⭐출제예고/짤⭐)
         r = p.add_run(f"   [{mark}]"); _font(r, F, base, bold=True, color=COLOR["emphasis"])
     _bookmark(p, f"_Toc{idx}", idx + 1)
+
+
+def _chapter_marker(doc, text: str, F: str, before: float = 14):
+    """Chapter heading of the human MOM: "Ⅰ. 정상 시각 발달" in bold with a yellow highlight, left-aligned (no full-width band)."""
+    p = doc.add_paragraph()
+    _fmt(p, before=before, after=6, line=1.15, left=0.0)
+    p.paragraph_format.keep_with_next = True
+    r = p.add_run(text); _font(r, F, 15, bold=True, color=BLACK); r.font.highlight_color = WD_COLOR_INDEX.YELLOW
+    return p
 
 
 def _table(doc, tb, tpl: Template):
@@ -856,7 +890,7 @@ def export_mom(
     F = tpl.format.font_korean
     base = tpl.format.font_size_pt
     page_map = page_map or {}
-    nums = numbering(note, tpl.format.roman_headings)
+    nums = numbering(note, tpl.format.roman_headings, tpl.format.heading_system)
     doc = Document()
     for name in ("Normal", "Table Grid"):
         st = doc.styles[name]
@@ -1001,10 +1035,15 @@ def export_mom(
         new_page = (not by_chapter or prev is None or n["front"] or prev["front"] or not n["chapter"]
                     or (mode == "chapter" and new_chapter)
                     or (mode == "flow" and not n["front"] and (t.new_page or (new_chapter and tpl.format.chapter_page_break))))
+        hsys = tpl.format.heading_system
+        inline = t.basics if (tpl.format.basics_style == "inline" and tpl.format.basics_box) else None
         if not new_page:  # keep flowing on the current page
             if new_chapter:  # flow mode: the chapter banner goes into the body instead of a new page
-                _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=14, after=4).paragraph_format.keep_with_next = True
-            _section_heading(doc, n["section"], F, base, i, n.get("mark", ""))
+                if hsys == "mom":
+                    _chapter_marker(doc, n["banner"], F)
+                else:
+                    _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=14, after=4).paragraph_format.keep_with_next = True
+            _section_heading(doc, n["section"], F, base, i, n.get("mark", ""), hsys, inline)
         else:
             s_ = doc.add_section(WD_SECTION.NEW_PAGE)
             s_.left_margin = s_.right_margin = Cm(1.8)
@@ -1015,11 +1054,14 @@ def export_mom(
         elif mode == "flow" and not n["front"] and n["chapter"]:  # one long section: banners live in the body
             _page_header(s_.header, None, None, None, F, tpl)
             if prev is None or prev["front"] or new_chapter:  # the chapter banner only where a chapter starts
-                _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=0, after=4).paragraph_format.keep_with_next = True
-            _section_heading(doc, n["section"], F, base, i, n.get("mark", ""))
+                if hsys == "mom":
+                    _chapter_marker(doc, n["banner"], F, before=0)
+                else:
+                    _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=0, after=4).paragraph_format.keep_with_next = True
+            _section_heading(doc, n["section"], F, base, i, n.get("mark", ""), hsys, inline)
         elif by_chapter and not n["front"] and n["chapter"]:  # chapter banner in the header, § heading in the body
             _page_header(s_.header, None, n["banner"], None, F, tpl)
-            _section_heading(doc, n["section"], F, base, i)
+            _section_heading(doc, n["section"], F, base, i, "", hsys, inline)
         elif hs == "banner":
             _page_header(s_.header, None, n["banner"], None if n["front"] else n["section"], F, tpl)
             p = doc.add_paragraph()
@@ -1036,8 +1078,8 @@ def export_mom(
             if hs == "marker":
                 r.font.highlight_color = WD_COLOR_INDEX.YELLOW
             _bookmark(p, f"_Toc{i}", i + 1)
-        if t.basics and tpl.format.basics_box:
-            if tpl.format.basics_style == "band":
+        if t.basics and tpl.format.basics_box and not (inline and n["chapter"] and not n["front"]):
+            if tpl.format.basics_style in ("band", "inline"):
                 _basics_band(doc, t, F, base, tpl.format.basics_label)
             else:
                 _basics_box(doc, t, (n.get("no") or 1), F, base, tpl.format.basics_label)
@@ -1073,7 +1115,7 @@ def export_mom(
                     if tpl.format.checks_where == "off":
                         pass
                     elif chapter_mode:  # collected: one box + one answer line at the end of the chapter
-                        chapter_checks += [c.model_copy(update={"text": f"[§{n['no']}] {c.text}"}) for c in sts[k:j]]
+                        chapter_checks += [c.model_copy(update={"text": (f"[{n['no']}] " if hsys == "mom" else f"[§{n['no']}] ") + c.text}) for c in sts[k:j]]
                     else:
                         topic_checks += sts[k:j]
                         _check_box(doc, sts[k:j], tpl)

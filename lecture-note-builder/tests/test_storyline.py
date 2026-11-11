@@ -57,3 +57,30 @@ def test_vague_headings_are_flagged():
               slide_numbers=[1], sections={"body": [Statement(text="x", slide_refs=[1])]}),
         Topic(heading="QUIZ", chapter="", slide_numbers=[1], sections={"body": [Statement(text="x", slide_refs=[1])]})])
     assert heading_issues(good) == []
+
+
+def test_heading_form_and_section_count():
+    from app.models import LectureNote, Statement, Topic
+    from app.write.storyline import heading_form_issues
+
+    def t(h, ch="장", refs=(1, 2), kind="para"):
+        return Topic(heading=h, chapter=ch, slide_numbers=[1], role="body",
+                     sections={"body": [Statement(text="x", kind=kind, slide_refs=list(refs))]})
+
+    codes = [c for _, c, _ in heading_form_issues(LectureNote(title="t", topics=[
+        t("동공 반사는 어떤 경로로 일어나나?"), t("RAPD를 꼭 확인해야 합니다"), t("동공 반사의 경로"), t("시야 검사", refs=(3,))]))]
+    assert codes.count("HEADING_QUESTION") == 1 and codes.count("HEADING_SENTENCE") == 1 and codes.count("THIN_SECTION") == 1
+    many = [t(f"소절 {i}의 내용") for i in range(13)]
+    codes = [c for _, c, _ in heading_form_issues(LectureNote(title="t", topics=many))]
+    assert codes.count("SECTION_TOO_MANY") == 2  # total and per chapter
+
+
+def test_noun_headings_ending_like_questions_are_not_flagged():
+    from app.models import LectureNote, Statement, Topic
+    from app.write.storyline import heading_form_issues, heading_issues
+
+    ts = [Topic(heading=h, chapter="시야 결손", slide_numbers=[1], role="body",
+                sections={"body": [Statement(text="x", kind="rows", slide_refs=[1, 2])]}) for h in ("시신경의 구조와 평가", "동공 반사", "어디에 있나")]
+    note = LectureNote(title="t", topics=ts)
+    assert [c for _, c, _ in heading_form_issues(note)] == ["HEADING_QUESTION"]
+    assert not [m for _, c, m in heading_issues(note) if c == "HEADING_TOO_VAGUE" and ("동공" in m or "평가" in m)]

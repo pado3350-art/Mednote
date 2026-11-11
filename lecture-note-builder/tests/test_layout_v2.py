@@ -32,7 +32,7 @@ def _cells(doc):
 
 def test_mixed_template_is_layout_v2():
     f = load_template("templates/mom_mixed.yaml").format
-    assert f.font_size_pt == 10.5 and f.basics_style == "band" and f.checks_where == "chapter" and not f.chapter_page_break
+    assert f.font_size_pt == 10.5 and f.basics_style == "inline" and f.heading_system == "mom" and f.checks_where == "chapter" and not f.chapter_page_break
 
 
 def test_rows_table_and_qa_box(tmp_path):
@@ -68,8 +68,8 @@ def test_checks_collected_at_chapter_end(tmp_path):
     chap = _cells(_doc(tmp_path, [t1, t2, t3], _tpl(checks_where="chapter")))
     boxes = [c for c in chap if "개념 Check!" in c]
     assert len(boxes) == 2  # one box per chapter
-    assert "1. [§1] 첫째 문장이다." in boxes[0] and "2. [§2] 둘째 문장이다." in boxes[0]  # each check says which § it belongs to
-    assert "1. [§1] 셋째 문장이다." in boxes[1]
+    assert "1. [1] 첫째 문장이다." in boxes[0] and "2. [2] 둘째 문장이다." in boxes[0]  # each check says which § it belongs to
+    assert "1. [1] 셋째 문장이다." in boxes[1]
     assert sum("정답" in c for c in chap) == 2
     per_topic = _cells(_doc(tmp_path, [t1, t2, t3], _tpl(checks_where="topic")))
     assert sum("개념 Check!" in c for c in per_topic) == 3
@@ -132,7 +132,7 @@ def test_quiz_is_not_a_numbered_section_and_box_cover(tmp_path):
     body = [Statement(text="x", slide_refs=[1])]
     doc = _doc(tmp_path, [_topic("가", "장", body), _topic("QUIZ", "장", body)], _tpl())
     text = "\n".join(p.text for p in doc.paragraphs)
-    assert "§ 1. 가" in text and "§ 2. QUIZ" not in text
+    assert "[1] 가" in text and "[2] QUIZ" not in text and "Ⅰ. 장" in text
     assert load_template("templates/mom_mixed.yaml").format.cover_style == "box"
 
 

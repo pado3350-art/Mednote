@@ -104,25 +104,16 @@
               "root": "신경안과",
               "groups": [
                 {
-                  "title": "1. 시신경과 동공 반사",
+                  "title": "Ⅰ. 시신경과 시신경병증",
                   "items": [
-                    "안저, 시력, 시야, 색각",
-                    "동공 반사 경로",
-                    "RAPD"
+                    "안저, 동공 반사, RAPD",
+                    "시신경염, 허혈",
+                    "papilledema"
                   ],
                   "color": "teal"
                 },
                 {
-                  "title": "2. 시신경병증",
-                  "items": [
-                    "염증, 허혈, 뇌압 상승",
-                    "시신경염",
-                    "papilledema"
-                  ],
-                  "color": "blue"
-                },
-                {
-                  "title": "3. 시야 결손",
+                  "title": "Ⅱ. 시야 결손",
                   "items": [
                     "병변 위치별 결손",
                     "chiasm → 양이측 반맹"
@@ -130,7 +121,7 @@
                   "color": "salmon"
                 },
                 {
-                  "title": "4. 복시와 눈 운동",
+                  "title": "Ⅲ. 복시와 눈 운동",
                   "items": [
                     "CN 3, 4, 6",
                     "gaze, MLF, INO",
@@ -547,12 +538,12 @@
       "style": ""
     },
     {
-      "heading": "시신경은 어떻게 이루어지고 어떻게 평가하나?",
-      "chapter": "시신경과 동공 반사",
+      "heading": "시신경의 구조와 평가",
+      "chapter": "시신경과 시신경병증",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
-        "망막 신경절 세포의 축삭이 모여 시신경이 되며, 안저만으로는 평가가 부족합니다."
+        "망막 신경절 세포의 축삭이 시신경이 되고, 안저만으로는 평가가 부족합니다."
       ],
       "basics_refs": [],
       "mark": "",
@@ -665,21 +656,26 @@
       "style": "explain"
     },
     {
-      "heading": "정상 동공은 어떻게 조절되나?",
-      "chapter": "시신경과 동공 반사",
+      "heading": "동공 반사",
+      "chapter": "시신경과 시신경병증",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
-        "둥글고 양안 크기가 비슷하며, 동공 반응 검사가 가장 중요합니다."
+        "afferent는 CN 2, efferent는 CN 3이고 midbrain 수준의 반사궁입니다."
       ],
       "basics_refs": [],
-      "mark": "",
+      "mark": "중요",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
         7,
         9,
-        10
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
       ],
       "sections": {
         "body": [
@@ -689,6 +685,30 @@
             "slide_refs": [
               7,
               9
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "**1. 정상 동공**",
+            "origin": "both",
+            "slide_refs": [
+              10
             ],
             "segment_ids": [],
             "time_ranges": [],
@@ -754,32 +774,31 @@
               13.8
             ],
             "diagram": null
-          }
-        ]
-      },
-      "tables": [],
-      "images": [],
-      "review_flags": [],
-      "style": "explain"
-    },
-    {
-      "heading": "동공 반사는 어떤 경로로 일어나나?",
-      "chapter": "시신경과 동공 반사",
-      "role": "body",
-      "basics_title": "핵심 답",
-      "basics": [
-        "afferent는 CN 2, efferent는 CN 3이고 midbrain 수준의 반사궁입니다."
-      ],
-      "basics_refs": [],
-      "mark": "",
-      "new_page": false,
-      "tip": "",
-      "slide_numbers": [
-        11,
-        12
-      ],
-      "sections": {
-        "body": [
+          },
+          {
+            "text": "**2. 동공 반사의 경로**",
+            "origin": "both",
+            "slide_refs": [
+              11
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
           {
             "text": "동공 반사는 눈에 빛을 비추었을 때 즉시 동공이 수축하는 반응입니다. 빛은 망막의 nasal(코쪽)과 temporal(귀쪽) 신경절 세포로 받아들이고, nasal 쪽 자극은 optic chiasm에서 반대편으로, temporal 쪽 자극은 교차하지 않고 같은 쪽으로 전달됩니다.",
             "origin": "both",
@@ -906,7 +925,8 @@
             "text": "반사궁의 핵심은 midbrain의 pretectal nucleus이고, 여기서 CN 3 핵 중 Edinger-Westphal nucleus로, 다시 부교감신경 지배를 받는 ciliary ganglion을 거쳐 동공조임근(sphincter pupillae muscle)에 도달해 동공이 수축합니다.",
             "origin": "both",
             "slide_refs": [
-              11
+              11,
+              12
             ],
             "segment_ids": [],
             "time_ranges": [],
@@ -927,54 +947,6 @@
             "diagram": null
           },
           {
-            "text": "정리하면 동공 반사는 afferent인 CN 2(시신경)와 efferent인 CN 3이 midbrain 수준에서 이루는 반사궁입니다.",
-            "origin": "both",
-            "slide_refs": [
-              12
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          }
-        ]
-      },
-      "tables": [],
-      "images": [],
-      "review_flags": [],
-      "style": "explain"
-    },
-    {
-      "heading": "한쪽 눈에 빛을 비추면 어느 쪽 동공이 줄어드나?",
-      "chapter": "시신경과 동공 반사",
-      "role": "body",
-      "basics_title": "핵심 답",
-      "basics": [],
-      "basics_refs": [],
-      "mark": "",
-      "new_page": false,
-      "tip": "",
-      "slide_numbers": [
-        13,
-        14,
-        15
-      ],
-      "sections": {
-        "body": [
-          {
             "text": "우안에 불빛을 비추면 어느 쪽 눈의 동공이 줄어들까? 우안, 좌안, 양안 중에 해부학적으로 설명해 보자.",
             "origin": "slide",
             "slide_refs": [
@@ -988,7 +960,7 @@
             "kind": "qa",
             "level": 0,
             "image": "",
-            "left_title": "퀴즈",
+            "left_title": "깜짝 퀴즈",
             "left": [
               "양안입니다. optic chiasm에서 nasal·temporal 신호가 양쪽으로 다 전달되고, midbrain의 pretectal nucleus에서 Edinger-Westphal nucleus로 가는 과정에서도 양쪽으로 전달되기 때문입니다."
             ],
@@ -1033,8 +1005,8 @@
       "style": "explain"
     },
     {
-      "heading": "swinging flashlight test와 RAPD는 무엇인가?",
-      "chapter": "시신경과 동공 반사",
+      "heading": "교대 불빛 검사와 RAPD",
+      "chapter": "시신경과 시신경병증",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -1174,8 +1146,8 @@
       "style": "explain"
     },
     {
-      "heading": "시신경병증의 원인에는 무엇이 있나?",
-      "chapter": "시신경병증의 원인과 증례",
+      "heading": "시신경병증의 원인과 증례",
+      "chapter": "시신경과 시신경병증",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -1187,12 +1159,17 @@
       "tip": "",
       "slide_numbers": [
         19,
-        20
+        20,
+        21,
+        22,
+        23,
+        24,
+        25
       ],
       "sections": {
         "body": [
           {
-            "text": "시력 저하와 관계되는 대표적인 질환이 시신경병증(optic neuropathy)이고, 원인이 다양합니다.",
+            "text": "시력 저하와 관계되는 대표적인 질환이 시신경병증(optic neuropathy)이고, 원인이 다양합니다. 특징적인 증상과 검사 소견으로 가장 가능성 있는 원인을 찾고, 그에 맞는 워크업(work-up)을 하는 것이 중요합니다.",
             "origin": "both",
             "slide_refs": [
               19,
@@ -1279,58 +1256,6 @@
               "row_labels": []
             }
           },
-          {
-            "text": "특징적인 증상과 검사 소견으로 가장 가능성 있는 원인을 찾고, 그에 맞는 워크업(work-up)을 하는 것이 중요한 과정입니다.",
-            "origin": "both",
-            "slide_refs": [
-              20
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          }
-        ]
-      },
-      "tables": [],
-      "images": [],
-      "review_flags": [],
-      "style": "explain"
-    },
-    {
-      "heading": "염증과 허혈 증례는 어떻게 다른가?",
-      "chapter": "시신경병증의 원인과 증례",
-      "role": "body",
-      "basics_title": "핵심 답",
-      "basics": [
-        "염증은 시신경염(스테로이드 치료), 허혈은 혈류 감소로 생긴 시신경병증입니다."
-      ],
-      "basics_refs": [],
-      "mark": "",
-      "new_page": false,
-      "tip": "",
-      "slide_numbers": [
-        21,
-        22,
-        23,
-        24,
-        25
-      ],
-      "sections": {
-        "body": [
           {
             "text": "",
             "origin": "slide",
@@ -1458,15 +1383,15 @@
       "style": "explain"
     },
     {
-      "heading": "양안 시신경 부종(papilledema)은 무엇을 의심하게 하나?",
-      "chapter": "시신경병증의 원인과 증례",
+      "heading": "유두부종(papilledema)",
+      "chapter": "시신경과 시신경병증",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
-        "뇌압 상승을 의심하고, 뇌종양 같은 병변을 뇌 영상으로 먼저 찾습니다."
+        "양안 시신경 부종은 뇌압 상승을 의심하고 뇌 영상을 먼저 합니다."
       ],
       "basics_refs": [],
-      "mark": "",
+      "mark": "강조",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
@@ -1601,20 +1526,22 @@
       "style": "explain"
     },
     {
-      "heading": "시야 검사는 왜 중요한가?",
-      "chapter": "시야 결손과 병변 위치",
+      "heading": "시야 검사와 병변 위치별 결손",
+      "chapter": "시야 결손",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
-        "중심과 주변부를 정량적으로 재서 병변의 위치와 종류를 가립니다."
+        "뒤쪽 병변일수록 결손이 줄고, visual cortex에서는 중심이 보존됩니다."
       ],
       "basics_refs": [],
-      "mark": "",
+      "mark": "중요",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
         29,
-        30
+        30,
+        31,
+        32
       ],
       "sections": {
         "body": [
@@ -1666,32 +1593,7 @@
             "col_titles": [],
             "col_widths": [],
             "diagram": null
-          }
-        ]
-      },
-      "tables": [],
-      "images": [],
-      "review_flags": [],
-      "style": "explain"
-    },
-    {
-      "heading": "병변 위치에 따라 시야는 어떻게 달라지나?",
-      "chapter": "시야 결손과 병변 위치",
-      "role": "body",
-      "basics_title": "핵심 답",
-      "basics": [
-        "병변이 뒤로 갈수록 결손이 줄고, visual cortex에서는 중심이 보존됩니다."
-      ],
-      "basics_refs": [],
-      "mark": "",
-      "new_page": false,
-      "tip": "",
-      "slide_numbers": [
-        31,
-        32
-      ],
-      "sections": {
-        "body": [
+          },
           {
             "text": "왼쪽 시야는 오른쪽 눈의 temporal 망막과 왼쪽 눈의 nasal 망막에서 인지됩니다. temporal 망막의 신호는 교차하지 않고, nasal 망막의 신호는 교차해서 optic chiasm을 지나 optic tract, optic radiation을 거쳐 visual cortex에 이릅니다.",
             "origin": "both",
@@ -1799,10 +1701,10 @@
       "style": "explain"
     },
     {
-      "heading": "시야 결손 증례는 어떤 영상을 요구하나?",
-      "chapter": "시야 결손과 병변 위치",
+      "heading": "시야 결손 증례",
+      "chapter": "시야 결손",
       "role": "body",
-      "basics_title": "시야 결손 증례는 어떤 영상을 요구하나?",
+      "basics_title": "시야 결손 증례",
       "basics": [],
       "basics_refs": [],
       "mark": "",
@@ -1918,12 +1820,12 @@
       "style": "list"
     },
     {
-      "heading": "복시가 있으면 무엇을 의심하나?",
-      "chapter": "복시와 눈 운동 신경(CN 3, 4, 6)",
+      "heading": "눈 운동 신경(CN 3, 4, 6)",
+      "chapter": "복시와 눈 운동",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
-        "눈 운동을 담당하는 CN 3, 4, 6 또는 그 연결의 질환을 의심합니다."
+        "복시는 CN 3, 4, 6 또는 이들을 잇는 신경계의 이상을 의심합니다."
       ],
       "basics_refs": [],
       "mark": "",
@@ -1932,7 +1834,11 @@
       "slide_numbers": [
         37,
         38,
-        39
+        39,
+        40,
+        41,
+        42,
+        43
       ],
       "sections": {
         "body": [
@@ -1984,32 +1890,7 @@
             "col_titles": [],
             "col_widths": [],
             "diagram": null
-          }
-        ]
-      },
-      "tables": [],
-      "images": [],
-      "review_flags": [],
-      "style": "explain"
-    },
-    {
-      "heading": "외안근과 CN 3, 4, 6의 핵은 어디에 있나?",
-      "chapter": "복시와 눈 운동 신경(CN 3, 4, 6)",
-      "role": "body",
-      "basics_title": "외안근과 CN 3, 4, 6의 핵은 어디에 있나?",
-      "basics": [],
-      "basics_refs": [],
-      "mark": "",
-      "new_page": false,
-      "tip": "",
-      "slide_numbers": [
-        40,
-        41,
-        42,
-        43
-      ],
-      "sections": {
-        "body": [
+          },
           {
             "text": "각 눈에는 눈을 내측, 외측, 상측, 하측, 시계 방향, 반시계 방향으로 돌리는 여섯 개의 외안근이 붙어 있고, 각각 CN 3, 4, 6의 지배를 받습니다.",
             "origin": "both",
@@ -2138,11 +2019,11 @@
       "tables": [],
       "images": [],
       "review_flags": [],
-      "style": "list"
+      "style": "explain"
     },
     {
-      "heading": "두 눈은 어떻게 함께 한쪽을 주시하나?",
-      "chapter": "주시(gaze) 이상과 핵간 연결",
+      "heading": "주시(gaze)와 MLF",
+      "chapter": "복시와 눈 운동",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -2307,10 +2188,10 @@
       "style": "explain"
     },
     {
-      "heading": "gaze 이상 세 가지는 어떻게 구분하나?",
-      "chapter": "주시(gaze) 이상과 핵간 연결",
+      "heading": "주시 이상 세 가지",
+      "chapter": "복시와 눈 운동",
       "role": "body",
-      "basics_title": "gaze 이상 세 가지는 어떻게 구분하나?",
+      "basics_title": "주시 이상 세 가지",
       "basics": [],
       "basics_refs": [],
       "mark": "국시 출제",
@@ -2502,19 +2383,25 @@
       "style": "list"
     },
     {
-      "heading": "복시 증례 두 가지는 어떻게 다른가?",
-      "chapter": "복시 증례: CN 6과 CN 3 마비",
+      "heading": "복시 증례와 CN 3 마비",
+      "chapter": "복시와 눈 운동",
       "role": "body",
-      "basics_title": "복시 증례 두 가지는 어떻게 다른가?",
-      "basics": [],
+      "basics_title": "핵심 답",
+      "basics": [
+        "CN 3 마비에 동공 확대가 있으면 MRA나 CTA로 동맥류를 찾습니다."
+      ],
       "basics_refs": [],
-      "mark": "",
+      "mark": "강조",
       "new_page": false,
       "tip": "",
       "slide_numbers": [
         49,
         50,
-        51
+        51,
+        52,
+        53,
+        54,
+        55
       ],
       "sections": {
         "body": [
@@ -2562,34 +2449,7 @@
               5.2
             ],
             "diagram": null
-          }
-        ]
-      },
-      "tables": [],
-      "images": [],
-      "review_flags": [],
-      "style": "list"
-    },
-    {
-      "heading": "CN 3 마비와 동공 확대는 왜 뇌혈관 영상으로 이어지나?",
-      "chapter": "복시 증례: CN 6과 CN 3 마비",
-      "role": "body",
-      "basics_title": "핵심 답",
-      "basics": [
-        "P-comm artery 동맥류가 CN 3을 쉽게 압박하기 때문입니다."
-      ],
-      "basics_refs": [],
-      "mark": "",
-      "new_page": false,
-      "tip": "",
-      "slide_numbers": [
-        52,
-        53,
-        54,
-        55
-      ],
-      "sections": {
-        "body": [
+          },
           {
             "text": "CN 3 마비의 원인은 여러 가지이지만, P-comm artery(뒤교통동맥)에서 생긴 aneurysm이 있으면 해부학적으로 가장 가까이 지나가는 CN 3이 쉽게 손상됩니다.",
             "origin": "both",

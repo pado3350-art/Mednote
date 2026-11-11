@@ -210,7 +210,7 @@ def run_pipeline(
         if first:
             from .design.export_mom import numbering
 
-            pm = heading_pages(first, [n["section"] for n in numbering(note, tpl.format.roman_headings)])
+            pm = heading_pages(first, [n["section"] for n in numbering(note, tpl.format.roman_headings, tpl.format.heading_system)])
             export_docx(note, tpl, docx_path, report, page_map=pm)
             pdf_path = render_pdf(docx_path, out)
     elif pdf:

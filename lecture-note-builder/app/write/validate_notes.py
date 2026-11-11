@@ -245,10 +245,10 @@ def validate(
             rep.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
 
     # 4c-3b. Uncommon Korean terms need English (approved rule L25)
-    from .storyline import keyword_heading_issues
+    from .storyline import heading_form_issues, keyword_heading_issues
     from .terms import term_issues
 
-    for sev, code, msg in term_issues(note) + keyword_heading_issues(note):
+    for sev, code, msg in term_issues(note) + keyword_heading_issues(note) + heading_form_issues(note):
         rep.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
 
     # 4c-4. Concept boxes are drawn, not only written (L15): slide picture first, else a program schematic

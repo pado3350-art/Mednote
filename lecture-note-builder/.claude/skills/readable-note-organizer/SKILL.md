@@ -97,6 +97,9 @@ The reference is `references/excellent_example.md` (a high-rated MOM note for th
 14. **연결 문장**: 표·목록 뒤에 결론으로 이어지는 한 줄(“따라서 각각의 한계 때문에 …”)을 작성자 추가분(`origin: "author"`)으로 쓴다. 사실을 새로 주장하지 않고 위 내용을 잇기만 한다.
 15. **수업에서 다루지 않은 기출**(해설에 ‘배우지 않았다’): 기본은 파랑 Reference 한 줄. 사용자가 `--uncovered-pad omit`을 주면 생략해도 경고가 없다.
 
+## 0f. 제목 체계 (L27–L29) — 사람 정리본「사시」에서
+장 `Ⅰ.` = 강의의 큰 부분 3–5개, 소절 `[1]` = **짧은 명사구**(장당 6개·전체 12개 이하), 세부 항목은 제목 블록이 아니라 본문 굵은 라벨 줄 `**1. 정상 동공**`. 질문형(‘~나?’)·문장형(‘~다’) 소절 제목 금지 — 교수님이 던진 질문은 qa 상자. 핵심 한 줄은 `basics`에 쓰면 `[n] 제목 : 핵심 한 줄`로 제목 옆에 붙는다. 강조 소절은 `mark: "★"`(정보 꼬리표는 ‘국시 출제’처럼). 상세 `docs/design_headings.md`. 아래 0c의 ‘질문형 제목’은 이 규칙으로 바뀌었다.
+
 ## 0c. 혼합형 = 기본 (L10, `templates/mom_mixed.yaml`) — 사람 MOM 3건에서 배운 서술
 분석: `docs/mixed_style_analysis.md`. 적용 예: `examples/stemcell_mixed_note.py`, 비교 `outputs/stemcell_mixed/compare_three_versions.md`.
 소절마다 `style`을 정한다(`prepare`의 `brief/style_plan.md`가 ¶별로 제안). 검증: `MIXED_STYLE_MISSING`, `EXPLAIN_NO_ANSWER`, `EXPLAIN_TOO_LISTY`, `LIST_NO_SUMMARY`, `MIXED_ONE_STYLE`.
