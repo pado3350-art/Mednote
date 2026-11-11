@@ -20,7 +20,8 @@ python -m app.cli prepare --script inputs/x_script.txt --exam-pdf inputs/x_pad.p
 1. **스토리라인 먼저(top-down)**: 강의 자체의 뼈대(교수님 질문, 학습목표) → 주제문 1줄 → 장마다 주장 1개 → 소절마다 ‘질문 · 핵심 답 1줄 · 설명형/나열형 · ¶ 목록’. 저장: `outputs/x/storyline.md`. ★ 핵심 답만 순서대로 읽어 강의 전체가 이해되는지 확인.
 2. **제목과 용어**: 장·소절 제목은 강의 속 표현의 명사구(‘편도체(amygdala)의 구조와 연결’)이고, 잘 안 쓰는 한글 용어는 영어 또는 병기(L25, L26). 제목이 스토리라인에서 온 압축어가 아닌지 확인한다.
 3. **정리글 작성**: `examples/x_note.py` → `outputs/x/note_authored.json`. 규칙: 한 문장에 사실 하나, 합니다체(L5), 표 칸 개조식(L19), 정의 → 그럼 → 기전 사슬, 안내문·소절 끝 요약 금지, 교수 인용형 금지(L6).
-4. **근거 검증**: 모든 문장이 `slide_refs`(¶ 번호)를 가진다. 숫자·용어가 스크립트와 같은지, 빠진 문단이 없는지(커버리지 100%).
+4. **윤문 3종**: grammar-checker → style-guide → humanizer를 순서대로(프로젝트 규칙 우선, `docs/korean_polish.md`). 고친 곳은 전 → 후로 남긴다.
+5. **근거 검증**: 모든 문장이 `slide_refs`(¶ 번호)를 가진다. 숫자·용어가 스크립트와 같은지, 빠진 문단이 없는지(커버리지 100%).
 
 ## ② 디자인 — 정리글 + 이미지 → 문서 (`app/design`)
 4. **빌드**: 표지 강조점은 `meta.points`, 마지막 요약은 `Topic.role="closing"`으로 넘긴다. 사진 비교·검사·수술 전후의 입력과 배치는 [사시 MOM 디자인 규칙](design_mom_format.md#사진-비교와-검사수술-사례)을 따른다.

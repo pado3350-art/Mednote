@@ -95,3 +95,6 @@
 
 ## 긴 강의 (docs/long_lecture.md)
 슬라이드 80장 이상·발화 25¶ 이상이면 `meta.long_lecture: "true"`: 장 ≤6, 소절 ≤20(장당 ≤8), 장 단위로 쓰고 빌드, 같은 틀은 표 하나, 반복되는 비교축은 요약 표 + 상자 하나, 목표 쪽수 ≈ 슬라이드/6, Take home messages ≤7. 검사 `SECTION_TOO_MANY`(한도 확대)·`CHAPTER_TOO_MANY`. 예 `examples/geri_note.py`.
+
+## 한국어 윤문 3종 (docs/korean_polish.md)
+노트·PAD 해설을 다 쓴 뒤 빌드 전에 `grammar-checker` → `style-guide` → `humanizer`를 순서대로 적용한다(daleseo/korean-skills, `.agents/skills/`). 프로젝트 규칙(L1–L34, 합니다체, 표 칸 개조식, 교수님 강조, 가운뎃점·숫자 표기, 파랑 = PAD 전용)이 항상 우선이고, 사실·수치·용어는 바꾸지 않는다.

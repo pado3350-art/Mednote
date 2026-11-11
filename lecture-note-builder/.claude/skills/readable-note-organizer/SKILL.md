@@ -261,3 +261,6 @@ A summary made only of bullets is not enough. For every chapter/§ on the **요�
 - Do not invent medical facts, mechanisms or numbers that are not in the source (clarifying glue words are fine; new claims are not).
 - Do not put exam questions (기출 / 필수예제) into the note unless the template asks for an exam section.
 - Do not turn the note into a 3-line summary: if in doubt, include the point.
+
+## 마지막 윤문 3종 (grammar-checker · humanizer · style-guide)
+글을 다 쓴 뒤 **빌드 전에** 순서대로 적용한다: ① grammar-checker(맞춤법·띄어쓰기) → ② style-guide(용어·숫자·어조 일관성) → ③ humanizer(번역투·군더더기·`~것입니다` 남발). 이 프로젝트 규칙(합니다체, 표 칸 개조식, 교수님 강조 문장, `=`/`→`/`★`, 가운뎃점은 짝만, 단위 붙여쓰기, 파랑 = PAD)이 3종 지침보다 우선한다. 사실·수치·용어는 바꾸지 않는다. 덮어쓰기 표와 절차: `docs/korean_polish.md`.

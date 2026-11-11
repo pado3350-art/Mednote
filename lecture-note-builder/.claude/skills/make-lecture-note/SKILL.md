@@ -36,3 +36,6 @@ No Claude Code either? `python -m app.cli build --script ... --exam-pdf ... --fi
 
 ## 긴 강의(슬라이드 80장 이상 · 발화 25¶ 이상)
 `docs/long_lecture.md`를 먼저 읽는다: 장 6개 이하 · 소절 20개 이하(`meta.long_lecture: "true"`), 장 단위로 쓰고 빌드, 같은 틀은 표, 반복되는 축은 한 번만, 목표 쪽수 ≈ 슬라이드/6. 예 `examples/geri_note.py`. 스크립트의 `[슬라이드 n]` 꼬리표는 지우고 문단을 빈 줄로 나눈다.
+
+## 마지막 윤문 3종 (grammar-checker · humanizer · style-guide)
+글을 다 쓴 뒤 **빌드 전에** 순서대로 적용한다: ① grammar-checker(맞춤법·띄어쓰기) → ② style-guide(용어·숫자·어조 일관성) → ③ humanizer(번역투·군더더기·`~것입니다` 남발). 이 프로젝트 규칙(합니다체, 표 칸 개조식, 교수님 강조 문장, `=`/`→`/`★`, 가운뎃점은 짝만, 단위 붙여쓰기, 파랑 = PAD)이 3종 지침보다 우선한다. 사실·수치·용어는 바꾸지 않는다. 덮어쓰기 표와 절차: `docs/korean_polish.md`.
