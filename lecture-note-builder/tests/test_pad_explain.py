@@ -53,3 +53,20 @@ def test_old_import_paths_still_work():
     import app.design.mom_compare
 
     assert app.exam is app.pad.exam and app.mom_compare is app.design.mom_compare
+
+
+
+def test_author_can_name_the_type():
+    from app.pad.explain import group_items
+
+    note = _note()
+    items = [_item(1001), _item(1002), _item(1003)]
+    au = {1001: {"group": "A형"}, 1002: {"group": "B형"}, 1003: {"group": "A형"}}
+    assert [[i.number for i in x] for x in group_items(items, note, au)] == [[1001, 1003], [1002]]
+    assert "유형 1. A형 (2문항" in pad_commentary(items, note, au)
+
+
+def test_out_of_scope_item_is_not_counted_as_covered():
+    note = _note()
+    md = pad_commentary([_item(1001), _item(1002)], note, {1001: {"explanation": "x"}, 1002: {"explanation": "범위 밖", "covered": False}})
+    assert "다룬 기출 1/2문항" in md

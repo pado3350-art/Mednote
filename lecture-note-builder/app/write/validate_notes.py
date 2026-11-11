@@ -94,6 +94,8 @@ def validate(
         for m in sorted({x.group().strip() for x in _NUM.finditer(src)}):
             if len(re.sub(r"\D", "", m)) == 0:
                 continue
+            if n >= EXAM_BASE and re.fullmatch(r"[1-9]", m):  # PAD answer-option labels (1) 2) 3 ...) are numbering, not content
+                continue
             if _norm(m) not in full and _norm(m) in omitted:
                 rep.issues.append(Issue(severity="info", code="OMITTED_BY_RULE", slide=n,
                                         message=f"수치 '{m}'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted)."))

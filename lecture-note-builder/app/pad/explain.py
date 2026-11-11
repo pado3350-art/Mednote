@@ -54,21 +54,42 @@ def _short(it: ExamItem) -> str:
     return (f"{it.cohort} Q{it.q_no}" if it.cohort else f"{it.year}년 Q{it.q_no}") if (it.cohort or it.year) else f"Q{it.q_no}"
 
 
-def group_items(items: list[ExamItem], note: LectureNote) -> list[list[ExamItem]]:
-    """Past questions that the SAME part of this lecture answers (identical evidence) form one type: the lecture-based
-    commentary is written once per type. Items without evidence stay alone. Order = first appearance."""
+def group_items(items: list[ExamItem], note: LectureNote, authored: dict[int, dict] | None = None) -> list[list[ExamItem]]:
+    """Past questions of the same TYPE share one lecture-based commentary (written once per type).
+    The author may name the type in pad_notes.json (`"group": "..."`); otherwise questions that the SAME parts of this lecture
+    answer (identical evidence) form a type. Items without evidence stay alone. Order = first appearance."""
+    authored = authored or {}
     groups: list[list[ExamItem]] = []
-    keyed: dict[frozenset, list[ExamItem]] = {}
+    keyed: dict[object, list[ExamItem]] = {}
     for it in items:
+        name = (authored.get(it.number, {}).get("group") or "").strip()
         ev = frozenset(evidence(note, it.number))
-        if not ev:
+        key = name or (ev if ev else None)
+        if key is None:
             groups.append([it])
-        elif ev in keyed:
-            keyed[ev].append(it)
+        elif key in keyed:
+            keyed[key].append(it)
         else:
-            keyed[ev] = [it]
-            groups.append(keyed[ev])
+            keyed[key] = [it]
+            groups.append(keyed[key])
     return groups
+
+
+def group_evidence(group: list[ExamItem], note: LectureNote) -> list[tuple[str, str]]:
+    out: list[tuple[str, str]] = []
+    for it in group:
+        for e in evidence(note, it.number):
+            if e not in out:
+                out.append(e)
+    return out
+
+
+def group_title(group: list[ExamItem], note: LectureNote, authored: dict[int, dict]) -> str:
+    name = next((authored[i.number]["group"] for i in group if authored.get(i.number, {}).get("group")), "")
+    if name:
+        return name
+    heads = list(dict.fromkeys(h for h, _ in group_evidence(group, note)))
+    return " · ".join(heads) if heads else "이번 강의 범위 밖"
 
 
 def _explanations(group: list[ExamItem], authored: dict[int, dict]) -> list[str]:
@@ -83,15 +104,14 @@ def _explanations(group: list[ExamItem], authored: dict[int, dict]) -> list[str]
 def pad_commentary(items: list[ExamItem], note: LectureNote, authored: dict[int, dict] | None = None) -> str:
     """Markdown of the new PAD file: one block per question TYPE (repeated questions merged), the lecture-based commentary once."""
     authored = authored or {}
-    groups = group_items(items, note)
+    groups = group_items(items, note, authored)
     L = [f"# {note.title} — 기출(PAD) 해설", "",
          f"기출 {len(items)}문항을 {len(groups)}개 유형으로 묶었습니다. 문제·정답·PAD 해설은 PAD 파일 그대로이고(파랑 = PAD 내용), "
          "‘이번 강의 기준 해설’은 이번 스크립트로 쓴 노트의 근거 문장과 직접 쓴 해설이며 유형마다 한 번만 씁니다.", ""]
     covered = 0
     for gi, g in enumerate(groups, start=1):
-        ev = evidence(note, g[0].number)
-        heads = list(dict.fromkeys(h for h, _ in ev))
-        title = " · ".join(heads) if heads else "이번 강의 범위 밖"
+        ev = group_evidence(g, note)
+        title = group_title(g, note, authored)
         L += [f"## 유형 {gi}. {title} ({len(g)}문항: {', '.join(_short(i) for i in g)})", ""]
         for it in g:
             au = authored.get(it.number, {})
@@ -113,7 +133,7 @@ def pad_commentary(items: list[ExamItem], note: LectureNote, authored: dict[int,
         elif not exps:
             L += ["- 이번 시간 범위 밖(미수업)입니다." if any("미수업" in i.signals for i in g) else "- 이번 스크립트에서 직접 다루지 않았습니다."]
         if ev or exps:
-            covered += len(g)
+            covered += sum(1 for i in g if authored.get(i.number, {}).get("covered") is not False)
         L += [""]
     L += ["---", f"이번 강의에서 다룬 기출 {covered}/{len(items)}문항"]
     return "\n".join(L) + "\n"
@@ -128,14 +148,14 @@ def write_pad_commentary(items: list[ExamItem], note: LectureNote, out_md: str |
     out_md.parent.mkdir(parents=True, exist_ok=True)
     out_md.write_text(pad_commentary(items, note, authored), encoding="utf-8")
     authored = authored or {}
-    groups = group_items(items, note)
+    groups = group_items(items, note, authored)
     doc = Document()
     doc.add_heading(f"{note.title} — 기출(PAD) 해설", 0)
     doc.add_paragraph(f"기출 {len(items)}문항을 {len(groups)}개 유형으로 묶었습니다. 파랑 = PAD 내용, 검정 = 이번 강의 기준 해설(유형마다 한 번).")
     blue = RGBColor(0x1F, 0x4E, 0xC8)
     for gi, g in enumerate(groups, start=1):
-        ev = evidence(note, g[0].number)
-        heads = " · ".join(dict.fromkeys(h for h, _ in ev)) or "이번 강의 범위 밖"
+        ev = group_evidence(g, note)
+        heads = group_title(g, note, authored)
         doc.add_heading(f"유형 {gi}. {heads} ({len(g)}문항: {', '.join(_short(i) for i in g)})", 1)
         for it in g:
             au = authored.get(it.number, {})
