@@ -51,7 +51,7 @@ def load_authored(path: str | Path | None) -> dict[int, dict]:
 
 
 def _short(it: ExamItem) -> str:
-    return (f"{it.cohort} Q{it.q_no}" if it.cohort else f"{it.year}년 Q{it.q_no}") if (it.cohort or it.year) else f"Q{it.q_no}"
+    return f"{it.when} Q{it.q_no}" if it.when else f"Q{it.q_no}"
 
 
 def group_items(items: list[ExamItem], note: LectureNote, authored: dict[int, dict] | None = None) -> list[list[ExamItem]]:
