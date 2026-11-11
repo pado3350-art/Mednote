@@ -89,3 +89,6 @@
 
 ## 시험 신호·PAD 꼬리표 (사람 정리본 비교에서 얻은 규칙)
 `--exam-pdf`는 PDF/DOCX 모두 가능. 기출 해설의 단서(출제예고·강조 안 함·‘배우지 않았다’·이전 기출 반복)를 `ExamItem.signals`로 모아 표지에 **기출 이력(PAD 집계)** 을 자동 표시하고(`meta.exam_history`, 사실만) `prepare`가 `brief/exam_signals.md`를 만든다. 템플릿 `pad_tags: true`(mom_compact)면 PAD 인용 문장에 `[PAD …]`, PAD에만 있는 사실에 `[Only PAD …]` 회색 꼬리표. `--uncovered-pad omit`은 수업에서 안 다룬 기출의 생략을 허용한다. **파랑은 PAD 내용 전용이며 꼬리표·신호는 파랑을 쓰지 않는다.**
+
+## 해부 구조는 그림으로 (anatomy-visual-explainer)
+해부학적 구조(핵·경로·신경·혈관·엽 등)를 3개 이상 설명하는 소절은 강의자료 그림 → 없으면 도식으로 시각화하고, 그림 읽기 줄(L22)을 붙인다. 검증 `ANATOMY_NO_VISUAL`(경고). 상세: `.claude/skills/anatomy-visual-explainer/SKILL.md`.

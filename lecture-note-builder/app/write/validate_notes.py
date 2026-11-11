@@ -249,9 +249,11 @@ def validate(
     # 4c-3b. Uncommon Korean terms need English (approved rule L25)
     from .mom_format import format_issues
     from .storyline import heading_form_issues, keyword_heading_issues
+    from .anatomy import anatomy_issues
     from .terms import term_issues
 
-    for sev, code, msg in term_issues(note) + keyword_heading_issues(note) + heading_form_issues(note) + format_issues(note):
+    for sev, code, msg in (term_issues(note) + keyword_heading_issues(note) + heading_form_issues(note) + format_issues(note)
+                           + anatomy_issues(note)):
         rep.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
 
     # 4c-4. Concept boxes are drawn, not only written (L15): slide picture first, else a program schematic
