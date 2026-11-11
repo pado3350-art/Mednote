@@ -1,4 +1,4 @@
-# Limbic system: 편도체복합체, 사이막핵, nucleus accumbens
+# Limbic system: 편도체복합체, septal nuclei, nucleus accumbens
 
 **작성자 코멘트**
 

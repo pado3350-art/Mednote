@@ -1,4 +1,4 @@
-# Limbic system: 편도체복합체, 사이막핵, nucleus accumbens — 기출(PAD) 해설
+# Limbic system: 편도체복합체, septal nuclei, nucleus accumbens — 기출(PAD) 해설
 
 기출 13문항을 4개 유형으로 묶었습니다. 문제·정답·PAD 해설은 PAD 파일 그대로이고(파랑 = PAD 내용), ‘이번 강의 기준 해설’은 이번 스크립트로 쓴 노트의 근거 문장과 직접 쓴 해설이며 유형마다 한 번만 씁니다.
 
