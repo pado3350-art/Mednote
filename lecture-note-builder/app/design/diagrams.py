@@ -18,7 +18,7 @@ SIDE_W = 900  # narrow canvas for diagrams placed beside text (~7 cm wide)
 M = 40  # outer margin
 INK = (30, 30, 30)
 TEXT_COLORS = {None: INK, "emphasis": (192, 0, 0), "exam": (31, 78, 200), "exam_other": (0, 150, 205), "minor": (130, 130, 130),
-               "verify": (112, 48, 160), "highlight": INK, "underline": INK}
+               "verify": (112, 48, 160), "highlight": INK, "underline": INK, "dots": INK, "key": (192, 0, 0)}
 PALETTE = {"teal": (31, 138, 122), "blue": (47, 95, 179), "salmon": (230, 80, 90), "amber": (200, 130, 20),
            "violet": (112, 48, 160), "gray": (100, 100, 100), "green": (60, 140, 80)}
 CYCLE = ["teal", "blue", "salmon", "amber", "violet", "green"]

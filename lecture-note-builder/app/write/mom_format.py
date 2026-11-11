@@ -34,4 +34,56 @@ def format_issues(note: LectureNote) -> list[tuple[str, str, str]]:
                     out.append(("warning", "CALLOUT_EMPTY", f"'{t.heading}': 콜아웃 ‘{st.left_title}’에 내용이 없습니다."))
                 if st.kind == "sub" and not _SUB.search(st.text):
                     out.append(("info", "SUB_LINE_FORMAT", f"'{t.heading}': 소소제목 줄은 ‘(1) 제목 = 핵심’ 형태로 씁니다(L31): '{st.text[:24]}…'"))
+    out += rhythm_issues(note) + emphasis_issues(note)
+    return out
+
+
+# ---- sentence rhythm (L38) and word emphasis (L35, L40)
+_SENT = re.compile(r"(?<=[다요죠][.!?])\s+")
+LONG_SENTENCE = 60
+
+
+def _plain(s: str) -> str:
+    from ..markup import strip
+
+    return strip(s)
+
+
+def rhythm_issues(note: LectureNote) -> list[tuple[str, str, str]]:
+    """L38: sentences in paragraphs are short ones and explained ones; more than 30% over 60 characters = two facts in a sentence."""
+    out: list[tuple[str, str, str]] = []
+    allsent: list[tuple[str, str]] = []
+    for t in note.topics:
+        if t.role == "front":
+            continue
+        for sts in t.sections.values():
+            for st in sts:
+                if st.kind in ("para", "bullet") and st.origin != "author":
+                    for x in _SENT.split(_plain(st.text)):
+                        if len(x.strip()) >= 6:
+                            allsent.append((t.heading, x.strip()))
+    if len(allsent) >= 10:
+        longs = [(h, x) for h, x in allsent if len(x) > LONG_SENTENCE]
+        if len(longs) / len(allsent) > 0.30:
+            h, x = max(longs, key=lambda a: len(a[1]))
+            out.append(("warning", "SENTENCE_TOO_LONG",
+                        f"61자를 넘는 문장이 {len(longs)}/{len(allsent)}개({len(longs) / len(allsent):.0%})입니다 → 사실 하나씩 둘로 나눕니다(L38). 가장 긴 문장: '{h}' {len(x)}자 '{x[:30]}…'"))
+    return out
+
+
+KEY_PER_TOPIC = 8
+
+
+def emphasis_issues(note: LectureNote) -> list[tuple[str, str, str]]:
+    """L40: red + 강조점 ({k|..}) is rationed; L35: a red whole sentence that only says '강조하셨습니다' is for exam scope, not for every emphasis."""
+    from ..markup import runs
+
+    out: list[tuple[str, str, str]] = []
+    for t in note.topics:
+        n = 0
+        for sts in t.sections.values():
+            for st in sts:
+                n += sum(1 for _, c, _ in runs(st.text) if c == "key")
+        if n > KEY_PER_TOPIC:
+            out.append(("info", "KEY_EMPHASIS_TOO_MANY", f"'{t.heading}': 빨강+강조점 {{k|…}}이 {n}개입니다(소절당 {KEY_PER_TOPIC}개 이하) → 정말 외워야 할 단어만(L40)."))
     return out

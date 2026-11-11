@@ -59,3 +59,28 @@ def test_mom_heading_system_has_no_coloured_title_bands(tmp_path):
             assert not bad, (tpl.template_name, fill)
         hdr = [zipfile.ZipFile(out).read(n).decode("utf-8") for n in zipfile.ZipFile(out).namelist() if n.startswith("word/header")]
         assert not any("1F8A7A" in h for h in hdr)
+
+
+def test_emphasis_dots_and_key_words_render(tmp_path):
+    """L40: {e|..} = 강조점, {k|..} = red + 강조점, **x** = bold."""
+    from app.markup import runs
+
+    assert [(t, c) for t, c, _ in runs("가 {e|나} {k|다} **라**")][:4] == [("가 ", None), ("나", "dots"), (" ", None), ("다", "key")]
+    t = Topic(heading="양안시", chapter="정상 시각 발달", slide_numbers=[1], style="explain", basics=["x"], sections={"body": [
+        Statement(text="시사 수술은 **8세까지** {k|최대 효과}를 내고 {e|가소성}이 남습니다.", kind="para", slide_refs=[1])]})
+    note = LectureNote(title="t", topics=[t], ref_style="para", meta={"points": "a"})
+    doc = Document(str(export_mom(note, _tpl(), tmp_path / "e.docx")))
+    xml = "".join(p._p.xml for p in doc.paragraphs)
+    assert xml.count('<w:em w:val="dot"/>') == 2 and "C00000" in xml
+
+
+def test_rhythm_and_key_ration_checks():
+    from app.write.mom_format import emphasis_issues, rhythm_issues
+
+    long_s = "이 문장은 사실을 하나가 아니라 둘 이상 한꺼번에 담아서 예순 글자를 넘기도록 일부러 길게 늘여 쓴 문장이며 읽기가 무겁습니다."
+    sts = [Statement(text=long_s, kind="para", slide_refs=[1]) for _ in range(12)]
+    n = LectureNote(title="t", topics=[Topic(heading="h", slide_numbers=[1], sections={"body": sts})])
+    assert [c for _, c, _ in rhythm_issues(n)] == ["SENTENCE_TOO_LONG"]
+    many = Statement(text=" ".join("{k|단어%d}" % i for i in range(9)), kind="para", slide_refs=[1])
+    n2 = LectureNote(title="t", topics=[Topic(heading="h", slide_numbers=[1], sections={"body": [many]})])
+    assert [c for _, c, _ in emphasis_issues(n2)] == ["KEY_EMPHASIS_TOO_MANY"]

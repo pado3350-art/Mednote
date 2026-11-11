@@ -35,6 +35,7 @@ COLOR = {
     "exam_other": RGBColor(0x00, 0x96, 0xCD),  # 2nd blue: PAD of another professor (templates with `exam_other`)
     "minor": RGBColor(0x8C, 0x8C, 0x8C),
     "verify": RGBColor(0x70, 0x30, 0xA0),
+    "key": RGBColor(0xC0, 0x00, 0x00),  # {k|...}: red + 강조점 (L40)
 }
 BLACK = RGBColor(0, 0, 0)
 GRAY_TAG = RGBColor(0x9A, 0x9A, 0x9A)
@@ -61,9 +62,23 @@ def _font(run, name: str, size: float | None = None, bold=None, color=None, ital
         run.font.color.rgb = color
 
 
+def _em_dot(run):
+    """강조점: Word's emphasis mark (a dot above each letter) - L40."""
+    rpr = run._element.get_or_add_rPr()
+    em = OxmlElement("w:em")
+    em.set(qn("w:val"), "dot")
+    rpr.append(em)
+
+
 def _run_style(run, col, F, size, bold=None, base_color=None):
-    """Apply a markup colour tag: colours, 'highlight' (yellow marker) and 'underline'."""
-    if col in ("highlight", "underline"):
+    """Apply a markup colour tag: colours, 'highlight' (yellow marker), 'underline', 'dots' (강조점) and 'key' (red + 강조점)."""
+    if col == "dots":
+        _font(run, F, size, bold=bold, color=base_color or BLACK)
+        _em_dot(run)
+    elif col == "key":
+        _font(run, F, size, bold=bold, color=COLOR["key"])
+        _em_dot(run)
+    elif col in ("highlight", "underline"):
         _font(run, F, size, bold=bold, color=base_color or BLACK)
         if col == "highlight":
             run.font.highlight_color = WD_COLOR_INDEX.YELLOW

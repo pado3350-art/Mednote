@@ -6,16 +6,18 @@ like the MOM notes do:
   {c|cyan}    appeared in a PAD of ANOTHER professor (only when the template declares `exam_other`)
   {g|gray}    low importance          {p|purple}  needs checking
   {y|...}     yellow highlight (study tip / "this matters")      {u|...}  underline
-  **bold**    key term
+  {e|...}     강조점 (emphasis dots above each letter) on an important word          [L40]
+  {k|...}     key word/concept: red + 강조점 (judged by the author, a few per page)    [L40]
+  **bold**    the main word of a sentence in its context
 """
 from __future__ import annotations
 
 import re
 
-LETTERS = "rbgpcyu"
+LETTERS = "rbgpcyuek"
 _COLOR = re.compile(r"\{([" + LETTERS + r"])\|(.*?)\}", re.S)
 _BOLD = re.compile(r"\*\*(.+?)\*\*", re.S)
-COLORS = {"r": "emphasis", "b": "exam", "c": "exam_other", "g": "minor", "p": "verify", "y": "highlight", "u": "underline"}
+COLORS = {"r": "emphasis", "b": "exam", "c": "exam_other", "g": "minor", "p": "verify", "y": "highlight", "u": "underline", "e": "dots", "k": "key"}
 PAD_TAGS = ("exam", "exam_other")  # colours that need a PAD citation
 LEAK = re.compile(r"[{}]|\b[" + LETTERS + r"]\|")
 
