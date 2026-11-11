@@ -182,7 +182,7 @@ def mixed_issues(note: LectureNote) -> list[tuple[str, str, str]]:
                             f"'{t.heading}': 설명형인데 bullet({len(bullets)})이 문단({len(paras)})보다 많다 → list로 바꾸거나 문단으로 잇는다."))
         else:  # list
             if len(bullets) >= 4 and not has_table:
-                out.append(("info", "LIST_NOT_TABLE", f"'{t.heading}': 나열형 소절은 bullet 대신 표(rows: 라벨 | 한 줄 → 결론)로 쓰면 훑어 읽기 쉽다(L16)."))
+                out.append(("info", "LIST_NOT_TABLE", f"'{t.heading}': 나열형 bullet이 많다 → 비교 대상이 분명하면 표, 아니면 ‘① **라벨**: 내용’ 줄로 묶는다(L16, L41)."))
             if no_recap:  # the table / bullets already say it; a closing '즉 …' only repeats them
                 if any(SUMMARY_START.search(x) for x in texts):
                     out.append(("warning", "RECAP_LINE", f"'{t.heading}': 표·bullet을 되풀이하는 '즉 …' 정리문은 뺀다."))

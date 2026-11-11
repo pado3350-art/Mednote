@@ -1,6 +1,6 @@
 {
-  "store_version": 47,
-  "updated": "2026-11-11T15:39:34",
+  "store_version": 51,
+  "updated": "2026-11-11T15:47:48",
   "rules": [
     {
       "id": "L1",
@@ -1447,6 +1447,136 @@
       "history": [
         "v1 2026-11-11T14:18:50: 승인 (docs/style_compare_sasi.md)",
         "v2 2026-11-11T15:39:34: 다시 승인 (사용자 지시: 글 위에 점 지우기)"
+      ]
+    },
+    {
+      "id": "L41",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "표는 비교 대상이 분명하고, 비교하는 항목이 모두 중요한 개념일 때만 만든다(예: 정상 애도 vs 주요우울장애, 진짜 치매 vs 가성치매, 4대 부작용). ‘구분 | 내용’, ‘항목 | 예’처럼 한 열이 설명뿐인 목록, 절차·채점 순서, 사례 나열은 표로 만들지 않고 줄글이나 ‘① **라벨**: 내용’ 줄로 쓴다. L16의 ‘나열형은 표로’를 대신한다. 검사 TABLE_NOT_COMPARISON.",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "| 구분 | 내용 |\n| 가해자 | 대부분 가족 |",
+          "after": "가해자는 대부분 가족, 특히 함께 사는 아들이나 며느리입니다.",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시 (표 남발 금지, 표 안 강조, writing skill 재구성, 워크플로우)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-11T15:47:48"
+        }
+      ],
+      "signal": "table_only_for_comparison",
+      "note": "사용자 지시로 승인",
+      "approved_at": "2026-11-11T15:47:48",
+      "history": [
+        "v1 2026-11-11T15:47:48: 승인 (사용자 지시 (표 남발 금지, 표 안 강조, writing skill 재구성, 워크플로우))"
+      ]
+    },
+    {
+      "id": "L42",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "style",
+      "rule": "비교표 안에서도 중요한 칸, 헷갈리기 쉬운 칸, 두 열이 대비되는 칸은 강조한다: 맥락상 주요 단어는 **굵게**, 반드시 알아야 할 대비는 {k|빨강+굵게}. 한 표에 강조가 하나도 없으면 안 된다(검사 TABLE_NO_EMPHASIS).",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "| 회상, 재인 | 모두 저하 | 재인은 잘 맞힘 |",
+          "after": "| 회상, 재인 | 모두 저하 | {k|재인은 잘 맞힘} |",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시 (표 남발 금지, 표 안 강조, writing skill 재구성, 워크플로우)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-11T15:47:48"
+        }
+      ],
+      "signal": "table_inner_emphasis",
+      "note": "사용자 지시로 승인",
+      "approved_at": "2026-11-11T15:47:48",
+      "history": [
+        "v1 2026-11-11T15:47:48: 승인 (사용자 지시 (표 남발 금지, 표 안 강조, writing skill 재구성, 워크플로우))"
+      ]
+    },
+    {
+      "id": "L43",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "style",
+      "rule": "줄글은 writing skill(my-writing-style + humanizer)로 다시 짠다: 문장 길이에 변화를 주고, 번역투·‘~것입니다’ 남발·접속사 반복을 없애고, 앞뒤 문장이 이어지게 쓴다. 표에서 풀어낸 내용을 포함해 원래 사실·수치·용어·근거 문단은 하나도 빼지 않는다(NUMBER_LOST/TERM_LOST/커버리지로 확인).",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "면담은 환자 단독으로 먼저 시작합니다. 가족과 면담합니다. 라포를 형성할 수 있습니다.",
+          "after": "다만 면담은 환자 단독으로 먼저 시작합니다. 그다음 환자의 동의를 얻어 가족과 이야기해야 환자의 자존심을 지키고 라포가 쌓입니다.",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시 (표 남발 금지, 표 안 강조, writing skill 재구성, 워크플로우)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-11T15:47:48"
+        }
+      ],
+      "signal": "prose_rewrite_writing_skill",
+      "note": "사용자 지시로 승인",
+      "approved_at": "2026-11-11T15:47:48",
+      "history": [
+        "v1 2026-11-11T15:47:48: 승인 (사용자 지시 (표 남발 금지, 표 안 강조, writing skill 재구성, 워크플로우))"
+      ]
+    },
+    {
+      "id": "L44",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "작업 순서를 고정한다: ① 내용 정리(스토리라인 → 노트 구조, 표 판단 L41) → ② 1차 빌드로 커버리지·숫자 확인 → ③ writing skill로 humanize(grammar-checker → style-guide → humanizer, my-writing-style 우선) → ④ 최종 빌드·쪽 확인. 내용 정리와 문장 다듬기를 한 번에 하지 않는다(docs/WORKFLOW.md).",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [],
+      "evidence": [
+        {
+          "report": "사용자 지시 (표 남발 금지, 표 안 강조, writing skill 재구성, 워크플로우)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-11T15:47:48"
+        }
+      ],
+      "signal": "workflow_organize_then_humanize",
+      "note": "사용자 지시로 승인",
+      "approved_at": "2026-11-11T15:47:48",
+      "history": [
+        "v1 2026-11-11T15:47:48: 승인 (사용자 지시 (표 남발 금지, 표 안 강조, writing skill 재구성, 워크플로우))"
       ]
     }
   ]

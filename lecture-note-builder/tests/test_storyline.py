@@ -98,3 +98,14 @@ def test_long_lecture_widens_section_limits():
     assert "SECTION_TOO_MANY" in {c for _, c, _ in heading_form_issues(note(16, 4))}
     assert "SECTION_TOO_MANY" not in {c for _, c, _ in heading_form_issues(note(16, 4, long_lecture="true"))}
     assert "CHAPTER_TOO_MANY" in {c for _, c, _ in heading_form_issues(note(14, 7, long_lecture="true"))}
+
+
+def test_thin_section_counts_written_content_not_only_paragraphs():
+    from app.models import LectureNote, Statement, Topic
+    from app.write.storyline import heading_form_issues
+
+    thin = Topic(heading="섬망의 치료", chapter="c", slide_numbers=[1], sections={"body": [Statement(text="짧은 문장입니다.", kind="para", slide_refs=[1])]})
+    full = Topic(heading="섬망의 경과", chapter="c", slide_numbers=[2], sections={"body": [Statement(text="가" * 320, kind="para", slide_refs=[2])]})
+    codes = [(c, m) for _, c, m in heading_form_issues(LectureNote(title="t", topics=[thin, full]))]
+    assert any(c == "THIN_SECTION" and "치료" in m for c, m in codes)
+    assert not any(c == "THIN_SECTION" and "경과" in m for c, m in codes)

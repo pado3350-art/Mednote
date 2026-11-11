@@ -39,3 +39,9 @@ No Claude Code either? `python -m app.cli build --script ... --exam-pdf ... --fi
 
 ## 마지막 윤문 3종 (grammar-checker · humanizer · style-guide)
 글을 다 쓴 뒤 **빌드 전에** 순서대로 적용한다: ① grammar-checker(맞춤법·띄어쓰기) → ② style-guide(용어·숫자·어조 일관성) → ③ humanizer(번역투·군더더기·`~것입니다` 남발). 이 프로젝트 규칙(합니다체, 표 칸 개조식, 교수님 강조 문장, `=`/`→`/`★`, 가운뎃점은 짝만, 단위 붙여쓰기, 파랑 = PAD)이 3종 지침보다 우선한다. 사실·수치·용어는 바꾸지 않는다. 덮어쓰기 표와 절차: `docs/korean_polish.md`.
+
+## 표와 줄글 (L41–L44)
+- **L41 표는 비교일 때만**: 비교 대상이 분명하고 비교 항목이 모두 중요한 개념일 때만 표. ‘구분 | 내용’ 목록, 절차·채점 순서, 사례 나열은 줄글이나 ‘① **라벨**: 내용’ 줄(`TABLE_NOT_COMPARISON`). L16의 ‘나열형은 표로’를 대신한다.
+- **L42 표 안 강조**: 대비되거나 헷갈리는 칸은 `**굵게**`, 반드시 알아야 할 대비는 `{k|빨강+굵게}`(`TABLE_NO_EMPHASIS`).
+- **L43 줄글은 writing skill로**: my-writing-style → grammar-checker → style-guide → humanizer. 표에서 풀어낸 내용까지 사실·수치·용어는 하나도 빼지 않는다.
+- **L44 순서**: 내용 정리 → 1차 빌드(커버리지·숫자) → humanize → 최종 빌드. 한 번에 하지 않는다(`docs/WORKFLOW.md`).

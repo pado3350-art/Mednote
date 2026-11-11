@@ -84,3 +84,19 @@ def test_rhythm_and_key_ration_checks():
     many = Statement(text=" ".join("{k|단어%d}" % i for i in range(9)), kind="para", slide_refs=[1])
     n2 = LectureNote(title="t", topics=[Topic(heading="h", slide_numbers=[1], sections={"body": [many]})])
     assert [c for _, c, _ in emphasis_issues(n2)] == ["KEY_EMPHASIS_TOO_MANY"]
+
+
+def test_table_only_for_comparison_and_marked_inside():
+    """L41: '구분 | 내용' lists are not tables; L42: comparison tables mark their contrasts."""
+    from app.write.mom_format import table_issues
+
+    listing = Statement(text="", kind="rows", rows=[["유형", "a"], ["가해자", "b"]], col_titles=["구분", "내용"], slide_refs=[1])
+    compare = Statement(text="", kind="rows", rows=[["경과", "줄어듦", "안 줄어듦"]], col_titles=["구분", "정상 애도", "우울장애"], slide_refs=[1])
+    marked = Statement(text="", kind="rows", rows=[["경과", "**줄어듦**", "{k|안 줄어듦}"]], col_titles=["구분", "정상 애도", "우울장애"], slide_refs=[1])
+
+    def codes(st):
+        return [c for _, c, _ in table_issues(LectureNote(title="t", topics=[Topic(heading="h", slide_numbers=[1], sections={"body": [st]})]))]
+
+    assert codes(listing) == ["TABLE_NOT_COMPARISON"]
+    assert codes(compare) == ["TABLE_NO_EMPHASIS"]
+    assert codes(marked) == []

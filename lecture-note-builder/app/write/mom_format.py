@@ -34,7 +34,7 @@ def format_issues(note: LectureNote) -> list[tuple[str, str, str]]:
                     out.append(("warning", "CALLOUT_EMPTY", f"'{t.heading}': 콜아웃 ‘{st.left_title}’에 내용이 없습니다."))
                 if st.kind == "sub" and not _SUB.search(st.text):
                     out.append(("info", "SUB_LINE_FORMAT", f"'{t.heading}': 소소제목 줄은 ‘(1) 제목 = 핵심’ 형태로 씁니다(L31): '{st.text[:24]}…'"))
-    out += rhythm_issues(note) + emphasis_issues(note)
+    out += rhythm_issues(note) + emphasis_issues(note) + table_issues(note)
     return out
 
 
@@ -86,4 +86,41 @@ def emphasis_issues(note: LectureNote) -> list[tuple[str, str, str]]:
                 n += sum(1 for _, c, _ in runs(st.text) if c == "key")
         if n > KEY_PER_TOPIC:
             out.append(("info", "KEY_EMPHASIS_TOO_MANY", f"'{t.heading}': 빨강+굵게 {{k|…}}이 {n}개입니다(소절당 {KEY_PER_TOPIC}개 이하) → 정말 외워야 할 단어만(L40)."))
+    return out
+
+
+# ---- tables only for real comparisons (L41), and contrasts inside them are marked (L42)
+GENERIC_COL = {"내용", "예", "설명", "변화", "모습", "영향", "견해", "방법", "특징", "비고", "정리"}
+
+
+def _is_comparison(st) -> bool:
+    """A comparison table sets items side by side under real criteria: 3+ columns, or 2 columns whose value column is not a generic '내용/예'."""
+    rows = [r for r in st.rows if any(c.strip() for c in r)]
+    ncol = max((len(r) for r in rows), default=0)
+    if len(rows) < 1 or ncol < 2:
+        return False
+    if ncol >= 3:
+        return True
+    titles = [t.strip() for t in st.col_titles]
+    return len(rows) >= 2 and not (len(titles) >= 2 and titles[1].split(" ")[0] in GENERIC_COL)
+
+
+def table_issues(note: LectureNote) -> list[tuple[str, str, str]]:
+    from ..markup import runs
+
+    out: list[tuple[str, str, str]] = []
+    for t in note.topics:
+        if t.role != "body":
+            continue
+        for sts in t.sections.values():
+            for st in sts:
+                if st.kind != "rows":
+                    continue
+                label = " | ".join(st.col_titles[:3]) or (st.rows[0][0] if st.rows else "")
+                if not _is_comparison(st):
+                    out.append(("warning", "TABLE_NOT_COMPARISON",
+                                f"'{t.heading}': 표 '{label[:30]}'는 비교 대상이 분명한 표가 아닙니다 → 줄글이나 ① 라벨 줄로 풀어 씁니다(L41)."))
+                elif not any(c in ("key", "emphasis") or b for r in st.rows for cell in r for _, c, b in runs(cell)):
+                    out.append(("info", "TABLE_NO_EMPHASIS",
+                                f"'{t.heading}': 비교표 '{label[:30]}'에 강조가 없습니다 → 대비되거나 헷갈리는 칸을 **굵게**/{{k|…}}로(L42)."))
     return out

@@ -131,21 +131,16 @@
             }
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "(1) 뇌노화 = 정상은 frontal lobe, caudate, putamen / 알츠하이머병은 medial temporal lobe, hippocampus 감소★",
+            "origin": "both",
             "slide_refs": [
-              4,
-              7,
-              17,
-              20,
-              23,
-              29
+              4
             ],
             "segment_ids": [],
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "sub",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -154,44 +149,133 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "뇌노화 (Ⅰ-[2])",
-                "정상 노화 = frontal lobe, caudate, putamen 감소\n알츠하이머병 = medial temporal lobe, hippocampus 감소"
-              ],
-              [
-                "MMSE (Ⅱ-[2])",
-                "선별검사, 확진 불가\n나이, 성별, 학력의 영향이 큼"
-              ],
-              [
-                "정상 노인의 변화 (Ⅲ-[5])",
-                "IQ 80세까지 유지, 재인 정상\n정신운동 속도, 부호화, 단순 회상 저하"
-              ],
-              [
-                "노인 우울증 (Ⅳ-[2])",
-                "신체적 호소, 가성치매 = ‘몰라요’, 재인 보존"
-              ],
-              [
-                "섬망 (Ⅳ-[4])",
-                "1년 내 사망률 50%, 소량 haloperidol"
-              ],
-              [
-                "4대 부작용 (Ⅴ-[1])",
-                "항콜린성, 벤조디아제핀, 리튬, 항정신병약물"
-              ]
-            ],
-            "col_titles": [
-              "시험 포인트",
-              "핵심"
-            ],
-            "col_widths": [
-              5.0,
-              12.4
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
-            "text": "회상과 재인의 대비는 신경심리검사, 정상 노인의 변화, 가성치매에서 세 번 다시 나옵니다. 한 표로 묶어 두고 본문에서는 이 표를 가리킵니다.",
+            "text": "(2) MMSE = 선별검사, 확진 불가, 나이, 성별, 학력의 영향이 큼★",
+            "origin": "both",
+            "slide_refs": [
+              7
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "sub",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "(3) 정상 노인 = IQ 80세까지 유지, 재인 정상 / 정신운동 속도, 부호화, 단순 회상 저하★",
+            "origin": "both",
+            "slide_refs": [
+              17
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "sub",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "(4) 노인 우울증 = 신체적 호소, 가성치매는 ‘몰라요’와 재인 보존★",
+            "origin": "both",
+            "slide_refs": [
+              20
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "sub",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "(5) 섬망 = 1년 내 사망률 50%, 소량 haloperidol★",
+            "origin": "both",
+            "slide_refs": [
+              23
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "sub",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "(6) 4대 부작용 = 항콜린성, 벤조디아제핀, 리튬, 항정신병약물★",
+            "origin": "both",
+            "slide_refs": [
+              29
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "sub",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "회상과 재인의 대비는 신경심리검사, 정상 노인의 변화, 가성치매에서 세 번 나옵니다. 아래 표 하나로 묶어 두고, 본문에서는 이 표를 가리킵니다.",
             "origin": "both",
             "slide_refs": [
               10,
@@ -241,17 +325,17 @@
               [
                 "알츠하이머병",
                 "회상 저하",
-                "재인도 저하 (힌트를 줘도 못 맞힘)"
+                "{k|재인도 저하} (힌트를 줘도 못 맞힘)"
               ],
               [
                 "전두엽 기능 저하, 우울증",
                 "회상 저하",
-                "재인에서 점수가 확 올라감"
+                "**재인에서 점수가 확 올라감**"
               ],
               [
                 "정상 노화",
                 "단순 회상(simple recall) 저하",
-                "재인 능력 정상 (객관식 문제 풀기)"
+                "**재인 능력 정상** (객관식 문제 풀기)"
               ]
             ],
             "col_titles": [
@@ -316,7 +400,7 @@
             "diagram": null
           },
           {
-            "text": "인구 피라미드는 2023년과 2067년을 비교합니다. 오른쪽 한국 막대를 보면, 2067년에는 65세 이상 노인 비율이 {k|46.5%}가 됩니다. 길에서 만나는 두 명 중 한 명이 노인이라는 뜻입니다.",
+            "text": "인구 피라미드는 2023년과 2067년을 비교합니다. 한국은 전 세계에서 고령화가 가장 빠릅니다. 오른쪽 한국 막대를 보면 2067년에는 65세 이상 노인이 {k|46.5%}가 되는데, 길에서 만나는 두 사람 중 한 명이 노인이라는 뜻입니다.",
             "origin": "both",
             "slide_refs": [
               2
@@ -340,7 +424,7 @@
             "diagram": null
           },
           {
-            "text": "UN은 노인을 **65세 이상**으로 규정합니다. 신체 기능이 떨어지고 질병이 잦아지므로, 정신건강의학과와 노인 전문 의사의 역할이 커질 수밖에 없습니다.",
+            "text": "UN은 노인을 **65세 이상**으로 정합니다. 나이가 들면 신체 기능이 떨어지고 병이 잦아지니, 정신건강의학과와 노인 전문 의사가 할 일은 앞으로 크게 늘어납니다.",
             "origin": "both",
             "slide_refs": [
               2
@@ -388,7 +472,7 @@
             "diagram": null
           },
           {
-            "text": "노화는 나쁘기만 한 것이 아닙니다. 생물학적으로 노화는 **암을 억제하는 내적 안전장치**이고, 조직 손상을 완화시키는 작용도 합니다.",
+            "text": "노화를 나쁘게만 볼 일은 아닙니다. 생물학적으로 노화는 **암을 억제하는 내적 안전장치**이고, 조직 손상을 완화시키기도 합니다.",
             "origin": "both",
             "slide_refs": [
               3
@@ -412,46 +496,7 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
-            "slide_refs": [
-              3
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "rows",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [
-              [
-                "유전학적 이론",
-                "예정된 노화\n텔로미어(telomere, 종말체)의 단축"
-              ],
-              [
-                "확률론적 이론",
-                "자유라디칼(free radical)에 의한 세포 손상\n미토콘드리아 기능 장애"
-              ]
-            ],
-            "col_titles": [
-              "노화의 원인",
-              "예"
-            ],
-            "col_widths": [
-              4.4,
-              13.0
-            ],
-            "diagram": null
-          },
-          {
-            "text": "이 현상들은 몸뿐 아니라 뇌노화에서도 똑같이 중요하게 작용합니다.",
+            "text": "노화의 원인은 두 이론으로 설명합니다. **유전학적 이론**은 예정된 노화와 텔로미어(telomere, 종말체)의 단축을, **확률론적 이론**은 자유라디칼(free radical)에 의한 세포 손상과 미토콘드리아 기능 장애를 꼽습니다. 이 현상들은 몸뿐 아니라 뇌노화에서도 똑같이 중요합니다.",
             "origin": "both",
             "slide_refs": [
               3
@@ -524,10 +569,11 @@
             "diagram": null
           },
           {
-            "text": "(1) 구조 = 뇌 부피와 피질 두께 감소, 어느 부위가 줄어드는지가 핵심★",
+            "text": "(1) 구조와 대사 = 정상 노화와 알츠하이머병은 줄어드는 부위가 다름★",
             "origin": "both",
             "slide_refs": [
-              4
+              4,
+              5
             ],
             "segment_ids": [],
             "time_ranges": [],
@@ -548,10 +594,35 @@
             "diagram": null
           },
           {
+            "text": "나이가 들면 뇌 전체의 부피와 피질 두께가 줄어듭니다. 핵심은 **어느 부위가** 줄어드느냐입니다.",
+            "origin": "both",
+            "slide_refs": [
+              4
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "",
             "origin": "slide",
             "slide_refs": [
-              4
+              4,
+              5
             ],
             "segment_ids": [],
             "time_ranges": [],
@@ -568,21 +639,25 @@
             "effort": "",
             "rows": [
               [
-                "비치매 노인 (정상 노화)",
-                "frontal lobe(전두엽)\ncaudate(미상핵), putamen(피각)"
+                "용적이 주로 줄어드는 부위",
+                "{k|frontal lobe}(전두엽)\ncaudate(미상핵), putamen(피각)",
+                "{k|medial temporal lobe}(내측 측두엽)\n{k|hippocampus}(해마)"
               ],
               [
-                "치매 노인 (특히 알츠하이머병)",
-                "medial temporal lobe(내측 측두엽)\nhippocampus(해마)"
+                "대사가 먼저 떨어지는 부위",
+                "해마의 subiculum(경계부), dentate gyrus(치아이랑)",
+                "**entorhinal cortex**(내후각피질) 대사장애가 가장 먼저"
               ]
             ],
             "col_titles": [
-              "대상",
-              "용적이 주로 줄어드는 부위"
+              "구분",
+              "비치매 노인 (정상 노화)",
+              "치매 노인 (특히 알츠하이머병)"
             ],
             "col_widths": [
-              6.0,
-              11.4
+              4.0,
+              6.4,
+              7.0
             ],
             "diagram": null
           },
@@ -660,7 +735,7 @@
             "diagram": null
           },
           {
-            "text": "미세혈관이 막히거나 혈액이 저류되면 MRI에서 하얗게 보입니다. 이것이 **deep white matter hyperintensities**(심부백색질 고음영)와 뇌실주변 고음영입니다. DTI 영상에서는 신경섬유의 연결성 저하가 확인됩니다.",
+            "text": "미세혈관이 막히거나 혈액이 저류되면 MRI에서 하얗게 보입니다. 이것이 **deep white matter hyperintensities**(심부백색질 고음영)와 뇌실주변 고음영입니다. DTI 영상을 찍으면 신경섬유의 연결성이 떨어진 것도 보입니다.",
             "origin": "both",
             "slide_refs": [
               4
@@ -708,7 +783,7 @@
             "diagram": null
           },
           {
-            "text": "그림에서 뇌실 주변(PWM)의 모자 모양이 capping, 띠 모양이 banding입니다. 그 바깥쪽 깊은 곳의 병변이 DWM(심부백색질 병변)입니다.",
+            "text": "그림에서 뇌실 주변(PWM)의 모자 모양이 capping, 띠 모양이 banding입니다. 그 바깥쪽 깊은 곳의 병변은 DWM(심부백색질 병변)이라고 부릅니다.",
             "origin": "both",
             "slide_refs": [
               5
@@ -756,46 +831,7 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
-            "slide_refs": [
-              5
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "rows",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [
-              [
-                "인지기능이 떨어지는 노인",
-                "젊은 사람이 쓰는 부위 주변까지 끌어다 씀"
-              ],
-              [
-                "인지기능이 유지되는 노인",
-                "반대쪽 뇌반구가 함께 활성화되어 보상"
-              ]
-            ],
-            "col_titles": [
-              "대상",
-              "보상 방식"
-            ],
-            "col_widths": [
-              6.0,
-              11.4
-            ],
-            "diagram": null
-          },
-          {
-            "text": "(4) 대사 = 정상 노화와 알츠하이머병은 처음 떨어지는 부위가 다름",
+            "text": "뇌 영역 사이의 통합이 떨어지면 뇌는 나름대로 보상합니다. 흥미롭게도 방식이 갈립니다. 인지기능이 떨어지는 노인은 젊은 사람이 쓰는 부위 주변까지 끌어다 쓰는데, 인지기능이 잘 유지되는 노인은 **반대쪽 뇌반구가 함께 활성화**되면서 보상합니다.",
             "origin": "both",
             "slide_refs": [
               5
@@ -804,7 +840,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "sub",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -816,45 +852,6 @@
             "rows": [],
             "col_titles": [],
             "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "",
-            "origin": "slide",
-            "slide_refs": [
-              5
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "rows",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [
-              [
-                "정상 노화",
-                "해마의 subiculum(경계부), dentate gyrus(치아이랑)의\n에너지 대사 감소"
-              ],
-              [
-                "알츠하이머병",
-                "entorhinal cortex(내후각피질) 대사장애가 가장 먼저 나타남"
-              ]
-            ],
-            "col_titles": [
-              "대상",
-              "대사 저하"
-            ],
-            "col_widths": [
-              4.4,
-              13.0
-            ],
             "diagram": null
           }
         ]
@@ -906,7 +903,7 @@
             "diagram": null
           },
           {
-            "text": "면담은 **환자 단독으로 먼저** 시작하고, 그다음 환자의 동의를 얻어 가족과 이어 갑니다. 그래야 환자의 자존심을 지키고 라포가 쌓입니다.",
+            "text": "다만 면담은 **환자 단독으로 먼저** 시작합니다. 그다음 환자의 동의를 얻어 가족과 이야기해야 환자의 자존심을 지키고 라포가 쌓입니다.",
             "origin": "both",
             "slide_refs": [
               6
@@ -930,7 +927,7 @@
             "diagram": null
           },
           {
-            "text": "정신상태검사(MSE)와 함께 MMSE, CDR, GDS, CERAD, SNSB 같은 신경인지기능평가를 합니다. 일상생활 기능평가도 꼭 합니다.",
+            "text": "정신상태검사(MSE)와 함께 MMSE, CDR, GDS, CERAD, SNSB 같은 신경인지기능평가를 하고, 일상생활 기능평가도 빠뜨리지 않습니다.",
             "origin": "both",
             "slide_refs": [
               6
@@ -974,21 +971,30 @@
             "effort": "",
             "rows": [
               [
-                "기본적 일상생활동작 (ADL)",
-                "목욕하기, 옷 입기, 대소변 가리기, 밥 먹기\n원초적인 생존 활동"
+                "예",
+                "목욕하기, 옷 입기, 대소변 가리기, 밥 먹기",
+                "운전하기, 전화하기, 요리하기, 돈 관리하기"
               ],
               [
-                "도구적 일상생활동작 (IADL)",
-                "운전하기, 전화하기, 요리하기, 돈 관리하기\n고차원적인 도구 사용\n→ 치매 초기에 먼저 떨어짐"
+                "성격",
+                "원초적인 생존 활동",
+                "고차원적인 도구 사용"
+              ],
+              [
+                "치매 초기",
+                "비교적 유지",
+                "{k|먼저 떨어짐}"
               ]
             ],
             "col_titles": [
               "구분",
-              "예"
+              "기본적 일상생활동작 (ADL)",
+              "도구적 일상생활동작 (IADL)"
             ],
             "col_widths": [
-              6.0,
-              11.4
+              2.8,
+              7.2,
+              7.4
             ],
             "diagram": null
           }
@@ -1041,7 +1047,7 @@
             "diagram": null
           },
           {
-            "text": "우리나라에서는 MMSE-KC, MMSE-K, K-MMSE 세 버전을 주로 쓰고, 항목이 조금씩 다릅니다.",
+            "text": "우리나라에서는 MMSE-KC, MMSE-K, K-MMSE 세 버전을 주로 쓰며, 항목이 조금씩 다릅니다.",
             "origin": "both",
             "slide_refs": [
               7
@@ -1089,7 +1095,7 @@
             "diagram": null
           },
           {
-            "text": "**나이, 성별, 학력**의 영향을 많이 받습니다. 글자를 모르는 무학 노인이나 반대로 고학력자는 해석에 주의합니다.",
+            "text": "MMSE는 **나이, 성별, 학력**의 영향을 많이 받습니다. 글자를 모르는 무학 노인이나 반대로 아주 높은 학력의 노인이라면 해석에 주의하세요.",
             "origin": "both",
             "slide_refs": [
               7
@@ -1133,21 +1139,20 @@
             "effort": "",
             "rows": [
               [
-                "MMSE-K (예전)",
-                "보정점수: 무학이면 시간 지남력 +1, 주의력 +2, 언어 +1"
-              ],
-              [
-                "MMSE-KC, K-MMSE (요즘)",
-                "나이, 학력, 성별에 따른 표준편차(Z-score)로 평가"
+                "학력 보정 방법",
+                "보정점수: 무학이면 시간 지남력 **+1**, 주의력 **+2**, 언어 **+1**",
+                "나이, 학력, 성별에 따른 {k|표준편차(Z-score)}로 평가"
               ]
             ],
             "col_titles": [
-              "버전",
-              "학력 보정 방법"
+              "구분",
+              "MMSE-K (예전)",
+              "MMSE-KC, K-MMSE (요즘)"
             ],
             "col_widths": [
-              5.4,
-              12.0
+              3.2,
+              7.2,
+              7.0
             ],
             "diagram": null
           }
@@ -1175,7 +1180,7 @@
       "sections": {
         "body": [
           {
-            "text": "항목마다 무엇을 묻고 어떻게 채점하는지가 핵심이라 표로 정리합니다.",
+            "text": "항목마다 무엇을 묻는지보다 **어떻게 채점하는지**가 헷갈립니다. 순서대로 짚어 보겠습니다.",
             "origin": "both",
             "slide_refs": [
               8,
@@ -1200,8 +1205,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "① **시간 지남력(5점)**: 연, 월, 일, 요일, 계절을 묻습니다. 환절기에는 융통성 있게 채점합니다. 8월 말에 ‘가을이지’라고 답하면 바로 틀렸다고 하지 말고 이유를 물어보세요. ‘아침저녁으로 선선해서’처럼 합리적이면 정답입니다.",
+            "origin": "both",
             "slide_refs": [
               8
             ],
@@ -1209,7 +1214,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -1218,48 +1223,110 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "시간 지남력 (5점)",
-                "연, 월, 일, 요일, 계절",
-                "환절기에는 융통성 있게 채점\n예: 8월 말에 ‘가을’ → 이유를 물어 합리적이면 정답"
-              ],
-              [
-                "장소 지남력 (5점)",
-                "도/시/구/동, 몇 층, 이곳 이름",
-                "건물이 몇 층짜리가 아니라 ‘지금 몇 층에 있는지’\n‘병원’만 답하면 병원 이름을 다시 물어 구체적이어야 1점"
-              ],
-              [
-                "기억 등록",
-                "나무, 자동차, 모자",
-                "첫 번에 말한 개수로 채점\n못 외우면 외울 때까지 반복 (MMSE-KC 3회, K-MMSE 5회)"
-              ],
-              [
-                "주의력",
-                "‘삼천리강산’ 거꾸로 (‘산강리천삼’)",
-                "생략, 자리 바뀜, 삽입, 2글자 이상 위치 이탈 → 5점에서 각 1점 감점"
-              ],
-              [
-                "주의력",
-                "100-7 연속 다섯 번",
-                "처음에만 ‘100에서 7을 빼면?’, 이후 ‘거기서 또 7을 빼면요?’\n검사자는 환자의 숫자를 다시 말하지 않음\n93 대신 92라도 다음에 85면 그 단계는 정답"
-              ]
-            ],
-            "col_titles": [
-              "항목",
-              "방법",
-              "채점 포인트"
-            ],
-            "col_widths": [
-              3.6,
-              4.8,
-              9.0
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "② **장소 지남력(5점)**: 도/시/구/동, 몇 층인지, 이곳 이름을 묻습니다. 건물이 몇 층짜리인지가 아니라 {k|지금 몇 층에 있는지}를 묻습니다. ‘병원’이라고만 하면 바로 1점을 주지 않고, 병원 이름을 다시 물어 구체적으로 대야 1점입니다.",
+            "origin": "both",
+            "slide_refs": [
+              8
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "③ **기억 등록**: ‘나무, 자동차, 모자’를 불러 주고 따라 하게 한 뒤, 조금 있다 다시 물어볼 거라고 알려 줍니다. 점수는 첫 번에 말한 개수로 매기지만, 나중에 회상 검사를 해야 하니 외울 때까지 반복해 가르칩니다(MMSE-KC 3회, K-MMSE 5회).",
+            "origin": "both",
+            "slide_refs": [
+              8
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "④ **주의력, 삼천리강산**: 거꾸로 ‘산강리천삼’을 말하게 합니다. 글자를 빼먹거나(생략), 옆 글자와 자리를 바꾸거나, 없는 글자를 넣거나(삽입), 2글자 이상 위치가 벗어나면 5점에서 각각 1점씩 뺍니다.",
+            "origin": "both",
+            "slide_refs": [
+              8
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "⑤ **주의력, 100-7**: 7을 연속해서 다섯 번 뺍니다. 처음에만 ‘100에서 7을 빼면 얼마입니까?’라고 묻고, 그다음부터는 환자가 말한 숫자를 다시 말하지 말고 ‘거기서 또 7을 빼면요?’라고만 묻습니다. 93 대신 92라고 틀렸어도 다음에 85라고 맞게 빼면 {k|그 단계는 정답}입니다.",
+            "origin": "both",
+            "slide_refs": [
+              8
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "⑥ **기억 회상**: 아까 외운 세 단어를 다시 물어봅니다.",
+            "origin": "both",
             "slide_refs": [
               9
             ],
@@ -1267,7 +1334,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -1276,48 +1343,153 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "기억 회상",
-                "아까의 세 단어",
-                "다시 물어봄"
-              ],
-              [
-                "이름대기",
-                "열쇠, 도장 (또는 시계, 볼펜)",
-                "‘키’, 사투리 ‘쇳대’도 정답\n‘문 열 때 쓰는 거’ 같은 용도는 0점 → ‘그것의 이름이 뭘까요?’ 재질문"
-              ],
-              [
-                "따라 말하기",
-                "‘간장공장공장장’",
-                "한 번만 불러준다고 미리 알림, 다시 불러주지 않음\n한 글자라도 틀리면 0점"
-              ],
-              [
-                "명령 이행 (3점)",
-                "오른손으로 받아, 반으로 접어, 무릎 위에",
-                "다 말한 뒤에 종이를 건넴\n각 동작 1점"
-              ],
-              [
-                "구성 행동",
-                "겹친 오각형 두 개 따라 그리기",
-                "다섯 각 유지 + 겹친 가운데가 사각형이어야 1점"
-              ],
-              [
-                "이해 및 판단 (MMSE-KC, MMSE-K만)",
-                "옷은 왜 빨아 입나\n남의 주민등록증을 주우면",
-                "위생, 청결 → 1점\n우체통, 우체국, 우편함만 정답\n파출소, 동사무소 → ‘다른 방법은?’ 한 번 더 물어 우체통이면 1점"
-              ]
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "⑦ **이름대기**: 열쇠와 도장(또는 시계와 볼펜)을 보여 주고 이름을 묻습니다. ‘키’나 사투리 ‘쇳대’도 정답이지만, ‘문 열 때 쓰는 거’처럼 {k|용도를 말하면 0점}입니다. 그럴 땐 ‘그것의 이름이 뭘까요?’라고 다시 묻습니다.",
+            "origin": "both",
+            "slide_refs": [
+              9
             ],
-            "col_titles": [
-              "항목",
-              "방법",
-              "채점 포인트"
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "⑧ **따라 말하기**: ‘간장공장공장장’을 딱 한 번만 불러 줄 거라고 미리 말하고 또렷하게 불러 줍니다. 못 들었다고 해도 다시 불러 주지 않고, 한 글자라도 틀리면 0점입니다.",
+            "origin": "both",
+            "slide_refs": [
+              9
             ],
-            "col_widths": [
-              3.6,
-              4.8,
-              9.0
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "⑨ **명령 이행(3점)**: 종이를 건네기 전에 ‘오른손으로 받아, 반으로 접은 다음, 무릎 위에 올려놓으세요’라고 **다 말한 뒤** 종이를 줍니다. 동작마다 1점입니다.",
+            "origin": "both",
+            "slide_refs": [
+              9
             ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "⑩ **구성 행동**: 겹친 오각형 두 개를 따라 그리게 합니다. 다섯 각이 유지되고 겹친 가운데가 사각형이어야 1점입니다.",
+            "origin": "both",
+            "slide_refs": [
+              9
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "⑪ **이해 및 판단**(MMSE-KC, MMSE-K에만 있음): ‘옷은 왜 빨아서 입습니까?’에는 위생, 청결 관련 답이면 1점입니다.",
+            "origin": "both",
+            "slide_refs": [
+              9
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "‘남의 주민등록증을 주우면 어떻게 쉽게 돌려줄 수 있습니까?’에는 우체통, 우체국, 우편함 같은 {k|우체국 관련 답만} 정답입니다. 파출소나 동사무소라고 하면 ‘다른 방법은 없을까요?’라고 한 번 더 물어, 우체통이 나오면 1점을 줍니다.",
+            "origin": "both",
+            "slide_refs": [
+              9
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           }
         ]
@@ -1395,7 +1567,7 @@
             "diagram": null
           },
           {
-            "text": "표의 왼쪽 열이 평가하는 6가지 인지 영역입니다. 전반적 인지, 주의력, 언어, 시공간, 기억력, 전두엽/실행기능입니다.",
+            "text": "표의 왼쪽 열이 두 검사가 평가하는 6가지 인지 영역으로, 전반적 인지, 주의력, 언어, 시공간, 기억력, 전두엽/실행기능입니다.",
             "origin": "both",
             "slide_refs": [
               10
@@ -1419,8 +1591,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "CERAD-K의 세부 검사는 이렇게 이어집니다. 1분 동안 동물 이름을 최대한 많이 대는 **언어유창성 검사**, 그림을 보고 이름을 대는 **보스톤 이름대기 검사**, 10개 단어를 세 번에 걸쳐 외우는 **단어목록기억 검사**를 합니다.",
+            "origin": "both",
             "slide_refs": [
               10
             ],
@@ -1428,7 +1600,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -1437,40 +1609,33 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "언어유창성 검사",
-                "1분 동안 동물 이름을 최대한 많이"
-              ],
-              [
-                "보스톤 이름대기 검사",
-                "그림을 보고 이름 대기"
-              ],
-              [
-                "단어목록기억 검사",
-                "10개 단어를 세 번에 걸쳐 외움"
-              ],
-              [
-                "구성행동 검사",
-                "원, 마름모, 사각형, 입체 도형 그리기"
-              ],
-              [
-                "단어목록회상 검사",
-                "시간이 지난 뒤 10개 단어를 힌트 없이 떠올림"
-              ],
-              [
-                "단어목록재인 검사",
-                "외운 단어와 새 단어를 섞어 보여주고 맞힘"
-              ]
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "다음으로 원, 마름모, 사각형, 입체 도형을 그리는 **구성행동 검사**를 합니다. 그리고 시간이 좀 지난 뒤 아까의 10개 단어를 힌트 없이 떠올리는 **단어목록회상 검사**, 외운 단어와 새 단어를 섞어 보여 주고 맞히는 **단어목록재인 검사**로 마무리합니다.",
+            "origin": "both",
+            "slide_refs": [
+              10
             ],
-            "col_titles": [
-              "CERAD-K 세부 검사",
-              "방법"
-            ],
-            "col_widths": [
-              5.4,
-              12.0
-            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
@@ -1553,8 +1718,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "**길 만들기 검사(TMT)** A형은 1부터 25까지 숫자를 순서대로 잇고, B형은 1-가-2-나처럼 숫자와 한글을 번갈아 잇습니다. 그림의 Part B가 훨씬 복잡한 이유입니다.",
+            "origin": "both",
             "slide_refs": [
               10
             ],
@@ -1562,7 +1727,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -1571,28 +1736,37 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "길 만들기 검사 (TMT)",
-                "A형: 1부터 25까지 숫자를 순서대로 이음\nB형: 1-가-2-나처럼 숫자와 한글을 번갈아 이음"
-              ],
-              [
-                "스트룹 검사 (Stroop test)",
-                "빨간 잉크로 쓴 ‘파랑’ → 글자가 아니라 잉크 색 ‘빨강’으로 답함\n자동화된 반응을 억제하는 능력"
-              ]
-            ],
-            "col_titles": [
-              "검사",
-              "방법"
-            ],
-            "col_widths": [
-              5.4,
-              12.0
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
-            "text": "치매가 진행될수록 전두엽 기능이 떨어져 이 검사들의 수행 속도가 현저히 느려지고 오류가 많아집니다.",
+            "text": "**스트룹 검사(Stroop test)**는 빨간 잉크로 쓴 ‘파랑’을 보여 주고, 글자를 읽지 말고 잉크 색인 ‘빨강’으로 답하게 합니다. {k|자동화된 반응을 억제하는 능력}을 보는 것입니다.",
+            "origin": "both",
+            "slide_refs": [
+              10
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "치매가 진행될수록 전두엽 기능이 떨어져 두 검사의 수행 속도가 현저히 느려지고 오류가 많아집니다.",
             "origin": "both",
             "slide_refs": [
               10
@@ -1641,7 +1815,7 @@
       "sections": {
         "body": [
           {
-            "text": "흔히 노인이 되면 우울해지고 내향적·수동적이 된다고 생각합니다. 고집이 세지고(경직성 증가) 조심성과 의존심이 커지며 인색해진다고도 합니다.",
+            "text": "흔히 노인이 되면 우울해지고 내향적·수동적으로 변한다고들 합니다. 고집이 세지고(경직성 증가) 조심성과 의존심이 커지며 인색해진다고도 하죠. 정말 그럴까요?",
             "origin": "both",
             "slide_refs": [
               11
@@ -1737,7 +1911,7 @@
             "diagram": null
           },
           {
-            "text": "따라서 앞의 부정적인 변화는 본질적인 성격 변화가 아닙니다. 노년기의 **스트레스와 상실**에서 나온 반응으로 봅니다.",
+            "text": "그러니 앞의 부정적인 변화는 본질적인 성격 변화가 아니라, 노년기에 겪는 **스트레스와 상실**에 대한 반응으로 봐야 합니다.",
             "origin": "both",
             "slide_refs": [
               11
@@ -1785,8 +1959,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "배우자나 친구의 죽음, 은퇴, 경제력 상실 같은 **환경적 요인**에 신체 질환과 기능 저하 같은 **내적 요인**이 겹치면서 깊은 상실감을 겪게 됩니다.",
+            "origin": "both",
             "slide_refs": [
               12
             ],
@@ -1794,7 +1968,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -1803,24 +1977,9 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "환경적 요인",
-                "배우자나 친구의 죽음, 은퇴, 경제력 상실"
-              ],
-              [
-                "내적 요인",
-                "신체 질환, 기능 저하"
-              ]
-            ],
-            "col_titles": [
-              "상실의 요인",
-              "예"
-            ],
-            "col_widths": [
-              4.4,
-              13.0
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           }
         ]
@@ -1848,7 +2007,7 @@
       "sections": {
         "body": [
           {
-            "text": "노화가 되면 정보처리 속도가 느려집니다. 주의력은 세 가지로 나누고, 노화에 따른 변화가 서로 다릅니다.",
+            "text": "노화가 되면 정보처리 속도가 느려집니다. 다만 주의력은 세 가지로 나뉘고, 노화에 따른 변화가 서로 다릅니다.",
             "origin": "both",
             "slide_refs": [
               12
@@ -1894,17 +2053,17 @@
               [
                 "선택주의력",
                 "시끄러운 식당에서 친구 목소리에만 집중",
-                "뚜렷하게 떨어짐"
+                "{k|뚜렷하게 떨어짐}"
               ],
               [
                 "분할주의력",
                 "라디오를 들으며 운전",
-                "뚜렷하게 떨어짐"
+                "{k|뚜렷하게 떨어짐}"
               ],
               [
                 "지속주의력",
                 "한 가지 일에 계속 집중",
-                "비교적 잘 유지됨"
+                "**비교적 잘 유지됨**"
               ]
             ],
             "col_titles": [
@@ -1944,7 +2103,7 @@
             "diagram": null
           },
           {
-            "text": "그림의 갈래를 따라가 보면 감각기억은 노화와 별 상관이 없습니다. 작업기억과 장기기억 중 서술기억(일화기억)이 떨어집니다.",
+            "text": "그림의 갈래를 따라가며 기억이 노화에 어떻게 반응하는지 보면 아래와 같습니다.",
             "origin": "both",
             "slide_refs": [
               12
@@ -1993,15 +2152,15 @@
               ],
               [
                 "작업기억 (working memory)",
-                "45세 이후부터 계속 감퇴"
+                "**45세 이후**부터 계속 감퇴"
               ],
               [
                 "삽화기억 (일화기억)",
-                "어제 누구를 만나 무슨 대화를 했는지\n→ 노화에 가장 민감하게 떨어짐"
+                "어제 누구를 만나 무슨 대화를 했는지\n→ {k|노화에 가장 민감하게 떨어짐}"
               ],
               [
                 "비서술기억 (절차기억)",
-                "자전거 타기 → 잘 유지됨"
+                "자전거 타기 → **잘 유지됨**"
               ]
             ],
             "col_titles": [
@@ -2015,7 +2174,7 @@
             "diagram": null
           },
           {
-            "text": "복잡한 목표를 계획하고 통제하는 실행기능(executive function)도 노화에 **매우 민감**합니다. 노인은 익숙한 행동을 억제하고 새로운 상황에 빠르게 대처하기 어렵습니다.",
+            "text": "복잡한 목표를 계획하고 통제하는 실행기능(executive function)도 노화에 **매우 민감**합니다. 그래서 노인은 익숙한 행동을 억누르고 새로운 상황에 빠르게 대처하는 일을 어려워합니다.",
             "origin": "both",
             "slide_refs": [
               12
@@ -2063,8 +2222,8 @@
       "sections": {
         "body": [
           {
-            "text": "",
-            "origin": "slide",
+            "text": "① **은퇴**: 사회경제적 지위가 낮아지고 은퇴를 겪습니다. 우리나라 노인은 은퇴 준비가 안 되어 있어 2년 이내에 다시 일터로 돌아가는 경우가 많습니다.",
+            "origin": "both",
             "slide_refs": [
               13
             ],
@@ -2072,7 +2231,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -2081,32 +2240,81 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "사회경제적 지위, 은퇴",
-                "우리나라 노인은 은퇴 준비가 안 되어 2년 이내에 다시 일터로 돌아가는 경우가 많음"
-              ],
-              [
-                "노인차별 (ageism)",
-                "노인을 무능하고 까다로운 존재로 봄\n노인 인구의 80% 이상이 만성 질환 1개 이상 → 건강 문제와 엮여 차별이 많음"
-              ],
-              [
-                "성적 활동",
-                "성호르몬 저하로 줄지만, 노인 스스로의 부정적 편견으로 위축되는 면도 큼\n3대 결정 요소: 자신의 건강, 배우자 생존 여부, 젊었을 때의 성적 활동 수준\n→ 갖춰지면 노년기에도 건강한 성생활 가능"
-              ],
-              [
-                "죽음에 대한 불안",
-                "에릭슨: 자아통합을 이루면 불안이 줄어듦\n퀴블러 로스: 부정 → 분노 → 타협 → 우울 → (수용)"
-              ]
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "② **노인차별(ageism)**: 노인을 무능하고 까다로운 존재로 보는 시선입니다. 노인 인구의 **80% 이상**이 만성 질환을 하나 이상 앓고 있어 건강 문제와 엮인 차별이 많습니다.",
+            "origin": "both",
+            "slide_refs": [
+              13
             ],
-            "col_titles": [
-              "문제",
-              "내용"
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "③ **성적 활동**: 성호르몬 저하로 줄긴 하지만, 노인 스스로의 부정적 편견 때문에 위축되는 면도 큽니다. 성적 활동 수준을 정하는 3대 요소는 {k|자신의 건강, 배우자의 생존 여부, 젊었을 때의 성적 활동 수준}입니다. 이것만 갖춰지면 노년기에도 건강한 성생활이 가능합니다.",
+            "origin": "both",
+            "slide_refs": [
+              13
             ],
-            "col_widths": [
-              4.4,
-              13.0
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "④ **죽음에 대한 불안**: 에릭슨은 삶을 긍정적으로 받아들여 자아통합을 이루면 불안이 줄어든다고 했습니다. 퀴블러 로스는 죽음을 앞둔 환자가 부정 → 분노 → 타협 → 우울 → (수용)의 단계를 거친다고 설명했습니다.",
+            "origin": "both",
+            "slide_refs": [
+              13
             ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
@@ -2134,7 +2342,7 @@
             "diagram": null
           },
           {
-            "text": "사별을 겪으면 누구나 우울해집니다. 정상적인 애도 반응과 **치료가 필요한 주요우울장애**를 구분할 줄 알아야 합니다.",
+            "text": "사별을 겪으면 누구나 우울해집니다. 그래서 정상적인 애도 반응과 **치료가 필요한 주요우울장애**를 구분할 줄 알아야 합니다.",
             "origin": "both",
             "slide_refs": [
               14
@@ -2179,13 +2387,13 @@
             "rows": [
               [
                 "경과",
-                "수일, 수주 지나며 슬픔의 강도가 점차 줄어듦",
-                "시간이 지나도 호전되지 않음, 사회적 기능이 망가짐"
+                "수일, 수주 지나며 슬픔의 강도가 **점차 줄어듦**",
+                "시간이 지나도 {k|호전되지 않음}, 사회적 기능이 망가짐"
               ],
               [
                 "주된 내용",
-                "공허감, 고인을 그리워함",
-                "‘나는 쓸모없는 인간이야’ 같은 자기비판적이고 비관적인 반추"
+                "공허감, **고인을 그리워함**",
+                "‘나는 쓸모없는 인간이야’ 같은 {k|자기비판적이고 비관적인 반추}"
               ]
             ],
             "col_titles": [
@@ -2201,8 +2409,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "자살, 타살, 사고사처럼 폭력적인 죽음으로 사별하면 PTSD로 이어지기 쉽습니다. 통계적으로 사별의 신체적·정신적 타격(자살, 심혈관 질환 등)은 여성보다 **65세 이하 남성**에게 훨씬 큽니다. 사별 직후에는 림프구 증식이 줄고 NK세포(자연살해세포) 기능이 떨어지는 등 면역기능 장애도 실제로 생깁니다.",
+            "origin": "both",
             "slide_refs": [
               14
             ],
@@ -2210,7 +2418,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -2219,28 +2427,9 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "폭력적 죽음 (자살, 타살, 사고사)",
-                "PTSD로 이어지기 쉬움"
-              ],
-              [
-                "65세 이하 남성",
-                "여성보다 신체적·정신적 타격(자살, 심혈관 질환 등)이 훨씬 큼"
-              ],
-              [
-                "사별 직후 면역",
-                "림프구 증식 감소, NK세포(자연살해세포) 기능 저하"
-              ]
-            ],
-            "col_titles": [
-              "상황",
-              "영향"
-            ],
-            "col_widths": [
-              5.4,
-              12.0
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
@@ -2268,8 +2457,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "노인학대에는 신체적 폭력만 있는 것이 아닙니다. 욕설 같은 심리적 학대, 돈을 가로채는 재정적 학대, 병원에 데려가지 않거나 약을 챙기지 않는 **의학적 방임**까지 모두 포함됩니다.",
+            "origin": "both",
             "slide_refs": [
               15
             ],
@@ -2277,7 +2466,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -2286,36 +2475,37 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "유형",
-                "신체적 폭력, 욕설 같은 심리적 학대, 돈을 가로채는 재정적 학대\n병원에 안 데려가거나 약을 안 챙기는 의학적 방임"
-              ],
-              [
-                "가해자",
-                "대부분 가족, 특히 함께 사는 아들이나 며느리"
-              ],
-              [
-                "발견",
-                "자식에게 해가 갈까 봐 숨기고 협조하지 않아 어려움"
-              ],
-              [
-                "조치",
-                "법적 조치와 분리\n피해자와 가해자 모두 정신의학적 진료"
-              ]
-            ],
-            "col_titles": [
-              "구분",
-              "내용"
-            ],
-            "col_widths": [
-              3.2,
-              14.2
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
-            "text": "노인의 4대 고통(경제적 빈곤, 건강악화, 역할상실, 고독)은 나이 들면 당연히 겪는 일이 아닙니다. 사회가 해결해야 할 문제로 접근합니다.",
+            "text": "가해자는 대부분 가족, 특히 함께 사는 아들이나 며느리입니다. 어르신이 자식에게 해가 갈까 봐 숨기고 협조하지 않아 발견하기도 어렵습니다. 학대가 확인되면 법적 조치와 분리를 하고, **피해자와 가해자 모두** 정신의학적 진료를 받게 합니다.",
+            "origin": "both",
+            "slide_refs": [
+              15
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "노인의 4대 고통(경제적 빈곤, 건강악화, 역할상실, 고독)은 나이 들면 당연히 겪는 일이 아니라 사회가 해결해야 할 문제입니다.",
             "origin": "both",
             "slide_refs": [
               15
@@ -2363,7 +2553,7 @@
       "sections": {
         "body": [
           {
-            "text": "에릭슨의 심리사회적 발달 8단계 중 마지막 노년기의 과제는 {k|자아통합 대 절망}(integrity vs despair)입니다.",
+            "text": "에릭슨의 심리사회적 발달 8단계에서 마지막 노년기의 과제는 {k|자아통합 대 절망}(integrity vs despair)입니다.",
             "origin": "both",
             "slide_refs": [
               16
@@ -2407,26 +2597,30 @@
             "effort": "",
             "rows": [
               [
-                "자아통합",
-                "‘참 의미 있는 삶이었다’며 감사하고 받아들임\n→ 지혜라는 덕목을 얻음"
+                "지난 삶을 보는 눈",
+                "‘참 의미 있는 삶이었다’며 감사하고 받아들임",
+                "‘내 인생은 실패했어, 다시 시작하기엔 너무 늦었어’"
               ],
               [
-                "절망",
-                "‘내 인생은 실패했어, 다시 시작하기엔 너무 늦었어’\n→ 투사, 합리화, 퇴행 같은 미성숙한 방어기제\n→ 우울증, 알코올 의존 같은 정신장애"
+                "결과",
+                "→ {k|지혜}라는 덕목을 얻음",
+                "→ 투사, 합리화, 퇴행 같은 **미성숙한 방어기제**\n→ 우울증, 알코올 의존 같은 정신장애"
               ]
             ],
             "col_titles": [
-              "결과",
-              "모습"
+              "구분",
+              "자아통합",
+              "절망"
             ],
             "col_widths": [
-              3.2,
-              14.2
+              3.4,
+              6.6,
+              7.4
             ],
             "diagram": null
           },
           {
-            "text": "그 밖에 교육 수준과 소득이 높을수록 성공적인 노화의 가능성이 높아집니다. 가족과 친구의 사회적 지지체계가 탄탄할수록, 종교적 믿음을 가지고 죽음을 수용할수록 그렇습니다.",
+            "text": "이 밖에도 교육 수준과 소득이 높을수록, 가족과 친구의 사회적 지지체계가 탄탄할수록, 종교적 믿음을 가지고 죽음을 받아들일수록 성공적으로 늙을 가능성이 높아집니다.",
             "origin": "both",
             "slide_refs": [
               16
@@ -2543,30 +2737,35 @@
             "effort": "",
             "rows": [
               [
-                "유지됨",
-                "새로운 학습 (시간은 걸리지만 완벽하게 가능)\nIQ: 80세까지 유지\n언어 능력(verbal ability)\n재인 능력 (객관식 문제 풀기)"
+                "학습, 지능",
+                "새로운 학습은 시간이 걸리지만 완벽하게 가능\n{k|IQ는 80세까지 유지}",
+                "정신운동 속도(psychomotor speed)"
               ],
               [
-                "떨어짐",
-                "정신운동 속도(psychomotor speed)\n주의력 전환 작업\n부호화(encoding)\n단순 회상(simple recall)"
+                "언어, 주의",
+                "언어 능력(verbal ability)",
+                "주의력 전환 작업"
               ],
               [
-                "신경전달물질",
-                "노르에피네프린 감소\n세로토닌을 분해하는 MAO 증가"
+                "기억",
+                "{k|재인 능력}(객관식 문제 풀기)",
+                "부호화(encoding)\n{k|단순 회상}(simple recall)"
               ]
             ],
             "col_titles": [
-              "구분",
-              "정상 노인"
+              "영역",
+              "유지됨",
+              "떨어짐"
             ],
             "col_widths": [
-              3.6,
-              13.8
+              2.8,
+              7.6,
+              7.0
             ],
             "diagram": null
           },
           {
-            "text": "**재인은 정상이고 회상은 떨어지는** 점은 요약의 회상·재인 표와 같은 축입니다.",
+            "text": "**재인은 정상이고 회상은 떨어지는** 점은 요약의 회상·재인 표와 같은 축입니다. 신경전달물질로는 뇌 속 노르에피네프린이 줄고, 세로토닌을 분해하는 MAO는 늘어납니다.",
             "origin": "both",
             "slide_refs": [
               17
@@ -2614,8 +2813,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "노인은 위산이 줄고, 간 크기가 작아져 간 대사 효소 활성이 떨어지며, 신장 배설 기능도 약해집니다. 체내 수분과 근육량(lean body mass)은 줄고 **체지방(body fat) 비율은 늘어납니다**.",
+            "origin": "both",
             "slide_refs": [
               18
             ],
@@ -2623,7 +2822,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -2632,36 +2831,13 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "흡수, 대사, 배설",
-                "위산 감소\n간 크기 감소 → 간 대사 효소 활성 저하\n신장 배설 기능 저하"
-              ],
-              [
-                "체성분",
-                "체내 수분, 근육량(lean body mass) 감소\n체지방(body fat) 비율 증가"
-              ],
-              [
-                "결과",
-                "정신과 약물은 대부분 지용성(lipid soluble)\n→ 지방 조직에 축적되어 약효가 오래가고 부작용이 쉽게 나타남"
-              ],
-              [
-                "수용체",
-                "뇌 피질의 수용체 민감도 변화"
-              ]
-            ],
-            "col_titles": [
-              "변화",
-              "내용"
-            ],
-            "col_widths": [
-              3.6,
-              13.8
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
-            "text": "그래서 노인은 약물 부작용에 {k|매우 취약}하다는 점을 항상 명심해야 합니다.",
+            "text": "정신과 약물은 대부분 지용성(lipid soluble)입니다. 그래서 노인에게 주면 지방 조직에 잔뜩 쌓여 약효가 예상보다 오래가고 부작용이 쉽게 나타납니다. 뇌 피질의 수용체 민감도까지 바뀌니, 노인은 약물 부작용에 {k|매우 취약}하다는 점을 늘 기억해야 합니다.",
             "origin": "both",
             "slide_refs": [
               18
@@ -2709,7 +2885,7 @@
       "sections": {
         "body": [
           {
-            "text": "각론의 첫 번째는 신경인지장애, 그중 경도인지장애(MCI)입니다. 65세 이상 노인의 약 28%가 겪을 정도로 흔합니다.",
+            "text": "각론의 첫 번째는 신경인지장애, 그중 경도인지장애(MCI)입니다. 65세 이상 노인의 약 28%가 겪을 만큼 흔합니다.",
             "origin": "both",
             "slide_refs": [
               19
@@ -2733,50 +2909,7 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
-            "slide_refs": [
-              19
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "rows",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [
-              [
-                "주관적 호소",
-                "환자나 가족이 기억력 저하를 호소"
-              ],
-              [
-                "객관적 저하",
-                "신경심리검사에서 나이, 학력 대비 인지기능이 유의하게 낮음 (보통 -1.5 표준편차 이하)"
-              ],
-              [
-                "일상생활",
-                "ADL은 온전히 유지 → 치매는 아님"
-              ]
-            ],
-            "col_titles": [
-              "Petersen 진단기준",
-              "내용"
-            ],
-            "col_widths": [
-              4.4,
-              13.0
-            ],
-            "diagram": null
-          },
-          {
-            "text": "MCI의 약물치료는 **효과가 입증된 것이 없습니다**. 아세틸콜린 분해효소 억제제, 은행잎 제제(징코), 비타민 등이 일관된 효과를 보이지 못했습니다.",
+            "text": "Petersen 진단기준으로 보면, 환자나 가족이 기억력 저하를 호소하고 실제 신경심리검사에서도 나이, 학력에 비해 인지기능이 유의하게 낮습니다(보통 -1.5 표준편차 이하). 그런데도 {k|ADL은 온전히 유지}되어 치매는 아닌 상태가 MCI입니다.",
             "origin": "both",
             "slide_refs": [
               19
@@ -2800,7 +2933,7 @@
             "diagram": null
           },
           {
-            "text": "따라서 기억훈련, 인지 자극, 사회적 활동 같은 **비약물적 치료**를 권고합니다.",
+            "text": "MCI의 약물치료는 **효과가 입증된 것이 없습니다**. 아세틸콜린 분해효소 억제제, 은행잎 제제(징코), 비타민 등을 써 봤지만 일관된 효과를 보이지 못했습니다. 그래서 기억훈련, 인지 자극, 사회적 활동 같은 **비약물적 치료**를 권합니다.",
             "origin": "both",
             "slide_refs": [
               19
@@ -2848,7 +2981,7 @@
             "diagram": null
           },
           {
-            "text": "알츠하이머병이 55~70%로 가장 흔하고 그다음이 혈관성 치매입니다. 치매는 적극적인 약물치료로 진행 속도를 늦추고 행동 증상을 조절합니다.",
+            "text": "인지 저하에 일상생활 장애까지 오면 치매(주요신경인지장애)입니다. 알츠하이머병이 55~70%로 가장 흔하고 그다음이 혈관성 치매입니다. 치매는 적극적으로 약물치료해서 진행 속도를 늦추고 행동 증상을 조절해야 합니다.",
             "origin": "both",
             "slide_refs": [
               19
@@ -2897,7 +3030,7 @@
       "sections": {
         "body": [
           {
-            "text": "노인 우울증은 유병률이 10~15%이고, 젊은 사람의 우울증과 양상이 다릅니다.",
+            "text": "노인 우울증은 유병률이 10~15%이고, 젊은 사람의 우울증과 모습이 다릅니다. 노인은 ‘우울해요’보다 ‘온몸이 쑤시고 소화가 안 되고 머리가 아파요’ 같은 {k|신체적 호소}(somatic complaints)를 훨씬 많이 합니다.",
             "origin": "both",
             "slide_refs": [
               20
@@ -2921,8 +3054,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "아침에 더 우울하고 새벽에 일찍 깨며 식욕과 체중이 확 줄어드는 **멜랑콜리아 양상**이 흔하고, 망상 같은 정신병적 증상도 젊은 환자보다 자주 동반됩니다.",
+            "origin": "both",
             "slide_refs": [
               20
             ],
@@ -2930,7 +3063,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -2939,28 +3072,9 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "신체적 호소 (somatic complaints)",
-                "‘우울해요’보다 ‘온몸이 쑤시고 소화가 안 되고 머리가 아파요’"
-              ],
-              [
-                "멜랑콜리아 양상",
-                "아침에 더 우울, 새벽에 일찍 깸, 식욕과 체중 감소"
-              ],
-              [
-                "정신병적 증상",
-                "망상 등이 젊은 환자보다 자주 동반"
-              ]
-            ],
-            "col_titles": [
-              "노인 우울증의 특징",
-              "내용"
-            ],
-            "col_widths": [
-              5.6,
-              11.8
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
@@ -2974,6 +3088,30 @@
             "emphasis": false,
             "tag": "normal",
             "kind": "sub",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "우울한 노인이 기억력과 집중력 저하를 심하게 호소해 치매처럼 보일 때가 있습니다. 진짜 치매와는 이렇게 구별합니다.",
+            "origin": "both",
+            "slide_refs": [
+              20
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -3010,23 +3148,13 @@
             "rows": [
               [
                 "대답 태도",
-                "틀려도 어떻게든 대답하려 애씀, 작화증",
-                "조금만 어려워도 노력하지 않고 ‘몰라요’"
-              ],
-              [
-                "주의집중력",
-                "",
-                "편차가 큼"
-              ],
-              [
-                "언어 기능",
-                "",
-                "잘 보존"
+                "틀려도 어떻게든 대답하려 애씀, **작화증**",
+                "조금만 어려워도 노력하지 않고 {k|‘몰라요’}"
               ],
               [
                 "회상, 재인",
                 "회상과 재인 모두 저하",
-                "자유 회상(free recall)은 못 해도 재인(recognition)은 잘 맞힘"
+                "자유 회상(free recall)은 못 해도 {k|재인(recognition)은 잘 맞힘}"
               ]
             ],
             "col_titles": [
@@ -3039,6 +3167,30 @@
               6.4,
               8.0
             ],
+            "diagram": null
+          },
+          {
+            "text": "가성치매에서는 이 밖에도 주의집중력의 편차가 크고 언어 기능은 잘 보존됩니다.",
+            "origin": "both",
+            "slide_refs": [
+              20
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
@@ -3066,7 +3218,7 @@
             "diagram": null
           },
           {
-            "text": "그림처럼 우울증은 알츠하이머병보다 앞서 나타날 수 있습니다. 우울증이 나은 뒤 수년 후 **알츠하이머병으로 진행**하는 경우가 많습니다. 노년기 우울증은 {k|치매의 전구 증상이거나 위험 요인}일 수 있습니다.",
+            "text": "그림처럼 우울증은 알츠하이머병보다 앞서 나타날 수 있어서, 가성치매라고 안심할 수는 없습니다. 우울증이 나은 지 수년 뒤 **알츠하이머병으로 진행**하는 경우가 많아, 노년기 우울증은 {k|치매의 전구 증상이거나 위험 요인}일 수 있습니다.",
             "origin": "both",
             "slide_refs": [
               20
@@ -3090,7 +3242,7 @@
             "diagram": null
           },
           {
-            "text": "고혈압, 당뇨 등 뇌혈관 질환으로 대뇌 백질 병변이 생기며 발생하는 혈관성 우울증도 노인에서 매우 흔합니다.",
+            "text": "고혈압, 당뇨 같은 뇌혈관 질환으로 대뇌 백질 병변이 생기면서 오는 **혈관성 우울증**도 노인에게 매우 흔합니다.",
             "origin": "both",
             "slide_refs": [
               20
@@ -3185,7 +3337,7 @@
             "diagram": null
           },
           {
-            "text": "노년기 양극성장애는 절반 정도가 우울삽화로 시작해 평균 15년의 긴 잠복기를 거쳐 조증으로 나타납니다.",
+            "text": "노년기 양극성장애는 절반 정도가 우울삽화로 먼저 시작하고, 평균 15년이라는 긴 잠복기를 거쳐 조증으로 나타납니다.",
             "origin": "both",
             "slide_refs": [
               21
@@ -3209,7 +3361,7 @@
             "diagram": null
           },
           {
-            "text": "노인이 갑자기 조증으로 오면 가장 먼저 {k|감별할 것}이 있습니다. 일차성 양극성장애인지, 내과적·신경학적 질환이나 약물에 의한 이차성 조증인지 가립니다.",
+            "text": "노인이 갑자기 조증으로 오면 가장 먼저 {k|감별할 것}이 있습니다. 원래 있던 일차성 양극성장애인지, 내과적·신경학적 질환이나 약물이 일으킨 이차성 조증인지 가려야 합니다.",
             "origin": "both",
             "slide_refs": [
               21
@@ -3233,7 +3385,7 @@
             "diagram": null
           },
           {
-            "text": "노인에서는 뇌졸중, 뇌종양, 스테로이드나 파킨슨병 약(도파민 효현제)에 의한 이차성 조증이 많습니다. 그래서 **뇌영상 검사(MRI)와 혈액 검사**를 철저히 합니다.",
+            "text": "노인은 뇌졸중, 뇌종양, 스테로이드나 파킨슨병 약(도파민 효현제) 때문에 이차성 조증이 생기는 경우가 많습니다. 그래서 반드시 **뇌영상 검사(MRI)와 혈액 검사**를 철저히 합니다.",
             "origin": "both",
             "slide_refs": [
               21
@@ -3302,27 +3454,27 @@
             "rows": [
               [
                 "공포증 (phobia)",
-                "유병률 4~8%로 가장 흔함, 그중 광장공포증",
+                "유병률 4~8%로 {k|가장 흔함}, 그중 광장공포증",
                 ""
               ],
               [
                 "범불안장애",
-                "주요우울증과 동반이 아주 많음",
+                "주요우울증과 **동반이 아주 많음**",
                 "항우울제, 반감기가 짧은 저역가 항불안제"
               ],
               [
                 "공황장애",
                 "노년기에 새로 발병하는 경우는 드묾",
-                "심장, 폐 질환, 약물 부작용부터 감별"
+                "{k|심장, 폐 질환, 약물 부작용}부터 감별"
               ],
               [
                 "강박장애",
                 "노년기에 새로 발병하는 경우는 드묾",
-                "우울증 노인의 반추를 강박사고로 오인하지 않음"
+                "우울증 노인의 **반추를 강박사고로 오인**하지 않음"
               ],
               [
                 "PTSD",
-                "재경험보다 과각성 증상이 더 흔함",
+                "재경험보다 {k|과각성} 증상이 더 흔함",
                 ""
               ]
             ],
@@ -3363,7 +3515,7 @@
       "sections": {
         "body": [
           {
-            "text": "섬망은 입원 환자에서 흔합니다. 감염, 뇌졸중, 약물, 대사장애가 원인이 됩니다.",
+            "text": "섬망은 입원 환자에게서 정말 흔하게 봅니다. 감염, 뇌졸중, 약물, 대사장애가 원인이 되고, 특히 낙상으로 고관절 골절 수술을 받은 노인은 회복기에 40~50%, 심장절개 수술 후에는 **90% 이상**이 섬망을 겪습니다.",
             "origin": "both",
             "slide_refs": [
               23
@@ -3387,46 +3539,7 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
-            "slide_refs": [
-              23
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "rows",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [
-              [
-                "고관절 골절 수술 후 회복기",
-                "40~50%"
-              ],
-              [
-                "심장절개 수술 후",
-                "90% 이상"
-              ]
-            ],
-            "col_titles": [
-              "상황",
-              "섬망 발생"
-            ],
-            "col_widths": [
-              7.0,
-              10.4
-            ],
-            "diagram": null
-          },
-          {
-            "text": "섬망은 수 시간이나 수일 내에 급성으로 시작합니다. 낮에는 괜찮다가 밤이 되면 헛소리를 하는 식으로 일중 변동이 큽니다.",
+            "text": "섬망은 수 시간이나 수일 안에 **급성으로** 시작합니다. 낮에는 괜찮다가 밤만 되면 헛소리를 하는 식으로 **일중 변동**이 큰 것도 특징입니다.",
             "origin": "both",
             "slide_refs": [
               23
@@ -3474,8 +3587,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "치료의 제1원칙은 **원인 제거**입니다. 환자가 너무 초조해하거나 환각, 망상이 심하면 소량의 {k|haloperidol}(할로페리돌)을 씁니다. 항콜린성 작용이 강한 약물이나 반감기가 긴 벤조디아제핀은 섬망을 오히려 악화시키므로 피해야 합니다.",
+            "origin": "both",
             "slide_refs": [
               23
             ],
@@ -3483,7 +3596,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -3492,28 +3605,9 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "제1원칙",
-                "원인 제거"
-              ],
-              [
-                "초조, 환각, 망상이 심할 때",
-                "소량의 haloperidol(할로페리돌)"
-              ],
-              [
-                "피해야 할 약",
-                "항콜린성 작용이 강한 약물, 반감기가 긴 벤조디아제핀 → 섬망 악화"
-              ]
-            ],
-            "col_titles": [
-              "치료",
-              "내용"
-            ],
-            "col_widths": [
-              5.6,
-              11.8
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           }
         ]
@@ -3541,7 +3635,7 @@
       "sections": {
         "body": [
           {
-            "text": "노인은 신체 증상 호소가 많습니다. 검사 결과가 깨끗하다고 ‘신경성이고 마음의 병’이라고 말하는 것이 의사들이 흔히 하는 실수입니다.",
+            "text": "노인은 몸이 아프다는 호소가 많습니다. 검사 결과가 깨끗하다고 ‘어르신, 이건 신경성이고 마음의 병이에요’라고 말하는 것이 의사들이 흔히 하는 실수입니다.",
             "origin": "both",
             "slide_refs": [
               24
@@ -3565,7 +3659,7 @@
             "diagram": null
           },
           {
-            "text": "그러면 노인은 자기가 마음을 잘못 써서 병이 생겼다고 오해합니다. 또는 의사가 병을 못 찾는다고 생각해 치료를 거부하고 병원 쇼핑을 합니다.",
+            "text": "그렇게 들은 노인은 자기가 마음을 잘못 써서 병이 생겼다고 오해하거나, 의사가 병을 못 찾는다고 여겨 치료를 거부하고 병원 쇼핑을 다닙니다. 그러니 환자의 고통이 {k|실제 질병이며 치료가 필요하다}고 공감해 주세요.",
             "origin": "both",
             "slide_refs": [
               24
@@ -3589,31 +3683,7 @@
             "diagram": null
           },
           {
-            "text": "따라서 환자의 고통이 {k|실제 질병이며 치료가 필요하다}고 공감해 줍니다.",
-            "origin": "both",
-            "slide_refs": [
-              24
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "건강염려증 노인에게 의학적 근거가 없는 침습적 검사는 금기입니다. 주기적으로 만나 반복 진찰하고 안심(reassurance)시키는 것은 도움이 됩니다.",
+            "text": "건강염려증 노인에게 의학적 근거가 없는 침습적 검사는 **금기**입니다. 대신 주기적으로 만나 반복해서 진찰하고 안심(reassurance)시키면 도움이 됩니다.",
             "origin": "both",
             "slide_refs": [
               24
@@ -3661,8 +3731,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "화병은 가부장적인 문화에서 고부갈등이나 남편의 외도처럼 억울하고 분한 감정을 평생 참으며(‘한’) 생긴 한국형 신체화 장애입니다. 열감, 치밀어 오름, 가슴 답답함, 목이나 가슴에 덩어리가 걸린 느낌(**매핵기**), 한숨, 구갈 같은 신체 증상에 분노가 함께 나타납니다.",
+            "origin": "both",
             "slide_refs": [
               24
             ],
@@ -3670,7 +3740,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -3679,24 +3749,9 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "배경",
-                "가부장적 문화, 고부갈등이나 남편의 외도\n억울하고 분한 감정을 평생 참음(‘한’)"
-              ],
-              [
-                "증상",
-                "열감, 치밀어 오름, 가슴 답답함\n목이나 가슴에 덩어리가 걸린 느낌(매핵기), 한숨, 구갈\n+ 분노"
-              ]
-            ],
-            "col_titles": [
-              "구분",
-              "내용"
-            ],
-            "col_widths": [
-              3.2,
-              14.2
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           }
         ]
@@ -3724,8 +3779,8 @@
       "sections": {
         "body": [
           {
-            "text": "",
-            "origin": "slide",
+            "text": "정상적으로 나이만 들어도 수면 구조가 바뀝니다. 깊은 잠인 서파 수면(3, 4단계)과 렘수면이 줄고, 잠이 얕아져 밤중에 자주 깹니다(각성 증가). 일주기 리듬도 **앞당겨져** 저녁 일찍 자고 새벽 일찍 깹니다.",
+            "origin": "both",
             "slide_refs": [
               25
             ],
@@ -3733,7 +3788,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -3742,29 +3797,14 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "수면 구조",
-                "서파 수면(3, 4단계), 렘수면 감소\n잠이 얕아져 밤중에 자주 깸 (각성 증가)"
-              ],
-              [
-                "일주기 리듬",
-                "앞당겨짐 → 저녁 일찍 자고 새벽 일찍 깸"
-              ]
-            ],
-            "col_titles": [
-              "정상 노화",
-              "변화"
-            ],
-            "col_widths": [
-              3.6,
-              13.8
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "노인에게는 수면무호흡증이나 하지불안증후군 같은 수면 관련 호흡·운동장애가 흔합니다. 특히 꿈 내용을 행동으로 옮겨 자다가 주먹질을 하는 {k|렘수면행동장애(RBD)}는 거의 노인에게만 나타나는 특징적인 사건수면(parasomnia)입니다.",
+            "origin": "both",
             "slide_refs": [
               25
             ],
@@ -3772,7 +3812,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -3781,36 +3821,37 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "수면 관련 호흡·운동장애",
-                "수면무호흡증, 하지불안증후군이 흔함"
-              ],
-              [
-                "렘수면행동장애 (RBD)",
-                "꿈 내용을 행동으로 옮겨 자다가 주먹질\n거의 노인에 국한된 특징적인 사건수면(parasomnia)"
-              ],
-              [
-                "알코올",
-                "잠들기만 쉽게 함\n수면을 조각내고 새벽에 일찍 깨게 함, 수면무호흡증 악화"
-              ],
-              [
-                "진정수면제",
-                "전향성 기억상실, 낮 동안의 잔여 진정 작용, 반동성 불면\n보행 장애 → 낙상, 골절"
-              ]
-            ],
-            "col_titles": [
-              "노인 수면장애",
-              "내용"
-            ],
-            "col_widths": [
-              5.4,
-              12.0
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
-            "text": "따라서 약을 쓰기 전에 수면 위생(sleep hygiene) 교육부터 시행합니다. **낮잠 피하기**, **일정한 시간에 일어나기** 같은 것입니다.",
+            "text": "잠이 안 온다고 술을 드시는 경우가 많은데, 알코올은 잠들기만 쉽게 할 뿐 수면을 조각내고 새벽에 일찍 깨게 하며 수면무호흡증까지 악화시킵니다.",
+            "origin": "both",
+            "slide_refs": [
+              25
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "진정수면제를 함부로 처방하면 전향성 기억상실, 낮 동안의 잔여 진정 작용, 반동성 불면이 생기고, 무엇보다 비틀거리다 넘어지는 {k|낙상과 골절} 위험이 커집니다. 그래서 약보다 수면 위생 교육이 먼저입니다. **낮잠 피하기**, **일정한 시간에 일어나기** 같은 것들입니다.",
             "origin": "both",
             "slide_refs": [
               25
@@ -3883,8 +3924,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "조현병이 40세 이후에 발병하면 만발성(late-onset), 60세 이후면 **최만발성**(very late-onset)이라고 합니다. 60대 이후 발병은 남성보다 **여성에게** 더 많습니다.",
+            "origin": "both",
             "slide_refs": [
               26
             ],
@@ -3892,7 +3933,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -3901,36 +3942,57 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "만발성 (late-onset)",
-                "40세 이후 발병"
-              ],
-              [
-                "최만발성 (very late-onset)",
-                "60세 이후 발병, 남성보다 여성에 많음"
-              ],
-              [
-                "특징",
-                "병전 기능 양호, 사고의 와해와 음성증상은 드묾\n피해망상(persecutory delusion)과 환각이 뚜렷"
-              ],
-              [
-                "치료 반응",
-                "소량의 항정신병약물에 반응이 좋음"
-              ],
-              [
-                "만발성 편집증 (paraphrenia)",
-                "치매와 무관하게 피해망상이 수년에 걸쳐 서서히 발생 (과거 용어)"
-              ]
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "젊은 조현병 환자와 달리 병전 기능이 양호하고 사고의 와해나 음성증상은 드뭅니다. 대신 {k|피해망상}(persecutory delusion)과 환각이 뚜렷합니다. 다행히 소량의 항정신병약물에 반응이 꽤 좋습니다.",
+            "origin": "both",
+            "slide_refs": [
+              26
             ],
-            "col_titles": [
-              "구분",
-              "내용"
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "{g|치매와 무관하게 노년기에 피해망상이 수년에 걸쳐 서서히 생기는 경우를 예전에는 만발성 편집증(paraphrenia)이라고 부르기도 했습니다.}",
+            "origin": "both",
+            "slide_refs": [
+              26
             ],
-            "col_widths": [
-              5.4,
-              12.0
-            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
@@ -3982,7 +4044,7 @@
             "diagram": null
           },
           {
-            "text": "우리나라 자살률은 나이가 올라갈수록 계단식으로 가파르게 치솟습니다. 80대 이상은 인구 10만 명당 70명에 육박합니다. 한국의 노인 자살률은 2위 국가와도 큰 격차가 나는 {k|압도적 1위}입니다.",
+            "text": "우리나라 자살률은 나이가 많을수록 계단식으로 가파르게 올라, 80대 이상은 인구 10만 명당 70명에 육박합니다. 한국의 노인 자살률은 2위 국가와도 큰 격차가 나는 {k|압도적 1위}입니다.",
             "origin": "both",
             "slide_refs": [
               27
@@ -4030,7 +4092,7 @@
             "diagram": null
           },
           {
-            "text": "오른쪽 막대처럼 노인 상대빈곤율도 압도적 1위입니다. 미국 교과서 번역서는 주원인을 신체 질병과 상실로만 씁니다. 우리나라 노인 자살에는 경제적 빈곤, 건강 악화, 외로움이 복합적으로 작용합니다.",
+            "text": "오른쪽 막대처럼 노인 상대빈곤율도 압도적 1위입니다. 미국 교과서 번역서에는 주원인이 신체 질병과 상실로만 나오지만, 우리나라 노인 자살에는 **경제적 빈곤, 건강 악화, 외로움**이 함께 작용합니다.",
             "origin": "both",
             "slide_refs": [
               27
@@ -4054,7 +4116,7 @@
             "diagram": null
           },
           {
-            "text": "노인은 **치명적인 방법**을 써서 한 번의 시도로 사망하는 비율이 매우 높습니다. 사망한 노인 대다수는 우울증이 있었는데도 정신과적 치료를 제대로 받지 못했습니다.",
+            "text": "노인은 치명적인 방법을 써서 한 번의 시도로 숨지는 비율이 매우 높습니다. 숨진 노인 대다수는 우울증이 있었는데도 정신과 치료를 제대로 받지 못했습니다.",
             "origin": "both",
             "slide_refs": [
               27
@@ -4078,7 +4140,7 @@
             "diagram": null
           },
           {
-            "text": "독거노인, 최근 배우자와 사별한 노인, 만성 통증이나 신체 질환이 있는 노인이 우울 증상을 보이면 {k|자살 위험성을 적극적으로 평가}하고 개입해야 합니다.",
+            "text": "그래서 독거노인, 최근 배우자와 사별한 노인, 만성 통증이나 신체 질환이 있는 노인이 우울해 보이면 {k|자살 위험성을 적극적으로 평가}하고 개입해야 합니다.",
             "origin": "both",
             "slide_refs": [
               27
@@ -4127,7 +4189,7 @@
       "sections": {
         "body": [
           {
-            "text": "노인은 간과 신장 기능이 떨어지고 지방 비율이 높습니다(Ⅲ-[5]). 그래서 약물 부작용이 잘 생기고, 대원칙은 {k|‘Start low, go slow’}입니다.",
+            "text": "노인은 간과 신장 기능이 떨어지고 지방 비율이 높아 약물 부작용이 잘 생깁니다(Ⅲ-[5]). 그래서 대원칙은 {k|‘Start low, go slow’}로, 일반 성인 용량의 **1/3~1/2**로 시작해 천천히 올립니다.",
             "origin": "both",
             "slide_refs": [
               28
@@ -4151,8 +4213,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "처방 전에는 심전도와 간·신장 기능 검사를 꼭 챙깁니다. 내과나 다른 병원에서 받은 약은 물론 일반의약품(OTC), 한약, 건강기능식품까지 전부 확인하세요. 다중약물요법(polypharmacy)으로 약물 상호작용 위험이 매우 높기 때문입니다.",
+            "origin": "both",
             "slide_refs": [
               28
             ],
@@ -4160,7 +4222,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -4169,32 +4231,33 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "용량",
-                "일반 성인 용량의 1/3~1/2로 시작해 천천히 증량"
-              ],
-              [
-                "처방 전 검사",
-                "심전도, 간·신장 기능 검사"
-              ],
-              [
-                "복용 약 파악",
-                "내과, 다른 병원의 약, 일반의약품(OTC), 한약, 건강기능식품까지\n→ 다중약물요법(polypharmacy)의 상호작용 위험"
-              ],
-              [
-                "순응도",
-                "기억력, 시력 저하로 잊거나 헷갈림\n→ 처방 단순화, 부작용 미리 설명"
-              ]
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "노인은 기억력이나 시력이 나빠 약 먹는 걸 잊거나 헷갈리기 쉬워 순응도가 떨어집니다. 처방은 최대한 단순하게 하고, 부작용은 미리 잘 설명해 둡니다.",
+            "origin": "both",
+            "slide_refs": [
+              28
             ],
-            "col_titles": [
-              "지침",
-              "내용"
-            ],
-            "col_widths": [
-              3.6,
-              13.8
-            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
@@ -4243,19 +4306,19 @@
             "rows": [
               [
                 "1. 항콜린성 약물 (anticholinergics)",
-                "구갈, 시야 흐림, 변비, 빈맥, 요저류(urinary retention)\n뇌: 인지기능 저하, 섬망\n(삼환계 항우울제, 일부 항정신병약, 감기약)"
+                "구갈, 시야 흐림, 변비, 빈맥, 요저류(urinary retention)\n뇌: {k|인지기능 저하, 섬망}\n(삼환계 항우울제, 일부 항정신병약, 감기약)"
               ],
               [
                 "2. 벤조디아제핀 (항불안제, 수면제)",
-                "혼동, 기억력 장애 같은 인지장애\n근육 이완, 진정 → 낙상(골절) 위험 증가"
+                "혼동, 기억력 장애 같은 인지장애\n근육 이완, 진정 → {k|낙상(골절)} 위험 증가"
               ],
               [
                 "3. 리튬 (lithium)",
-                "신장 배설 + 노인의 신기능 저하 + 좁은 치료역(therapeutic range)\n→ 조금만 과해도 리튬 독성"
+                "신장 배설 + 노인의 신기능 저하 + **좁은 치료역**(therapeutic range)\n→ 조금만 과해도 {k|리튬 독성}"
               ],
               [
                 "4. 항정신병약물",
-                "추체외로 증상(EPS), 지연성 운동장애(TD)가 젊은 사람보다 잘 생김\nclozapine: 무과립구증(agranulocytosis) 위험 증가"
+                "**추체외로 증상(EPS), 지연성 운동장애(TD)**가 젊은 사람보다 잘 생김\nclozapine: {k|무과립구증}(agranulocytosis) 위험 증가"
               ]
             ],
             "col_titles": [
@@ -4293,7 +4356,7 @@
       "sections": {
         "body": [
           {
-            "text": "노인 정신치료의 목표는 **상실이나 은퇴에 잘 적응**하고 **다가오는 죽음을 수용**하도록 돕는 것입니다. 치료자는 성인을 치료할 때보다 더 적극적이고 지지적이며 융통성을 발휘합니다.",
+            "text": "노인 정신치료의 목표는 **상실이나 은퇴에 잘 적응**하고 **다가오는 죽음을 받아들이도록** 돕는 것입니다. 치료자는 성인을 치료할 때보다 더 적극적이고 지지적이며 융통성 있게 움직여야 합니다.",
             "origin": "both",
             "slide_refs": [
               30
@@ -4317,50 +4380,7 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
-            "slide_refs": [
-              30
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "rows",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [
-              [
-                "프로이트",
-                "50세가 넘으면 정신작용의 유연성이 부족해 정신분석에 적합하지 않음 (비관적)"
-              ],
-              [
-                "칼 아브라함",
-                "실제 나이보다 신경증이 얼마나 오래되었는지가 중요"
-              ],
-              [
-                "칼 구스타프 융",
-                "중년기 이후 전 생애에 걸친 성격 발달 강조"
-              ]
-            ],
-            "col_titles": [
-              "학자",
-              "견해"
-            ],
-            "col_widths": [
-              3.6,
-              13.8
-            ],
-            "diagram": null
-          },
-          {
-            "text": "역동정신치료로 환자가 ‘내 인생은 완전히 실패했고 보상할 기회도 없다’는 절망적인 통찰만 얻게 된다면 {k|금기}입니다. 건전한 방어기제를 지지하는 방향으로 갑니다.",
+            "text": "학자들의 견해는 엇갈렸습니다. 프로이트는 50세가 넘으면 정신작용의 유연성이 부족해 정신분석에 적합하지 않다고 비관적으로 봤습니다. 반면 칼 아브라함은 실제 나이보다 **신경증이 얼마나 오래되었는지**가 중요하다고 했고, 칼 구스타프 융은 중년기 이후 전 생애에 걸친 성격 발달을 강조했습니다.",
             "origin": "both",
             "slide_refs": [
               30
@@ -4384,8 +4404,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "역동정신치료를 통해 환자가 ‘내 인생은 완전히 실패했고 이제 보상할 기회도 없다’는 절망적인 통찰만 얻는다면 역동정신치료는 {k|금기}입니다. 건전한 방어기제를 지지하는 쪽으로 가야 합니다.",
+            "origin": "both",
             "slide_refs": [
               30
             ],
@@ -4393,7 +4413,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "para",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -4402,32 +4422,105 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "인지행동치료 (CBT)",
-                "‘늙는 것은 약해지는 것이다’, ‘노인은 가족에게 짐이 되어선 안 된다’ 같은 왜곡된 사고를 찾아 교정"
-              ],
-              [
-                "대인관계치료 (IPT)",
-                "사별, 은퇴 후 무너진 사회적 네트워크 재건, 역할 변화 적응"
-              ],
-              [
-                "회상요법 (reminiscence therapy)",
-                "사진첩, 아끼던 물건, 옛 노래로 지난날을 돌아보며 이야기\n→ 인생의 의미, 자아통합감\n치매에서 인지기능은 못 올려도 우울 증상 개선 효과"
-              ],
-              [
-                "가족치료",
-                "가족의 부양 부담(caregiver burden) 이해와 지지\n부모 모시는 문제 등 가족 갈등 중재"
-              ]
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "① **인지행동치료(CBT)**: ‘늙는 것은 약해지는 것이다’, ‘노인은 가족에게 짐이 되어선 안 된다’ 같은 노인 특유의 왜곡된 생각을 찾아 고칩니다.",
+            "origin": "both",
+            "slide_refs": [
+              30
             ],
-            "col_titles": [
-              "치료 기법",
-              "내용"
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "② **대인관계치료(IPT)**: 배우자 사별이나 은퇴 뒤 무너진 사회적 네트워크를 다시 세우고 역할 변화에 적응하도록 돕습니다.",
+            "origin": "both",
+            "slide_refs": [
+              30
             ],
-            "col_widths": [
-              5.4,
-              12.0
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "③ **회상요법(reminiscence therapy)**: 노인 정신치료에서 아주 특징적인 방법입니다. 옛 사진첩, 아끼던 물건, 옛 노래를 매개로 지난날의 경험을 돌아보며 이야기를 나눕니다. 인생의 의미를 찾고 자아통합감을 느끼게 하며, 치매 환자의 인지기능은 못 올려도 {k|우울 증상 개선}에는 효과가 좋습니다.",
+            "origin": "both",
+            "slide_refs": [
+              30
             ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "④ **가족치료**: 노인을 돌보는 가족의 부양 부담(caregiver burden)을 이해하고 지지하며, 부모 모시는 문제 등으로 생기는 가족 갈등을 중재합니다.",
+            "origin": "both",
+            "slide_refs": [
+              30
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {

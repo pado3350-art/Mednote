@@ -141,7 +141,8 @@ def heading_form_issues(note: LectureNote, max_sections: int = MAX_SECTIONS, max
             out.append(("warning", "HEADING_SENTENCE", f"소절 제목 '{h}'이 문장형입니다 → 명사구로, 핵심 한 줄은 제목 뒤 ‘ : ’에(L28, L29)."))
         refs = {r for v in t.sections.values() for s in v for r in s.slide_refs if r < 1000}
         has_anchor = any(s.kind in ("rows", "figure", "diagram", "figure_side", "columns", "qa") for v in t.sections.values() for s in v)
-        if len(refs) <= 1 and not has_anchor:
+        chars = sum(len(re.sub(r"\{[a-z]\|([^}]*)\}", r"\1", x.text)) for v in t.sections.values() for x in v)
+        if len(refs) <= 1 and not has_anchor and chars < 300:  # one long ¶ (many slides) written out in prose is not thin
             out.append(("info", "THIN_SECTION", f"소절 '{h}'은 발화 1개뿐이고 표·그림도 없습니다 → 앞뒤 소절과 합칩니다(L27)."))
     if str(note.meta.get("long_lecture") or "").lower() in ("true", "yes", "1"):  # docs/long_lecture.md
         max_sections, max_per_chapter = max(max_sections, LONG_MAX_SECTIONS), max(max_per_chapter, LONG_MAX_PER_CHAPTER)

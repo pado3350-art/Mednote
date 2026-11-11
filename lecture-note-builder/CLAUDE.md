@@ -59,7 +59,7 @@
 잘 안 쓰는 한글 전문용어(핵군, 사이막핵, 뇌줄기, 후각계, 겉질 …)는 영어로 쓰거나 병기한다: `septal nuclei(사이막핵)`, `brainstem` (검증 `KOREAN_TERM_NO_ENGLISH`, 목록 `app/write/terms.py`, 강의별 추가 `meta.rare_terms`). 장·소절 제목은 쉼표로 키워드를 나열하거나 새로 압축한 말(‘입력·출력 경로’)을 쓰지 않고, 강의 속 표현으로 ‘~의 ~와 ~’ 명사구를 쓴다(`HEADING_KEYWORD_LIST`, 예: ‘편도체(amygdala)의 구조와 연결’).
 
 ## 레이아웃 v2 (L16–L18: 표 우선, 강의의 질문 단위, 한 쪽 한 앵커)
-`mom_mixed.yaml` 기본: 본문 10.5pt, 핵심 한 줄은 소절 제목 뒤(`basics_style: inline`, L29; 예전 `band`), 개념 Check는 장 끝에 모음(`checks_where: chapter`), 장마다 새 쪽(`chapter_page_break`) + 그림 중심 소절 새 쪽(`Topic.new_page`). 새 문장 종류 `rows`(라벨 | 한 줄 → 결론 표; 작은 표는 한 쪽에 붙음), `qa`(강의의 질문 노란 상자 + A. 한 줄). 나열형은 표로(`LIST_NOT_TABLE`), 큰 슬라이드 그림은 `figure`로 쪽 첫머리에. 근거 `outputs/abx/review_vs_MOM.md` 8절, 예 `examples/abx_note.py`, 스킬 0e. 사소한 녹취 영어는 `meta.omitted_terms`로 뺀다(괄호를 끼워 넣지 않는다). **v2.1**(review 10절): 상자형 표지(`cover_style: box`), 장 29자·소절 44자 제목, 문단 3줄, 핵심 답 62자, 장당 Check 2개, 소절은 새 쪽 없이 이어 붙임(장 시작만 새 쪽). 검사 `HEADING_TOO_LONG`·`PARAGRAPH_TOO_LONG`·`COLOUR_IN_PARAGRAPH`·`BASICS_TOO_LONG`·`TABLE_ORPHAN`·`CHECK_TOO_MANY`. **문체(L19–L21)**: 표 칸은 개조식(명사형, ‘-음/-함’), 개념 Check는 기출이 있는 소절에만, 요약 쪽은 그 주제의 그림 포함(`TABLE_CELL_STYLE`, `CHECK_NO_PAD`). 알려진 한계: 샌드박스 PDF에는 한글 굵은 글꼴이 없어 한글 굵게가 안 보인다(Word 파일은 정상).
+`mom_mixed.yaml` 기본: 본문 10.5pt, 핵심 한 줄은 소절 제목 뒤(`basics_style: inline`, L29; 예전 `band`), 개념 Check는 장 끝에 모음(`checks_where: chapter`), 장마다 새 쪽(`chapter_page_break`) + 그림 중심 소절 새 쪽(`Topic.new_page`). 새 문장 종류 `rows`(라벨 | 한 줄 → 결론 표; 작은 표는 한 쪽에 붙음), `qa`(강의의 질문 노란 상자 + A. 한 줄). 나열형은 비교 대상이 분명할 때만 표, 아니면 ① 라벨 줄(L41이 L16을 대신함, `TABLE_NOT_COMPARISON`), 큰 슬라이드 그림은 `figure`로 쪽 첫머리에. 근거 `outputs/abx/review_vs_MOM.md` 8절, 예 `examples/abx_note.py`, 스킬 0e. 사소한 녹취 영어는 `meta.omitted_terms`로 뺀다(괄호를 끼워 넣지 않는다). **v2.1**(review 10절): 상자형 표지(`cover_style: box`), 장 29자·소절 44자 제목, 문단 3줄, 핵심 답 62자, 장당 Check 2개, 소절은 새 쪽 없이 이어 붙임(장 시작만 새 쪽). 검사 `HEADING_TOO_LONG`·`PARAGRAPH_TOO_LONG`·`COLOUR_IN_PARAGRAPH`·`BASICS_TOO_LONG`·`TABLE_ORPHAN`·`CHECK_TOO_MANY`. **문체(L19–L21)**: 표 칸은 개조식(명사형, ‘-음/-함’), 개념 Check는 기출이 있는 소절에만, 요약 쪽은 그 주제의 그림 포함(`TABLE_CELL_STYLE`, `CHECK_NO_PAD`). 알려진 한계: 샌드박스 PDF에는 한글 굵은 글꼴이 없어 한글 굵게가 안 보인다(Word 파일은 정상).
 
 ## MOM 근접 루프 (스킬 `mom-closeness-loop`, 명령 `/mom-loop`)
 사람 MOM과 같은 쪽 단위로 비교하며 반복 개선한다. 측정 `python -m app.cli compare-mom <MOM.pdf> <노트.pdf> --note note.json`(쪽 채움, 쪽당 글자, 글자 크기, 잉크, 표 칸 문체, 제목 길이, 기출 없는 Check → 남은 차이 목록, `app/design/mom_compare.py`). 절차·점검표·멈춤 조건·재현 방법·함정은 스킬과 `references/loop_findings.md`. MOM 글은 비교 전용(생성엔 이미지만), 승인 없는 규칙은 저장하지 않고, 푸시는 종료 코드로 확인한다.
@@ -98,3 +98,6 @@
 
 ## 한국어 윤문 3종 (docs/korean_polish.md)
 노트·PAD 해설을 다 쓴 뒤 빌드 전에 `grammar-checker` → `style-guide` → `humanizer`를 순서대로 적용한다(daleseo/korean-skills, `.agents/skills/`). 프로젝트 규칙(L1–L34, 합니다체, 표 칸 개조식, 교수님 강조, 가운뎃점·숫자 표기, 파랑 = PAD 전용)이 항상 우선이고, 사실·수치·용어는 바꾸지 않는다.
+
+## 표·줄글·작업 순서 (L41–L44, docs/WORKFLOW.md)
+표는 비교 대상이 분명하고 모든 항목이 중요할 때만(`TABLE_NOT_COMPARISON`), 표 안의 대비·헷갈리는 칸은 굵게/`{k|…}`(`TABLE_NO_EMPHASIS`). 줄글은 writing skill(my-writing-style → grammar-checker → style-guide → humanizer)로 다시 짜되 사실은 모두 남긴다. 순서는 **내용 정리 → 1차 빌드 → humanize → 최종 빌드**.
