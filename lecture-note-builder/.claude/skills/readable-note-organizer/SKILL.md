@@ -100,6 +100,13 @@ The reference is `references/excellent_example.md` (a high-rated MOM note for th
 ## 0f. 제목 체계 (L27–L29) — 사람 정리본「사시」에서
 장 `Ⅰ.` = 강의의 큰 부분 3–5개, 소절 `[1]` = **짧은 명사구**(장당 6개·전체 12개 이하), 세부 항목은 제목 블록이 아니라 본문 굵은 라벨 줄 `**1. 정상 동공**`. 질문형(‘~나?’)·문장형(‘~다’) 소절 제목 금지 — 교수님이 던진 질문은 qa 상자. 핵심 한 줄은 `basics`에 쓰면 `[n] 제목 : 핵심 한 줄`로 제목 옆에 붙는다. 강조 소절은 `mark: "★"`(정보 꼬리표는 ‘국시 출제’처럼). 상세 `docs/design_headings.md`. 아래 0c의 ‘질문형 제목’은 이 규칙으로 바뀌었다.
 
+## 0g. 정리본 형식 (L30–L34) — 사람 정리본「사시」에서
+- **표지**: 작성자 코멘트(난이도 총평, 공부 팁, 응원) → 목차 → `[강조점 세가지]`(`meta.points`: 굵은 줄 = 강조점, `- ` = 하위). **마지막 장**: `Take home messages`(role=closing; `1. 핵심 = 요약★` 줄들).
+- **번호**: `Ⅰ.` → `[1]` → `(1) 라벨 = 핵심★`(kind=sub) → `①`/`1.`/`1-1)`.
+- **상자**(kind=callout): `[작성자 추가설명]` 어려운 기전을 일상 비유로(‘짝꿍이 되는 점’, 작성자 말임, 원문에 없는 사실 금지), `[작성자가 헷갈려서 정리]` 구분 요약, `[잠깐 정리하고 가기]` 중간 요약, `[막간 퀴즈]`는 qa 상자.
+- **PPT가 있을 때만**: 수업에서 넘어간 PPT 내용 `(PPT, 언급X)`/`(아래는 설명X)`, 구두로만 한 말 `[ppt에는 없는 여담 - 소제목]`, 슬라이드 글 보충 `[Ppt 내용 추가]`. 스크립트만 있으면 쓰지 않는다.
+- **말투**: 정의·인과는 `=`/`→`, 핵심어 `★`, 구어체 경어(~하네요, ~기억하세요!), 교수님 반응은 문장 끝에. 파랑은 PAD 전용(용어 강조에 쓰지 않는다).
+
 ## 0c. 혼합형 = 기본 (L10, `templates/mom_mixed.yaml`) — 사람 MOM 3건에서 배운 서술
 분석: `docs/mixed_style_analysis.md`. 적용 예: `examples/stemcell_mixed_note.py`, 비교 `outputs/stemcell_mixed/compare_three_versions.md`.
 소절마다 `style`을 정한다(`prepare`의 `brief/style_plan.md`가 ¶별로 제안). 검증: `MIXED_STYLE_MISSING`, `EXPLAIN_NO_ANSWER`, `EXPLAIN_TOO_LISTY`, `LIST_NO_SUMMARY`, `MIXED_ONE_STYLE`.

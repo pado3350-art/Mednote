@@ -59,10 +59,10 @@ def _statement(doc: Document, st: Statement, tpl: Template, lecturer: bool, note
 
         _figure(doc, st, tpl)
         return
-    if st.kind in ("rows", "qa"):
-        from .export_mom import _qa_box, _rows_table
+    if st.kind in ("rows", "qa", "callout", "sub"):
+        from .export_mom import _callout_box, _qa_box, _rows_table, _sub_line
 
-        {"rows": _rows_table, "qa": _qa_box}[st.kind](doc, st, tpl)
+        {"rows": _rows_table, "qa": _qa_box, "callout": _callout_box, "sub": _sub_line}[st.kind](doc, st, tpl)
         return
     if st.kind in ("figure_side", "columns", "concept", "check"):
         from .export_mom import _check_box, _columns_box, _concept_box, _figure_side
@@ -197,7 +197,7 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
     out = Path(out_path)
     L = [f"# {note.title}", ""]
     if tpl.format.layout == "mom":
-        for key, label in (("comment", "작성자 코멘트"), ("tips", "먼저 볼 내용"), ("objectives", "학습목표")):
+        for key, label in (("comment", "작성자 코멘트"), ("tips", "먼저 볼 내용"), ("points", "강조점"), ("objectives", "학습목표")):
             lines = note.meta.get(key, "").splitlines()
             if lines:
                 L += [f"**{label}**", "", *[f"- {_md(line)}" for line in lines if line.strip()], ""]
@@ -275,6 +275,12 @@ def export_markdown(note: LectureNote, tpl: Template, out_path: str | Path) -> P
                 if st.kind == "qa":
                     L.append(f"> **{_md(st.left_title)}** {_md(st.text)}")
                     L += [f"- A. {_md(x)}" if k == 0 else f"  {_md(x)}" for k, x in enumerate(st.left)]
+                    continue
+                if st.kind == "callout":
+                    body_lines += ["", f"> **[{_md(st.left_title)}]**"] + [f"> {_md(x)}" for x in st.left] + [""]
+                    continue
+                if st.kind == "sub":
+                    body_lines += ["", f"**{_md(st.text)}**", ""]
                     continue
                 if st.kind == "check":
                     body_lines.append(f"- **개념 Check** {_md(st.text)} (O, X) → {st.answer}" + (f" — {_md(st.explanations[0])}" if st.explanations else ""))

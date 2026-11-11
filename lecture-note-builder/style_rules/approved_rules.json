@@ -1,6 +1,6 @@
 {
-  "store_version": 32,
-  "updated": "2026-11-11T09:41:04",
+  "store_version": 37,
+  "updated": "2026-11-11T10:11:45",
   "rules": [
     {
       "id": "L1",
@@ -1037,6 +1037,176 @@
       "approved_at": "2026-11-11T09:41:04",
       "history": [
         "v1 2026-11-11T09:41:04: 승인 (사용자 지시 ‘소제목(§ 5) 등이 너무 남발되고 문장형, 질문형이라 가독성이 떨어져. 디자인 subsection에서 첨부한 유사 강의 정리본을 참고해서 규칙을 세워줘’ (2026-11-11). 근거: 정리본 「사시」(박신혜 교수님) 제목 체계, docs/design_headings.md)"
+      ]
+    },
+    {
+      "id": "L30",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "고정 구성: 표지는 ‘작성자 코멘트 → 목차 → [강조점 세가지]’(meta.points, 교수님이 가장 강조한 2~4개를 굵게 + 하위 항목), 본문 마지막은 ‘Take home messages’ 장(role=closing: 핵심 요약 + ★ 재강조)으로 닫는다.",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "표지: 코멘트 + 목차 / 본문이 마지막 소절에서 끝남",
+          "after": "코멘트 → 목차 → [강조점 세가지] … Ⅳ. Take home messages",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시 ‘위 파일(사시 정리본)의 디자인 형식 역시 따르도록 현재 적용된 디자인 규칙 수정해’ + 첨부 분석 예시 (2026-11-11). 근거: 정리본 「사시」, docs/design_mom_format.md",
+          "original": "신경안과 노트",
+          "edited": "정리본 사시",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-11T10:11:45"
+        }
+      ],
+      "signal": "mom_fixed_skeleton",
+      "note": "",
+      "approved_at": "2026-11-11T10:11:45",
+      "history": [
+        "v1 2026-11-11T10:11:45: 승인 (사용자 지시 ‘위 파일(사시 정리본)의 디자인 형식 역시 따르도록 현재 적용된 디자인 규칙 수정해’ + 첨부 분석 예시 (2026-11-11). 근거: 정리본 「사시」, docs/design_mom_format.md)"
+      ]
+    },
+    {
+      "id": "L31",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "번호 위계는 ‘Ⅰ. 장 → [1] 소절 → (1) 소소제목 줄 → ① / 1. / 1-1) 라벨 줄’이다. (1) 줄은 제목 블록이 아니라 소절 안의 한 줄(kind=sub)로, ‘(1) 정상 안구 정렬 = bifoveal fixation★’처럼 라벨 뒤에 = 또는 : 로 핵심을 붙이고 라벨만 초록으로 표시한다.",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "**1. 정상 동공** (굵은 문단)",
+          "after": "(1) 정상 동공 = round, 양안 비슷한 크기★",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시 ‘위 파일(사시 정리본)의 디자인 형식 역시 따르도록 현재 적용된 디자인 규칙 수정해’ + 첨부 분석 예시 (2026-11-11). 근거: 정리본 「사시」, docs/design_mom_format.md",
+          "original": "신경안과 노트",
+          "edited": "정리본 사시",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-11T10:11:45"
+        }
+      ],
+      "signal": "sub_heading_line",
+      "note": "",
+      "approved_at": "2026-11-11T10:11:45",
+      "history": [
+        "v1 2026-11-11T10:11:45: 승인 (사용자 지시 ‘위 파일(사시 정리본)의 디자인 형식 역시 따르도록 현재 적용된 디자인 규칙 수정해’ + 첨부 분석 예시 (2026-11-11). 근거: 정리본 「사시」, docs/design_mom_format.md)"
+      ]
+    },
+    {
+      "id": "L32",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "PPT와 스크립트를 대조해 출처를 표시한다(슬라이드 글이 있을 때만): PPT에만 있고 수업에서 넘어간 내용은 문장 끝에 ‘(PPT, 언급X)’ 또는 ‘(아래는 설명X)’, PPT에 없는 구두 설명은 [ppt에는 없는 여담 - 소제목] 상자, 슬라이드 글을 보충할 때는 [Ppt 내용 추가] 상자로 분리한다. 중요도가 낮아 보이는 내용은 ‘(~는 중요하지 않아 보입니다)’ 괄호 코멘트. 스크립트만 있는 강의에서는 이 표시를 쓰지 않는다.",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "슬라이드 글과 구두 설명이 한 문단에 섞임",
+          "after": "… (PPT, 언급X) / [ppt에는 없는 여담 - 사시는 왜 생길까?] 상자",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시 ‘위 파일(사시 정리본)의 디자인 형식 역시 따르도록 현재 적용된 디자인 규칙 수정해’ + 첨부 분석 예시 (2026-11-11). 근거: 정리본 「사시」, docs/design_mom_format.md",
+          "original": "신경안과 노트",
+          "edited": "정리본 사시",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-11T10:11:45"
+        }
+      ],
+      "signal": "ppt_script_tags",
+      "note": "",
+      "approved_at": "2026-11-11T10:11:45",
+      "history": [
+        "v1 2026-11-11T10:11:45: 승인 (사용자 지시 ‘위 파일(사시 정리본)의 디자인 형식 역시 따르도록 현재 적용된 디자인 규칙 수정해’ + 첨부 분석 예시 (2026-11-11). 근거: 정리본 「사시」, docs/design_mom_format.md)"
+      ]
+    },
+    {
+      "id": "L33",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "콜아웃 상자를 적재적소에 둔다(kind=callout, 얇은 검은 테두리 + 대괄호 제목): [작성자 추가설명] = 어려운 기전을 일상 비유로 풀기(‘짝꿍이 되는 점’; 작성자 말임을 밝힘), [작성자가 헷갈려서 정리] = 헷갈리는 구분 요약, [잠깐 정리하고 가기] = 장 중간 요약, [막간 퀴즈] = 교수님 퀴즈 또는 흔한 오개념 Q&A(qa 상자). 비유는 원문에 없는 사실을 만들지 않는다.",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "기전 설명이 문단으로만 이어짐",
+          "after": "[작성자 추가설명] 동공 반사는 ‘카메라 조리개를 자동으로 조이는 회로’…",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시 ‘위 파일(사시 정리본)의 디자인 형식 역시 따르도록 현재 적용된 디자인 규칙 수정해’ + 첨부 분석 예시 (2026-11-11). 근거: 정리본 「사시」, docs/design_mom_format.md",
+          "original": "신경안과 노트",
+          "edited": "정리본 사시",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-11T10:11:45"
+        }
+      ],
+      "signal": "callout_boxes",
+      "note": "",
+      "approved_at": "2026-11-11T10:11:45",
+      "history": [
+        "v1 2026-11-11T10:11:45: 승인 (사용자 지시 ‘위 파일(사시 정리본)의 디자인 형식 역시 따르도록 현재 적용된 디자인 규칙 수정해’ + 첨부 분석 예시 (2026-11-11). 근거: 정리본 「사시」, docs/design_mom_format.md)"
+      ]
+    },
+    {
+      "id": "L34",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "style",
+      "rule": "문장 부호: 정의와 인과는 =, →로 압축하고(‘① 각각의 눈이 선명하게 본다 = Clearly’), 반드시 알아야 할 핵심어 옆에 ★을 붙인다. 구어체 경어(~합니다, ~하네요, ~기억하세요!)를 쓰고 교수님의 실제 반응은 문장 끝에 녹인다(‘짧게 설명하고 넘어가셨습니다’, ‘처음에도 강조하셨죠’). 파랑은 계속 기출(PAD) 전용이라 용어 강조에 쓰지 않는다.",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "정상 안구 정렬은 bifoveal fixation이라고 합니다.",
+          "after": "(1) 정상 안구 정렬 = bifoveal fixation★",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시 ‘위 파일(사시 정리본)의 디자인 형식 역시 따르도록 현재 적용된 디자인 규칙 수정해’ + 첨부 분석 예시 (2026-11-11). 근거: 정리본 「사시」, docs/design_mom_format.md",
+          "original": "신경안과 노트",
+          "edited": "정리본 사시",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-11T10:11:45"
+        }
+      ],
+      "signal": "symbols_and_tone",
+      "note": "",
+      "approved_at": "2026-11-11T10:11:45",
+      "history": [
+        "v1 2026-11-11T10:11:45: 승인 (사용자 지시 ‘위 파일(사시 정리본)의 디자인 형식 역시 따르도록 현재 적용된 디자인 규칙 수정해’ + 첨부 분석 예시 (2026-11-11). 근거: 정리본 「사시」, docs/design_mom_format.md)"
       ]
     }
   ]

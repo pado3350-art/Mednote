@@ -149,6 +149,8 @@ def validate(
                     continue
                 if st.kind == "star":  # short sub-headings carry no claim
                     continue
+                if t.role == "closing" or st.kind == "callout":  # a recap of the whole lecture / the writer's own box (L30, L33)
+                    continue
                 source = " ".join(
                     [by_slide[r].plain_text() for r in st.slide_refs]
                     + [seg_text.get(i, "") for i in st.segment_ids]
@@ -245,10 +247,11 @@ def validate(
             rep.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
 
     # 4c-3b. Uncommon Korean terms need English (approved rule L25)
+    from .mom_format import format_issues
     from .storyline import heading_form_issues, keyword_heading_issues
     from .terms import term_issues
 
-    for sev, code, msg in term_issues(note) + keyword_heading_issues(note) + heading_form_issues(note):
+    for sev, code, msg in term_issues(note) + keyword_heading_issues(note) + heading_form_issues(note) + format_issues(note):
         rep.issues.append(Issue(severity=sev, code=code, slide=None, message=msg))
 
     # 4c-4. Concept boxes are drawn, not only written (L15): slide picture first, else a program schematic

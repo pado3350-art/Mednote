@@ -96,7 +96,7 @@ class Statement(BaseModel):
     # red is `emphasis`. Blue requires a PAD (기출) source ref -> see validate_notes.
     tag: Literal["normal", "exam", "exam_other", "minor", "verify"] = "normal"
     # Layout role: paragraph, "-" bullet, "★" sub-heading, or an Advice / Reference call-out.
-    kind: Literal["para", "bullet", "star", "advice", "reference", "figure", "diagram", "row2", "quiz", "figure_side", "columns", "check", "concept", "rows", "qa"] = "para"
+    kind: Literal["para", "bullet", "star", "advice", "reference", "figure", "diagram", "row2", "quiz", "figure_side", "columns", "check", "concept", "rows", "qa", "callout", "sub"] = "para"
     level: int = 0
     image: str = ""  # kind == "figure"/"diagram": picture path (text = caption)
     # kind == "row2": one row of the two-column "slide table" (left = slide / English original, right = explanation in `text`)
@@ -119,6 +119,10 @@ class Statement(BaseModel):
     # kind == "columns": parallel items side by side; `diagram.groups` = one column each (title + lines)
     # kind == "rows": a table (L16): `rows` = [[label, cell, ...], ...] (cell text: markup, "\n" = new line, "- " = bullet,
     #   "→ x" lines are plain), `col_titles` = optional header row, `col_widths` = optional widths in cm
+    # kind == "callout" (L33): a thin-ruled box with a bracketed title - `left_title` = "작성자 추가설명" / "작성자가 헷갈려서 정리" /
+    #   "잠깐 정리하고 가기" / "ppt에는 없는 여담 - 소제목" / "Ppt 내용 추가", `left` = body lines (markup, "- " = bullet)
+    # kind == "sub" (L31): the (1) / (2) sub-heading LINE inside a §: green-marked label before " = " / " : ", rest bold, e.g.
+    #   "(1) 정상 안구 정렬 = bifoveal fixation★"
     # kind == "qa": the lecturer's own question in a yellow box (`left_title` = "질문1" / "역질문2", `text` = the question)
     #   followed by the answer lines in `left` ("A. ...")
 
@@ -126,7 +130,7 @@ class Statement(BaseModel):
 class Topic(BaseModel):
     heading: str
     chapter: str = ""  # chapter title (no number); topics sharing it are grouped as "§ 1, § 2 ..."
-    role: Literal["body", "front"] = "body"  # front = 핵심 어휘 / 요약 정리 pages (not in the TOC)
+    role: Literal["body", "front", "closing"] = "body"  # front = 요약 pages (not in the TOC); closing = "Take home messages" chapter (L30)
     basics_title: str = ""  # 기본정석 box title
     basics: list[str] = Field(default_factory=list)  # 기본정석 box: 2-4 core points of the §
     basics_refs: list[int] = Field(default_factory=list)  # sources of the box; PAD units here allow BLUE inside it

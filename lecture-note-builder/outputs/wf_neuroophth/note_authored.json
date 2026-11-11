@@ -705,7 +705,7 @@
             "diagram": null
           },
           {
-            "text": "**1. 정상 동공**",
+            "text": "(1) 정상 동공 = round, 양안 비슷한 크기★",
             "origin": "both",
             "slide_refs": [
               10
@@ -714,7 +714,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "para",
+            "kind": "sub",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -776,7 +776,7 @@
             "diagram": null
           },
           {
-            "text": "**2. 동공 반사의 경로**",
+            "text": "(2) 동공 반사의 경로 = afferent CN 2 → midbrain → efferent CN 3",
             "origin": "both",
             "slide_refs": [
               11
@@ -785,7 +785,7 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "para",
+            "kind": "sub",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -922,6 +922,34 @@
             }
           },
           {
+            "text": "",
+            "origin": "both",
+            "slide_refs": [
+              11,
+              12
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "callout",
+            "level": 0,
+            "image": "",
+            "left_title": "작성자 추가설명",
+            "left": [
+              "동공 반사는 ‘카메라 조리개를 자동으로 조이는 회로’라고 생각하면 편합니다. 빛 센서(망막 → CN 2)가 신호를 midbrain의 중계소(pretectal nucleus)로 보내고, 조리개 모터(CN 3 → sphincter pupillae)가 양쪽 조리개를 함께 조입니다.",
+              "중계소에서 양쪽으로 신호가 나가기 때문에 한쪽에만 빛을 비춰도 두 동공이 같이 줄어듭니다."
+            ],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "반사궁의 핵심은 midbrain의 pretectal nucleus이고, 여기서 CN 3 핵 중 Edinger-Westphal nucleus로, 다시 부교감신경 지배를 받는 ciliary ganglion을 거쳐 동공조임근(sphincter pupillae muscle)에 도달해 동공이 수축합니다.",
             "origin": "both",
             "slide_refs": [
@@ -960,7 +988,7 @@
             "kind": "qa",
             "level": 0,
             "image": "",
-            "left_title": "깜짝 퀴즈",
+            "left_title": "막간 퀴즈",
             "left": [
               "양안입니다. optic chiasm에서 nasal·temporal 신호가 양쪽으로 다 전달되고, midbrain의 pretectal nucleus에서 Edinger-Westphal nucleus로 가는 과정에서도 양쪽으로 전달되기 때문입니다."
             ],
@@ -1667,6 +1695,34 @@
               4.8,
               12.6
             ],
+            "diagram": null
+          },
+          {
+            "text": "",
+            "origin": "both",
+            "slide_refs": [
+              31
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "callout",
+            "level": 0,
+            "image": "",
+            "left_title": "작성자가 헷갈려서 정리",
+            "left": [
+              "nasal(코쪽) 망막 = 교차 / temporal(귀쪽) 망막 = 교차 안 함",
+              "- 그래서 chiasm 병변은 교차하는 nasal 섬유만 끊겨 양쪽 이측(귀쪽) 시야가 사라집니다(bitemporal hemianopia).",
+              "- optic tract 이후는 양쪽 눈의 같은 쪽 시야가 함께 사라집니다(homonymous hemianopia)."
+            ],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
@@ -2523,6 +2579,35 @@
             "diagram": null
           },
           {
+            "text": "",
+            "origin": "both",
+            "slide_refs": [
+              52,
+              53
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "callout",
+            "level": 0,
+            "image": "",
+            "left_title": "잠깐 정리하고 가기 - 복시 환자의 접근",
+            "left": [
+              "1. 복시 = CN 3, 4, 6 또는 gaze 연결(MLF)의 이상★",
+              "2. CN 3 마비 + 동공 확대 = 뇌혈관 영상(MRA/CTA)★",
+              "3. 성인에서 갑자기 생긴 복시 = 뇌종양, 뇌동맥류 가능성을 두고 신경학적 워크업"
+            ],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "복시는 뇌종양이나 생명을 위협하는 뇌동맥류의 첫 증상일 수 있으므로, 안과적 임상 양상과 동반 증상으로 뇌의 어느 수준에 어떤 병변이 의심되는지, 어떤 검사가 필요한지 알고 있어야 합니다.",
             "origin": "both",
             "slide_refs": [
@@ -2600,6 +2685,168 @@
       "images": [],
       "review_flags": [],
       "style": "explain"
+    },
+    {
+      "heading": "Take home messages",
+      "chapter": "",
+      "role": "closing",
+      "basics_title": "Take home messages",
+      "basics": [],
+      "basics_refs": [],
+      "mark": "",
+      "new_page": false,
+      "tip": "",
+      "slide_numbers": [
+        6,
+        7,
+        9,
+        18,
+        26,
+        28,
+        30,
+        31,
+        39,
+        45,
+        48,
+        52,
+        53
+      ],
+      "sections": {
+        "body": [
+          {
+            "text": "1. 시신경 평가 = 안저만으로 부족, 동공 반응(RAPD)이 가장 중요★",
+            "origin": "both",
+            "slide_refs": [
+              6,
+              7,
+              9,
+              18
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "sub",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "2. 양안 시신경 부종 = papilledema, 뇌압 상승부터 의심★",
+            "origin": "both",
+            "slide_refs": [
+              26,
+              28
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "sub",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "3. 시야 결손 = 병변 위치를 알려 줌 (chiasm → 양이측 반맹, tract 이후 → 동측 반맹)",
+            "origin": "both",
+            "slide_refs": [
+              30,
+              31
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "sub",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "4. 복시 = CN 3, 4, 6 또는 MLF의 이상, gaze 이상은 국시 출제★",
+            "origin": "both",
+            "slide_refs": [
+              39,
+              45,
+              48
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "sub",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "5. CN 3 마비 + 동공 확대 = 뇌혈관 영상 필수★",
+            "origin": "both",
+            "slide_refs": [
+              52,
+              53
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "sub",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          }
+        ]
+      },
+      "tables": [],
+      "images": [],
+      "review_flags": [],
+      "style": ""
     }
   ]
 }

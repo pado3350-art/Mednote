@@ -10,7 +10,7 @@ PAD 파일 ─▶ ③ PAD (app/pad) ──────────┘ (파랑 �
 | 섹션 | 하는 일 | 모듈 | 산출물 |
 |---|---|---|---|
 | ① 쓰기 | 스크립트를 나눠 전체 내용을 이해하기 쉬운 정리글로 쓴다(top-down 스토리라인, 혼합형 문체 L1–L24, 근거 검증) | `transcript` `material` `align_content` `outline` `storyline` `prepare` `generate_notes` `offline_organizer` `mixed` `validate_notes` `feedback` `docx_diff` | `note.json`, `storyline.md`, `validation_report.md` |
-| ② 디자인 | 정리글 + 이미지를 엮어 문서로 디자인한다(그림 배치, 도식, 표, 요약 쪽, 표지, PDF, 제목 체계 `Ⅰ.`/`[1]` — `docs/design_headings.md`) | `extract_slides` `figures` `diagrams` `export_mom` `export_docx` `pdf_render` `mom_compare` | `*_강의록.docx/.pdf/.md` |
+| ② 디자인 | 정리글 + 이미지를 엮어 문서로 디자인한다(그림 배치, 도식, 표, 요약 쪽, 표지, PDF, 제목 체계 `Ⅰ.`/`[1]` — `docs/design_headings.md`, 고정 구성·콜아웃 — `docs/design_mom_format.md`) | `extract_slides` `figures` `diagrams` `export_mom` `export_docx` `pdf_render` `mom_compare` | `*_강의록.docx/.pdf/.md` |
 | ③ PAD | PAD 파일로 파랑을 칠하고(문장 ↔ 기출 대응), 새 PAD 파일에 이번 스크립트 기준 해설을 쓴다 | `exam` `pad_match` `explain` | `*_PAD해설.md/.docx` |
 
 경계 규칙

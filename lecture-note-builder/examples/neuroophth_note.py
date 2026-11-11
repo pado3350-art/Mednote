@@ -9,7 +9,7 @@ Run:  python -m examples.neuroophth_note > outputs/wf_neuroophth/note_authored.j
 from app.models import Arrow, Diagram, Group
 from examples.abx_note import DFULL, EX, LS, P, QA, ROWS
 from examples.authoring import T, dump
-from examples.stemcell_note import MEMO
+from examples.stemcell_note import MEMO, _st
 
 # heading system of the human MOM (L27-L29): 3 parts of the lecture (¶2, ¶29, ¶37), about ten noun-phrase sections
 CH1 = "시신경과 시신경병증"
@@ -89,14 +89,14 @@ def build():
     ]))
     pupil = EX("동공 반사", CH1, "afferent는 CN 2, efferent는 CN 3이고 midbrain 수준의 반사궁입니다.", [
         P("{r|동공 반응 검사는 시신경 이상을 평가하는 가장 중요한 검사 중 하나라고 강조하셨습니다.}", [7, 9]),
-        P("**1. 정상 동공**", [10]),
+        _st("sub", "(1) 정상 동공 = round, 양안 비슷한 크기★", [10]),
         ROWS([
             ["정상 모양", "round, 양안 크기가 비슷함, 약 2~3mm"],
             ["조절", "동공을 이완·수축시키는 근육이 각각 교감신경·부교감신경 지배\n의식하지 않아도 균형이 맞춰짐"],
             ["역할", "눈에 들어오는 빛의 양을 조절하는 조리개"],
             ["병적 기준", "양쪽 동공 크기 차이 0.3mm 이상이면 병적으로 간주하기도 함"],
         ], col_titles=["구분", "내용"], col_widths=[3.6, 13.8], g=[10]),
-        P("**2. 동공 반사의 경로**", [11]),
+        _st("sub", "(2) 동공 반사의 경로 = afferent CN 2 → midbrain → efferent CN 3", [11]),
         P("동공 반사는 눈에 빛을 비추었을 때 즉시 동공이 수축하는 반응입니다. 빛은 망막의 nasal(코쪽)과 temporal(귀쪽) 신경절 세포로 받아들이고, "
           "nasal 쪽 자극은 optic chiasm에서 반대편으로, temporal 쪽 자극은 교차하지 않고 같은 쪽으로 전달됩니다.", [11]),
         DFULL("동공 반사의 경로: afferent는 CN 2, efferent는 CN 3", Diagram(kind="flow", size="full", groups=[
@@ -106,9 +106,12 @@ def build():
             Group(title="Edinger-Westphal nucleus", color="amber", items=["CN 3 핵 중 하나", "efferent (CN 3)"]),
             Group(title="ciliary ganglion → sphincter pupillae", color="teal", items=["부교감 지배", "동공 수축"]),
         ], arrows=[Arrow(src=i, dst=i + 1, label="") for i in range(4)]), [11]),
+        _st("callout", "", [11, 12], left_title="작성자 추가설명",
+            left=["동공 반사는 ‘카메라 조리개를 자동으로 조이는 회로’라고 생각하면 편합니다. 빛 센서(망막 → CN 2)가 신호를 midbrain의 중계소(pretectal nucleus)로 보내고, 조리개 모터(CN 3 → sphincter pupillae)가 양쪽 조리개를 함께 조입니다.",
+                  "중계소에서 양쪽으로 신호가 나가기 때문에 한쪽에만 빛을 비춰도 두 동공이 같이 줄어듭니다."]),
         P("반사궁의 핵심은 midbrain의 pretectal nucleus이고, 여기서 CN 3 핵 중 Edinger-Westphal nucleus로, 다시 부교감신경 지배를 받는 ciliary ganglion을 거쳐 "
           "동공조임근(sphincter pupillae muscle)에 도달해 동공이 수축합니다.", [11, 12]),
-        QA("깜짝 퀴즈", "우안에 불빛을 비추면 어느 쪽 눈의 동공이 줄어들까? 우안, 좌안, 양안 중에 해부학적으로 설명해 보자.",
+        QA("막간 퀴즈", "우안에 불빛을 비추면 어느 쪽 눈의 동공이 줄어들까? 우안, 좌안, 양안 중에 해부학적으로 설명해 보자.",
            ["양안입니다. optic chiasm에서 nasal·temporal 신호가 양쪽으로 다 전달되고, midbrain의 pretectal nucleus에서 Edinger-Westphal nucleus로 가는 과정에서도 양쪽으로 전달되기 때문입니다."], [13, 14]),
         P("그래서 오른눈에 비추든 왼눈에 비추든 두 눈의 동공이 비슷한 정도로 작아지는 것이 정상입니다.", [15]),
     ], mark="중요")
@@ -156,6 +159,9 @@ def build():
         P("왼쪽 시야는 오른쪽 눈의 temporal 망막과 왼쪽 눈의 nasal 망막에서 인지됩니다. temporal 망막의 신호는 교차하지 않고, nasal 망막의 신호는 교차해서 optic chiasm을 지나 "
           "optic tract, optic radiation을 거쳐 visual cortex에 이릅니다.", [31]),
         FIELD,
+        _st("callout", "", [31], left_title="작성자가 헷갈려서 정리",
+            left=["nasal(코쪽) 망막 = 교차 / temporal(귀쪽) 망막 = 교차 안 함", "- 그래서 chiasm 병변은 교차하는 nasal 섬유만 끊겨 양쪽 이측(귀쪽) 시야가 사라집니다(bitemporal hemianopia).",
+                  "- optic tract 이후는 양쪽 눈의 같은 쪽 시야가 함께 사라집니다(homonymous hemianopia)."]),
         P("{g|수업에서는 이 부분을 슬라이드로 한 번 더 따라가며 복습하도록 안내했습니다.}", [32]),
     ], mark="중요"))
     top.append(LS("시야 결손 증례", CH2, [
@@ -200,10 +206,21 @@ def build():
         P("CN 3 마비의 원인은 여러 가지이지만, P-comm artery(뒤교통동맥)에서 생긴 aneurysm이 있으면 해부학적으로 가장 가까이 지나가는 CN 3이 쉽게 손상됩니다.", [52]),
         P("특히 Edinger-Westphal nucleus에서 sphincter pupillae로 가는 nerve fiber가 매우 인접해 있어, CN 3 마비에 동공 확대가 함께 나타납니다.", [52]),
         P("{r|CN 3 마비에 동공 확대가 동반되면 반드시 MRA나 CTA 같은 뇌혈관 영상 검사를 시행하도록 되어 있다고 강조하셨습니다.}", [52]),
+        _st("callout", "", [52, 53], left_title="잠깐 정리하고 가기 - 복시 환자의 접근",
+            left=["1. 복시 = CN 3, 4, 6 또는 gaze 연결(MLF)의 이상★", "2. CN 3 마비 + 동공 확대 = 뇌혈관 영상(MRA/CTA)★", "3. 성인에서 갑자기 생긴 복시 = 뇌종양, 뇌동맥류 가능성을 두고 신경학적 워크업"]),
         P("복시는 뇌종양이나 생명을 위협하는 뇌동맥류의 첫 증상일 수 있으므로, 안과적 임상 양상과 동반 증상으로 뇌의 어느 수준에 어떤 병변이 의심되는지, 어떤 검사가 필요한지 알고 있어야 합니다.", [53]),
         P("정리하면 시력 저하 환자에서는 동공 반사 검사와 시야 결손이 시신경 이후의 시각계 이상을 의심하게 하는 주요 소견이고, 안과 증상으로 온 환자에서 뇌신경 질환이 동반될 수 있습니다.", [54]),
         MEMO("마지막에 질문은 메일로 받는다는 안내가 있었습니다.", [55]),
     ], mark="강조"))
+    # ================================================================ Ⅳ. Take home messages (L30)
+    close = T("Take home messages", "", [], [
+        _st("sub", "1. 시신경 평가 = 안저만으로 부족, 동공 반응(RAPD)이 가장 중요★", [6, 7, 9, 18]),
+        _st("sub", "2. 양안 시신경 부종 = papilledema, 뇌압 상승부터 의심★", [26, 28]),
+        _st("sub", "3. 시야 결손 = 병변 위치를 알려 줌 (chiasm → 양이측 반맹, tract 이후 → 동측 반맹)", [30, 31]),
+        _st("sub", "4. 복시 = CN 3, 4, 6 또는 MLF의 이상, gaze 이상은 국시 출제★", [39, 45, 48]),
+        _st("sub", "5. CN 3 마비 + 동공 확대 = 뇌혈관 영상 필수★", [52, 53]),
+    ], role="closing")
+    top.append(close)
     return top
 
 

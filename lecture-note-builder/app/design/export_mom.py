@@ -123,6 +123,10 @@ def numbering(note: LectureNote, roman: bool = False, system: str = "plain") -> 
     for t in note.topics:
         if t.role == "front":
             out.append({"front": True, "section": t.heading, "chapter": "", "banner": t.heading, "toc": None, "mark": t.mark})
+        elif t.role == "closing":  # "Ⅲ. Take home messages": a closing chapter without [n] sections (L30)
+            ch_no += 1; sec_no = 0; last_ch = t.heading
+            lab = f"{ROMAN_U[(ch_no - 1) % len(ROMAN_U)]}. {t.heading}" if system == "mom" else f"{ch_no}. {t.heading}"
+            out.append({"front": False, "closing": True, "chapter": lab, "banner": lab, "section": lab, "toc": lab, "no": 0, "mark": t.mark})
         elif t.chapter:
             if t.chapter != last_ch:
                 ch_no += 1; sec_no = 0; last_ch = t.chapter
@@ -208,6 +212,12 @@ def _statement(doc, st: Statement, note: LectureNote, tpl: Template):
         return
     if st.kind == "qa":
         _qa_box(doc, st, tpl)
+        return
+    if st.kind == "callout":
+        _callout_box(doc, st, tpl)
+        return
+    if st.kind == "sub":
+        _sub_line(doc, st, tpl)
         return
     if st.kind == "check":
         _check_box(doc, [st], tpl, answers_inline=True)
@@ -507,6 +517,43 @@ def _qa_box(doc, st: Statement, tpl: Template) -> None:
             r = q.add_run("    "); _font(r, F, base)
         for text, col, bold in runs(line):
             r = q.add_run(text); _run_style(r, col, F, base, bold=True if bold else None)
+
+
+def _callout_box(doc, st: Statement, tpl: Template) -> None:
+    """[작성자 추가설명] / [작성자가 헷갈려서 정리] / [잠깐 정리하고 가기] / [ppt에는 없는 여담 - …] / [Ppt 내용 추가] (L33):
+    a thin black-ruled box, the bracketed title in a light shade, then the lines."""
+    F, base = tpl.format.font_korean, tpl.format.font_size_pt
+    shade = "FFF2CC" if "정리하고 가기" in st.left_title else ("E7E6E6" if "헷갈려서" in st.left_title else "F2F2F2")
+    _fmt(doc.add_paragraph(), after=1, line=0.5)
+    t = doc.add_table(rows=1, cols=1)
+    t.alignment = WD_TABLE_ALIGNMENT.CENTER
+    c = t.cell(0, 0)
+    _box(c, sz=6)
+    p = c.paragraphs[0]; _fmt(p, before=3, after=2, line=1.2, left=0.1)
+    r = p.add_run(f"[{st.left_title}]"); _font(r, F, base - 0.5, bold=False); _shade_run(r, shade)
+    for line in st.left:
+        q = c.add_paragraph()
+        bullet = line.startswith("- ")
+        _fmt(q, after=1, line=1.3, left=0.5 if bullet else 0.1, first=-0.35 if bullet else 0)
+        if bullet:
+            q.add_run("-  ")
+        for text, col, bold in runs(line.removeprefix("- ")):
+            r = q.add_run(text); _run_style(r, col, F, base - 0.5, bold=True if bold else None)
+    _fmt(doc.add_paragraph(), after=3, line=0.5)
+
+
+def _sub_line(doc, st: Statement, tpl: Template) -> None:
+    """(1) / (2) sub-heading line (L31): the label before ' = ' / ' : ' is green-marked, the rest bold; ★ stays with the text."""
+    F, base = tpl.format.font_korean, tpl.format.font_size_pt
+    p = doc.add_paragraph()
+    _fmt(p, before=9, after=4, line=1.25, left=0.0)
+    p.paragraph_format.keep_with_next = True
+    m = re.search(r"\s(=|:)\s", st.text)
+    label, rest = (st.text[:m.start()], st.text[m.start():]) if m else (st.text, "")
+    for text, col, bold in runs(label):
+        r = p.add_run(text); _run_style(r, col, F, base + 0.5, bold=True); _shade_run(r, "C6E0B4")
+    for text, col, bold in runs(rest):
+        r = p.add_run(text); _run_style(r, col, F, base + 0.5, bold=True)
 
 
 def _check_box(doc, checks: list[Statement], tpl: Template, answers_inline: bool = False, summary: bool = True) -> None:
@@ -1013,6 +1060,32 @@ def export_mom(
         _field(p, f"PAGEREF _Toc{i} \\h", str(page_map.get(i, "")), F, 10.5, bold=True)
         r = p.add_run("p"); _font(r, F, 10.5, bold=True)
 
+    # ---------------- [강조점 세가지] box right after the TOC (L30)
+    points = [x for x in (meta.get("points") or "").split("\n") if x.strip()]
+    if points:
+        n_main = sum(1 for x in points if not x.lstrip().startswith("-"))
+        word = {1: "한가지", 2: "두가지", 3: "세가지", 4: "네가지", 5: "다섯가지"}.get(n_main, f"{n_main}가지")
+        _fmt(doc.add_paragraph(), after=2, line=0.6)
+        pb = doc.add_table(rows=1, cols=1)
+        pb.alignment = WD_TABLE_ALIGNMENT.CENTER
+        pc = pb.cell(0, 0); _box(pc, sz=6)
+        p = pc.paragraphs[0]; _fmt(p, before=4, after=6, line=1.2, left=0.1)
+        r = p.add_run(f"[강조점 {word}]"); _font(r, F, 11, bold=True); _shade_run(r, "FFE699")
+        k = 0
+        for line in points:
+            if line.lstrip().startswith("-"):
+                q = pc.add_paragraph(); _fmt(q, after=2, line=1.3, left=0.7, first=-0.35)
+                q.add_run("-  ")
+                for text, col, bold in runs(line.lstrip()[1:].strip()):
+                    r = q.add_run(text); _run_style(r, col, F, 10, bold=True if bold else None)
+            else:
+                k += 1
+                q = pc.add_paragraph(); _fmt(q, before=6, after=3, line=1.3, left=0.1)
+                r0 = q.add_run(f"{k}. "); _font(r0, F, 10.5, bold=True); _shade_run(r0, "C6E0B4")
+                for text, col, bold in runs(line.strip()):
+                    r = q.add_run(text); _run_style(r, col, F, 10.5, bold=True); _shade_run(r, "C6E0B4")
+        _fmt(pc.add_paragraph(), after=2, line=0.6)
+
     # ---------------- learning objectives (학습목표)
     objectives = [x for x in (meta.get("objectives") or "").split("\n") if x.strip()]
     if objectives:
@@ -1043,7 +1116,10 @@ def export_mom(
                     _chapter_marker(doc, n["banner"], F)
                 else:
                     _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=14, after=4).paragraph_format.keep_with_next = True
-            _section_heading(doc, n["section"], F, base, i, n.get("mark", ""), hsys, inline)
+            if not n.get("closing"):
+                _section_heading(doc, n["section"], F, base, i, n.get("mark", ""), hsys, inline)
+            else:
+                _bookmark(doc.paragraphs[-1], f"_Toc{i}", i + 1)
         else:
             s_ = doc.add_section(WD_SECTION.NEW_PAGE)
             s_.left_margin = s_.right_margin = Cm(1.8)
@@ -1058,7 +1134,10 @@ def export_mom(
                     _chapter_marker(doc, n["banner"], F, before=0)
                 else:
                     _banner(doc, n["banner"], F, fill=TEAL_DARK, size=15, before=0, after=4).paragraph_format.keep_with_next = True
-            _section_heading(doc, n["section"], F, base, i, n.get("mark", ""), hsys, inline)
+            if not n.get("closing"):
+                _section_heading(doc, n["section"], F, base, i, n.get("mark", ""), hsys, inline)
+            else:
+                _bookmark(doc.paragraphs[-1], f"_Toc{i}", i + 1)
         elif by_chapter and not n["front"] and n["chapter"]:  # chapter banner in the header, § heading in the body
             _page_header(s_.header, None, n["banner"], None, F, tpl)
             _section_heading(doc, n["section"], F, base, i, "", hsys, inline)
