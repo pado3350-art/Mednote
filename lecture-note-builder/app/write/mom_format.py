@@ -34,7 +34,7 @@ def format_issues(note: LectureNote) -> list[tuple[str, str, str]]:
                     out.append(("warning", "CALLOUT_EMPTY", f"'{t.heading}': 콜아웃 ‘{st.left_title}’에 내용이 없습니다."))
                 if st.kind == "sub" and not _SUB.search(st.text):
                     out.append(("info", "SUB_LINE_FORMAT", f"'{t.heading}': 소소제목 줄은 ‘(1) 제목 = 핵심’ 형태로 씁니다(L31): '{st.text[:24]}…'"))
-    out += rhythm_issues(note) + emphasis_issues(note) + table_issues(note)
+    out += rhythm_issues(note) + emphasis_issues(note) + table_issues(note) + order_issues(note)
     return out
 
 
@@ -123,4 +123,23 @@ def table_issues(note: LectureNote) -> list[tuple[str, str, str]]:
                 elif not any(c in ("key", "emphasis") or b for r in st.rows for cell in r for _, c, b in runs(cell)):
                     out.append(("info", "TABLE_NO_EMPHASIS",
                                 f"'{t.heading}': 비교표 '{label[:30]}'에 강조가 없습니다 → 대비되거나 헷갈리는 칸을 **굵게**/{{k|…}}로(L42)."))
+    return out
+
+
+def order_issues(note: LectureNote) -> list[tuple[str, str, str]]:
+    """L45: body sections follow the script's ¶ order (first ¶ of each section never goes backwards)."""
+    out: list[tuple[str, str, str]] = []
+    prev, prev_h = 0, ""
+    for t in note.topics:
+        if t.role != "body":
+            continue
+        # the section's own prose decides its place; reused tables, figures and checks may cite earlier ¶
+        refs = [r for v in t.sections.values() for x in v if x.kind in ("para", "bullet", "sub", "qa", "callout") for r in x.slide_refs if r < 1000]
+        if not refs:
+            continue
+        first = min(refs)
+        if first < prev:
+            out.append(("warning", "SECTION_ORDER",
+                        f"소절 '{t.heading}'(¶{first})이 앞 소절 '{prev_h}'(¶{prev})보다 앞선 내용입니다 → 스크립트 순서로 두고 되짚기 한 줄로 잇습니다(L45)."))
+        prev, prev_h = max(prev, first), t.heading
     return out

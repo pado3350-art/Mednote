@@ -14,10 +14,9 @@ MHC는 polygenic하고 polymorphic해서 peptide 제시 범위를 넓히고, T�
 - MHC 유전자 발현의 조절 — interferon이 발현을 조절하고, class II는 CIITA가 중요합니다. (¶11, ¶12)
 
 ### MHC의 다양성: polymorphism과 polygeny
-- MHC가 여러 종류여야 하는 이유 — 한 종류면 회피 돌연변이가 모든 사람에게 통하기 때문입니다. (¶2)
 - polygeny와 polymorphism의 구분, 다형성의 순서 —  (¶3, ¶6, ¶13, ¶14, ¶15, ¶16)
 - 다양성의 기전과 peptide 결합 — gene conversion으로 생기고, peptide 결합 부위를 바꿉니다. (¶17, ¶18, ¶19, ¶20)
-- MHC 다양성의 한계 — 감염 방어 범위와 흉선에서의 T세포 선택 부담이 균형을 이룹니다. (¶32, ¶33)
+- 다시 보는 MHC 다양성의 의미 — 감염 방어 범위와 흉선에서의 T세포 선택 부담이 균형을 이룹니다. (¶32, ¶33)
 
 ### MHC restriction과 예외적 T세포 반응
 - MHC restriction의 개념과 발견 — peptide와 자기 MHC가 함께 맞아야 인식합니다. (¶21, ¶22, ¶23, ¶24)
@@ -36,3 +35,4 @@ MHC는 polygenic하고 polymorphic해서 peptide 제시 범위를 넓히고, T�
 
 ## ⑧ 그림 인벤토리
 f_gene, f_map, f_poly_bars, f_poly_types, f_gene_var, f_anchor, f_restriction, f_alloresponse, f_superantigen, f_classIb, f_gdT, f_cd1
+

@@ -100,3 +100,13 @@ def test_table_only_for_comparison_and_marked_inside():
     assert codes(listing) == ["TABLE_NOT_COMPARISON"]
     assert codes(compare) == ["TABLE_NO_EMPHASIS"]
     assert codes(marked) == []
+
+
+def test_section_order_follows_script():
+    from app.write.mom_format import order_issues
+
+    def t(h, r):
+        return Topic(heading=h, slide_numbers=[r], sections={"body": [Statement(text="x", kind="para", slide_refs=[r])]})
+
+    assert order_issues(LectureNote(title="t", topics=[t("a", 1), t("b", 5), t("c", 9)])) == []
+    assert [c for _, c, _ in order_issues(LectureNote(title="t", topics=[t("a", 1), t("b", 30), t("c", 20)]))] == ["SECTION_ORDER"]

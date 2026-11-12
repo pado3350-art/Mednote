@@ -1,6 +1,6 @@
 {
-  "store_version": 51,
-  "updated": "2026-11-11T15:47:48",
+  "store_version": 56,
+  "updated": "2026-11-12T02:11:29",
   "rules": [
     {
       "id": "L1",
@@ -1577,6 +1577,176 @@
       "approved_at": "2026-11-11T15:47:48",
       "history": [
         "v1 2026-11-11T15:47:48: 승인 (사용자 지시 (표 남발 금지, 표 안 강조, writing skill 재구성, 워크플로우))"
+      ]
+    },
+    {
+      "id": "L45",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "소절은 스크립트 ¶ 순서대로 둔다. 주제상 앞 장과 이어지는 내용이 강의 뒤쪽에 나오면 옮기지 말고 원래 자리에 두되, 첫 문장에 되짚기 한 줄을 쓴다(‘강의 초반의 다양성 이야기로 돌아가면 …’). 검사 SECTION_ORDER.",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "(¶32–33을 Ⅱ장 다양성으로 옮김)",
+          "after": "superantigen 뒤에 두고 ‘처음에 본 MHC 다양성으로 돌아가 보면’으로 시작",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "docs/style_compare_tcell.md (사용자 승인 T1~T5)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-12T02:11:29"
+        }
+      ],
+      "signal": "section_script_order_T1",
+      "note": "사용자 승인",
+      "approved_at": "2026-11-12T02:11:29",
+      "history": [
+        "v1 2026-11-12T02:11:29: 승인 (docs/style_compare_tcell.md (사용자 승인 T1~T5))"
+      ]
+    },
+    {
+      "id": "L46",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "style",
+      "rule": "출처를 짧은 꼬리로 구분한다: 교수님이 쓴 표현은 ‘(교수님 표현)’, 강의 자료·PPT에서 온 내용은 ‘(자료)’, 기출에서 온 내용은 ‘(파드)’. 작성자의 해석·정정은 괄호 안 합니다체로 쓰고 ‘작성자 생각’임을 밝힌다. 출처가 분명한 곳에만 붙이고 문장마다 남발하지 않는다.",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "class I은 ‘다리 하나짜리’입니다.",
+          "after": "class I은 ‘다리 하나짜리’(교수님 표현)입니다.",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "docs/style_compare_tcell.md (사용자 승인 T1~T5)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-12T02:11:29"
+        }
+      ],
+      "signal": "source_tails_T2",
+      "note": "사용자 승인",
+      "approved_at": "2026-11-12T02:11:29",
+      "history": [
+        "v1 2026-11-12T02:11:29: 승인 (docs/style_compare_tcell.md (사용자 승인 T1~T5))"
+      ]
+    },
+    {
+      "id": "L47",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "style",
+      "rule": "스크립트의 ‘앞 시간에’, ‘전에 배운’, 다른 과목·강의와 잇는 말은 빼지 않고 노트에 남긴다(예: ‘앞 시간에 본 HLA-DM, HLA-DO’).",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "HLA-DM과 HLA-DO도 이 영역과 관련이 있습니다.",
+          "after": "앞 시간에 본 HLA-DM과 HLA-DO도 이 영역과 관련이 있습니다.",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "docs/style_compare_tcell.md (사용자 승인 T1~T5)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-12T02:11:29"
+        }
+      ],
+      "signal": "keep_course_links_T3",
+      "note": "사용자 승인",
+      "approved_at": "2026-11-12T02:11:29",
+      "history": [
+        "v1 2026-11-12T02:11:29: 승인 (docs/style_compare_tcell.md (사용자 승인 T1~T5))"
+      ]
+    },
+    {
+      "id": "L48",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "style",
+      "rule": "인과가 있는 문단은 끝에 ‘즉, A → B → C’ 한 줄로 매듭짓는다. 사슬의 각 고리는 스크립트에 있는 내용만 쓴다(L12와 같은 방향).",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "T세포 수용체에는 교차 반응성이 있습니다. 타인의 MHC에 대한 반응까지 모두 없어지지는 않습니다.",
+          "after": "즉, 흉선에서 자기 MHC로 교육 → 교차 반응성은 남음 → 비슷한 타인 MHC에 강한 반응.",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "docs/style_compare_tcell.md (사용자 승인 T1~T5)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-12T02:11:29"
+        }
+      ],
+      "signal": "chain_knot_T4",
+      "note": "사용자 승인",
+      "approved_at": "2026-11-12T02:11:29",
+      "history": [
+        "v1 2026-11-12T02:11:29: 승인 (docs/style_compare_tcell.md (사용자 승인 T1~T5))"
+      ]
+    },
+    {
+      "id": "L49",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "structure",
+      "rule": "여러 분자·세포를 한 소절에 묶을 때는 첫 문장에 묶는 이유(공통점)를 쓴다(예: ‘HLA-E, F, G는 class I 영역에 있고 class I과 닮았지만 다형성이 제한적이고 기능이 다릅니다’).",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "(CD1, FcRn, gamma-delta T, MAIT를 이유 없이 나열)",
+          "after": "이 소절의 분자와 세포는 모두 고전적인 peptide-MHC 틀 밖에서 항원을 인식합니다.",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "docs/style_compare_tcell.md (사용자 승인 T1~T5)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-12T02:11:29"
+        }
+      ],
+      "signal": "grouping_reason_T5",
+      "note": "사용자 승인",
+      "approved_at": "2026-11-12T02:11:29",
+      "history": [
+        "v1 2026-11-12T02:11:29: 승인 (docs/style_compare_tcell.md (사용자 승인 T1~T5))"
       ]
     }
   ]

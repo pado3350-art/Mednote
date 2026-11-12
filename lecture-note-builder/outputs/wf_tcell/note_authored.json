@@ -12,6 +12,8 @@
       "tip": "",
       "slide_numbers": [
         1,
+        2,
+        3,
         4,
         6,
         15,
@@ -19,33 +21,73 @@
         24,
         25,
         29,
-        35,
-        37,
-        38,
         40,
         1001,
-        1002,
         1004,
         1005,
-        1006,
         1009,
         1010,
-        1011,
         1013,
-        1014,
-        1015,
         1016,
-        1017,
         1018
       ],
       "sections": {
         "body": [
           {
-            "text": "이번 강의는 MHC 유전자의 구성과 기능을 먼저 보고, 끝에서 조금 특이한 T세포 인식을 다룹니다. 초점은 두 가지입니다. MHC는 왜 여러 종류인지, T세포는 실제로 무엇을 인식하는지입니다.",
+            "text": "앞 시간에는 항원이 세포 안에서 처리되어 MHC에 올라가는 과정을 봤습니다. 이번 강의는 MHC 유전자의 구성과 기능을 먼저 보고, 끝에서 조금 특이한 T세포 인식을 다룹니다. 초점은 두 가지입니다. MHC는 왜 여러 종류인지, T세포는 실제로 무엇을 인식하는지입니다.",
             "origin": "both",
             "slide_refs": [
               1,
               4
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "감염원의 입장에서 생각해 봅니다. 자기 단백질 조각이 MHC에 얹혀 T세포에 보이면 면역계가 자신을 알아보게 되니, 감염원은 그 경로를 피하고 싶어 합니다. 사람에게 MHC가 한 종류뿐이라면 그 결합을 피하는 돌연변이 하나가 모든 사람에게 통할 것입니다.",
+            "origin": "both",
+            "slide_refs": [
+              2
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "실제로는 한 사람 안에서도 여러 MHC 유전자가 발현되고(polygenic), 사람 사이에는 같은 유전자 자리의 allele 종류가 아주 다양합니다(polymorphic). 한쪽 염색체 위에 모여서 물려받는 allele의 조합은 haplotype이라고 합니다. 즉, 다양한 MHC → 감염원이 모두를 피하기 어려움이 오늘의 출발점입니다.",
+            "origin": "both",
+            "slide_refs": [
+              2,
+              3
             ],
             "segment_ids": [],
             "time_ranges": [],
@@ -140,7 +182,7 @@
             }
           },
           {
-            "text": "(1) 다형성 순서 = class I은 B > A > C, class II는 DRB > DQB > DPB★",
+            "text": "(1) 다형성 순서 = class I은 B > A > C, class II는 DRB > DQB > DPB★ (파드)",
             "origin": "both",
             "slide_refs": [
               15,
@@ -153,30 +195,6 @@
             "kind": "sub",
             "level": 0,
             "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "인간 MHC 분자별 다형성: 유전자 자리마다 allele 수가 다릅니다 (슬라이드)",
-            "origin": "slide",
-            "slide_refs": [
-              15
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "figure",
-            "level": 0,
-            "image": "inputs/tcell_figs/f_poly_bars.png",
             "left_title": "",
             "left": [],
             "options": [],
@@ -243,7 +261,7 @@
             "diagram": null
           },
           {
-            "text": "(2) MHC restriction의 예외 = alloresponse, transplantation, superantigen★",
+            "text": "(2) MHC restriction의 예외 = alloresponse, transplantation, superantigen★ (파드)",
             "origin": "both",
             "slide_refs": [
               24,
@@ -309,116 +327,6 @@
             "col_widths": [
               4.6,
               12.8
-            ],
-            "diagram": null
-          },
-          {
-            "text": "(3) NK세포와 class Ib = HLA-C는 KIR, HLA-E는 억제 신호, CD1c는 lipid 항원★",
-            "origin": "both",
-            "slide_refs": [
-              35,
-              37
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "sub",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "class Ib 분자와 수용체, 생물학적 기능 (슬라이드)",
-            "origin": "slide",
-            "slide_refs": [
-              35
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "figure",
-            "level": 0,
-            "image": "inputs/tcell_figs/f_classIb.png",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "",
-            "origin": "slide",
-            "slide_refs": [
-              35,
-              37,
-              38,
-              1006,
-              1014,
-              1015,
-              1011,
-              1017,
-              1002
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "rows",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [
-              [
-                "{b|HLA-C}",
-                "{b|NK세포 수용체(KIR)와 상호작용 → NK세포 억제}",
-                "{b|class I이면서 class Ib로도 분류}"
-              ],
-              [
-                "{b|HLA-E}",
-                "{b|NK세포 억제 신호}",
-                "{b|T세포에 항원 제시 안 함}"
-              ],
-              [
-                "HLA-G",
-                "모체와 태아 사이의 면역 조절",
-                ""
-              ],
-              [
-                "{b|CD1c}",
-                "{b|lipid 항원 제시 → invariant NKT cell 활성화}",
-                ""
-              ]
-            ],
-            "col_titles": [
-              "분자",
-              "기능",
-              "단서"
-            ],
-            "col_widths": [
-              2.8,
-              9.0,
-              5.6
             ],
             "diagram": null
           },
@@ -637,8 +545,8 @@
               ],
               [
                 "구조",
-                "alpha chain 1개 + beta-2 microglobulin\n→ {k|‘다리 하나짜리’}",
-                "alpha chain과 beta chain이 짝\n→ {k|‘다리 두 개짜리’}"
+                "alpha chain 1개 + beta-2 microglobulin\n→ {k|‘다리 하나짜리’}(교수님 표현)",
+                "alpha chain과 beta chain이 짝\n→ {k|‘다리 두 개짜리’}(교수님 표현)"
               ],
               [
                 "T세포",
@@ -659,7 +567,7 @@
             "diagram": null
           },
           {
-            "text": "class II 영역에는 DR, DQ, DP만 있는 것이 아닙니다. HLA-DM과 HLA-DO도 이 영역과 관련이 있습니다. 고전적인 항원제시 class II와는 구분되지만 peptide editing과 항원제시 조절에 관여합니다. TAP처럼 항원 처리에 참여하는 분자도 MHC 영역 안에 있습니다.",
+            "text": "class II 영역에는 DR, DQ, DP만 있는 것이 아닙니다. 앞 시간에 본 HLA-DM과 HLA-DO도 이 영역과 관련이 있습니다. 고전적인 항원제시 class II와는 구분되지만 peptide editing과 항원제시 조절에 관여합니다. TAP처럼 항원 처리에 참여하는 분자도 MHC 영역 안에 있습니다.",
             "origin": "both",
             "slide_refs": [
               7
@@ -909,7 +817,7 @@
       "sections": {
         "body": [
           {
-            "text": "감염이 생기면 여러 면역 관련 유전자의 발현이 달라집니다. 자료에는 interferon alpha, beta, gamma가 MHC 관련 유전자의 발현을 조절한다고 나옵니다. 그 결과 감염된 세포가 바이러스 단백질에서 나온 peptide를 제시할 기회가 늘어납니다.",
+            "text": "감염이 생기면 여러 면역 관련 유전자의 발현이 달라집니다. interferon alpha, beta, gamma가 MHC 관련 유전자의 발현을 조절합니다(자료). 그 결과 감염된 세포가 바이러스 단백질에서 나온 peptide를 제시할 기회가 늘어납니다.",
             "origin": "both",
             "slide_refs": [
               11
@@ -988,78 +896,6 @@
       "style": "explain"
     },
     {
-      "heading": "MHC가 여러 종류여야 하는 이유",
-      "chapter": "MHC의 다양성: polymorphism과 polygeny",
-      "role": "body",
-      "basics_title": "핵심 답",
-      "basics": [
-        "한 종류면 회피 돌연변이가 모든 사람에게 통하기 때문입니다."
-      ],
-      "basics_refs": [],
-      "mark": "",
-      "new_page": false,
-      "tip": "",
-      "slide_numbers": [
-        2
-      ],
-      "sections": {
-        "body": [
-          {
-            "text": "감염원의 입장에서 생각해 봅니다. 자기 단백질 조각이 MHC에 얹혀 T세포에 보이면 면역계가 자신을 알아보게 됩니다. 그러니 감염원은 그 경로를 피하고 싶어 합니다.",
-            "origin": "both",
-            "slide_refs": [
-              2
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "사람에게 MHC가 한 종류뿐이라면 이 결합을 피하는 돌연변이가 모든 사람에게 통할 가능성이 커집니다. 실제로는 한 사람 안에서도 여러 MHC 유전자가 발현되고, 사람 사이에는 allele의 종류가 아주 다양합니다. 이 두 가지가 오늘의 출발점입니다.",
-            "origin": "both",
-            "slide_refs": [
-              2
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          }
-        ]
-      },
-      "tables": [],
-      "images": [],
-      "review_flags": [],
-      "style": "explain"
-    },
-    {
       "heading": "polygeny와 polymorphism의 구분, 다형성의 순서",
       "chapter": "MHC의 다양성: polymorphism과 polygeny",
       "role": "body",
@@ -1070,7 +906,6 @@
       "new_page": false,
       "tip": "",
       "slide_numbers": [
-        3,
         6,
         13,
         14,
@@ -1084,10 +919,9 @@
       "sections": {
         "body": [
           {
-            "text": "용어부터 구분합니다. 둘을 혼동하면 뒤의 설명이 어려워집니다.",
+            "text": "여기서 제일 중요한 두 단어가 polymorphism과 polygeny입니다. 앞에서 본 두 용어를 정확히 구분합니다.",
             "origin": "both",
             "slide_refs": [
-              3,
               13
             ],
             "segment_ids": [],
@@ -1136,7 +970,6 @@
             "text": "",
             "origin": "slide",
             "slide_refs": [
-              3,
               13,
               14
             ],
@@ -1186,33 +1019,8 @@
             "text": "이 두 층위의 다양성이 함께 작동합니다. 발현은 **codominant**여서 어머니와 아버지에게서 받은 allele이 둘 다 발현됩니다. 그러면 한 개체가 만드는 MHC 분자의 종류가 늘어나고, 한 사람의 조합이 다른 사람과 같기 어려워집니다.",
             "origin": "both",
             "slide_refs": [
-              3,
               13,
               14
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "한쪽 염색체 위에 모여서 물려받는 allele의 조합은 haplotype이라고 합니다.",
-            "origin": "both",
-            "slide_refs": [
-              3
             ],
             "segment_ids": [],
             "time_ranges": [],
@@ -1270,6 +1078,30 @@
             "kind": "sub",
             "level": 0,
             "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "인간 MHC 분자별 다형성: 유전자 자리마다 allele 수가 다릅니다 (슬라이드)",
+            "origin": "slide",
+            "slide_refs": [
+              15
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "figure",
+            "level": 0,
+            "image": "inputs/tcell_figs/f_poly_bars.png",
             "left_title": "",
             "left": [],
             "options": [],
@@ -1464,7 +1296,7 @@
       "sections": {
         "body": [
           {
-            "text": "이 다양성은 어디서 왔을까요? 중요한 기전은 **gene conversion**입니다. 서로 비슷한 서열의 유전자 사이에서 유전정보 일부가 바뀌면 원래와 조금 다른 형태가 만들어집니다. 자료는 감수분열 과정에서 유사 서열 사이에 일어난 변화가 MHC 다양성에 기여했다고 설명합니다.",
+            "text": "이 다양성은 어디서 왔을까요? 중요한 기전은 **gene conversion**입니다. 서로 비슷한 서열의 유전자 사이에서 유전정보 일부가 바뀌면 원래와 조금 다른 형태가 만들어집니다. 감수분열 과정에서 유사 서열 사이에 일어난 변화가 MHC 다양성에 기여했다고 봅니다(자료).",
             "origin": "both",
             "slide_refs": [
               17
@@ -1537,7 +1369,31 @@
             "diagram": null
           },
           {
-            "text": "그러니 MHC polymorphism은 이름의 다양성이 아닙니다. 어떤 항원을 T세포에 보여 줄 수 있는지와 직결된 {k|기능적 다양성}입니다. 이 연결이 오늘의 핵심입니다.",
+            "text": "그러니 MHC polymorphism은 이름의 다양성이 아닙니다. 어떤 항원을 T세포에 보여 줄 수 있는지와 직결된 {k|기능적 다양성}입니다.",
+            "origin": "both",
+            "slide_refs": [
+              18
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "즉, 결합 부위의 변이 → 결합 홈 구조 변화 → 제시하는 peptide 종류 변화 → T세포가 볼 수 있는 항원의 범위가 달라집니다.",
             "origin": "both",
             "slide_refs": [
               18
@@ -1635,7 +1491,7 @@
             "diagram": null
           },
           {
-            "text": "여러 peptide가 하나의 MHC에 결합한다고 해서 전체 아미노산 서열이 같아야 하는 것은 아닙니다. 특정 위치에 비슷한 성질의 아미노산이 반복해서 나옵니다. 자료는 2번, 5번, 8번 위치를 예로 들고, 이 위치에서 MHC와 중요한 접촉을 만드는 잔기를 **anchor residue**라고 합니다.",
+            "text": "여러 peptide가 하나의 MHC에 결합한다고 해서 전체 아미노산 서열이 같아야 하는 것은 아닙니다. 특정 위치에 비슷한 성질의 아미노산이 반복해서 나옵니다. 2번, 5번, 8번 위치가 그 예이고(자료), 이 위치에서 MHC와 중요한 접촉을 만드는 잔기를 **anchor residue**라고 합니다.",
             "origin": "both",
             "slide_refs": [
               19
@@ -1714,105 +1570,8 @@
       "style": "explain"
     },
     {
-      "heading": "MHC 다양성의 한계",
-      "chapter": "MHC의 다양성: polymorphism과 polygeny",
-      "role": "body",
-      "basics_title": "핵심 답",
-      "basics": [
-        "감염 방어 범위와 흉선에서의 T세포 선택 부담이 균형을 이룹니다."
-      ],
-      "basics_refs": [],
-      "mark": "",
-      "new_page": false,
-      "tip": "",
-      "slide_numbers": [
-        32,
-        33
-      ],
-      "sections": {
-        "body": [
-          {
-            "text": "사람 집단에서 MHC가 다양하면 모든 사람이 같은 감염원 회피 전략에 취약해질 가능성이 줄어듭니다. 자료는 EBV의 면역 회피, 특정 인구집단의 HLA 분포, 서아프리카에서 HLA-B53과 중증 말라리아의 관련성을 사례로 듭니다.",
-            "origin": "both",
-            "slide_refs": [
-              32
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "사례의 수치보다 중요한 메시지는 병원체와 숙주의 유전적 다양성이 서로 영향을 주고받는다는 점입니다.",
-            "origin": "both",
-            "slide_refs": [
-              32
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "그렇다면 MHC는 종류가 많을수록 좋을 텐데 왜 무한정 늘어나지 않을까요? 다양한 MHC는 더 많은 peptide를 제시하지만, 흉선(thymus)에서 T세포가 선택되는 조건도 그만큼 복잡해집니다. 자가 반응성과 적절한 면역 반응 사이에 {k|균형}이 필요하기 때문입니다.",
-            "origin": "both",
-            "slide_refs": [
-              33
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          }
-        ]
-      },
-      "tables": [],
-      "images": [],
-      "review_flags": [],
-      "style": "explain"
-    },
-    {
       "heading": "MHC restriction의 개념과 발견",
-      "chapter": "MHC restriction과 예외적 T세포 반응",
+      "chapter": "MHC restriction, 예외 반응과 다양성의 의미",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -1984,7 +1743,7 @@
     },
     {
       "heading": "MHC restriction의 예외: 이식 반응",
-      "chapter": "MHC restriction과 예외적 T세포 반응",
+      "chapter": "MHC restriction, 예외 반응과 다양성의 의미",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -2003,16 +1762,12 @@
         25,
         26,
         27,
-        28,
-        29,
-        1010,
-        1013,
-        1016
+        28
       ],
       "sections": {
         "body": [
           {
-            "text": "여기서 의문이 하나 생깁니다. 자기 MHC에 제한되어 반응한다면 왜 장기 이식 때는 타인의 MHC에 엄청난 반응이 나타날까요? 이 예외처럼 보이는 현상이 이식 반응과 superantigen입니다.",
+            "text": "여기서 의문이 하나 생깁니다. 자기 MHC에 제한되어 반응한다면 왜 장기 이식 때는 타인의 MHC에 엄청난 반응이 나타날까요? 이 예외처럼 보이는 현상이 이식 반응과 superantigen입니다(앞쪽 요약의 예외 표, 파드).",
             "origin": "both",
             "slide_refs": [
               24
@@ -2033,50 +1788,6 @@
             "rows": [],
             "col_titles": [],
             "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "",
-            "origin": "slide",
-            "slide_refs": [
-              24,
-              25,
-              29,
-              1013,
-              1016,
-              1010
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "rows",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [
-              [
-                "{b|MHC restriction 적용}",
-                "{b|peptide와 자기 MHC를 함께 인식하는 일반적인 T세포 반응}"
-              ],
-              [
-                "{b|**예외**}",
-                "{b|**alloresponse, transplantation(이식), superantigen**}"
-              ]
-            ],
-            "col_titles": [
-              "구분",
-              "해당"
-            ],
-            "col_widths": [
-              4.6,
-              12.8
-            ],
             "diagram": null
           },
           {
@@ -2179,6 +1890,31 @@
             "text": "흉선(thymus)에서는 positive selection과 negative selection으로 자기 MHC에 적절히 반응하는 세포가 남습니다. 하지만 타인의 MHC에 대한 반응까지 모두 없어지지는 않습니다. 이식 거부반응을 이해할 때 이 점이 중요합니다.",
             "origin": "both",
             "slide_refs": [
+              28
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "즉, 흉선에서 자기 MHC 기준으로 교육 → TCR의 교차 반응성은 남음 → 구조가 비슷한 타인 MHC에 강하게 반응 → 이식 거부반응.",
+            "origin": "both",
+            "slide_refs": [
+              26,
               28
             ],
             "segment_ids": [],
@@ -2309,7 +2045,7 @@
     },
     {
       "heading": "Superantigen",
-      "chapter": "MHC restriction과 예외적 T세포 반응",
+      "chapter": "MHC restriction, 예외 반응과 다양성의 의미",
       "role": "body",
       "basics_title": "핵심 답",
       "basics": [
@@ -2399,10 +2135,156 @@
             "diagram": null
           },
           {
+            "text": "즉, peptide 처리 없이 MHC class II와 TCR을 직접 연결 → 많은 T세포가 한꺼번에 활성화 → 염증성 신호가 커져 숙주에 부담.",
+            "origin": "both",
+            "slide_refs": [
+              29,
+              30
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "대표적인 예로는 **staphylococcal enterotoxin(SE)**과 **TSST-1**이 있습니다. SE는 식중독과, TSST-1은 toxic shock syndrome과 관련된 독소입니다. 이름을 구별해서 기억합니다.",
             "origin": "both",
             "slide_refs": [
               31
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          }
+        ]
+      },
+      "tables": [],
+      "images": [],
+      "review_flags": [],
+      "style": "explain"
+    },
+    {
+      "heading": "다시 보는 MHC 다양성의 의미",
+      "chapter": "MHC restriction, 예외 반응과 다양성의 의미",
+      "role": "body",
+      "basics_title": "핵심 답",
+      "basics": [
+        "감염 방어 범위와 흉선에서의 T세포 선택 부담이 균형을 이룹니다."
+      ],
+      "basics_refs": [],
+      "mark": "",
+      "new_page": false,
+      "tip": "",
+      "slide_numbers": [
+        32,
+        33
+      ],
+      "sections": {
+        "body": [
+          {
+            "text": "강의 처음에 본 MHC polymorphism으로 돌아가 봅니다. 사람 집단에서 MHC가 다양하면 모든 사람이 같은 감염원 회피 전략에 취약해질 가능성이 줄어듭니다. 사례로는 EBV의 면역 회피, 특정 인구집단의 HLA 분포, 서아프리카에서 HLA-B53과 중증 말라리아의 관련성이 나옵니다(자료).",
+            "origin": "both",
+            "slide_refs": [
+              32
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "사례의 수치보다 중요한 메시지는 병원체와 숙주의 유전적 다양성이 서로 영향을 주고받는다는 점입니다.",
+            "origin": "both",
+            "slide_refs": [
+              32
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "그렇다면 MHC는 종류가 많을수록 좋을 텐데 왜 무한정 늘어나지 않을까요? 다양한 MHC는 더 많은 peptide를 제시하지만, 흉선(thymus)에서 T세포가 선택되는 조건도 그만큼 복잡해집니다. 자가 반응성과 적절한 면역 반응 사이에 {k|균형}이 필요하기 때문입니다.",
+            "origin": "both",
+            "slide_refs": [
+              33
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "즉, MHC 종류가 많을수록 제시할 수 있는 peptide는 늘지만 흉선 선택의 부담도 커져서, 둘 사이의 균형에서 멈춥니다.",
+            "origin": "both",
+            "slide_refs": [
+              33
             ],
             "segment_ids": [],
             "time_ranges": [],
@@ -2485,7 +2367,7 @@
             "diagram": null
           },
           {
-            "text": "class Ib는 고전적 class I과 형태가 비슷하지만 다형성이 제한적인 경우가 많고, 기능은 다양합니다. 자료는 HLA-E, HLA-F, HLA-G를 중심으로 보라고 강조합니다.",
+            "text": "아래 네 분자를 묶는 이유는 하나입니다. 고전적 class I과 형태가 비슷하지만 다형성이 제한적인 경우가 많고, 기능이 다양하다는 점입니다. HLA-E, HLA-F, HLA-G를 중심으로 보라고 되어 있습니다(자료).",
             "origin": "both",
             "slide_refs": [
               35
@@ -2509,35 +2391,8 @@
             "diagram": null
           },
           {
-            "text": "① {b|**HLA-E**: NK세포에 억제 신호를 주는 경로와 연결됩니다. T세포에 항원을 제시하는 분자는 아닙니다.}",
-            "origin": "both",
-            "slide_refs": [
-              35,
-              1015,
-              1017,
-              1011
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "② **HLA-F**: class Ib의 중심 분자 중 하나입니다.",
-            "origin": "both",
+            "text": "class Ib 분자와 수용체, 생물학적 기능 (슬라이드)",
+            "origin": "slide",
             "slide_refs": [
               35
             ],
@@ -2545,9 +2400,9 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "para",
+            "kind": "figure",
             "level": 0,
-            "image": "",
+            "image": "inputs/tcell_figs/f_classIb.png",
             "left_title": "",
             "left": [],
             "options": [],
@@ -2560,43 +2415,21 @@
             "diagram": null
           },
           {
-            "text": "③ **HLA-G**: 모체와 태아 사이의 면역 조절과 관련됩니다.",
-            "origin": "both",
-            "slide_refs": [
-              35
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "para",
-            "level": 0,
-            "image": "",
-            "left_title": "",
-            "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "④ {b|**HLA-C**: NK세포 수용체(KIR)와 상호작용해서 NK세포를 억제합니다. class I이면서 class Ib로도 분류할 수 있습니다.}",
-            "origin": "both",
+            "text": "",
+            "origin": "slide",
             "slide_refs": [
               35,
               1006,
               1014,
-              1011
+              1015,
+              1011,
+              1017
             ],
             "segment_ids": [],
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "para",
+            "kind": "rows",
             "level": 0,
             "image": "",
             "left_title": "",
@@ -2605,9 +2438,38 @@
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
+            "rows": [
+              [
+                "{b|HLA-C}",
+                "{b|NK세포 수용체(KIR)와 상호작용 → NK세포 억제}",
+                "{b|class I이면서 class Ib로도 분류}"
+              ],
+              [
+                "{b|HLA-E}",
+                "{b|NK세포 억제 신호}",
+                "{b|**T세포에 항원 제시 안 함**}"
+              ],
+              [
+                "HLA-F",
+                "class Ib의 중심 분자 중 하나",
+                ""
+              ],
+              [
+                "HLA-G",
+                "{k|모체와 태아} 사이의 면역 조절",
+                ""
+              ]
+            ],
+            "col_titles": [
+              "분자",
+              "기능",
+              "단서"
+            ],
+            "col_widths": [
+              2.8,
+              9.0,
+              5.6
+            ],
             "diagram": null
           },
           {
@@ -2670,6 +2532,30 @@
       ],
       "sections": {
         "body": [
+          {
+            "text": "이 소절의 분자와 세포는 공통점이 하나 있습니다. 고전적인 peptide-MHC 틀 밖에서 항원을 다루거나 인식한다는 점입니다.",
+            "origin": "both",
+            "slide_refs": [
+              36
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "para",
+            "level": 0,
+            "image": "",
+            "left_title": "",
+            "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
           {
             "text": "unconventional T cell로는 gamma-delta T cell, 점막과 관련된 MAIT cell, invariant NKT cell을 듭니다. 이름이 다른 만큼 인식하는 표적과 역할도 같지 않습니다.",
             "origin": "both",
@@ -2794,7 +2680,7 @@
             "diagram": null
           },
           {
-            "text": "{p|자료는 CD1c와 invariant NKT cell을 연결합니다. 하지만 일반적으로 invariant NKT cell의 대표 인식 분자는 CD1d이므로, 복습할 때 검증이 필요합니다.}",
+            "text": "{p|(작성자 생각) 자료는 CD1c와 invariant NKT cell을 연결합니다. 하지만 일반적으로 invariant NKT cell의 대표 인식 분자는 CD1d이므로, 복습할 때 검증이 필요합니다.}",
             "origin": "both",
             "slide_refs": [
               38
