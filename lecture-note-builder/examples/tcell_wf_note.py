@@ -104,7 +104,7 @@ def build():
     ], refs=PAD_CLASS, mark="기출"))
     top.append(EX("MHC 유전자 발현의 조절", CH1, "interferon이 발현을 조절하고, class II는 CIITA가 중요합니다.", [
         P("감염이 생기면 여러 면역 관련 유전자의 발현이 달라집니다. interferon alpha, beta, gamma가 MHC 관련 유전자의 발현을 조절합니다(자료). 그 결과 감염된 세포가 바이러스 단백질에서 나온 peptide를 제시할 기회가 늘어납니다.", [11]),
-        P("class II에서는 **CIITA**라는 이름을 눈여겨봅니다. class II의 전사를 조절하는 co-activator입니다. interferon-gamma는 class II 관련 유전자 발현과 연결해서 기억합니다.", [12]),
+        P("class II의 전사는 **CIITA**라는 co-activator가 조절합니다. interferon-gamma는 class II 관련 유전자 발현과 연결됩니다.", [12]),
         P("{g|모든 조절 경로를 외울 필요는 없습니다. 항원제시 분자만 따로 만들어지는 것이 아니라 가공과 제시에 필요한 구성요소가 함께 조절된다는 큰 흐름이면 됩니다.}", [12]),
     ]))
 
@@ -123,7 +123,7 @@ def build():
         _st("sub", "(1) 다형성의 순서 = class I은 B > A > C, class II는 DRB > DQB > DPB★", [15, 16]),
         FIG("f_poly_bars.png", "인간 MHC 분자별 다형성: 유전자 자리마다 allele 수가 다릅니다 (슬라이드)", [15]),
         P("{b|그림에서 가장 다양한 것은 class I의 HLA-B, class II의 DRB입니다}(파드, 순서는 앞쪽 요약 표).", [15, 16] + PAD_POLY),
-        P("다형성은 모든 MHC 분자에서 똑같이 큰 것이 아닙니다. 고전적 class I 쪽이 크고, class Ib는 상대적으로 제한적입니다. 최신 allele 개수까지 외우기보다 상대적인 경향과 기능을 먼저 이해합니다.", [15]),
+        P("다형성은 모든 MHC 분자에서 똑같이 큰 것이 아닙니다. 고전적 class I 쪽이 크고, class Ib는 상대적으로 제한적입니다. allele 개수는 시점과", [15]),
         P("class II에서는 다형성이 **beta chain** 쪽에 집중됩니다. 이 다형성은 peptide가 들어가는 결합 부위와 관련이 있습니다. 같은 감염원의 peptide라도 사람의 MHC 종류에 따라 결합 가능성이 달라집니다.", [16]),
         CHK("Class I 중 다형성이 가장 높은 유전자좌는 HLA-A이다.", "X", [15], why="HLA-B이다 (B > A > C)."),
         CHK("Class II 중 가장 polymorphic한 것은 HLA-DR(DRB)이다.", "O", [15, 16], why="DRB > DQB > DPB이다."),
@@ -139,7 +139,7 @@ def build():
         FIG("f_anchor.png", "MHC에 결합하는 peptide의 서열 비교 (슬라이드)", [19, 20]),
         P("여러 peptide가 하나의 MHC에 결합한다고 해서 전체 아미노산 서열이 같아야 하는 것은 아닙니다. 특정 위치에 비슷한 성질의 아미노산이 반복해서 나옵니다. 2번, 5번, 8번 위치가 그 예이고(자료), 이 위치에서 MHC와 중요한 접촉을 만드는 잔기를 **anchor residue**라고 합니다.", [19]),
         P("외워야 할 것은 번호가 아니라 결합의 원리입니다. MHC allele마다 선호하는 peptide motif가 있고, 같은 motif를 가진 서로 다른 peptide가 결합합니다. MHC 종류가 바뀌면 잘 결합하는 peptide의 집합도 달라집니다.", [20]),
-        P("이 원리는 종양 항원 예측이나 백신 후보 peptide 선택에도 응용됩니다. 표를 볼 때는 전체 서열보다 공통된 위치와 성질을 먼저 찾습니다.", [20]),
+        P("이 원리는 종양 항원 예측이나 백신 후보 peptide 선택에도 응용됩니다.", [20]),
     ]))
     # ================================================================ Ⅲ. MHC restriction (¶21-31)
     top.append(EX("MHC restriction의 개념과 발견", CH3, "peptide와 자기 MHC가 함께 맞아야 인식합니다.", [
@@ -148,7 +148,8 @@ def build():
         P("그림의 왼쪽은 자기 MHC에 맞는 peptide가 올라가 인식되는 경우입니다. 가운데는 peptide가 같아도 MHC가 달라 인식되지 않습니다. 오른쪽은 자기 MHC여도 TCR이 알아보지 못하는 peptide라 반응하지 않습니다.", [22]),
         P("그래서 T세포 인식의 대상은 분리된 peptide 하나가 아니라 {k|peptide-MHC 복합체}입니다.", [22]),
         P("지금은 기본 지식처럼 들리지만 처음 밝혀졌을 때는 중요한 발견이었습니다. 대표적인 것이 **Doherty와 Zinkernagel**의 연구입니다. 특정 항원에 반응하는 T세포는 어떤 세포에서나 반응하지 않고, 적절한 자기 MHC 환경에서 항원이 제시되어야 반응한다는 사실을 보여 주었습니다.", [23]),
-        P("실험의 세부사항을 따라가기보다 비교하는 사고방식을 익힙니다. 항원은 같고 MHC가 다른 경우, MHC는 같고 항원이 다른 경우, 두 조건이 모두 맞는 경우로 나눕니다. 그러면 무엇이 T세포 반응을 결정하는지 보입니다. 앞의 그림이 그 세 조합입니다.", [23, 24]),
+        P("실험은 세 조합을 비교했습니다. 항원은 같고 MHC가 다르면 반응이 없고, MHC는 같고 항원이 다르면 반응이 없으며, 둘 다 맞을 때만 반응합니다(앞의 그림).", [22, 23, 24]),
+        P("즉, T세포 반응은 항원과 자기 MHC 두 조건이 함께 결정합니다.", [22, 24]),
     ]))
     top.append(EX("MHC restriction의 예외: 이식 반응", CH3, "TCR의 교차 반응성 때문에 alloreactive T세포가 약 1~10%나 됩니다.", [
         P("여기서 의문이 하나 생깁니다. 자기 MHC에 제한되어 반응한다면 왜 장기 이식 때는 타인의 MHC에 엄청난 반응이 나타날까요? 이 예외처럼 보이는 현상이 이식 반응과 superantigen입니다(앞쪽 요약의 예외 표, 파드).", [24]),
@@ -167,9 +168,9 @@ def build():
     top.append(EX("Superantigen", CH3, "peptide 처리 없이 MHC class II와 TCR을 연결해 많은 T세포를 활성화합니다.", [
         P("정상적인 항원 제시는 peptide가 만들어져 MHC의 결합 홈에 자리하고, 특정 TCR이 그 복합체를 인식하는 과정입니다. superantigen은 다릅니다. 일반적인 peptide 처리와 결합 없이 MHC class II와 TCR을 연결해서 많은 T세포를 동시에 활성화합니다.", [29]),
         FIG("f_superantigen.png", "bacterial superantigen과 viral superantigen (슬라이드)", [29]),
-        P("많은 T세포가 한꺼번에 자극되면 염증성 신호가 크게 생기고 숙주에 심한 부담이 됩니다. 특정 항원을 가진 병원체를 정교하게 없애는 반응과는 다릅니다. 핵심은 {k|비특이적인 대규모 활성화}이고, 그림에서도 결합 위치가 일반적인 peptide-MHC-TCR 인식과 다른 점을 먼저 봅니다.", [30]),
+        P("많은 T세포가 한꺼번에 자극되면 염증성 신호가 크게 생기고 숙주에 심한 부담이 됩니다. 특정 항원을 가진 병원체를 정교하게 없애는 반응과는 다릅니다. 핵심은 {k|비특이적인 대규모 활성화}이고, superantigen이 TCR과 MHC에 붙는 위치도 일반적인 peptide-MHC-TCR 인식과 다릅니다.", [30]),
         P("즉, peptide 처리 없이 MHC class II와 TCR을 직접 연결 → 많은 T세포가 한꺼번에 활성화 → 염증성 신호가 커져 숙주에 부담.", [29, 30]),
-        P("대표적인 예로는 **staphylococcal enterotoxin(SE)**과 **TSST-1**이 있습니다. SE는 식중독과, TSST-1은 toxic shock syndrome과 관련된 독소입니다. 이름을 구별해서 기억합니다.", [31]),
+        P("대표적인 예로는 **staphylococcal enterotoxin(SE)**과 **TSST-1**이 있습니다. SE는 식중독과 관련된 독소이고, TSST-1은 toxic shock syndrome과 관련된 독소입니다.", [31]),
     ]))
 
     top.append(EX("다시 보는 MHC 다양성의 의미", CH3, "감염 방어 범위와 흉선에서의 T세포 선택 부담이 균형을 이룹니다.", [
@@ -191,7 +192,6 @@ def build():
     top.append(EX("비전형적 T세포와 CD1", CH4, "peptide-MHC 밖 항원을 인식하는 T세포와 lipid 항원의 CD1입니다.", [
         P("이 소절의 분자와 세포는 공통점이 하나 있습니다. 고전적인 peptide-MHC 틀 밖에서 항원을 다루거나 인식한다는 점입니다.", [36]),
         P("unconventional T cell로는 gamma-delta T cell, 점막과 관련된 MAIT cell, invariant NKT cell을 듭니다. 이름이 다른 만큼 인식하는 표적과 역할도 같지 않습니다.", [36]),
-        P("먼저 잡을 것은 하나입니다. 고전적인 alpha-beta T세포의 peptide-MHC 인식과는 다른 항원 인식 경로가 있다는 점입니다.", [36]),
         _st("sub", "(1) CD1 = lipid 또는 glycolipid 항원 제시★", [37, 38]),
         HOOK("고전적 MHC는 peptide를, {b|CD1은 lipid를} T세포에 보여 줍니다.", [37, Q21_CD1c]),
         P("{b|CD1은 peptide가 아니라 lipid 또는 glycolipid 항원을 제시합니다.} 그래서 병원체에서 온 지질 항원을 인식하는 경로와 연결됩니다. CD1a부터 CD1e까지 여러 유형이 있습니다. {b|CD1c는 invariant NKT cell을 활성화합니다.}", [37, 38, Q21_CD1c]),
@@ -202,7 +202,7 @@ def build():
         CHK("CD1c는 invariant NKT cell을 활성화한다.", "O", [37, 38], why="CD1은 lipid 항원을 제시한다."),
         _st("sub", "(2) gamma-delta T cell과 MAIT cell", [39, 40]),
         FIG("f_gdT.png", "gamma-delta T cell을 활성화하는 ligand (슬라이드)", [39]),
-        P("표에는 gamma-delta T cell이 인식하는 ligand가 여러 가지로 나와 있습니다. 모두 암기하기보다 고전적인 peptide-MHC 인식과 다른 방식으로 다양한 신호를 감지한다는 점이 중요합니다. {g|수업에서도 종류가 다양하다는 정도로 넘어갔습니다.}", [39]),
+        P("gamma-delta T cell은 그림의 표에 나온 여러 ligand를 인식합니다. 고전적인 peptide-MHC 인식과 달리 다양한 신호를 직접 감지합니다. {g|수업에서는 종류가 다양하다는 정도로 넘어갔습니다.}", [39]),
         P("MAIT cell은 점막 면역과 관계가 있고 미생물 유래 물질을 인식합니다. 선천면역과 적응면역 사이를 잇는 세포로 설명합니다.", [40]),
         MEMO("스크립트 끝의 [검증참고] 다섯 문단(¶41–45)은 강의 내용이 아니라 자료 재구성에 대한 설명이어서 노트에 넣지 않았습니다.", [41, 42, 43, 44, 45]),
     ]))

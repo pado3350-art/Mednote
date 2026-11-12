@@ -3,7 +3,7 @@
 - 슬라이드 커버리지: 100%
 - 오류 0 / 경고 0 / 참고 4
 
-- ℹ️ `COLOUR_IN_PARAGRAPH` '비전형적 T세포와 CD1': 문단 중간에 회색·빨강 문장이 섞였다 → 별도 줄로 뺀다: '표에는 gamma-delta T cell이 …'
+- ℹ️ `COLOUR_IN_PARAGRAPH` '비전형적 T세포와 CD1': 문단 중간에 회색·빨강 문장이 섞였다 → 별도 줄로 뺀다: 'gamma-delta T cell은 그림의 …'
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶43] 수치 '12'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
 - ℹ️ `OMITTED_BY_RULE` [발화 ¶45] 수치 '40분'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).
 - ℹ️ `OMITTED_BY_RULE` [PAD 2016(14학번) Q1] 수치 '3,4'은(는) 사소한 내용이라 의도적으로 뺐습니다(meta.omitted).

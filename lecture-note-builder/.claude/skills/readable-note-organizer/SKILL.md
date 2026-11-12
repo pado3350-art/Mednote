@@ -281,3 +281,6 @@ A summary made only of bullets is not enough. For every chapter/§ on the **요�
 
 ## 한 줄 구분 hook (L50)
 헷갈리기 쉽고 문제로 내기 쉬우며 구분점이 분명한 짝(polygeny vs polymorphism, allogeneic vs xenogeneic, class I vs II 등)은 `[한 줄 구분]` 상자(kind=callout, left_title "한 줄 구분")에 한 문장, 70자 이하로 쓴다. 형식은 ‘A는 ~, B는 ~입니다’. 비교표가 있으면 바로 뒤에 둔다. 기출에서 온 구분점은 파랑과 출처를 붙이고, 스크립트나 기출에 없는 구분점은 만들지 않는다. **소절당 1개까지**(`HOOK_TOO_MANY`). 넣을지는 판단한다: (가) 바꿔 쓰기 쉬운 두 개념의 짝(셋 이상 나열·순위·단순 대비는 제외) (나) 시험에 나오기 쉬움(기출, 교수님 강조, ‘구분하라’) (다) 한 기준으로 갈림. 후보가 여럿이면 기출 > 교수님 ‘구분하라’ > 혼동 정도로 하나만 고르고 나머지는 본문·표 강조로. 검사 `HOOK_TOO_LONG`, `HOOK_TOO_MANY`, `PAIR_NO_HOOK` (`app/write/mom_format.py`).
+
+## 공부법 메타 문장 금지 (L51)
+노트 본문에는 사실만 쓴다. ‘번호를 외우기보다 원리를 이해합니다’, ‘표를 볼 때는 ~를 먼저 찾습니다’, ‘~라는 사고방식을 익힙니다’ 같은 공부법·읽는 법 지시 문장은 빼고, 그 문장이 말하려던 내용을 바로 서술한다. 공부 깊이·범위 안내는 표지 코멘트(L37)나 회색 작성자 메모(`{g|…}`)로만. 검사 `STUDY_ADVICE`(`app/write/mixed.py`).

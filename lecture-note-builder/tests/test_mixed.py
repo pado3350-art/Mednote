@@ -147,3 +147,18 @@ def test_emphasis_label_is_flagged_but_natural_ending_is_not():
     bad = _t("왜?", "explain", [Statement(text="{r|교수님 강조: 공포의 연결을 기억해야 합니다.}", kind="para", slide_refs=[1])], ["a입니다."])
     good = _t("왜?", "explain", [Statement(text="{r|공포의 연결은 졸업 뒤에도 기억해야 할 정도라고 강조하셨습니다.}", kind="para", slide_refs=[1])], ["a입니다."])
     assert "EMPHASIS_LABEL" in _codes([bad]) and "EMPHASIS_LABEL" not in _codes([good])
+
+
+def test_study_advice_sentences_flagged():
+    from app.models import LectureNote, Statement, Topic
+    from app.write.mixed import mixed_issues
+
+    def codes(text):
+        t = Topic(heading="h", chapter="c", slide_numbers=[1], style="explain", basics=["핵심 답입니다"],
+                  sections={"body": [Statement(text=text, kind="para", slide_refs=[1])]})
+        return [c for _, c, _ in mixed_issues(LectureNote(title="t", topics=[t]))]
+
+    assert "STUDY_ADVICE" in codes("번호를 외우기보다 결합의 원리를 먼저 이해합니다.")
+    assert "STUDY_ADVICE" in codes("표를 볼 때는 공통된 위치와 성질을 먼저 찾습니다.")
+    assert "STUDY_ADVICE" not in codes("HLA-B에는 2688개의 allele이 있습니다.")
+    assert "STUDY_ADVICE" not in codes("{g|모든 조절 경로를 외울 필요는 없습니다.}")  # 회색 작성자 메모는 허용

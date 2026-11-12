@@ -139,7 +139,7 @@ class III 영역에는 **[기출]** MIC-A, MIC-B가 있습니다. 면역 관련 
 감염이 생기면 여러 면역 관련 유전자의 발현이 달라집니다. interferon alpha, beta, gamma가 MHC 관련 유전자의 발현을 조절합니다(자료). 그 결과 감염된 세포가 바이러스 단백질에서 나온 peptide를 제시할 기회가 늘어납니다.
 
 
-class II에서는 **CIITA**라는 이름을 눈여겨봅니다. class II의 전사를 조절하는 co-activator입니다. interferon-gamma는 class II 관련 유전자 발현과 연결해서 기억합니다.
+class II의 전사는 **CIITA**라는 co-activator가 조절합니다. interferon-gamma는 class II 관련 유전자 발현과 연결됩니다.
 
 
 모든 조절 경로를 외울 필요는 없습니다. 항원제시 분자만 따로 만들어지는 것이 아니라 가공과 제시에 필요한 구성요소가 함께 조절된다는 큰 흐름이면 됩니다.
@@ -171,7 +171,7 @@ class II에서는 **CIITA**라는 이름을 눈여겨봅니다. class II의 전�
 ![인간 MHC 분자별 다형성: 유전자 자리마다 allele 수가 다릅니다 (슬라이드)](../../inputs/tcell_figs/f_poly_bars.png)
 
 - **[기출]** 그림에서 가장 다양한 것은 class I의 HLA-B, class II의 DRB입니다(파드, 순서는 앞쪽 요약 표).
-- 다형성은 모든 MHC 분자에서 똑같이 큰 것이 아닙니다. 고전적 class I 쪽이 크고, class Ib는 상대적으로 제한적입니다. 최신 allele 개수까지 외우기보다 상대적인 경향과 기능을 먼저 이해합니다.
+- 다형성은 모든 MHC 분자에서 똑같이 큰 것이 아닙니다. 고전적 class I 쪽이 크고, class Ib는 상대적으로 제한적입니다. allele 개수는 시점과
 - class II에서는 다형성이 **beta chain** 쪽에 집중됩니다. 이 다형성은 peptide가 들어가는 결합 부위와 관련이 있습니다. 같은 감염원의 peptide라도 사람의 MHC 종류에 따라 결합 가능성이 달라집니다.
 - **개념 Check** Class I 중 다형성이 가장 높은 유전자좌는 HLA-A이다. (O, X) → X — HLA-B이다 (B > A > C).
 - **개념 Check** Class II 중 가장 polymorphic한 것은 HLA-DR(DRB)이다. (O, X) → O — DRB > DQB > DPB이다.
@@ -216,7 +216,7 @@ class II에서는 **CIITA**라는 이름을 눈여겨봅니다. class II의 전�
 외워야 할 것은 번호가 아니라 결합의 원리입니다. MHC allele마다 선호하는 peptide motif가 있고, 같은 motif를 가진 서로 다른 peptide가 결합합니다. MHC 종류가 바뀌면 잘 결합하는 peptide의 집합도 달라집니다.
 
 
-이 원리는 종양 항원 예측이나 백신 후보 peptide 선택에도 응용됩니다. 표를 볼 때는 전체 서열보다 공통된 위치와 성질을 먼저 찾습니다.
+이 원리는 종양 항원 예측이나 백신 후보 peptide 선택에도 응용됩니다.
 
 
 
@@ -248,7 +248,10 @@ T세포는 외래 peptide만 인식하지 않습니다. TCR이 맞는 peptide를
 지금은 기본 지식처럼 들리지만 처음 밝혀졌을 때는 중요한 발견이었습니다. 대표적인 것이 **Doherty와 Zinkernagel**의 연구입니다. 특정 항원에 반응하는 T세포는 어떤 세포에서나 반응하지 않고, 적절한 자기 MHC 환경에서 항원이 제시되어야 반응한다는 사실을 보여 주었습니다.
 
 
-실험의 세부사항을 따라가기보다 비교하는 사고방식을 익힙니다. 항원은 같고 MHC가 다른 경우, MHC는 같고 항원이 다른 경우, 두 조건이 모두 맞는 경우로 나눕니다. 그러면 무엇이 T세포 반응을 결정하는지 보입니다. 앞의 그림이 그 세 조합입니다.
+실험은 세 조합을 비교했습니다. 항원은 같고 MHC가 다르면 반응이 없고, MHC는 같고 항원이 다르면 반응이 없으며, 둘 다 맞을 때만 반응합니다(앞의 그림).
+
+
+즉, T세포 반응은 항원과 자기 MHC 두 조건이 함께 결정합니다.
 
 
 
@@ -310,13 +313,13 @@ alloreactive T cell은 전체 T세포의 약 1~10%라고 합니다.
 ![bacterial superantigen과 viral superantigen (슬라이드)](../../inputs/tcell_figs/f_superantigen.png)
 
 
-많은 T세포가 한꺼번에 자극되면 염증성 신호가 크게 생기고 숙주에 심한 부담이 됩니다. 특정 항원을 가진 병원체를 정교하게 없애는 반응과는 다릅니다. 핵심은 비특이적인 대규모 활성화이고, 그림에서도 결합 위치가 일반적인 peptide-MHC-TCR 인식과 다른 점을 먼저 봅니다.
+많은 T세포가 한꺼번에 자극되면 염증성 신호가 크게 생기고 숙주에 심한 부담이 됩니다. 특정 항원을 가진 병원체를 정교하게 없애는 반응과는 다릅니다. 핵심은 비특이적인 대규모 활성화이고, superantigen이 TCR과 MHC에 붙는 위치도 일반적인 peptide-MHC-TCR 인식과 다릅니다.
 
 
 즉, peptide 처리 없이 MHC class II와 TCR을 직접 연결 → 많은 T세포가 한꺼번에 활성화 → 염증성 신호가 커져 숙주에 부담.
 
 
-대표적인 예로는 **staphylococcal enterotoxin(SE)**과 **TSST-1**이 있습니다. SE는 식중독과, TSST-1은 toxic shock syndrome과 관련된 독소입니다. 이름을 구별해서 기억합니다.
+대표적인 예로는 **staphylococcal enterotoxin(SE)**과 **TSST-1**이 있습니다. SE는 식중독과 관련된 독소이고, TSST-1은 toxic shock syndrome과 관련된 독소입니다.
 
 
 
@@ -385,9 +388,6 @@ alloreactive T cell은 전체 T세포의 약 1~10%라고 합니다.
 unconventional T cell로는 gamma-delta T cell, 점막과 관련된 MAIT cell, invariant NKT cell을 듭니다. 이름이 다른 만큼 인식하는 표적과 역할도 같지 않습니다.
 
 
-먼저 잡을 것은 하나입니다. 고전적인 alpha-beta T세포의 peptide-MHC 인식과는 다른 항원 인식 경로가 있다는 점입니다.
-
-
 **(1) CD1 = lipid 또는 glycolipid 항원 제시★**
 
 
@@ -417,7 +417,7 @@ FcRn은 MHC와 닮은 분자이지만 항원제시보다 모체의 IgG 전달과
 ![gamma-delta T cell을 활성화하는 ligand (슬라이드)](../../inputs/tcell_figs/f_gdT.png)
 
 
-표에는 gamma-delta T cell이 인식하는 ligand가 여러 가지로 나와 있습니다. 모두 암기하기보다 고전적인 peptide-MHC 인식과 다른 방식으로 다양한 신호를 감지한다는 점이 중요합니다. 수업에서도 종류가 다양하다는 정도로 넘어갔습니다.
+gamma-delta T cell은 그림의 표에 나온 여러 ligand를 인식합니다. 고전적인 peptide-MHC 인식과 달리 다양한 신호를 직접 감지합니다. 수업에서는 종류가 다양하다는 정도로 넘어갔습니다.
 
 
 MAIT cell은 점막 면역과 관계가 있고 미생물 유래 물질을 인식합니다. 선천면역과 적응면역 사이를 잇는 세포로 설명합니다.
