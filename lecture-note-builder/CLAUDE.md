@@ -101,3 +101,6 @@
 
 ## 표·줄글·작업 순서 (L41–L44, docs/WORKFLOW.md)
 표는 비교 대상이 분명하고 모든 항목이 중요할 때만(`TABLE_NOT_COMPARISON`), 표 안의 대비·헷갈리는 칸은 굵게/`{k|…}`(`TABLE_NO_EMPHASIS`). 줄글은 writing skill(my-writing-style → grammar-checker → style-guide → humanizer)로 다시 짜되 사실은 모두 남긴다. 순서는 **내용 정리 → 1차 빌드 → humanize → 최종 빌드**.
+
+## 한 줄 구분 hook (L50)
+헷갈리기 쉽고 문제로 내기 쉬우며 구분점이 분명한 짝(polygeny vs polymorphism, allogeneic vs xenogeneic, class I vs II 등)은 `[한 줄 구분]` 상자(kind=callout, left_title "한 줄 구분")에 한 문장, 70자 이하로 쓴다. 형식은 ‘A는 ~, B는 ~입니다’. 비교표가 있으면 바로 뒤에 둔다. 기출에서 온 구분점은 파랑과 출처를 붙이고, 스크립트나 기출에 없는 구분점은 만들지 않는다. 검사 `HOOK_TOO_LONG`, `PAIR_NO_HOOK` (`app/write/mom_format.py`).

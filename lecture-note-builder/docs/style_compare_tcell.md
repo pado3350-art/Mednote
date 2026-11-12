@@ -40,3 +40,12 @@
 | 쪽수 | 13 | 13 | 13 |
 - 순서: ¶32–33을 superantigen 뒤(Ⅲ-[4] ‘다시 보는 MHC 다양성의 의미’)로 되돌리고 되짚기 한 줄로 시작. ¶2–3(감염원 입장, 용어)은 MOM처럼 앞쪽 도입 문단으로. 검사 SECTION_ORDER 0건.
 - 남은 차이: 문체(합니다체 74% vs 해라체 65%, L5 유지), 작성자 목소리 여담은 여전히 적음, MOM에만 있는 사실(2688개, CDR1/2, 노벨상 등)은 스크립트에 없어 넣지 않음.
+
+## 3회차: 한 줄 구분 hook (L50)
+| | MOM | 우리 |
+|---|---|---|
+| 짝을 맞대는 한 문장 | 0 (정의를 따로 한 줄씩 2개) | 8 |
+| polygeny / polymorphism | 각각 따로: ‘가능한 유전자형이 많다’, ‘동시에 발현되는 유전자 수가 많다’ | ‘polygeny는 한 사람이 가진 유전자의 개수, polymorphism은 집단의 버전 수’ |
+| class I / II | ‘다리 하나 / 두 개’(교수님 표현) | 같은 표현 + ‘이름 한 글자 / 두 글자’(파드) |
+- 우리 hook 8개: class I vs II, polygeny vs polymorphism, 다형성 최대(B, DRB), 적용 vs 예외, allogeneic vs xenogeneic, 보통 항원 vs superantigen, HLA-C vs HLA-E, 고전적 MHC vs CD1. 모두 70자 이하 한 문장, 기출 근거는 파랑.
+- 쪽수 13쪽 유지(본문의 중복 다형성 표를 hook으로 대신). 오류·경고 0.

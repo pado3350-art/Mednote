@@ -37,11 +37,6 @@
 | 뜻 | 한 개체가 서로 다른 MHC 유전자를 **여러 개** 가짐 | 같은 유전자 자리라도 집단 안에 **여러 형태의 allele**이 있음 |
 | 예 | HLA-A와 HLA-B는 서로 다른 유전자 | HLA-A에도, HLA-B에도 다양한 allele |
 | 수준 | 한 개체 안 | 집단 전체 |
-| 구분 | 분자 | 다형성(다양성) 순서 |
-|---|---|---|
-| class I | HLA-A, HLA-B, HLA-C | **[기출]** HLA-B > HLA-A > HLA-C |
-| class II | HLA-DR, HLA-DP, HLA-DQ | **[기출]** DRB > DQB > DPB<br>**[기출]** beta chain 쪽에 다형성 집중 |
-| class Ib | HLA-E, HLA-F, HLA-G 등 | 상대적으로 **제한적** |
 | 분자 | 기능 | 단서 |
 |---|---|---|
 | **[기출]** HLA-C | **[기출]** NK세포 수용체(KIR)와 상호작용 → NK세포 억제 | **[기출]** class I이면서 class Ib로도 분류 |
@@ -104,6 +99,10 @@
 고전적 MHC class I과 class II를 견주면 아래와 같습니다. 이름을 외우기에 앞서 유전자 영역과 실제 분자의 기능을 구분해야 합니다.
 
 
+> **[한 줄 구분]**
+> **[기출]** 이름이 한 글자(A, B, C)면 class I, 두 글자(DR, DP, DQ)면 class II입니다(파드).
+
+
 class II 영역에는 DR, DQ, DP만 있는 것이 아닙니다. 앞 시간에 본 HLA-DM과 HLA-DO도 이 영역과 관련이 있습니다. 고전적인 항원제시 class II와는 구분되지만 peptide editing과 항원제시 조절에 관여합니다. TAP처럼 항원 처리에 참여하는 분자도 MHC 영역 안에 있습니다.
 
 
@@ -159,6 +158,10 @@ class II에서는 **CIITA**라는 이름을 눈여겨봅니다. class II의 전�
 
 ![polymorphism, polygeny, 그리고 둘이 함께 있는 경우 (슬라이드)](../../inputs/tcell_figs/f_poly_types.png)
 
+
+> **[한 줄 구분]**
+> polygeny는 한 사람이 가진 유전자의 ‘개수’, polymorphism은 집단의 ‘버전 수’입니다.
+
 - 이 두 층위의 다양성이 함께 작동합니다. 발현은 **codominant**여서 어머니와 아버지에게서 받은 allele이 둘 다 발현됩니다. 그러면 한 개체가 만드는 MHC 분자의 종류가 늘어나고, 한 사람의 조합이 다른 사람과 같기 어려워집니다.
 - ‘한 개체의 유전자 수가 많다’와 ‘집단 전체의 allele 종류가 많다’를 바꿔 쓰지 말고 반드시 구분해서 이해하라고 강조하셨습니다.
 
@@ -166,6 +169,10 @@ class II에서는 **CIITA**라는 이름을 눈여겨봅니다. class II의 전�
 
 
 ![인간 MHC 분자별 다형성: 유전자 자리마다 allele 수가 다릅니다 (슬라이드)](../../inputs/tcell_figs/f_poly_bars.png)
+
+
+> **[한 줄 구분]**
+> **[기출]** class I은 B가, class II는 beta 쪽인 DRB가 가장 다양합니다(파드, 순서는 앞쪽 요약 표).
 
 - 다형성은 모든 MHC 분자에서 똑같이 큰 것이 아닙니다. 고전적 class I 쪽이 크고, class Ib는 상대적으로 제한적입니다. 최신 allele 개수까지 외우기보다 상대적인 경향과 기능을 먼저 이해합니다.
 - class II에서는 다형성이 **beta chain** 쪽에 집중됩니다. 이 다형성은 peptide가 들어가는 결합 부위와 관련이 있습니다. 같은 감염원의 peptide라도 사람의 MHC 종류에 따라 결합 가능성이 달라집니다.
@@ -260,7 +267,15 @@ T세포는 외래 peptide만 인식하지 않습니다. TCR이 맞는 peptide를
 여기서 의문이 하나 생깁니다. 자기 MHC에 제한되어 반응한다면 왜 장기 이식 때는 타인의 MHC에 엄청난 반응이 나타날까요? 이 예외처럼 보이는 현상이 이식 반응과 superantigen입니다(앞쪽 요약의 예외 표, 파드).
 
 
+> **[한 줄 구분]**
+> 내 MHC + 맞는 peptide면 반응, **[기출]** 예외는 alloresponse, 이식, superantigen입니다.
+
+
 alloresponse는 다른 개체의 MHC에 일어나는 강한 T세포 반응입니다. 같은 종 사이의 이식은 **allogeneic**, 서로 다른 종 사이의 이식은 **xenogeneic**(xenograft)이라고 합니다.
+
+
+> **[한 줄 구분]**
+> **[기출]** 같은 종끼리면 allogeneic, 다른 종이면 xenogeneic입니다.
 
 
 자기 MHC에 반응하도록 교육받은 T세포가 왜 타인의 MHC에도 반응할까요? T세포 수용체에는 어느 정도 교차 반응성(cross-reactivity)이 있습니다. 그래서 자기 MHC와 구조가 비슷한 다른 MHC에 예기치 않게 강하게 결합할 수 있습니다.
@@ -300,6 +315,10 @@ alloreactive T cell은 전체 T세포의 약 1~10%라고 합니다.
 
 
 ![bacterial superantigen과 viral superantigen (슬라이드)](../../inputs/tcell_figs/f_superantigen.png)
+
+
+> **[한 줄 구분]**
+> 보통 항원은 맞는 TCR을 가진 T세포만, superantigen은 peptide 없이 많은 T세포를 한꺼번에 켭니다.
 
 
 많은 T세포가 한꺼번에 자극되면 염증성 신호가 크게 생기고 숙주에 심한 부담이 됩니다. 특정 항원을 가진 병원체를 정교하게 없애는 반응과는 다릅니다. 핵심은 비특이적인 대규모 활성화이고, 그림에서도 결합 위치가 일반적인 peptide-MHC-TCR 인식과 다른 점을 먼저 봅니다.
@@ -355,6 +374,10 @@ alloreactive T cell은 전체 T세포의 약 1~10%라고 합니다.
 
 ![class Ib 분자와 수용체, 생물학적 기능 (슬라이드)](../../inputs/tcell_figs/f_classIb.png)
 
+
+> **[한 줄 구분]**
+> **[기출]** HLA-C는 class I이면서 Ib이고, HLA-E는 Ib일 뿐 T세포에 항원을 제시하지 않습니다.
+
 - **개념 Check** HLA-C는 NK세포의 KIR과 결합해 NK세포를 억제한다. (O, X) → O — HLA-C는 class I이면서 NK세포 수용체와 상호작용한다.
 
 
@@ -377,6 +400,10 @@ unconventional T cell로는 gamma-delta T cell, 점막과 관련된 MAIT cell, i
 
 
 **(1) CD1 = lipid 또는 glycolipid 항원 제시★**
+
+
+> **[한 줄 구분]**
+> 고전적 MHC는 peptide를, **[기출]** CD1은 lipid를 T세포에 보여 줍니다.
 
 
 **[기출]** CD1은 peptide가 아니라 lipid 또는 glycolipid 항원을 제시합니다. 그래서 병원체에서 온 지질 항원을 인식하는 경로와 연결됩니다. CD1a부터 CD1e까지 여러 유형이 있습니다. **[기출]** CD1c는 invariant NKT cell을 활성화합니다.

@@ -1,6 +1,6 @@
 {
-  "store_version": 56,
-  "updated": "2026-11-12T02:11:29",
+  "store_version": 57,
+  "updated": "2026-11-12T02:18:10",
   "rules": [
     {
       "id": "L1",
@@ -1747,6 +1747,40 @@
       "approved_at": "2026-11-12T02:11:29",
       "history": [
         "v1 2026-11-12T02:11:29: 승인 (docs/style_compare_tcell.md (사용자 승인 T1~T5))"
+      ]
+    },
+    {
+      "id": "L50",
+      "version": 1,
+      "status": "approved",
+      "kind": "rule",
+      "category": "style",
+      "rule": "헷갈리기 쉽고 문제로 내기 쉬우면서 확실한 구분점이 있는 짝(예: polygeny vs polymorphism, allogeneic vs xenogeneic, class I vs class II)은 [한 줄 구분] 상자에 딱 한 문장(70자 이하)으로 정리한다. 구분점 하나만 대비해서 쉬운 말로 쓰고(‘A는 ~, B는 ~입니다’), 비교표가 있으면 그 바로 뒤에 둔다. 구분점이 기출에서 온 것이면 파랑+출처. 스크립트·기출에 없는 구분점은 만들지 않는다. 검사 HOOK_TOO_LONG, PAIR_NO_HOOK.",
+      "lecture_types": [
+        "all"
+      ],
+      "examples": [
+        {
+          "before": "| 뜻 | 한 개체가 MHC 유전자를 여러 개 가짐 | 같은 유전자 자리에 여러 allele |",
+          "after": "[한 줄 구분] polygeny는 한 사람이 가진 MHC 유전자의 ‘개수’, polymorphism은 집단에 있는 같은 유전자의 ‘버전 수’입니다.",
+          "change_id": ""
+        }
+      ],
+      "evidence": [
+        {
+          "report": "사용자 지시(hook 규칙)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-12T02:18:10"
+        }
+      ],
+      "signal": "one_sentence_hook_L50",
+      "note": "사용자 승인",
+      "approved_at": "2026-11-12T02:18:10",
+      "history": [
+        "v1 2026-11-12T02:18:10: 승인 (사용자 지시(hook 규칙))"
       ]
     }
   ]

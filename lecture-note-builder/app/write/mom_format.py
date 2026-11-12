@@ -12,7 +12,7 @@ import re
 
 from ..models import LectureNote
 
-CALLOUT_TITLES = ("작성자 추가설명", "작성자가 헷갈려서 정리", "잠깐 정리하고 가기", "ppt에는 없는 여담", "Ppt 내용 추가", "막간 퀴즈")
+CALLOUT_TITLES = ("한 줄 구분", "작성자 추가설명", "작성자가 헷갈려서 정리", "잠깐 정리하고 가기", "ppt에는 없는 여담", "Ppt 내용 추가", "막간 퀴즈")
 _SUB = re.compile(r"^\s*(\(\d+\)|\d+\)|\d+\.|[①-⑩])\s")
 
 
@@ -34,7 +34,7 @@ def format_issues(note: LectureNote) -> list[tuple[str, str, str]]:
                     out.append(("warning", "CALLOUT_EMPTY", f"'{t.heading}': 콜아웃 ‘{st.left_title}’에 내용이 없습니다."))
                 if st.kind == "sub" and not _SUB.search(st.text):
                     out.append(("info", "SUB_LINE_FORMAT", f"'{t.heading}': 소소제목 줄은 ‘(1) 제목 = 핵심’ 형태로 씁니다(L31): '{st.text[:24]}…'"))
-    out += rhythm_issues(note) + emphasis_issues(note) + table_issues(note) + order_issues(note)
+    out += rhythm_issues(note) + emphasis_issues(note) + table_issues(note) + order_issues(note) + hook_issues(note)
     return out
 
 
@@ -142,4 +142,32 @@ def order_issues(note: LectureNote) -> list[tuple[str, str, str]]:
             out.append(("warning", "SECTION_ORDER",
                         f"소절 '{t.heading}'(¶{first})이 앞 소절 '{prev_h}'(¶{prev})보다 앞선 내용입니다 → 스크립트 순서로 두고 되짚기 한 줄로 잇습니다(L45)."))
         prev, prev_h = max(prev, first), t.heading
+    return out
+
+
+# ---- one-sentence hooks for confusable pairs (L50)
+HOOK_TITLE = "한 줄 구분"
+HOOK_MAX = 70
+
+
+def hook_issues(note: LectureNote) -> list[tuple[str, str, str]]:
+    """L50: a pair that is easy to confuse, easy to test and has a clear dividing point gets ONE plain sentence ([한 줄 구분]).
+    HOOK_TOO_LONG: the hook is more than one sentence or over 70 characters.
+    PAIR_NO_HOOK: a section compares exactly two items side by side (label | A | B table) but has no hook."""
+    from ..markup import strip
+
+    out: list[tuple[str, str, str]] = []
+    for t in note.topics:
+        if t.role != "body":
+            continue
+        sts = [x for v in t.sections.values() for x in v]
+        hooks = [x for x in sts if x.kind == "callout" and x.left_title.startswith(HOOK_TITLE)]
+        for h in hooks:
+            text = strip(" ".join(h.left)).strip()
+            n_sent = len([x for x in re.split(r"(?<=[다요][.!])\s+", text) if x.strip()])
+            if n_sent > 1 or len(text) > HOOK_MAX:
+                out.append(("warning", "HOOK_TOO_LONG", f"'{t.heading}': 한 줄 구분은 한 문장, {HOOK_MAX}자 이하로(L50): '{text[:30]}…' ({len(text)}자, {n_sent}문장)"))
+        pair_tables = [x for x in sts if x.kind == "rows" and len(x.col_titles) == 3 and _is_comparison(x)]
+        if pair_tables and not hooks:
+            out.append(("info", "PAIR_NO_HOOK", f"'{t.heading}': 두 항목을 맞대는 표('{' vs '.join(pair_tables[0].col_titles[1:])}')가 있는데 [한 줄 구분]이 없습니다 → 구분점을 한 문장으로(L50)."))
     return out

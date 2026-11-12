@@ -567,6 +567,33 @@
             "diagram": null
           },
           {
+            "text": "",
+            "origin": "slide",
+            "slide_refs": [
+              6,
+              1003
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "callout",
+            "level": 0,
+            "image": "",
+            "left_title": "한 줄 구분",
+            "left": [
+              "{b|이름이 한 글자(A, B, C)면 class I, 두 글자(DR, DP, DQ)면 class II}입니다(파드)."
+            ],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "class II 영역에는 DR, DQ, DP만 있는 것이 아닙니다. 앞 시간에 본 HLA-DM과 HLA-DO도 이 영역과 관련이 있습니다. 고전적인 항원제시 class II와는 구분되지만 peptide editing과 항원제시 조절에 관여합니다. TAP처럼 항원 처리에 참여하는 분자도 MHC 영역 안에 있습니다.",
             "origin": "both",
             "slide_refs": [
@@ -906,7 +933,6 @@
       "new_page": false,
       "tip": "",
       "slide_numbers": [
-        6,
         13,
         14,
         15,
@@ -1016,6 +1042,33 @@
             "diagram": null
           },
           {
+            "text": "",
+            "origin": "slide",
+            "slide_refs": [
+              13,
+              14
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "callout",
+            "level": 0,
+            "image": "",
+            "left_title": "한 줄 구분",
+            "left": [
+              "polygeny는 한 사람이 가진 유전자의 ‘개수’, polymorphism은 집단의 ‘버전 수’입니다."
+            ],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "이 두 층위의 다양성이 함께 작동합니다. 발현은 **codominant**여서 어머니와 아버지에게서 받은 allele이 둘 다 발현됩니다. 그러면 한 개체가 만드는 MHC 분자의 종류가 늘어나고, 한 사람의 조합이 다른 사람과 같기 어려워집니다.",
             "origin": "both",
             "slide_refs": [
@@ -1117,7 +1170,6 @@
             "text": "",
             "origin": "slide",
             "slide_refs": [
-              6,
               15,
               16,
               1001,
@@ -1129,42 +1181,20 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "rows",
+            "kind": "callout",
             "level": 0,
             "image": "",
-            "left_title": "",
-            "left": [],
+            "left_title": "한 줄 구분",
+            "left": [
+              "{b|class I은 B가, class II는 beta 쪽인 DRB가 가장 다양합니다}(파드, 순서는 앞쪽 요약 표)."
+            ],
             "options": [],
             "answer": "",
             "explanations": [],
             "effort": "",
-            "rows": [
-              [
-                "class I",
-                "HLA-A, HLA-B, HLA-C",
-                "{b|HLA-B > HLA-A > HLA-C}"
-              ],
-              [
-                "class II",
-                "HLA-DR, HLA-DP, HLA-DQ",
-                "{b|DRB > DQB > DPB}\n{b|beta chain 쪽에 다형성 집중}"
-              ],
-              [
-                "class Ib",
-                "HLA-E, HLA-F, HLA-G 등",
-                "상대적으로 **제한적**"
-              ]
-            ],
-            "col_titles": [
-              "구분",
-              "분자",
-              "다형성(다양성) 순서"
-            ],
-            "col_widths": [
-              2.6,
-              5.6,
-              9.2
-            ],
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
             "diagram": null
           },
           {
@@ -1758,11 +1788,15 @@
       "new_page": false,
       "tip": "",
       "slide_numbers": [
+        21,
         24,
         25,
         26,
         27,
-        28
+        28,
+        1010,
+        1013,
+        1016
       ],
       "sections": {
         "body": [
@@ -1791,6 +1825,35 @@
             "diagram": null
           },
           {
+            "text": "",
+            "origin": "slide",
+            "slide_refs": [
+              21,
+              24,
+              1013,
+              1016
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "callout",
+            "level": 0,
+            "image": "",
+            "left_title": "한 줄 구분",
+            "left": [
+              "내 MHC + 맞는 peptide면 반응, {b|예외는 alloresponse, 이식, superantigen}입니다."
+            ],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "alloresponse는 다른 개체의 MHC에 일어나는 강한 T세포 반응입니다. 같은 종 사이의 이식은 **allogeneic**, 서로 다른 종 사이의 이식은 **xenogeneic**(xenograft)이라고 합니다.",
             "origin": "both",
             "slide_refs": [
@@ -1805,6 +1868,33 @@
             "image": "",
             "left_title": "",
             "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "",
+            "origin": "slide",
+            "slide_refs": [
+              25,
+              1010
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "callout",
+            "level": 0,
+            "image": "",
+            "left_title": "한 줄 구분",
+            "left": [
+              "{b|같은 종끼리면 allogeneic, 다른 종이면 xenogeneic입니다.}"
+            ],
             "options": [],
             "answer": "",
             "explanations": [],
@@ -2101,6 +2191,33 @@
             "image": "inputs/tcell_figs/f_superantigen.png",
             "left_title": "",
             "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "",
+            "origin": "slide",
+            "slide_refs": [
+              29,
+              30
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "callout",
+            "level": 0,
+            "image": "",
+            "left_title": "한 줄 구분",
+            "left": [
+              "보통 항원은 맞는 TCR을 가진 T세포만, superantigen은 peptide 없이 많은 T세포를 한꺼번에 켭니다."
+            ],
             "options": [],
             "answer": "",
             "explanations": [],
@@ -2473,6 +2590,34 @@
             "diagram": null
           },
           {
+            "text": "",
+            "origin": "slide",
+            "slide_refs": [
+              35,
+              1011,
+              1017
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "callout",
+            "level": 0,
+            "image": "",
+            "left_title": "한 줄 구분",
+            "left": [
+              "{b|HLA-C는 class I이면서 Ib이고, HLA-E는 Ib일 뿐 T세포에 항원을 제시하지 않습니다.}"
+            ],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
             "text": "HLA-C는 NK세포의 KIR과 결합해 NK세포를 억제한다.",
             "origin": "both",
             "slide_refs": [
@@ -2620,6 +2765,33 @@
             "image": "",
             "left_title": "",
             "left": [],
+            "options": [],
+            "answer": "",
+            "explanations": [],
+            "effort": "",
+            "rows": [],
+            "col_titles": [],
+            "col_widths": [],
+            "diagram": null
+          },
+          {
+            "text": "",
+            "origin": "slide",
+            "slide_refs": [
+              37,
+              1002
+            ],
+            "segment_ids": [],
+            "time_ranges": [],
+            "emphasis": false,
+            "tag": "normal",
+            "kind": "callout",
+            "level": 0,
+            "image": "",
+            "left_title": "한 줄 구분",
+            "left": [
+              "고전적 MHC는 peptide를, {b|CD1은 lipid를} T세포에 보여 줍니다."
+            ],
             "options": [],
             "answer": "",
             "explanations": [],

@@ -110,3 +110,22 @@ def test_section_order_follows_script():
 
     assert order_issues(LectureNote(title="t", topics=[t("a", 1), t("b", 5), t("c", 9)])) == []
     assert [c for _, c, _ in order_issues(LectureNote(title="t", topics=[t("a", 1), t("b", 30), t("c", 20)]))] == ["SECTION_ORDER"]
+
+
+def test_one_sentence_hook_checks_and_render(tmp_path):
+    """L50: a confusable pair gets ONE short sentence in a [한 줄 구분] box."""
+    from app.write.mom_format import hook_issues
+
+    pair = Statement(text="", kind="rows", rows=[["수준", "**한 개체**", "**집단**"]], col_titles=["구분", "polygeny", "polymorphism"], slide_refs=[1])
+    good = Statement(text="", kind="callout", left_title="한 줄 구분", left=["polygeny는 한 사람의 유전자 개수, polymorphism은 집단의 버전 수입니다."], slide_refs=[1])
+    long = Statement(text="", kind="callout", left_title="한 줄 구분", left=["첫 문장입니다. 두 번째 문장입니다."], slide_refs=[1])
+
+    def codes(*sts):
+        return [c for _, c, _ in hook_issues(LectureNote(title="t", topics=[Topic(heading="h", slide_numbers=[1], sections={"body": list(sts)})]))]
+
+    assert codes(pair) == ["PAIR_NO_HOOK"]
+    assert codes(pair, good) == []
+    assert codes(pair, long) == ["HOOK_TOO_LONG"]
+    t = Topic(heading="h", chapter="c", slide_numbers=[1], style="explain", basics=["x"], sections={"body": [good]})
+    doc = Document(str(export_mom(LectureNote(title="t", topics=[t], ref_style="para", meta={"points": "a"}), _tpl(), tmp_path / "h.docx")))
+    assert "[한 줄 구분]" in "\n".join(c.text for tb in doc.tables for r in tb.rows for c in r.cells)

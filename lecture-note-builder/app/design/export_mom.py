@@ -575,7 +575,7 @@ def _callout_box(doc, st: Statement, tpl: Template) -> None:
     """[작성자 추가설명] / [작성자가 헷갈려서 정리] / [잠깐 정리하고 가기] / [ppt에는 없는 여담 - …] / [Ppt 내용 추가] (L33):
     a thin black-ruled box, the bracketed title in a light shade, then the lines."""
     F, base = tpl.format.font_korean, tpl.format.font_size_pt
-    shade = "FFF2CC" if "정리하고 가기" in st.left_title else ("E7E6E6" if "헷갈려서" in st.left_title else "F2F2F2")
+    shade = "FFF2CC" if ("정리하고 가기" in st.left_title or "한 줄 구분" in st.left_title) else ("E7E6E6" if "헷갈려서" in st.left_title else "F2F2F2")
     _fmt(doc.add_paragraph(), after=1, line=0.5)
     t = doc.add_table(rows=1, cols=1)
     t.alignment = WD_TABLE_ALIGNMENT.CENTER
@@ -589,8 +589,9 @@ def _callout_box(doc, st: Statement, tpl: Template) -> None:
         _fmt(q, after=1, line=1.3, left=0.5 if bullet else 0.1, first=-0.35 if bullet else 0)
         if bullet:
             q.add_run("-  ")
+        hook = st.left_title.startswith("한 줄 구분")  # L50: the one-sentence hook reads as one bold line
         for text, col, bold in runs(line.removeprefix("- ")):
-            r = q.add_run(text); _run_style(r, col, F, base - 0.5, bold=True if bold else None)
+            r = q.add_run(text); _run_style(r, col, F, base if hook else base - 0.5, bold=True if (bold or hook) else None)
     _fmt(doc.add_paragraph(), after=3, line=0.5)
 
 

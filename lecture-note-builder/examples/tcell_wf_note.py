@@ -28,6 +28,11 @@ PAD_NK = [Q19_KIR, Q15_KIR, Q15_HLAE, Q18_MICA, Q16_NKG2D, Q16_cls1b, Q10_noAg]
 PAD_RESTR = [Q16_restr, Q11_restr]
 
 
+def HOOK(text, g=()):
+    """L50: a confusable, testable pair with a clear dividing point -> ONE plain sentence in a [한 줄 구분] box."""
+    return Statement(text="", kind="callout", left_title="한 줄 구분", left=[text], slide_refs=list(g))
+
+
 def FIG(img, caption, g=()):
     return Statement(text=caption, kind="figure", image=FIG_DIR + img, slide_refs=list(g))
 
@@ -86,6 +91,7 @@ def build():
         _st("sub", "(1) 분자 = class I은 HLA-A, B, C / class II는 HLA-DR, DP, DQ★", [6]),
         P("고전적 MHC class I과 class II를 견주면 아래와 같습니다. 이름을 외우기에 앞서 유전자 영역과 실제 분자의 기능을 구분해야 합니다.", [6]),
         CLASS_CMP,
+        HOOK("{b|이름이 한 글자(A, B, C)면 class I, 두 글자(DR, DP, DQ)면 class II}입니다(파드).", [6, Q21_cls2]),
         P("class II 영역에는 DR, DQ, DP만 있는 것이 아닙니다. 앞 시간에 본 HLA-DM과 HLA-DO도 이 영역과 관련이 있습니다. 고전적인 항원제시 class II와는 구분되지만 peptide editing과 항원제시 조절에 관여합니다. TAP처럼 항원 처리에 참여하는 분자도 MHC 영역 안에 있습니다.", [7]),
         P("{r|문제가 ‘MHC class II 분자’를 묻는지 ‘class II region에 존재하는 유전자’를 묻는지 구분해서 읽어야 한다고 강조하셨습니다.}", [8]),
         CHK("HLA-DR은 MHC class II에 해당한다.", "O", [6], why="class II는 HLA-DR, DP, DQ이다."),
@@ -111,11 +117,12 @@ def build():
             ["예", "HLA-A와 HLA-B는 서로 다른 유전자", "HLA-A에도, HLA-B에도 다양한 allele"],
             ["수준", "{k|한 개체 안}", "{k|집단 전체}"],
         ], col_titles=["구분", "polygeny (polygenic)", "polymorphism (polymorphic)"], col_widths=[2.4, 7.4, 7.6], g=[13, 14]),
+        HOOK("polygeny는 한 사람이 가진 유전자의 ‘개수’, polymorphism은 집단의 ‘버전 수’입니다.", [13, 14]),
         P("이 두 층위의 다양성이 함께 작동합니다. 발현은 **codominant**여서 어머니와 아버지에게서 받은 allele이 둘 다 발현됩니다. 그러면 한 개체가 만드는 MHC 분자의 종류가 늘어나고, 한 사람의 조합이 다른 사람과 같기 어려워집니다.", [13, 14]),
         P("{r|‘한 개체의 유전자 수가 많다’와 ‘집단 전체의 allele 종류가 많다’를 바꿔 쓰지 말고 반드시 구분해서 이해하라고 강조하셨습니다.}", [14]),
         _st("sub", "(1) 다형성의 순서 = class I은 B > A > C, class II는 DRB > DQB > DPB★", [15, 16]),
         FIG("f_poly_bars.png", "인간 MHC 분자별 다형성: 유전자 자리마다 allele 수가 다릅니다 (슬라이드)", [15]),
-        POLY,
+        HOOK("{b|class I은 B가, class II는 beta 쪽인 DRB가 가장 다양합니다}(파드, 순서는 앞쪽 요약 표).", [15, 16] + PAD_POLY),
         P("다형성은 모든 MHC 분자에서 똑같이 큰 것이 아닙니다. 고전적 class I 쪽이 크고, class Ib는 상대적으로 제한적입니다. 최신 allele 개수까지 외우기보다 상대적인 경향과 기능을 먼저 이해합니다.", [15]),
         P("class II에서는 다형성이 **beta chain** 쪽에 집중됩니다. 이 다형성은 peptide가 들어가는 결합 부위와 관련이 있습니다. 같은 감염원의 peptide라도 사람의 MHC 종류에 따라 결합 가능성이 달라집니다.", [16]),
         CHK("Class I 중 다형성이 가장 높은 유전자좌는 HLA-A이다.", "X", [15], why="HLA-B이다 (B > A > C)."),
@@ -145,7 +152,9 @@ def build():
     ]))
     top.append(EX("MHC restriction의 예외: 이식 반응", CH3, "TCR의 교차 반응성 때문에 alloreactive T세포가 약 1~10%나 됩니다.", [
         P("여기서 의문이 하나 생깁니다. 자기 MHC에 제한되어 반응한다면 왜 장기 이식 때는 타인의 MHC에 엄청난 반응이 나타날까요? 이 예외처럼 보이는 현상이 이식 반응과 superantigen입니다(앞쪽 요약의 예외 표, 파드).", [24]),
+        HOOK("내 MHC + 맞는 peptide면 반응, {b|예외는 alloresponse, 이식, superantigen}입니다.", [21, 24] + PAD_RESTR),
         P("alloresponse는 다른 개체의 MHC에 일어나는 강한 T세포 반응입니다. 같은 종 사이의 이식은 **allogeneic**, 서로 다른 종 사이의 이식은 **xenogeneic**(xenograft)이라고 합니다.", [25]),
+        HOOK("{b|같은 종끼리면 allogeneic, 다른 종이면 xenogeneic입니다.}", [25, Q16_allo]),
         P("자기 MHC에 반응하도록 교육받은 T세포가 왜 타인의 MHC에도 반응할까요? T세포 수용체에는 어느 정도 교차 반응성(cross-reactivity)이 있습니다. 그래서 자기 MHC와 구조가 비슷한 다른 MHC에 예기치 않게 강하게 결합할 수 있습니다.", [26]),
         P("alloreactive T cell은 전체 T세포의 {k|약 1~10%}라고 합니다.", [28]),
         FIG("f_alloresponse.png", "TCR의 CDR 부위와 MHC-peptide 복합체의 상호작용, alloresponse (슬라이드)", [28]),
@@ -159,6 +168,7 @@ def build():
     top.append(EX("Superantigen", CH3, "peptide 처리 없이 MHC class II와 TCR을 연결해 많은 T세포를 활성화합니다.", [
         P("정상적인 항원 제시는 peptide가 만들어져 MHC의 결합 홈에 자리하고, 특정 TCR이 그 복합체를 인식하는 과정입니다. superantigen은 다릅니다. 일반적인 peptide 처리와 결합 없이 MHC class II와 TCR을 연결해서 많은 T세포를 동시에 활성화합니다.", [29]),
         FIG("f_superantigen.png", "bacterial superantigen과 viral superantigen (슬라이드)", [29]),
+        HOOK("보통 항원은 맞는 TCR을 가진 T세포만, superantigen은 peptide 없이 많은 T세포를 한꺼번에 켭니다.", [29, 30]),
         P("많은 T세포가 한꺼번에 자극되면 염증성 신호가 크게 생기고 숙주에 심한 부담이 됩니다. 특정 항원을 가진 병원체를 정교하게 없애는 반응과는 다릅니다. 핵심은 {k|비특이적인 대규모 활성화}이고, 그림에서도 결합 위치가 일반적인 peptide-MHC-TCR 인식과 다른 점을 먼저 봅니다.", [30]),
         P("즉, peptide 처리 없이 MHC class II와 TCR을 직접 연결 → 많은 T세포가 한꺼번에 활성화 → 염증성 신호가 커져 숙주에 부담.", [29, 30]),
         P("대표적인 예로는 **staphylococcal enterotoxin(SE)**과 **TSST-1**이 있습니다. SE는 식중독과, TSST-1은 toxic shock syndrome과 관련된 독소입니다. 이름을 구별해서 기억합니다.", [31]),
@@ -177,6 +187,7 @@ def build():
         P("아래 네 분자를 묶는 이유는 하나입니다. 고전적 class I과 형태가 비슷하지만 다형성이 제한적인 경우가 많고, 기능이 다양하다는 점입니다. HLA-E, HLA-F, HLA-G를 중심으로 보라고 되어 있습니다(자료).", [35]),
         FIG("f_classIb.png", "class Ib 분자와 수용체, 생물학적 기능 (슬라이드)", [35]),
         CLASS_IB,
+        HOOK("{b|HLA-C는 class I이면서 Ib이고, HLA-E는 Ib일 뿐 T세포에 항원을 제시하지 않습니다.}", [35, Q16_cls1b, Q10_noAg]),
         CHK("HLA-C는 NK세포의 KIR과 결합해 NK세포를 억제한다.", "O", [35], why="HLA-C는 class I이면서 NK세포 수용체와 상호작용한다."),
     ], refs=PAD_NK, mark="기출"))
     top.append(EX("비전형적 T세포와 CD1", CH4, "peptide-MHC 밖 항원을 인식하는 T세포와 lipid 항원의 CD1입니다.", [
@@ -184,6 +195,7 @@ def build():
         P("unconventional T cell로는 gamma-delta T cell, 점막과 관련된 MAIT cell, invariant NKT cell을 듭니다. 이름이 다른 만큼 인식하는 표적과 역할도 같지 않습니다.", [36]),
         P("먼저 잡을 것은 하나입니다. 고전적인 alpha-beta T세포의 peptide-MHC 인식과는 다른 항원 인식 경로가 있다는 점입니다.", [36]),
         _st("sub", "(1) CD1 = lipid 또는 glycolipid 항원 제시★", [37, 38]),
+        HOOK("고전적 MHC는 peptide를, {b|CD1은 lipid를} T세포에 보여 줍니다.", [37, Q21_CD1c]),
         P("{b|CD1은 peptide가 아니라 lipid 또는 glycolipid 항원을 제시합니다.} 그래서 병원체에서 온 지질 항원을 인식하는 경로와 연결됩니다. CD1a부터 CD1e까지 여러 유형이 있습니다. {b|CD1c는 invariant NKT cell을 활성화합니다.}", [37, 38, Q21_CD1c]),
         P("{r|CD1은 국가시험에 자주 나온다고 강조하셨다고 자료에 적혀 있으니, ‘CD1은 지질 항원제시’를 확실히 기억합니다.}", [37]),
         P("{p|(작성자 생각) 자료는 CD1c와 invariant NKT cell을 연결합니다. 하지만 일반적으로 invariant NKT cell의 대표 인식 분자는 CD1d이므로, 복습할 때 검증이 필요합니다.}", [38]),
