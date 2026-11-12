@@ -148,6 +148,7 @@ def order_issues(note: LectureNote) -> list[tuple[str, str, str]]:
 # ---- one-sentence hooks for confusable pairs (L50)
 HOOK_TITLE = "한 줄 구분"
 HOOK_MAX = 70
+HOOK_PER_SECTION = 1
 
 
 def hook_issues(note: LectureNote) -> list[tuple[str, str, str]]:
@@ -167,6 +168,8 @@ def hook_issues(note: LectureNote) -> list[tuple[str, str, str]]:
             n_sent = len([x for x in re.split(r"(?<=[다요][.!])\s+", text) if x.strip()])
             if n_sent > 1 or len(text) > HOOK_MAX:
                 out.append(("warning", "HOOK_TOO_LONG", f"'{t.heading}': 한 줄 구분은 한 문장, {HOOK_MAX}자 이하로(L50): '{text[:30]}…' ({len(text)}자, {n_sent}문장)"))
+        if len(hooks) > HOOK_PER_SECTION:
+            out.append(("warning", "HOOK_TOO_MANY", f"'{t.heading}': 한 줄 구분이 {len(hooks)}개입니다(소절당 {HOOK_PER_SECTION}개) → 기출·교수님 강조·혼동 정도로 하나만 고릅니다(L50)."))
         pair_tables = [x for x in sts if x.kind == "rows" and len(x.col_titles) == 3 and _is_comparison(x)]
         if pair_tables and not hooks:
             out.append(("info", "PAIR_NO_HOOK", f"'{t.heading}': 두 항목을 맞대는 표('{' vs '.join(pair_tables[0].col_titles[1:])}')가 있는데 [한 줄 구분]이 없습니다 → 구분점을 한 문장으로(L50)."))

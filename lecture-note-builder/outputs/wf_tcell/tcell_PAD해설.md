@@ -36,6 +36,7 @@
 
 고전적 class I에서는 HLA-B > HLA-A > HLA-C 순으로, class II에서는 DRB > DQB > DPB 순으로 다형성이 큽니다. class II의 다형성은 beta chain 쪽에 집중되어 있고, class Ib는 상대적으로 제한적입니다. 다형성은 peptide가 들어가는 결합 부위와 관련됩니다. 이번 수업은 최신 allele 개수를 외우기보다 상대적인 경향과 기능을 이해하라고 했습니다.
 
+- [polygeny와 polymorphism의 구분, 다형성의 순서] 그림에서 가장 다양한 것은 class I의 HLA-B, class II의 DRB입니다(파드, 순서는 앞쪽 요약 표).
 - [Take home messages] 2. 다형성 순서: class I B > A > C, class II DRB > DQB > DPB★
 
 ## 유형 2. CD1c와 invariant NKT cell (1문항: 2021년(19학번) Q1)

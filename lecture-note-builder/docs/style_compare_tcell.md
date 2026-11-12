@@ -49,3 +49,7 @@
 | class I / II | ‘다리 하나 / 두 개’(교수님 표현) | 같은 표현 + ‘이름 한 글자 / 두 글자’(파드) |
 - 우리 hook 8개: class I vs II, polygeny vs polymorphism, 다형성 최대(B, DRB), 적용 vs 예외, allogeneic vs xenogeneic, 보통 항원 vs superantigen, HLA-C vs HLA-E, 고전적 MHC vs CD1. 모두 70자 이하 한 문장, 기출 근거는 파랑.
 - 쪽수 13쪽 유지(본문의 중복 다형성 표를 hook으로 대신). 오류·경고 0.
+
+## 4회차: hook 소절당 1개 + 판단 조건 (L50 v2)
+- 남긴 5개: class I vs II(기출), polygeny vs polymorphism(교수님 ‘구분하라’), allogeneic vs xenogeneic(기출), HLA-C vs HLA-E(기출), 고전적 MHC vs CD1(기출).
+- 뺀 3개: 다형성 순서(순위라 짝이 아님 → 본문 파랑 문장), MHC restriction 적용 vs 예외(셋 나열 → 앞쪽 요약 표), 보통 항원 vs superantigen(덜 헷갈림).

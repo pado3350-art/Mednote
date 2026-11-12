@@ -1167,8 +1167,8 @@
             "diagram": null
           },
           {
-            "text": "",
-            "origin": "slide",
+            "text": "{b|그림에서 가장 다양한 것은 class I의 HLA-B, class II의 DRB입니다}(파드, 순서는 앞쪽 요약 표).",
+            "origin": "both",
             "slide_refs": [
               15,
               16,
@@ -1181,13 +1181,11 @@
             "time_ranges": [],
             "emphasis": false,
             "tag": "normal",
-            "kind": "callout",
+            "kind": "para",
             "level": 0,
             "image": "",
-            "left_title": "한 줄 구분",
-            "left": [
-              "{b|class I은 B가, class II는 beta 쪽인 DRB가 가장 다양합니다}(파드, 순서는 앞쪽 요약 표)."
-            ],
+            "left_title": "",
+            "left": [],
             "options": [],
             "answer": "",
             "explanations": [],
@@ -1788,15 +1786,12 @@
       "new_page": false,
       "tip": "",
       "slide_numbers": [
-        21,
         24,
         25,
         26,
         27,
         28,
-        1010,
-        1013,
-        1016
+        1010
       ],
       "sections": {
         "body": [
@@ -1815,35 +1810,6 @@
             "image": "",
             "left_title": "",
             "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "",
-            "origin": "slide",
-            "slide_refs": [
-              21,
-              24,
-              1013,
-              1016
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "callout",
-            "level": 0,
-            "image": "",
-            "left_title": "한 줄 구분",
-            "left": [
-              "내 MHC + 맞는 peptide면 반응, {b|예외는 alloresponse, 이식, superantigen}입니다."
-            ],
             "options": [],
             "answer": "",
             "explanations": [],
@@ -2191,33 +2157,6 @@
             "image": "inputs/tcell_figs/f_superantigen.png",
             "left_title": "",
             "left": [],
-            "options": [],
-            "answer": "",
-            "explanations": [],
-            "effort": "",
-            "rows": [],
-            "col_titles": [],
-            "col_widths": [],
-            "diagram": null
-          },
-          {
-            "text": "",
-            "origin": "slide",
-            "slide_refs": [
-              29,
-              30
-            ],
-            "segment_ids": [],
-            "time_ranges": [],
-            "emphasis": false,
-            "tag": "normal",
-            "kind": "callout",
-            "level": 0,
-            "image": "",
-            "left_title": "한 줄 구분",
-            "left": [
-              "보통 항원은 맞는 TCR을 가진 T세포만, superantigen은 peptide 없이 많은 T세포를 한꺼번에 켭니다."
-            ],
             "options": [],
             "answer": "",
             "explanations": [],

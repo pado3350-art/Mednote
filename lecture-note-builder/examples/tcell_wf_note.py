@@ -122,7 +122,7 @@ def build():
         P("{r|‘한 개체의 유전자 수가 많다’와 ‘집단 전체의 allele 종류가 많다’를 바꿔 쓰지 말고 반드시 구분해서 이해하라고 강조하셨습니다.}", [14]),
         _st("sub", "(1) 다형성의 순서 = class I은 B > A > C, class II는 DRB > DQB > DPB★", [15, 16]),
         FIG("f_poly_bars.png", "인간 MHC 분자별 다형성: 유전자 자리마다 allele 수가 다릅니다 (슬라이드)", [15]),
-        HOOK("{b|class I은 B가, class II는 beta 쪽인 DRB가 가장 다양합니다}(파드, 순서는 앞쪽 요약 표).", [15, 16] + PAD_POLY),
+        P("{b|그림에서 가장 다양한 것은 class I의 HLA-B, class II의 DRB입니다}(파드, 순서는 앞쪽 요약 표).", [15, 16] + PAD_POLY),
         P("다형성은 모든 MHC 분자에서 똑같이 큰 것이 아닙니다. 고전적 class I 쪽이 크고, class Ib는 상대적으로 제한적입니다. 최신 allele 개수까지 외우기보다 상대적인 경향과 기능을 먼저 이해합니다.", [15]),
         P("class II에서는 다형성이 **beta chain** 쪽에 집중됩니다. 이 다형성은 peptide가 들어가는 결합 부위와 관련이 있습니다. 같은 감염원의 peptide라도 사람의 MHC 종류에 따라 결합 가능성이 달라집니다.", [16]),
         CHK("Class I 중 다형성이 가장 높은 유전자좌는 HLA-A이다.", "X", [15], why="HLA-B이다 (B > A > C)."),
@@ -152,7 +152,6 @@ def build():
     ]))
     top.append(EX("MHC restriction의 예외: 이식 반응", CH3, "TCR의 교차 반응성 때문에 alloreactive T세포가 약 1~10%나 됩니다.", [
         P("여기서 의문이 하나 생깁니다. 자기 MHC에 제한되어 반응한다면 왜 장기 이식 때는 타인의 MHC에 엄청난 반응이 나타날까요? 이 예외처럼 보이는 현상이 이식 반응과 superantigen입니다(앞쪽 요약의 예외 표, 파드).", [24]),
-        HOOK("내 MHC + 맞는 peptide면 반응, {b|예외는 alloresponse, 이식, superantigen}입니다.", [21, 24] + PAD_RESTR),
         P("alloresponse는 다른 개체의 MHC에 일어나는 강한 T세포 반응입니다. 같은 종 사이의 이식은 **allogeneic**, 서로 다른 종 사이의 이식은 **xenogeneic**(xenograft)이라고 합니다.", [25]),
         HOOK("{b|같은 종끼리면 allogeneic, 다른 종이면 xenogeneic입니다.}", [25, Q16_allo]),
         P("자기 MHC에 반응하도록 교육받은 T세포가 왜 타인의 MHC에도 반응할까요? T세포 수용체에는 어느 정도 교차 반응성(cross-reactivity)이 있습니다. 그래서 자기 MHC와 구조가 비슷한 다른 MHC에 예기치 않게 강하게 결합할 수 있습니다.", [26]),
@@ -168,7 +167,6 @@ def build():
     top.append(EX("Superantigen", CH3, "peptide 처리 없이 MHC class II와 TCR을 연결해 많은 T세포를 활성화합니다.", [
         P("정상적인 항원 제시는 peptide가 만들어져 MHC의 결합 홈에 자리하고, 특정 TCR이 그 복합체를 인식하는 과정입니다. superantigen은 다릅니다. 일반적인 peptide 처리와 결합 없이 MHC class II와 TCR을 연결해서 많은 T세포를 동시에 활성화합니다.", [29]),
         FIG("f_superantigen.png", "bacterial superantigen과 viral superantigen (슬라이드)", [29]),
-        HOOK("보통 항원은 맞는 TCR을 가진 T세포만, superantigen은 peptide 없이 많은 T세포를 한꺼번에 켭니다.", [29, 30]),
         P("많은 T세포가 한꺼번에 자극되면 염증성 신호가 크게 생기고 숙주에 심한 부담이 됩니다. 특정 항원을 가진 병원체를 정교하게 없애는 반응과는 다릅니다. 핵심은 {k|비특이적인 대규모 활성화}이고, 그림에서도 결합 위치가 일반적인 peptide-MHC-TCR 인식과 다른 점을 먼저 봅니다.", [30]),
         P("즉, peptide 처리 없이 MHC class II와 TCR을 직접 연결 → 많은 T세포가 한꺼번에 활성화 → 염증성 신호가 커져 숙주에 부담.", [29, 30]),
         P("대표적인 예로는 **staphylococcal enterotoxin(SE)**과 **TSST-1**이 있습니다. SE는 식중독과, TSST-1은 toxic shock syndrome과 관련된 독소입니다. 이름을 구별해서 기억합니다.", [31]),

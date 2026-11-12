@@ -170,10 +170,7 @@ class II에서는 **CIITA**라는 이름을 눈여겨봅니다. class II의 전�
 
 ![인간 MHC 분자별 다형성: 유전자 자리마다 allele 수가 다릅니다 (슬라이드)](../../inputs/tcell_figs/f_poly_bars.png)
 
-
-> **[한 줄 구분]**
-> **[기출]** class I은 B가, class II는 beta 쪽인 DRB가 가장 다양합니다(파드, 순서는 앞쪽 요약 표).
-
+- **[기출]** 그림에서 가장 다양한 것은 class I의 HLA-B, class II의 DRB입니다(파드, 순서는 앞쪽 요약 표).
 - 다형성은 모든 MHC 분자에서 똑같이 큰 것이 아닙니다. 고전적 class I 쪽이 크고, class Ib는 상대적으로 제한적입니다. 최신 allele 개수까지 외우기보다 상대적인 경향과 기능을 먼저 이해합니다.
 - class II에서는 다형성이 **beta chain** 쪽에 집중됩니다. 이 다형성은 peptide가 들어가는 결합 부위와 관련이 있습니다. 같은 감염원의 peptide라도 사람의 MHC 종류에 따라 결합 가능성이 달라집니다.
 - **개념 Check** Class I 중 다형성이 가장 높은 유전자좌는 HLA-A이다. (O, X) → X — HLA-B이다 (B > A > C).
@@ -267,10 +264,6 @@ T세포는 외래 peptide만 인식하지 않습니다. TCR이 맞는 peptide를
 여기서 의문이 하나 생깁니다. 자기 MHC에 제한되어 반응한다면 왜 장기 이식 때는 타인의 MHC에 엄청난 반응이 나타날까요? 이 예외처럼 보이는 현상이 이식 반응과 superantigen입니다(앞쪽 요약의 예외 표, 파드).
 
 
-> **[한 줄 구분]**
-> 내 MHC + 맞는 peptide면 반응, **[기출]** 예외는 alloresponse, 이식, superantigen입니다.
-
-
 alloresponse는 다른 개체의 MHC에 일어나는 강한 T세포 반응입니다. 같은 종 사이의 이식은 **allogeneic**, 서로 다른 종 사이의 이식은 **xenogeneic**(xenograft)이라고 합니다.
 
 
@@ -315,10 +308,6 @@ alloreactive T cell은 전체 T세포의 약 1~10%라고 합니다.
 
 
 ![bacterial superantigen과 viral superantigen (슬라이드)](../../inputs/tcell_figs/f_superantigen.png)
-
-
-> **[한 줄 구분]**
-> 보통 항원은 맞는 TCR을 가진 T세포만, superantigen은 peptide 없이 많은 T세포를 한꺼번에 켭니다.
 
 
 많은 T세포가 한꺼번에 자극되면 염증성 신호가 크게 생기고 숙주에 심한 부담이 됩니다. 특정 항원을 가진 병원체를 정교하게 없애는 반응과는 다릅니다. 핵심은 비특이적인 대규모 활성화이고, 그림에서도 결합 위치가 일반적인 peptide-MHC-TCR 인식과 다른 점을 먼저 봅니다.

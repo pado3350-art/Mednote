@@ -126,6 +126,7 @@ def test_one_sentence_hook_checks_and_render(tmp_path):
     assert codes(pair) == ["PAIR_NO_HOOK"]
     assert codes(pair, good) == []
     assert codes(pair, long) == ["HOOK_TOO_LONG"]
+    assert codes(pair, good, good) == ["HOOK_TOO_MANY"]
     t = Topic(heading="h", chapter="c", slide_numbers=[1], style="explain", basics=["x"], sections={"body": [good]})
     doc = Document(str(export_mom(LectureNote(title="t", topics=[t], ref_style="para", meta={"points": "a"}), _tpl(), tmp_path / "h.docx")))
     assert "[한 줄 구분]" in "\n".join(c.text for tb in doc.tables for r in tb.rows for c in r.cells)

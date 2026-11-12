@@ -1,6 +1,6 @@
 {
-  "store_version": 57,
-  "updated": "2026-11-12T02:18:10",
+  "store_version": 58,
+  "updated": "2026-11-12T02:24:01",
   "rules": [
     {
       "id": "L1",
@@ -1751,18 +1751,18 @@
     },
     {
       "id": "L50",
-      "version": 1,
+      "version": 2,
       "status": "approved",
       "kind": "rule",
       "category": "style",
-      "rule": "헷갈리기 쉽고 문제로 내기 쉬우면서 확실한 구분점이 있는 짝(예: polygeny vs polymorphism, allogeneic vs xenogeneic, class I vs class II)은 [한 줄 구분] 상자에 딱 한 문장(70자 이하)으로 정리한다. 구분점 하나만 대비해서 쉬운 말로 쓰고(‘A는 ~, B는 ~입니다’), 비교표가 있으면 그 바로 뒤에 둔다. 구분점이 기출에서 온 것이면 파랑+출처. 스크립트·기출에 없는 구분점은 만들지 않는다. 검사 HOOK_TOO_LONG, PAIR_NO_HOOK.",
+      "rule": "헷갈리기 쉽고 문제로 내기 쉬우며 구분점이 분명한 짝은 [한 줄 구분] 상자에 한 문장(70자 이하)으로 정리한다. 소절당 1개까지만 둔다(HOOK_TOO_MANY). 넣을지는 세 조건을 모두 따져 판단한다: (가) 두 개념이 이름·뜻이 비슷해 실제로 바꿔 쓰기 쉬운 ‘짝’이다(세 개 이상 나열·순위·단순 대비는 짝이 아니다) (나) 시험에 나오기 쉽다(기출 있음, 교수님 강조, ‘구분하라’는 말) (다) 한 가지 기준으로 갈린다. 한 소절에 후보가 여럿이면 기출 > 교수님이 ‘구분하라’고 한 것 > 혼동 정도 순으로 하나만 고르고, 나머지는 본문 문장이나 표 강조로 둔다. 기출에서 온 구분점은 파랑+출처, 스크립트·기출에 없는 구분점은 만들지 않는다.",
       "lecture_types": [
         "all"
       ],
       "examples": [
         {
-          "before": "| 뜻 | 한 개체가 MHC 유전자를 여러 개 가짐 | 같은 유전자 자리에 여러 allele |",
-          "after": "[한 줄 구분] polygeny는 한 사람이 가진 MHC 유전자의 ‘개수’, polymorphism은 집단에 있는 같은 유전자의 ‘버전 수’입니다.",
+          "before": "(한 소절에 polygeny vs polymorphism + 다형성 순서 hook 2개)",
+          "after": "polygeny vs polymorphism 하나만 hook, 다형성 순서(순위)는 본문 문장으로",
           "change_id": ""
         }
       ],
@@ -1774,13 +1774,22 @@
           "change_ids": [],
           "support": 0,
           "date": "2026-11-12T02:18:10"
+        },
+        {
+          "report": "사용자 지시(소절당 1개, 판단 규칙)",
+          "original": "",
+          "edited": "",
+          "change_ids": [],
+          "support": 0,
+          "date": "2026-11-12T02:24:01"
         }
       ],
       "signal": "one_sentence_hook_L50",
-      "note": "사용자 승인",
-      "approved_at": "2026-11-12T02:18:10",
+      "note": "v2: 소절당 1개, 판단 조건",
+      "approved_at": "2026-11-12T02:24:01",
       "history": [
-        "v1 2026-11-12T02:18:10: 승인 (사용자 지시(hook 규칙))"
+        "v1 2026-11-12T02:18:10: 승인 (사용자 지시(hook 규칙))",
+        "v2 2026-11-12T02:24:01: 다시 승인 (사용자 지시(소절당 1개, 판단 규칙))"
       ]
     }
   ]
