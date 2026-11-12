@@ -36,7 +36,8 @@
 
 고전적 class I에서는 HLA-B > HLA-A > HLA-C 순으로, class II에서는 DRB > DQB > DPB 순으로 다형성이 큽니다. class II의 다형성은 beta chain 쪽에 집중되어 있고, class Ib는 상대적으로 제한적입니다. 다형성은 peptide가 들어가는 결합 부위와 관련됩니다. 이번 수업은 최신 allele 개수를 외우기보다 상대적인 경향과 기능을 이해하라고 했습니다.
 
-- [어느 MHC 분자가 가장 다양한가?] 표: class I · HLA-A, HLA-B, HLA-C · HLA-B > HLA-A > HLA-C / class II · HLA-DR, HLA-DP, HLA-DQ · DRB > DQB > DPB, beta chain 쪽에 다형성 집중 / class Ib · HLA-E, HLA-F, HLA-G 등 · 상대적으로 제한적
+- [polygeny와 polymorphism의 구분, 다형성의 순서] 표: class I · HLA-A, HLA-B, HLA-C · HLA-B > HLA-A > HLA-C / class II · HLA-DR, HLA-DP, HLA-DQ · DRB > DQB > DPB, beta chain 쪽에 다형성 집중 / class Ib · HLA-E, HLA-F, HLA-G 등 · 상대적으로 제한적
+- [Take home messages] 2. 다형성 순서: class I B > A > C, class II DRB > DQB > DPB★
 
 ## 유형 2. CD1c와 invariant NKT cell (1문항: 2021년(19학번) Q1)
 
@@ -51,7 +52,8 @@
 
 CD1은 peptide가 아니라 lipid 또는 glycolipid 항원을 제시합니다. 정리본은 CD1c와 invariant NKT cell을 연결하지만, 일반적으로 invariant NKT cell의 대표 인식 분자는 CD1d이므로 이 연결은 복습할 때 검증이 필요합니다.
 
-- [CD1과 FcRn은 무엇을 제시하나?] 표: CD1 · lipid 또는 glycolipid 항원 제시 → 병원체 유래 지질 항원 인식, CD1a부터 CD1e까지 여러 유형, CD1c → invariant NKT cell 활성화 / FcRn · MHC 유사 분자, 항원제시보다 모체의 IgG 전달과 관련
+- [비전형적 T세포와 CD1] CD1은 peptide가 아니라 lipid 또는 glycolipid 항원을 제시합니다. 그래서 병원체에서 온 지질 항원을 인식하는 경로와 연결됩니다. CD1a부터 CD1e까지 여러 유형이 있습니다. CD1c는 invariant NKT cell을 활성화합니다.
+- [Take home messages] 5. HLA-C는 KIR로 NK세포 억제, CD1c는 lipid 항원으로 iNKT 활성화★
 
 ## 유형 3. MHC class 구분 (class I, class II, class Ib) (4문항: 2021년(19학번) Q2, 2018년(17학번) Q2, 2016년(14학번) Q1, 2010년(08학번) Q1)
 
@@ -87,9 +89,12 @@ CD1은 peptide가 아니라 lipid 또는 glycolipid 항원을 제시합니다. �
 
 MHC class I은 HLA-A, B, C(alpha chain 1개 + beta-2 microglobulin, ‘다리 하나짜리’), class II는 HLA-DR, DP, DQ(alpha chain과 beta chain이 짝, ‘다리 두 개짜리’)입니다. HLA-E, F, G는 class I 영역에 있지만 다형성이 제한적인 class Ib(비고전적)이고, 이 가운데 HLA-E는 NK세포에 억제 신호를 주는 경로와 연결됩니다. HLA-C는 class I이면서 NK세포 수용체와 상호작용해 class Ib로도 분류할 수 있습니다. 문제가 ‘class II 분자’를 묻는지 ‘class II region의 유전자’를 묻는지도 구분해서 읽습니다.
 
-- [class I과 class II에는 어떤 분자가 있나?] 표: class I · HLA-A, HLA-B, HLA-C, alpha chain 1개 + beta-2 microglobulin → ‘다리 하나짜리’ / class II · HLA-DR, HLA-DP, HLA-DQ, alpha chain과 beta chain이 짝 → ‘다리 두 개짜리’ / class II region의 다른 분자 · HLA-DM, HLA-DO: peptide editing과 항원제시 조절에 관여 (고전적 class II와 구분), TAP 등 항원 처리 분자도 MHC 영역 안에 있음 / 생쥐 H-2 · class I: H-2D, H-2L / class II: H-2A, H-2E 등 (17번 염색체)
-- [비전형적 MHC(class Ib)에는 무엇이 있나?] 표: HLA-E · NK세포에 억제 신호를 주는 경로와 연결, T세포에 항원을 제시하는 분자는 아님 / HLA-F · class Ib 중심 분자 중 하나 / HLA-G · 모체와 태아 사이의 면역 조절 / HLA-C · NK세포 수용체(KIR)와 상호작용 → NK세포 억제, class I이면서 class Ib로도 분류할 수 있음
-- [비전형적 MHC(class Ib)에는 무엇이 있나?] HLA-E, F, G가 중심이고 NK세포와 모체-태아 면역에 관여합니다.
+- [MHC 유전자 영역의 구성: class I, II, III] 표: 분자 · HLA-A, HLA-B, HLA-C · HLA-DR, HLA-DP, HLA-DQ / 구조 · alpha chain 1개 + beta-2 microglobulin, → ‘다리 하나짜리’ · alpha chain과 beta chain이 짝, → ‘다리 두 개짜리’ / T세포 · CD8 T세포에 항원 제시 · CD4 T세포에 항원 제시
+- [MHC 유전자 영역의 구성: class I, II, III] 6번 염색체의 HLA 영역이고, class I, II, III로 나눕니다.
+- [Take home messages] 3. class I은 HLA-A, B, C, class II는 HLA-DR, DP, DQ★
+- [Class Ib 분자: HLA-E, F, G] ① HLA-E: NK세포에 억제 신호를 주는 경로와 연결됩니다. T세포에 항원을 제시하는 분자는 아닙니다.
+- [Class Ib 분자: HLA-E, F, G] ④ HLA-C: NK세포 수용체(KIR)와 상호작용해서 NK세포를 억제합니다. class I이면서 class Ib로도 분류할 수 있습니다.
+- [Class Ib 분자: HLA-E, F, G] HLA-E, F, G가 중심이고 NK세포와 모체-태아 면역에 관여합니다.
 
 ## 유형 4. NK세포와 class Ib 분자 (5문항: 2019년(18학번) Q2, 2018년(17학번) Q1, 2016년(14학번) Q2, 2015년(13학번) Q1, 2015년(13학번) Q2)
 
@@ -132,9 +137,11 @@ MHC class I은 HLA-A, B, C(alpha chain 1개 + beta-2 microglobulin, ‘다리 �
 
 이번 스크립트에서 NK세포와 관련해 다룬 것은 세 가지입니다. 일부 class Ib 분자(HLA-E, F, G)가 NK세포에 억제 신호를 주는 경로와 연결되고, HLA-G는 모체와 태아 사이의 면역 조절과 관련되며, HLA-C도 NK세포 수용체와 상호작용합니다. MIC-A, MIC-B는 class III 영역에 있는 분자로만 언급했고, KIR과 NKG2D 같은 수용체 이름은 직접 다루지 않았습니다(PAD 해설도 표에는 있지만 강조하지 않았다고 설명합니다).
 
-- [비전형적 MHC(class Ib)에는 무엇이 있나?] 표: HLA-E · NK세포에 억제 신호를 주는 경로와 연결, T세포에 항원을 제시하는 분자는 아님 / HLA-F · class Ib 중심 분자 중 하나 / HLA-G · 모체와 태아 사이의 면역 조절 / HLA-C · NK세포 수용체(KIR)와 상호작용 → NK세포 억제, class I이면서 class Ib로도 분류할 수 있음
-- [비전형적 MHC(class Ib)에는 무엇이 있나?] HLA-E, F, G가 중심이고 NK세포와 모체-태아 면역에 관여합니다.
-- [유전자 영역 안에는 또 무엇이 있나?] 표: class I 영역 · 고전적 HLA-A, B, C 외에 HLA-E, HLA-F, HLA-G (class Ib 또는 비고전적 class I, 뒤에서 다시 나옴) / class III 영역 · MIC-A, MIC-B / 사이사이 · TAP, proteasome 관련 성분, TNF 등 항원 가공과 면역 관련 유전자
+- [Class Ib 분자: HLA-E, F, G] ④ HLA-C: NK세포 수용체(KIR)와 상호작용해서 NK세포를 억제합니다. class I이면서 class Ib로도 분류할 수 있습니다.
+- [Class Ib 분자: HLA-E, F, G] HLA-E, F, G가 중심이고 NK세포와 모체-태아 면역에 관여합니다.
+- [Take home messages] 5. HLA-C는 KIR로 NK세포 억제, CD1c는 lipid 항원으로 iNKT 활성화★
+- [MHC 유전자 영역의 구성: class I, II, III] class III 영역에는 MIC-A, MIC-B가 있습니다. 면역 관련 유전자가 이렇게 한 영역에 모여 있어서, 뒤에서 나올 면역 반응의 공동 조절이 자연스럽게 이해됩니다.
+- [Class Ib 분자: HLA-E, F, G] ① HLA-E: NK세포에 억제 신호를 주는 경로와 연결됩니다. T세포에 항원을 제시하는 분자는 아닙니다.
 
 ## 유형 5. MHC restriction의 예외와 이식 (3문항: 2018년(16학번) Q1, 2016년(14학번) Q3, 2011년(09학번) Q1)
 
@@ -163,9 +170,9 @@ MHC class I은 HLA-A, B, C(alpha chain 1개 + beta-2 microglobulin, ‘다리 �
 
 T세포는 peptide와 자기 MHC를 함께 인식하고(MHC restriction), 이 틀의 예외로 이번 수업은 alloresponse, 이식(transplantation), superantigen을 들었습니다. 같은 종 사이의 이식은 allogeneic, 서로 다른 종 사이의 이식은 xenogeneic입니다.
 
-- [MHC restriction의 예외에는 무엇이 있나?] 표: MHC restriction 적용 · peptide와 자기 MHC를 함께 인식하는 일반적인 T세포 반응 / 예외 · alloresponse, transplantation(이식), superantigen
-- [이식에서는 왜 타인의 MHC에 강하게 반응하나?] TCR의 교차 반응성 때문에 alloreactive T세포가 약 1~10%나 됩니다.
-- [MHC restriction의 예외에는 무엇이 있나?] alloresponse, 이식(transplantation), superantigen입니다.
+- [MHC restriction의 예외: 이식 반응] 표: MHC restriction 적용 · peptide와 자기 MHC를 함께 인식하는 일반적인 T세포 반응 / 예외 · alloresponse, transplantation(이식), superantigen
+- [MHC restriction의 예외: 이식 반응] TCR의 교차 반응성 때문에 alloreactive T세포가 약 1~10%나 됩니다.
+- [Take home messages] 4. 일반 T세포 반응 = peptide + 자기 MHC, 예외는 alloresponse, 이식, superantigen★
 
 ## 유형 6. 판단 불가: 시험지 스캔 이미지 (1문항: 2009년(07학번) Q1)
 
