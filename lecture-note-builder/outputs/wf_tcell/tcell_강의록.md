@@ -117,7 +117,7 @@ class II 영역에는 DR, DQ, DP만 있는 것이 아닙니다. 앞 시간에 �
 ![확대한 MHC 유전자 지도: class II, III, I 영역 (슬라이드)](../../inputs/tcell_figs/f_map.png)
 
 
-그림은 위아래로 나뉘어 있지만 길게 이어진 하나의 영역입니다. class I, class II 유전자만 모여 있는 것이 아니라 그 사이사이에 항원을 가공하고 제시하는 유전자가 있습니다. TAP, proteasome 관련 성분, TNF가 그 예입니다.
+위 그림(슬라이드)은 유전자 지도를 확대한 것입니다. 위아래로 나뉘어 있지만 길게 이어진 하나의 영역입니다. class I, class II 유전자만 모여 있는 것이 아니라 그 사이사이에 항원을 가공하고 제시하는 유전자가 있습니다. TAP, proteasome 관련 성분, TNF가 그 예입니다.
 
 
 class I 영역에는 고전적인 A, B, C 외에 HLA-E, HLA-F, HLA-G가 있습니다. 이들은 class Ib 또는 비고전적 class I이라고 하며 뒤에서 다시 나옵니다.
@@ -239,7 +239,7 @@ T세포는 외래 peptide만 인식하지 않습니다. TCR이 맞는 peptide를
 ![MHC restriction: 세 가지 조합 (슬라이드)](../../inputs/tcell_figs/f_restriction.png)
 
 
-그림의 왼쪽은 자기 MHC에 맞는 peptide가 올라가 인식되는 경우입니다. 가운데는 peptide가 같아도 MHC가 달라 인식되지 않습니다. 오른쪽은 자기 MHC여도 TCR이 알아보지 못하는 peptide라 반응하지 않습니다.
+위 그림(슬라이드)은 MHC restriction의 세 조합을 비교한 것입니다. 왼쪽은 자기 MHC에 맞는 peptide가 올라가 인식되는 경우입니다. 가운데는 peptide가 같아도 MHC가 달라 인식되지 않습니다. 오른쪽은 자기 MHC여도 TCR이 알아보지 못하는 peptide라 반응하지 않습니다.
 
 
 그래서 T세포 인식의 대상은 분리된 peptide 하나가 아니라 peptide-MHC 복합체입니다.
@@ -248,7 +248,7 @@ T세포는 외래 peptide만 인식하지 않습니다. TCR이 맞는 peptide를
 지금은 기본 지식처럼 들리지만 처음 밝혀졌을 때는 중요한 발견이었습니다. 대표적인 것이 **Doherty와 Zinkernagel**의 연구입니다. 특정 항원에 반응하는 T세포는 어떤 세포에서나 반응하지 않고, 적절한 자기 MHC 환경에서 항원이 제시되어야 반응한다는 사실을 보여 주었습니다.
 
 
-실험은 세 조합을 비교했습니다. 항원은 같고 MHC가 다르면 반응이 없고, MHC는 같고 항원이 다르면 반응이 없으며, 둘 다 맞을 때만 반응합니다(앞의 그림).
+Doherty와 Zinkernagel의 실험도 위 그림과 같은 세 조합으로 나눠 비교한 것입니다. 항원은 같고 MHC가 다르면 반응이 없고, MHC는 같고 항원이 다르면 반응이 없으며, 둘 다 맞을 때만 반응합니다.
 
 
 즉, T세포 반응은 항원과 자기 MHC 두 조건이 함께 결정합니다.

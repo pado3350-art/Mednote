@@ -171,6 +171,7 @@ def hook_issues(note: LectureNote) -> list[tuple[str, str, str]]:
         if len(hooks) > HOOK_PER_SECTION:
             out.append(("warning", "HOOK_TOO_MANY", f"'{t.heading}': 한 줄 구분이 {len(hooks)}개입니다(소절당 {HOOK_PER_SECTION}개) → 기출·교수님 강조·혼동 정도로 하나만 고릅니다(L50)."))
         pair_tables = [x for x in sts if x.kind == "rows" and len(x.col_titles) == 3 and _is_comparison(x)]
-        if pair_tables and not hooks:
+        exam_likely = any(r >= 1000 for x in sts for r in x.slide_refs) or any(r >= 1000 for r in t.basics_refs)  # L50: only test-prone sections
+        if pair_tables and not hooks and exam_likely:
             out.append(("info", "PAIR_NO_HOOK", f"'{t.heading}': 두 항목을 맞대는 표('{' vs '.join(pair_tables[0].col_titles[1:])}')가 있는데 [한 줄 구분]이 없습니다 → 구분점을 한 문장으로(L50)."))
     return out

@@ -116,7 +116,7 @@ def test_one_sentence_hook_checks_and_render(tmp_path):
     """L50: a confusable pair gets ONE short sentence in a [한 줄 구분] box."""
     from app.write.mom_format import hook_issues
 
-    pair = Statement(text="", kind="rows", rows=[["수준", "**한 개체**", "**집단**"]], col_titles=["구분", "polygeny", "polymorphism"], slide_refs=[1])
+    pair = Statement(text="", kind="rows", rows=[["수준", "**한 개체**", "**집단**"]], col_titles=["구분", "polygeny", "polymorphism"], slide_refs=[1, 1001])
     good = Statement(text="", kind="callout", left_title="한 줄 구분", left=["polygeny는 한 사람의 유전자 개수, polymorphism은 집단의 버전 수입니다."], slide_refs=[1])
     long = Statement(text="", kind="callout", left_title="한 줄 구분", left=["첫 문장입니다. 두 번째 문장입니다."], slide_refs=[1])
 
